@@ -1,5 +1,11 @@
 # Solar Lights Lite
 
+![version: v0.4.0](https://img.shields.io/badge/version-v0.4.0-0072B2?style=for-the-badge)
+![platform: ATmega328P](https://img.shields.io/badge/platform-ATmega328P-4E9A06?style=for-the-badge)
+![PlatformIO: 6.x](https://img.shields.io/badge/PlatformIO-6.x-F5822A?style=for-the-badge)
+![KiCad: current build](https://img.shields.io/badge/KiCad-current%20build-314CB6?style=for-the-badge)
+![status: proposal](https://img.shields.io/badge/status-review%20proposal-B36A00?style=for-the-badge)
+
 **Rev 0.4 proposal, 19 September 2026, amended 27 September. Hardware is not yet validated or released for outdoor assembly.**
 
 This repository captures the reviewed rebuild of a small solar light system: a
