@@ -1,0 +1,113 @@
+
+== 3 winter days, battery 3.90 V ==
+day0 12:00  DAY        20%  learned=0 night=0min
+day0 12:00  DAY         0%  learned=0 night=0min
+day0 17:20  EVENING     2%  learned=0 night=0min
+day0 17:20  EVENING    10%  learned=0 night=0min
+day0 17:20  EVENING    20%  learned=0 night=0min
+day0 17:20  EVENING    45%  learned=0 night=0min
+day0 22:15  OVERNIGHT  43%  learned=0 night=0min
+day0 22:15  OVERNIGHT   0%  learned=0 night=0min
+day1 06:50  DAY         0%  learned=1 night=809min
+day1 17:19  EVENING     2%  learned=1 night=809min
+day1 17:20  EVENING    10%  learned=1 night=809min
+day1 17:20  EVENING    20%  learned=1 night=809min
+day1 17:20  EVENING    45%  learned=1 night=809min
+day1 22:29  OVERNIGHT  43%  learned=1 night=809min
+day1 22:30  OVERNIGHT   0%  learned=1 night=809min
+day2 05:29  PREDAWN    16%  learned=1 night=809min
+day2 05:30  PREDAWN    20%  learned=1 night=809min
+day2 05:30  PREDAWN    45%  learned=1 night=809min
+day2 06:49  DAY        43%  learned=1 night=810min
+day2 06:50  DAY         0%  learned=1 night=810min
+day2 17:20  EVENING     2%  learned=1 night=810min
+day2 17:20  EVENING    10%  learned=1 night=810min
+day2 17:20  EVENING    20%  learned=1 night=810min
+day2 17:20  EVENING    45%  learned=1 night=810min
+day2 22:30  OVERNIGHT  43%  learned=1 night=810min
+day2 22:30  OVERNIGHT   0%  learned=1 night=810min
+day3 05:30  PREDAWN    16%  learned=1 night=810min
+day3 05:30  PREDAWN    20%  learned=1 night=810min
+day3 05:30  PREDAWN    45%  learned=1 night=810min
+day3 06:49  DAY        43%  learned=1 night=809min
+day3 06:50  DAY         0%  learned=1 night=809min
+avg lit load: 538 mAh/day at 200 mA full · 1 s wakes 6.1 h/day
+
+== LVC at 20:00 then recovery ==
+day0 12:00  DAY        20%  learned=0 night=0min
+day0 12:00  DAY         0%  learned=0 night=0min
+day0 17:20  EVENING     2%  learned=0 night=0min
+day0 17:20  EVENING    10%  learned=0 night=0min
+day0 17:20  EVENING    20%  learned=0 night=0min
+day0 17:20  EVENING    30%  learned=0 night=0min
+day0 20:00  EVENING    20%  learned=0 night=0min
+day0 20:00  EVENING    10%  learned=0 night=0min
+day0 20:00  LVC         6%  learned=0 night=0min
+day0 20:00  LVC         0%  learned=0 night=0min
+day1 06:50  DAY         0%  learned=1 night=810min
+day1 17:20  EVENING     2%  learned=1 night=810min
+day1 17:20  EVENING    10%  learned=1 night=810min
+day1 17:20  EVENING    20%  learned=1 night=810min
+day1 17:20  EVENING    30%  learned=1 night=810min
+day1 22:30  OVERNIGHT  28%  learned=1 night=810min
+day1 22:30  OVERNIGHT  20%  learned=1 night=810min
+day1 22:30  OVERNIGHT  10%  learned=1 night=810min
+day1 22:30  OVERNIGHT   0%  learned=1 night=810min
+day2 05:30  PREDAWN    16%  learned=1 night=810min
+day2 05:30  PREDAWN    20%  learned=1 night=810min
+day2 05:30  PREDAWN    30%  learned=1 night=810min
+day2 06:49  DAY        28%  learned=1 night=809min
+day2 06:50  DAY        20%  learned=1 night=809min
+day2 06:50  DAY        10%  learned=1 night=809min
+day2 06:50  DAY         0%  learned=1 night=809min
+avg lit load: 275 mAh/day at 200 mA full · 1 s wakes 4.7 h/day
+
+== All-night jumper ==
+day0 12:00  DAY        20%  learned=0 night=0min
+day0 12:00  DAY         0%  learned=0 night=0min
+day0 17:20  EVENING     2%  learned=0 night=0min
+day0 17:20  EVENING    10%  learned=0 night=0min
+day0 17:20  EVENING    20%  learned=0 night=0min
+day0 17:20  EVENING    45%  learned=0 night=0min
+day0 22:15  OVERNIGHT  43%  learned=0 night=0min
+day0 22:15  OVERNIGHT  10%  learned=0 night=0min
+day1 06:49  DAY         8%  learned=1 night=809min
+day1 06:50  DAY         0%  learned=1 night=809min
+day1 17:19  EVENING     2%  learned=1 night=809min
+day1 17:20  EVENING    10%  learned=1 night=809min
+day1 17:20  EVENING    20%  learned=1 night=809min
+day1 17:20  EVENING    45%  learned=1 night=809min
+day1 22:29  OVERNIGHT  43%  learned=1 night=809min
+day1 22:30  OVERNIGHT  10%  learned=1 night=809min
+day2 05:29  PREDAWN    12%  learned=1 night=809min
+day2 05:30  PREDAWN    20%  learned=1 night=809min
+day2 05:30  PREDAWN    45%  learned=1 night=809min
+day2 06:49  DAY        43%  learned=1 night=810min
+day2 06:50  DAY         0%  learned=1 night=810min
+avg lit load: 670 mAh/day at 200 mA full · 1 s wakes 13.6 h/day
+
+== Stage 1: existing 1.2 W panel profile ==
+day0 12:00  DAY        20%  learned=0 night=0min
+day0 12:00  DAY         0%  learned=0 night=0min
+day0 17:20  EVENING     2%  learned=0 night=0min
+day0 17:20  EVENING    10%  learned=0 night=0min
+day0 17:20  EVENING    20%  learned=0 night=0min
+day0 22:15  OVERNIGHT  18%  learned=0 night=0min
+day0 22:15  OVERNIGHT  10%  learned=0 night=0min
+day0 22:15  OVERNIGHT   0%  learned=0 night=0min
+day1 06:50  DAY         0%  learned=1 night=810min
+day1 17:20  EVENING     2%  learned=1 night=810min
+day1 17:20  EVENING    10%  learned=1 night=810min
+day1 17:20  EVENING    20%  learned=1 night=810min
+day1 22:30  OVERNIGHT  18%  learned=1 night=810min
+day1 22:30  OVERNIGHT  10%  learned=1 night=810min
+day1 22:30  OVERNIGHT   0%  learned=1 night=810min
+day2 06:49  DAY         0%  learned=1 night=809min
+day2 17:20  EVENING     2%  learned=1 night=809min
+day2 17:20  EVENING    10%  learned=1 night=809min
+day2 17:20  EVENING    20%  learned=1 night=809min
+day2 22:30  OVERNIGHT  18%  learned=1 night=809min
+day2 22:30  OVERNIGHT  10%  learned=1 night=809min
+day2 22:30  OVERNIGHT   0%  learned=1 night=809min
+day3 06:50  DAY         0%  learned=1 night=810min
+avg lit load: 203 mAh/day at 200 mA full · 1 s wakes 5.2 h/day

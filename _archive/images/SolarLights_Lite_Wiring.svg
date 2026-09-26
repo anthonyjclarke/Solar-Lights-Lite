@@ -1,0 +1,170 @@
+<svg viewBox="0 0 1220 760" role="img" aria-label="SolarLights Lite wiring: panel through two series diodes into the TP4056 module; cells on B+/B−; OUT+ and OUT− form the battery and ground rails that feed the Arduino Pro Mini, the MOSFET LED driver and the Wemos D1 Mini." xmlns="http://www.w3.org/2000/svg" xmlns:c2pa="http://c2pa.org/manifest"><metadata><c2pa:manifest>AAAWgmp1bWIAAAAeanVtZGMycGEAEQAQgAAAqgA4m3EDYzJwYQAAABZcanVtYgAAAEdqdW1kYzJtYQARABCAAACqADibcQN1cm46YzJwYTo2MWJkMTZhYS01MzcxLTQyMDEtYTdkNC1kNDI0YjM5NTQwZjgAAAADl2p1bWIAAAApanVtZGMyYXMAEQAQgAAAqgA4m3EDYzJwYS5hc3NlcnRpb25zAAAAALxqdW1iAAAARGp1bWRjYm9yABEAEIAAAKoAOJtxE2MycGEuaW5ncmVkaWVudC52MwAAAAAYYzJzaE9GyCXyAwg67LGGQgIe/jIAAABwY2JvcqNpZGM6Zm9ybWF0bWltYWdlL3N2Zyt4bWxqaW5zdGFuY2VJRHgseG1wOmlpZDpjYzBlYWMwYi1jM2JmLTRmNDktYTViOS03YWQ2OWQ5Y2I1NmNscmVsYXRpb25zaGlwaHBhcmVudE9mAAAB4mp1bWIAAABBanVtZGNib3IAEQAQgAAAqgA4m3ETYzJwYS5hY3Rpb25zLnYyAAAAABhjMnNozehW3B3mDDB74ITPo4llkQAAAZljYm9yomdhY3Rpb25zgqJmYWN0aW9ua2MycGEub3BlbmVkanBhcmFtZXRlcnOha2luZ3JlZGllbnRzgaJjdXJseC1zZWxmI2p1bWJmPWMycGEuYXNzZXJ0aW9ucy9jMnBhLmluZ3JlZGllbnQudjNkaGFzaFgg9tOfiZCzjTa/j/ql6SDsLNxxEk0MoMNCGIhVnZzv6aWkZmFjdGlvbngdY29tLmFudGhyb3BpYy5jbGF1ZGUucHJvdmlkZWRqcGFyYW1ldGVyc6F4H2NvbS5hbnRocm9waWMub3JpZ2luLWNvbmZpZGVuY2VndW5rbm93bmtkZXNjcmlwdGlvbnhmQ2xhdWRlIHByb3ZpZGVkIHRoaXMgZmlsZSBhdCB0aGUgcmVxdWVzdCBvZiBhIHVzZXIgYW5kIG1heSBoYXZlIGNyZWF0ZWQgb3IgbW9kaWZpZWQgdGhlIGZpbGUgY29udGVudHMubXNvZnR3YXJlQWdlbnShZG5hbWVmQ2xhdWRlcmFsbEFjdGlvbnNJbmNsdWRlZPUAAADIanVtYgAAAEBqdW1kY2JvcgARABCAAACqADibcRNjMnBhLmhhc2guZGF0YQAAAAAYYzJzaPfez8lLegvwjjaYpdKGrLcAAACAY2JvcqVjYWxnZnNoYTI1NmNwYWRMAAAAAAAAAAAAAAAAZGhhc2hYIA9pr8wZ2UjRBM8C7oEPEltlC0P31S8MlAokF9vU61Z0ZG5hbWVuanVtYmYgbWFuaWZlc3RqZXhjbHVzaW9uc4GiZXN0YXJ0GQF4Zmxlbmd0aBkeBAAAAj5qdW1iAAAAJ2p1bWRjMmNsABEAEIAAAKoAOJtxA2MycGEuY2xhaW0udjIAAAACD2Nib3KlY2FsZ2ZzaGEyNTZpc2lnbmF0dXJleE1zZWxmI2p1bWJmPS9jMnBhL3VybjpjMnBhOjYxYmQxNmFhLTUzNzEtNDIwMS1hN2Q0LWQ0MjRiMzk1NDBmOC9jMnBhLnNpZ25hdHVyZWppbnN0YW5jZUlEeCx4bXA6aWlkOjQ5Y2U5OWM2LWQzZGMtNGNkMC1iYzM5LTdlNjIwMTFlMWJhMHJjcmVhdGVkX2Fzc2VydGlvbnODomN1cmx4LXNlbGYjanVtYmY9YzJwYS5hc3NlcnRpb25zL2MycGEuaW5ncmVkaWVudC52M2RoYXNoWCD205+JkLONNr+P+qXpIOws3HESTQygw0IYiFWdnO/ppaJjdXJseCpzZWxmI2p1bWJmPWMycGEuYXNzZXJ0aW9ucy9jMnBhLmFjdGlvbnMudjJkaGFzaFgg6KiCvjheJlddkF3EKnCAQI/0cseiep7bpwCKTtUGKZ6iY3VybHgpc2VsZiNqdW1iZj1jMnBhLmFzc2VydGlvbnMvYzJwYS5oYXNoLmRhdGFkaGFzaFggOAqYOeiH6Gw4DnkDOzTZ5EpfTSofLakRIh2wu0/rsfF0Y2xhaW1fZ2VuZXJhdG9yX2luZm+jZG5hbWVvQW50aHJvcGljIEZpbGVzZ3ZlcnNpb25lMS4wLjBrc3BlY1ZlcnNpb25lMi40LjAAABA4anVtYgAAAChqdW1kYzJjcwARABCAAACqADibcQNjMnBhLnNpZ25hdHVyZQAAABAIY2JvctKEWQISogEmGCFZAgowggIGMIIBjaADAgECAhRA5aAK7sI50L64g/oGQgU9Z1UTADAKBggqhkjOPQQDAzBJMRcwFQYDVQQKEw5BbnRocm9waWMsIFBCQzEuMCwGA1UEAxMlQW50aHJvcGljIENvbnRlbnQgQ3JlZGVudGlhbHMgUm9vdCBDQTAeFw0yNjA4MDcxODQzNTZaFw0yODA4MDYxOTQzNTZaMEQxFzAVBgNVBAoTDkFudGhyb3BpYywgUEJDMSkwJwYDVQQDEyBBbnRocm9waWMgQ2xhdWRlIENvbnRlbnQgU2lnbmluZzBZMBMGByqGSM49AgEGCCqGSM49AwEHA0IABJh6CmvLUBgFFNU0vUKlOVtE6djd17L5SuwX0LemFisBM3dkd/3cyjxFA3Qo5S46fX0/ihY0VZ7mfb9KF703t5OjWDBWMA4GA1UdDwEB/wQEAwIHgDAVBgNVHSUEDjAMBgorBgEEAYPoXgIBMAwGA1UdEwEB/wQCMAAwHwYDVR0jBBgwFoAUzlHiBIFOZFsj+OPEz5o+nMHXXMIwCgYIKoZIzj0EAwMDZwAwZAIwMXMdFJ4BetLLVY7ORuE9noqbbAZOZn/aArXyTwFAZfKrPzxF2vPoJNf1+UCdg1XGAjBwX1zd9WGqYkqmL5SFqw1QySjr1zJfpJM9+1rdDwSPLMOPOjKuiXjoU/pUUeG9RwmhY3BhZFkNngAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPZYQGuSp3cUFIeTrWhjK9KJl8AGMUrQ6Z5dlT0uYKVXcPTXhNbM0g3da7jGIHl4VzJ+8mn2QRjpiDviLqrl3oPgNTs=</c2pa:manifest></metadata>
+<style>
+  .mod{fill:#E9E4DA;stroke:#D3CCBF;stroke-width:1.2}
+  .ext{fill:#FCFBF8;stroke:#1E1B16;stroke-width:1.3;stroke-dasharray:5 4}
+  .chip{fill:#FCFBF8;stroke:#D3CCBF}
+  .chipd{fill:#FCFBF8;stroke:#645E53;stroke-dasharray:4 3}
+  text{font-family:"Helvetica Neue",Arial,sans-serif;fill:#1E1B16}
+  .t{font:600 15px "Helvetica Neue",Arial,sans-serif}
+  .s{font:400 11px "Helvetica Neue",Arial,sans-serif;fill:#645E53}
+  .r{font:500 11.5px "SF Mono",Menlo,monospace}
+  .p{font:500 11px "SF Mono",Menlo,monospace;fill:#645E53}
+  .port{fill:#FCFBF8;stroke:#1E1B16;stroke-width:1.2}
+  .w polyline{fill:none;stroke:currentColor;stroke-width:2.6;stroke-linejoin:round;stroke-linecap:round}
+  .wl{font:500 11px "SF Mono",Menlo,monospace;fill:currentColor;paint-order:stroke;stroke:#FCFBF8;stroke-width:4px;stroke-linejoin:round}
+  .dot{fill:currentColor}
+  .wpv{color:#B26F12} .wbat{color:#BF3A2B} .wg{color:#5E5A52} .wsig{color:#2B5FB3} .wtel{color:#0B8276} .wled{color:#7A4FB5}
+  .gs line{stroke:#5E5A52;stroke-width:1.6}
+</style>
+<rect x="0" y="0" width="1220" height="760" fill="#FCFBF8"/>
+
+<rect class="ext" x="20" y="56" width="150" height="104" rx="6"/>
+<text class="t" x="32" y="78">Solar panel</text>
+<text class="s" x="32" y="95">1.2 W now · 6 V 5 W later</text>
+<circle class="port" cx="170" cy="90" r="3.2"/>
+<text class="p" x="162" y="94" text-anchor="end">+</text>
+<circle class="port" cx="170" cy="130" r="3.2"/>
+<text class="p" x="162" y="134" text-anchor="end">−</text>
+<rect class="chip" x="210" y="72" width="140" height="38" rx="3"/><text class="r" x="218" y="88">D1 + D2</text>
+<text class="s" x="218" y="103">1N4001 × 2 in series</text>
+<g class="w wpv"><polyline points="170,90 210,90"/>
+<text class="wl" x="190" y="83" text-anchor="middle">PV+</text>
+</g>
+<g class="w wpv"><polyline points="350,90 380,90"/>
+</g>
+<g class="w wg"><polyline points="170,130 380,130"/>
+<text class="wl" x="275" y="123" text-anchor="middle">PV−</text>
+</g>
+<circle class="dot wpv" cx="190" cy="90" r="3.6"/>
+<rect class="chip" x="210" y="418" width="170" height="48" rx="3"/><text class="r" x="218" y="434">R1 1M / R2 330k</text>
+<text class="s" x="218" y="449">+ C1 100 nF · panel sense</text>
+<g class="w wpv"><polyline points="190,90 190,442 210,442"/>
+</g>
+<rect class="mod" x="380" y="50" width="200" height="170" rx="6"/>
+<text class="t" x="392" y="72">TP4056 + DW01A module</text>
+<circle class="port" cx="380" cy="90" r="3.2"/>
+<text class="p" x="388" y="94">IN+</text>
+<circle class="port" cx="380" cy="130" r="3.2"/>
+<text class="p" x="388" y="134">IN−</text>
+<circle class="port" cx="580" cy="90" r="3.2"/>
+<text class="p" x="572" y="94" text-anchor="end">OUT+</text>
+<circle class="port" cx="580" cy="130" r="3.2"/>
+<text class="p" x="572" y="134" text-anchor="end">OUT−</text>
+<circle class="port" cx="580" cy="190" r="3.2"/>
+<text class="p" x="572" y="194" text-anchor="end">CHRG pin 7</text>
+<circle class="port" cx="440" cy="220" r="3.2"/>
+<text class="p" x="440" y="212" text-anchor="middle">B+</text>
+<circle class="port" cx="520" cy="220" r="3.2"/>
+<text class="p" x="520" y="212" text-anchor="middle">B−</text>
+<rect class="mod" x="380" y="290" width="200" height="78" rx="6"/>
+<text class="t" x="392" y="312">2 × 18650 in parallel</text>
+<text class="s" x="392" y="329">matched cells · 1S2P</text>
+<g class="w wbat"><polyline points="440,220 440,290"/>
+<text class="wl" x="448" y="258" text-anchor="start">B+</text>
+</g>
+<g class="w wg"><polyline points="520,220 520,290"/>
+<text class="wl" x="528" y="258" text-anchor="start">B−</text>
+</g>
+<g class="w wbat"><polyline points="580,90 640,90 640,720"/>
+<text class="wl" x="646" y="735" text-anchor="start">OUT+ battery rail</text>
+</g>
+<g class="w wg"><polyline points="580,130 672,130 672,700"/>
+<text class="wl" x="700" y="715" text-anchor="start">OUT− GND rail</text>
+</g>
+<rect class="mod" x="740" y="56" width="220" height="290" rx="6"/>
+<text class="t" x="752" y="78">Arduino Pro Mini 3.3 V</text>
+<text class="s" x="752" y="95">8 MHz · regulator + LED removed</text>
+<circle class="port" cx="740" cy="100" r="3.2"/>
+<text class="p" x="748" y="104">VCC</text>
+<circle class="port" cx="740" cy="130" r="3.2"/>
+<text class="p" x="748" y="134">GND</text>
+<circle class="port" cx="740" cy="170" r="3.2"/>
+<text class="p" x="748" y="174">A0</text>
+<circle class="port" cx="740" cy="250" r="3.2"/>
+<text class="p" x="748" y="254">A1 (LDR opt.)</text>
+<circle class="port" cx="960" cy="110" r="3.2"/>
+<text class="p" x="952" y="114" text-anchor="end">D9 PWM</text>
+<circle class="port" cx="960" cy="160" r="3.2"/>
+<text class="p" x="952" y="164" text-anchor="end">D8 LIGHTS_ON</text>
+<circle class="port" cx="960" cy="200" r="3.2"/>
+<text class="p" x="952" y="204" text-anchor="end">D2 button</text>
+<circle class="port" cx="960" cy="240" r="3.2"/>
+<text class="p" x="952" y="244" text-anchor="end">D10 / D11</text>
+<circle class="port" cx="960" cy="290" r="3.2"/>
+<text class="p" x="952" y="294" text-anchor="end">D7 LDR power</text>
+<g class="w wbat"><polyline points="640,100 740,100"/>
+</g>
+<circle class="dot wbat" cx="640" cy="100" r="3.6"/>
+<g class="w wg"><polyline points="672,130 740,130"/>
+</g>
+<circle class="dot wg" cx="672" cy="130" r="3.6"/>
+<g class="w wsig"><polyline points="380,442 706,442 706,170 740,170"/>
+<text class="wl" x="520" y="436" text-anchor="middle">PANEL_SENSE</text>
+</g>
+<rect class="chip" x="1000" y="82" width="190" height="56" rx="3"/><text class="r" x="1008" y="98">Q1 logic-level N-FET</text>
+<text class="s" x="1008" y="113">IRLZ44N / IRLB8721 / AO3400</text>
+<text class="s" x="1008" y="130">100 Ω gate · 100k gate→GND</text>
+<g class="w wsig"><polyline points="960,110 1000,110"/>
+</g>
+<circle class="port" cx="1095" cy="138" r="3.2"/>
+<text class="p" x="1095" y="154" text-anchor="middle">S</text>
+<g class="gs"><line x1="1095" y1="138" x2="1095" y2="147"/><line x1="1088" y1="147" x2="1102" y2="147"/><line x1="1091" y1="151" x2="1099" y2="151"/><line x1="1093.5" y1="155" x2="1096.5" y2="155"/></g>
+<rect class="chip" x="1000" y="400" width="190" height="40" rx="3"/><text class="r" x="1008" y="416">F1 fuse 0.5 A · R3 Rlim</text>
+<text class="s" x="1008" y="431">value from string test</text>
+<g class="w wbat"><polyline points="640,420 1000,420"/>
+</g>
+<circle class="dot wbat" cx="640" cy="420" r="3.6"/>
+<rect class="ext" x="1000" y="480" width="190" height="70" rx="6"/>
+<text class="t" x="1012" y="502">LED string</text>
+<text class="s" x="1012" y="519">≈200 mA at 100 %</text>
+<g class="w wbat"><polyline points="1060,440 1060,480"/>
+<text class="wl" x="1052" y="466" text-anchor="end">LED+</text>
+</g>
+<g class="w wled"><polyline points="1190,98 1206,98 1206,515 1190,515"/>
+<text class="wl" x="1198" y="470" text-anchor="end">LED− to drain</text>
+</g>
+<rect class="chip" x="1000" y="182" width="110" height="36" rx="3"/><text class="r" x="1008" y="198">SW1 push</text>
+<text class="s" x="1008" y="213">to GND</text>
+<g class="w wsig"><polyline points="960,200 1000,200"/>
+</g>
+<rect class="chip" x="1000" y="228" width="150" height="36" rx="3"/><text class="r" x="1008" y="244">JP1 D10 · JP2 D11</text>
+<text class="s" x="1008" y="259">to GND = mode</text>
+<g class="w wsig"><polyline points="960,240 1000,240"/>
+</g>
+<rect class="chipd" x="1000" y="274" width="190" height="48" rx="3"/><text class="r" x="1008" y="290">LDR + R4 100k</text>
+<text class="s" x="1008" y="305">optional light sensor</text>
+<g class="w wsig"><polyline points="960,290 1000,290" stroke-dasharray="6 5"/>
+</g>
+<g class="w wsig"><polyline points="1000,310 985,310 985,334 724,334 724,250 740,250" stroke-dasharray="6 5"/>
+</g>
+<rect class="mod" x="740" y="470" width="220" height="210" rx="6"/>
+<text class="t" x="752" y="492">Wemos D1 Mini</text>
+<text class="s" x="752" y="509">ESPHome · hourly deep sleep</text>
+<circle class="port" cx="740" cy="520" r="3.2"/>
+<text class="p" x="748" y="524">5V</text>
+<circle class="port" cx="740" cy="550" r="3.2"/>
+<text class="p" x="748" y="554">G</text>
+<circle class="port" cx="740" cy="590" r="3.2"/>
+<text class="p" x="748" y="594">A0</text>
+<circle class="port" cx="740" cy="640" r="3.2"/>
+<text class="p" x="748" y="644">D6 CHRG</text>
+<circle class="port" cx="960" cy="540" r="3.2"/>
+<text class="p" x="952" y="544" text-anchor="end">D5</text>
+<text class="s" x="752" y="668">D0 ↔ RST link · 470 µF at 5V</text>
+<g class="w wbat"><polyline points="640,520 740,520"/>
+</g>
+<circle class="dot wbat" cx="640" cy="520" r="3.6"/>
+<g class="w wg"><polyline points="672,550 740,550"/>
+</g>
+<circle class="dot wg" cx="672" cy="550" r="3.6"/>
+<g class="w wbat"><polyline points="640,590 740,590"/>
+<text class="wl" x="690" y="583" text-anchor="middle">R5 220k</text>
+</g>
+<circle class="dot wbat" cx="640" cy="590" r="3.6"/>
+<g class="w wtel"><polyline points="960,160 980,160 980,540 960,540"/>
+<text class="wl" x="972" y="380" text-anchor="end">100k / 220k</text>
+</g>
+<g class="w wtel"><polyline points="580,190 604,190 604,640 740,640"/>
+<text class="wl" x="612" y="625" text-anchor="start">BAT43 Schottky</text>
+</g>
+</svg>

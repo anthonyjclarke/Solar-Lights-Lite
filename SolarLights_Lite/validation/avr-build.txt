@@ -1,0 +1,57 @@
+Processing pro8 (platform: atmelavr; board: pro8MHzatmega328; framework: arduino)
+--------------------------------------------------------------------------------
+Platform Manager: Installing atmelavr
+Downloading 0% 10% 20% 30% 40% 50% 60%
+Unpacking 0% 10% 20% 30% 40% 50% 60% 70% 80% 90% 100%
+Platform Manager: atmelavr@5.3.0 has been installed!
+Tool Manager: Installing platformio/toolchain-atmelavr @ ~1.70300.0
+Downloading 0% 10% 20% 30% 40% 50% 60% 70% 80% 90% 100%
+Unpacking 0% 10% 20% 30% 40% 50% 60% 70% 80% 90% 100%
+Tool Manager: toolchain-atmelavr@1.70300.191015 has been installed!
+Tool Manager: Installing platformio/framework-arduino-avr @ ~5.4.0
+Downloading 0% 10% 20% 30% 40% 50% 60% 70% 80% 90% 100%
+Unpacking 0% 10% 20% 30% 40% 50% 60% 70% 80% 90% 100%
+Tool Manager: framework-arduino-avr@5.4.0 has been installed!
+Tool Manager: Installing https://github.com/pioarduino/scons/releases/download/4.8.1/scons-local-4.8.1.tar.gz
+Downloading 0% 10% 20% 30% 40% 50% 60% 70% 80% 90% 100%
+Unpacking 0% 10% 20% 30% 40% 50% 60% 70% 80% 90% 100%
+Tool Manager: tool-scons@4.40801.0 has been installed!
+Verbose mode can be enabled via `-v, --verbose` option
+CONFIGURATION: https://docs.platformio.org/page/boards/atmelavr/pro8MHzatmega328.html
+PLATFORM: Atmel AVR (5.3.0) > Arduino Pro or Pro Mini ATmega328 (3.3V, 8 MHz)
+HARDWARE: ATMEGA328P 8MHz, 2KB RAM, 30KB Flash
+DEBUG: Current (avr-stub) External (avr-stub, simavr)
+PACKAGES: 
+ - framework-arduino-avr @ 5.4.0 
+ - toolchain-atmelavr @ 1.70300.191015 (7.3.0)
+LDF: Library Dependency Finder -> https://bit.ly/configure-pio-ldf
+LDF Modes: Finder ~ chain, Compatibility ~ soft
+Found 5 compatible libraries
+Scanning dependencies...
+No dependencies
+Building in release mode
+Compiling .pio/build/pro8/src/main.cpp.o
+Archiving .pio/build/pro8/libFrameworkArduinoVariant.a
+sh: /tmp/solar-validation-pio/packages/toolchain-atmelavr/bin/avr-g++: Bad CPU type in executable
+Compiling .pio/build/pro8/FrameworkArduino/CDC.cpp.o
+*** [.pio/build/pro8/src/main.cpp.o] Error 126
+sh: /tmp/solar-validation-pio/packages/toolchain-atmelavr/bin/avr-gcc-ar: Bad CPU type in executable
+*** [.pio/build/pro8/libFrameworkArduinoVariant.a] Error 126
+sh: /tmp/solar-validation-pio/packages/toolchain-atmelavr/bin/avr-g++: Bad CPU type in executable
+*** [.pio/build/pro8/FrameworkArduino/CDC.cpp.o] Error 126
+========================= [FAILED] Took 49.19 seconds =========================
+
+--- 20 September 2026, direct-drive firmware -------------------------------------
+
+The PlatformIO toolchain still cannot execute on this Mac (above). As a separate check,
+the patched src/main.cpp and include/schedule.h were cross-compiled in the session's
+Linux container with avr-gcc 14.1.0 and the Arduino AVR core 1.8.6:
+
+  avr-g++ -std=gnu++17 -mmcu=atmega328p -DF_CPU=8000000L -Os ... -c src/main.cpp
+  avr-g++ -mmcu=atmega328p -Os -Wl,--gc-sections -o rev04.elf ...
+  avr-size rev04.elf ->  text 6326   data 118   bss 183   dec 6627
+
+It compiles and links without warnings at F_CPU = 8 MHz. This is a different compiler
+and core version from the PlatformIO environment, so the byte count will not match a
+PlatformIO build exactly, and nothing here was flashed or run on hardware.
+

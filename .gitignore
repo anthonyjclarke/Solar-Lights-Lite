@@ -1,0 +1,27 @@
+# macOS and editor metadata
+.DS_Store
+.AppleDouble
+.LSOverride
+.vscode/
+.idea/
+*.swp
+*~
+
+# PlatformIO build and dependency caches
+.pio/
+.pioenvs/
+.piolibdeps/
+/_archive/pio-cache/
+
+# Python tooling
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.venv/
+venv/
+
+# Local configuration, credentials, and generated logs
+secrets.yaml
+secrets.yml
+*.local
+*.log

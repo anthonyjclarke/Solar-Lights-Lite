@@ -1,0 +1,1116 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>SolarLights | Rebuild and assembly</title>
+<style>
+:root{--ink:#173047;--muted:#516578;--green:#008572;--amber:#a95e00;--red:#a83232}*{box-sizing:border-box}body{margin:0;background:#f1f5f7;color:var(--ink);font:17px/1.65 system-ui,-apple-system,sans-serif}header,main,footer{max-width:1320px;margin:auto;padding:32px}header{padding-top:52px}h1{font-size:clamp(36px,5vw,62px);line-height:1.1;letter-spacing:-2px;margin:15px 0}h2{font-size:27px;line-height:1.25}h3{font-size:18px}p{max-width:920px;color:var(--muted)}.eyebrow{font-size:13px;letter-spacing:2px;font-weight:800;color:var(--green)}.badge{display:inline-block;background:#fff1d9;color:var(--amber);padding:5px 12px;border-radius:6px;font-size:13px;font-weight:750}nav{display:flex;flex-wrap:wrap;gap:12px;margin-top:24px}a{color:#096b8c;text-underline-offset:4px}nav a,.button{background:white;border:1px solid #cad9e0;border-radius:8px;padding:9px 14px;text-decoration:none}.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}.card,section{background:white;border:1px solid #d9e3e8;border-radius:14px;padding:24px;margin-bottom:24px}.card{margin:0}.card strong{font-size:30px;display:block}.card p{font-size:15px}.hold,.danger,.note{padding:20px 24px;margin:20px 0;border-radius:8px}.hold{background:#fff8e9;border-left:5px solid #c38325}.danger{background:#fff0f0;border-left:5px solid var(--red);color:#702020}.note{background:#eaf7f4;border-left:5px solid var(--green)}.hold p{margin:7px 0}.lede{font-size:18px}.drawing{overflow:auto;border:1px solid #e0e7eb;border-radius:8px;background:white}.drawing svg{width:100%;height:auto;min-width:900px;display:block}.wiring{overflow:auto;background:#10293d;color:#edf7fb;border-radius:8px;padding:20px;font:14px/1.55 ui-monospace,SFMono-Regular,Consolas,monospace}.small{font-size:14px}table{width:100%;border-collapse:collapse;font-size:14px}th,td{text-align:left;vertical-align:top;border-bottom:1px solid #dde5e9;padding:11px}th{background:#edf4f7}.stages{min-width:1050px}.stages td:first-child{white-space:nowrap;background:#f7fafb}code{font-family:ui-monospace,monospace;font-size:13px}details{margin:18px 0}summary{font-weight:700;cursor:pointer}.scroll{overflow:auto}footer{font-size:14px;color:var(--muted)}@media(max-width:760px){header,main,footer{padding:22px}.cards{grid-template-columns:1fr}section{padding:15px}}@media print{body{background:white}nav{display:none}header,main{padding:0}.drawing svg{min-width:0}section{break-before:page;border:0}a{color:inherit}.hold,.danger,.note{border:1px solid}.stages{min-width:0;font-size:10px}.wiring{color:#000;background:#fff;border:1px solid #999}footer{display:none}}
+</style><header><div class="eyebrow">PARTS-BIN REBUILD / SEPTEMBER 2026</div><h1>Solar lights, rebuilt<br>for the whole night.</h1><span class="badge">REV 0.4 · REVIEW PROPOSAL · HARDWARE NOT YET TESTED</span><p>A clear assembly plan for your existing panel, TP4056 modules, Pro Mini and light string. Build and validate one powered stage at a time.</p><nav><a href="#s1">Power</a><a href="#s2">Light circuit</a><a href="#s3">Telemetry</a><a href="#s4">Assembly</a><a href="#staging">Staged testing</a><a href="#wires">Wire schedule</a><a href="../../output/pdf/SolarLights_Rev04_Drawings.pdf">Print drawings (A3 PDF)</a></nav></header><main>
+<div class="cards"><div class="card"><strong>Reuse</strong><p>1.2 W solar panel, a verified protected TP4056 module, existing cells if suitable, LDR and LED string.</p></div><div class="card"><strong>Convert</strong><p>16 MHz Pro Mini to internal 8 MHz with ISP. Remove regulator and power LED; feed protected battery into VCC.</p></div><div class="card"><strong>Measure</strong><p>LED peak current, charger input and termination, sleep current, radio bursts and daily solar harvest.</p></div></div>
+<div class="hold"><b>Before assembly: qualify the unresolved power items.</b><p>The MP1584 is the selected U0 candidate but still needs its 5.00 V adjustment, load test and night reverse-leakage check. Confirm the TP4056-family module's pad functions, charge-current setting, termination and temperature behaviour. Optional telemetry still needs its separate 3.3 V supply qualified. Cell-temperature charging protection remains an outdoor-release requirement.</p><p>The LED string, direct D9 drive and internal-8-MHz fuse conversion are now confirmed project decisions. Ground topology must still be checked on the actual charger; do not bridge battery B- to load OUT-.</p></div>
+<section><h2>Your BTE13-010A and available parts</h2><p>The photographed BTE13-010A is the chosen controller and its fuses have been read back as internal 8 MHz, BOD 2.7 V and no bootloader. Q2 is selected as 2N3904. The measured string runs at about 15 mA straight from D9 through R3, with no Q1 fitted.</p><p><a href="BOARD_AND_PARTS.md">Board and inventory assessment</a> · <a href="BTE13-010A-pin-map.svg">Board-specific connection map</a> · <a href="../../output/pdf/BTE13-010A_Pin_Map.pdf">Printable pin map</a></p><p>S9013 is normally NPN; a corrected project inventory copy is provided without modifying your original attachment.</p></section><section><h2>The starting point: dusk to dawn at the measured 15 mA</h2><p>The string was measured on 20 September: a 2.56 V drop with no significant dynamic resistance, so the series resistor alone sets the current. With R3 = 47 ohm the branch draws about 21, 15 and 11 mA at 4.20, 3.70 and 3.40 V, and runs straight from D9 with no MOSFET. Commanded duty is now brightness only, so the firmware runs 100% dusk to dawn, halving below 3.45 V and turning off after 30 seconds below 3.30 V. Startup and button tests obey the same cap.</p><p>At 14 dark hours the illustrative whole-system estimate is about <b>238 mAh/day</b> at full brightness, or about <b>133 mAh/day</b> at half. These are scenarios built on one bench measurement and an assumed charge current, not measured performance. Cell capacity, actual shade and usable brightness still decide whether the design meets your needs.</p><p><a href="BUILD_GUIDE.md">Detailed build guide, BOM and bench tests</a> · <a href="VALIDATION.md">Engineering findings and evidence</a></p></section>
+<section id="s1"><h2>01 / Power and charging</h2><p>Reuse the existing panel and protected charger. Adjust and qualify the MP1584 5 V regulator before connecting it to the charger. Each cell has its own positive-terminal fuse.</p><div class="drawing"><svg width="1440" height="900" preserveAspectRatio="xMinYMin meet" viewBox="0 0 1440 900" xmlns="http://www.w3.org/2000/svg" version="1.0" fill-rule="evenodd" xmlns:xlink="http://www.w3.org/1999/xlink">
+	<title>...</title>
+	<desc>...</desc>
+	<clipPath id="clip">
+		<rect x="0" y="0" width="1440" height="900"/>
+	</clipPath>
+	<g id="group" transform="scale(1,-1) translate(0,-900)" style="clip-path: url(#clip)">
+		<g transform="">
+			<rect x="0" y="0" width="1440" height="900" style="stroke: rgb(100%,100%,100%); stroke-linecap: butt; stroke-width: 1.5; fill: rgb(100%,100%,100%); fill-rule: evenodd;"/>
+			<text x="42" y="862" style="font-family: Helvetica-Bold; font-size: 15px;fill: rgb(0%,52%,44%); stroke:none;" transform="translate(0,1724) scale(1,-1)">SOLARLIGHTS / REBUILD 2026</text>
+			<text x="42" y="820" style="font-family: Helvetica-Bold; font-size: 32px;fill: rgb(9%,18%,27%); stroke:none;" transform="translate(0,1640) scale(1,-1)">Power, charging &amp; battery</text>
+			<text x="42" y="790" style="font-family: Helvetica; font-size: 16px;fill: rgb(31%,39%,47%); stroke:none;" transform="translate(0,1580) scale(1,-1)">Terminal-level schematic. Amber blocks need part selection and bench qualification. All loads connect to protected outputs.</text>
+			<path d="M 42,768 L 1398,768 Z" style="stroke: rgb(83%,87%,90%); stroke-linecap: butt; stroke-width: 1;"/>
+			<path d="M 42,50 L 1398,50 Z" style="stroke: rgb(83%,87%,90%); stroke-linecap: butt; stroke-width: 1;"/>
+			<text x="42" y="23" style="font-family: Helvetica-Bold; font-size: 13px;fill: rgb(67%,38%,0%); stroke:none;" transform="translate(0,46) scale(1,-1)">REV 0.4 PROPOSAL  |  19 SEP 2026, AMENDED 27 SEP  |  NOT RELEASED FOR OUTDOOR ASSEMBLY</text>
+			<text x="1175" y="23" style="font-family: Helvetica; font-size: 13px;fill: rgb(31%,39%,47%); stroke:none;" transform="translate(0,46) scale(1,-1)">SHEET 1 OF 5 / A3</text>
+			<rect x="45" y="495" width="205" height="210" rx="12" ry="12" style="stroke: rgb(60%,71%,76%); stroke-linecap: butt; stroke-width: 1.5; fill: rgb(92%,96%,97%); fill-rule: evenodd;"/>
+			<text x="65" y="671" style="font-family: Helvetica-Bold; font-size: 21px;fill: rgb(9%,18%,27%); stroke:none;" transform="translate(0,1342) scale(1,-1)">PV1 / existing</text>
+			<text x="65" y="643" style="font-family: Helvetica; font-size: 14px;fill: rgb(31%,39%,47%); stroke:none;" transform="translate(0,1286) scale(1,-1)">AS102-0712A 1.2 W</text>
+			<text x="64" y="615" style="font-family: Helvetica; font-size: 15px;fill: rgb(31%,39%,47%); stroke:none;" transform="translate(0,1230) scale(1,-1)">Vmp 7 V / Imp 170 mA</text>
+			<text x="64" y="590" style="font-family: Helvetica; font-size: 15px;fill: rgb(31%,39%,47%); stroke:none;" transform="translate(0,1180) scale(1,-1)">Voc 7.6 V at 25 C</text>
+			<text x="64" y="565" style="font-family: Helvetica; font-size: 15px;fill: rgb(31%,39%,47%); stroke:none;" transform="translate(0,1130) scale(1,-1)">Cold Voc: measure</text>
+			<circle cx="250" cy="550" r="4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(9%,43%,69%); fill-rule: evenodd;"/>
+			<text x="262" y="559" style="font-family: Helvetica; font-size: 16px;fill: rgb(9%,43%,69%); stroke:none;" transform="translate(0,1118) scale(1,-1)">+</text>
+			<circle cx="250" cy="515" r="4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(9%,43%,69%); fill-rule: evenodd;"/>
+			<text x="262" y="524" style="font-family: Helvetica; font-size: 16px;fill: rgb(9%,43%,69%); stroke:none;" transform="translate(0,1048) scale(1,-1)">-</text>
+			<rect x="325" y="485" width="265" height="220" rx="12" ry="12" style="stroke: rgb(83%,63%,30%); stroke-linecap: butt; stroke-width: 1.5; fill: rgb(100%,97%,91%); fill-rule: evenodd;"/>
+			<text x="345" y="671" style="font-family: Helvetica-Bold; font-size: 21px;fill: rgb(67%,38%,0%); stroke:none;" transform="translate(0,1342) scale(1,-1)">U0 / 5 V regulator</text>
+			<text x="345" y="643" style="font-family: Helvetica; font-size: 14px;fill: rgb(31%,39%,47%); stroke:none;" transform="translate(0,1286) scale(1,-1)">PART TBD - required</text>
+			<text x="345" y="625" style="font-family: Helvetica; font-size: 15px;fill: rgb(31%,39%,47%); stroke:none;" transform="translate(0,1250) scale(1,-1)">Vin rating &gt; cold Voc</text>
+			<text x="345" y="605" style="font-family: Helvetica; font-size: 15px;fill: rgb(31%,39%,47%); stroke:none;" transform="translate(0,1210) scale(1,-1)">5 V at load AND no-load</text>
+			<text x="345" y="585" style="font-family: Helvetica; font-size: 15px;fill: rgb(31%,39%,47%); stroke:none;" transform="translate(0,1170) scale(1,-1)">Test cloud/startup cycling</text>
+			<circle cx="325" cy="550" r="4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(9%,43%,69%); fill-rule: evenodd;"/>
+			<text x="337" y="559" style="font-family: Helvetica; font-size: 16px;fill: rgb(9%,43%,69%); stroke:none;" transform="translate(0,1118) scale(1,-1)">IN+</text>
+			<circle cx="325" cy="515" r="4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(9%,43%,69%); fill-rule: evenodd;"/>
+			<text x="337" y="524" style="font-family: Helvetica; font-size: 16px;fill: rgb(9%,43%,69%); stroke:none;" transform="translate(0,1048) scale(1,-1)">IN-</text>
+			<circle cx="590" cy="550" r="4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(75%,21%,23%); fill-rule: evenodd;"/>
+			<text x="602" y="559" style="font-family: Helvetica; font-size: 16px;fill: rgb(75%,21%,23%); stroke:none;" transform="translate(0,1118) scale(1,-1)">OUT+</text>
+			<circle cx="590" cy="515" r="4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(9%,43%,69%); fill-rule: evenodd;"/>
+			<text x="602" y="524" style="font-family: Helvetica; font-size: 16px;fill: rgb(9%,43%,69%); stroke:none;" transform="translate(0,1048) scale(1,-1)">OUT-</text>
+			<path d="M 250,550 L 325,550 Z" style="stroke: rgb(9%,43%,69%); stroke-linecap: butt; stroke-width: 2;"/>
+			<path d="M 250,515 L 325,515 Z" style="stroke: rgb(9%,43%,69%); stroke-linecap: butt; stroke-width: 2;"/>
+			<rect x="690" y="395" width="280" height="310" rx="12" ry="12" style="stroke: rgb(60%,71%,76%); stroke-linecap: butt; stroke-width: 1.5; fill: rgb(92%,96%,97%); fill-rule: evenodd;"/>
+			<text x="710" y="671" style="font-family: Helvetica-Bold; font-size: 21px;fill: rgb(9%,18%,27%); stroke:none;" transform="translate(0,1342) scale(1,-1)">M1 / protected 4056</text>
+			<text x="710" y="643" style="font-family: Helvetica; font-size: 14px;fill: rgb(31%,39%,47%); stroke:none;" transform="translate(0,1286) scale(1,-1)">Verify actual chip and pad labels</text>
+			<text x="710" y="625" style="font-family: Helvetica; font-size: 15px;fill: rgb(67%,38%,0%); stroke:none;" transform="translate(0,1250) scale(1,-1)">Start 100-150 mA charge</text>
+			<text x="710" y="605" style="font-family: Helvetica; font-size: 15px;fill: rgb(67%,38%,0%); stroke:none;" transform="translate(0,1210) scale(1,-1)">PROG resistor: verify law</text>
+			<text x="710" y="585" style="font-family: Helvetica; font-size: 15px;fill: rgb(67%,38%,0%); stroke:none;" transform="translate(0,1170) scale(1,-1)">Cell TEMP inhibit unresolved</text>
+			<circle cx="690" cy="550" r="4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(75%,21%,23%); fill-rule: evenodd;"/>
+			<text x="702" y="559" style="font-family: Helvetica; font-size: 16px;fill: rgb(75%,21%,23%); stroke:none;" transform="translate(0,1118) scale(1,-1)">IN+</text>
+			<circle cx="690" cy="515" r="4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(9%,43%,69%); fill-rule: evenodd;"/>
+			<text x="702" y="524" style="font-family: Helvetica; font-size: 16px;fill: rgb(9%,43%,69%); stroke:none;" transform="translate(0,1048) scale(1,-1)">IN-</text>
+			<path d="M 590,550 L 690,550 Z" style="stroke: rgb(75%,21%,23%); stroke-linecap: butt; stroke-width: 2;"/>
+			<path d="M 590,515 L 690,515 Z" style="stroke: rgb(9%,43%,69%); stroke-linecap: butt; stroke-width: 2;"/>
+			<circle cx="970" cy="550" r="4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(75%,21%,23%); fill-rule: evenodd;"/>
+			<text x="982" y="559" style="font-family: Helvetica; font-size: 16px;fill: rgb(75%,21%,23%); stroke:none;" transform="translate(0,1118) scale(1,-1)">OUT+</text>
+			<circle cx="970" cy="430" r="4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(20%,26%,32%); fill-rule: evenodd;"/>
+			<text x="982" y="439" style="font-family: Helvetica; font-size: 16px;fill: rgb(20%,26%,32%); stroke:none;" transform="translate(0,878) scale(1,-1)">OUT-</text>
+			<circle cx="755" cy="395" r="4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(47%,29%,69%); fill-rule: evenodd;"/>
+			<text x="767" y="404" style="font-family: Helvetica; font-size: 16px;fill: rgb(47%,29%,69%); stroke:none;" transform="translate(0,808) scale(1,-1)">B+</text>
+			<circle cx="895" cy="395" r="4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(47%,29%,69%); fill-rule: evenodd;"/>
+			<text x="907" y="404" style="font-family: Helvetica; font-size: 16px;fill: rgb(47%,29%,69%); stroke:none;" transform="translate(0,808) scale(1,-1)">B-</text>
+			<path d="M 1020,550 L 1040,550 Z" style="stroke: rgb(9%,18%,27%); stroke-linecap: butt; stroke-width: 2;"/>
+			<rect x="1040" y="542" width="60" height="16" style="stroke: rgb(9%,18%,27%); stroke-linecap: butt; stroke-width: 1.5; fill: rgb(100%,100%,100%); fill-rule: evenodd;"/>
+			<path d="M 1100,550 L 1120,550 Z" style="stroke: rgb(9%,18%,27%); stroke-linecap: butt; stroke-width: 2;"/>
+			<text x="1042" y="570" style="font-family: Helvetica-Bold; font-size: 15px;fill: rgb(9%,18%,27%); stroke:none;" transform="translate(0,1140) scale(1,-1)">F2 1 A</text>
+			<path d="M 970,550 L 1020,550 Z" style="stroke: rgb(75%,21%,23%); stroke-linecap: butt; stroke-width: 2;"/>
+			<path d="M 1120,550 L 1160,550 Z" style="stroke: rgb(75%,21%,23%); stroke-linecap: butt; stroke-width: 2;"/>
+			<path d="M 1160,550 L 1190,570 Z" style="stroke: rgb(75%,21%,23%); stroke-linecap: butt; stroke-width: 2;"/>
+			<circle cx="1160" cy="550" r="4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(75%,21%,23%); fill-rule: evenodd;"/>
+			<circle cx="1205" cy="550" r="4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(75%,21%,23%); fill-rule: evenodd;"/>
+			<text x="1160" y="590" style="font-family: Helvetica-Bold; font-size: 15px;fill: rgb(9%,18%,27%); stroke:none;" transform="translate(0,1180) scale(1,-1)">S1 service</text>
+			<path d="M 1205,550 L 1360,550 Z" style="stroke: rgb(75%,21%,23%); stroke-linecap: butt; stroke-width: 2;"/>
+			<text x="1230" y="568" style="font-family: Helvetica-Bold; font-size: 17px;fill: rgb(75%,21%,23%); stroke:none;" transform="translate(0,1136) scale(1,-1)">VBAT_SYS</text>
+			<path d="M 970,430 L 1360,430 Z" style="stroke: rgb(20%,26%,32%); stroke-linecap: butt; stroke-width: 2;"/>
+			<text x="1220" y="448" style="font-family: Helvetica-Bold; font-size: 17px;fill: rgb(20%,26%,32%); stroke:none;" transform="translate(0,896) scale(1,-1)">GND_LOAD</text>
+			<text x="1110" y="360" style="font-family: Helvetica; font-size: 17px;fill: rgb(9%,18%,27%); stroke:none;" transform="translate(0,720) scale(1,-1)">To sheets 2 and 3</text>
+			<text x="1110" y="335" style="font-family: Helvetica; font-size: 17px;fill: rgb(9%,18%,27%); stroke:none;" transform="translate(0,670) scale(1,-1)">VBAT_SYS: battery voltage</text>
+			<text x="1110" y="310" style="font-family: Helvetica; font-size: 17px;fill: rgb(9%,18%,27%); stroke:none;" transform="translate(0,620) scale(1,-1)">GND_LOAD: OUT- only</text>
+			<path d="M 755,395 L 755,320 Z" style="stroke: rgb(47%,29%,69%); stroke-linecap: butt; stroke-width: 2;"/>
+			<path d="M 755,320 L 300,320 Z" style="stroke: rgb(47%,29%,69%); stroke-linecap: butt; stroke-width: 2;"/>
+			<path d="M 895,395 L 895,160 Z" style="stroke: rgb(47%,29%,69%); stroke-linecap: butt; stroke-width: 2;"/>
+			<path d="M 895,160 L 300,160 Z" style="stroke: rgb(47%,29%,69%); stroke-linecap: butt; stroke-width: 2;"/>
+			<path d="M 350,320 L 350,295 Z" style="stroke: rgb(47%,29%,69%); stroke-linecap: butt; stroke-width: 2;"/>
+			<path d="M 350,295 L 350,280 Z" style="stroke: rgb(47%,29%,69%); stroke-linecap: butt; stroke-width: 2;"/>
+			<rect x="342" y="240" width="16" height="40" style="stroke: rgb(47%,29%,69%); stroke-linecap: butt; stroke-width: 1.5; fill: rgb(100%,100%,100%); fill-rule: evenodd;"/>
+			<path d="M 350,240 L 350,225 Z" style="stroke: rgb(47%,29%,69%); stroke-linecap: butt; stroke-width: 2;"/>
+			<text x="367" y="264" style="font-family: Helvetica-Bold; font-size: 16px;fill: rgb(47%,29%,69%); stroke:none;" transform="translate(0,528) scale(1,-1)">FB1</text>
+			<text x="367" y="243" style="font-family: Helvetica; font-size: 15px;fill: rgb(47%,29%,69%); stroke:none;" transform="translate(0,486) scale(1,-1)">1 A</text>
+			<path d="M 350,225 L 350,211 Z" style="stroke: rgb(47%,29%,69%); stroke-linecap: butt; stroke-width: 2;"/>
+			<path d="M 328,211 L 372,211 Z" style="stroke: rgb(47%,29%,69%); stroke-linecap: butt; stroke-width: 3;"/>
+			<path d="M 339,199 L 361,199 Z" style="stroke: rgb(47%,29%,69%); stroke-linecap: butt; stroke-width: 3;"/>
+			<path d="M 350,199 L 350,160 Z" style="stroke: rgb(47%,29%,69%); stroke-linecap: butt; stroke-width: 2;"/>
+			<text x="326" y="218" style="font-family: Helvetica; font-size: 16px;fill: rgb(47%,29%,69%); stroke:none;" transform="translate(0,436) scale(1,-1)">+</text>
+			<text x="395" y="200" style="font-family: Helvetica-Bold; font-size: 18px;fill: rgb(9%,18%,27%); stroke:none;" transform="translate(0,400) scale(1,-1)">BT1 / 18650</text>
+			<circle cx="350" cy="320" r="4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(47%,29%,69%); fill-rule: evenodd;"/>
+			<circle cx="350" cy="160" r="4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(47%,29%,69%); fill-rule: evenodd;"/>
+			<path d="M 610,320 L 610,295 Z" style="stroke: rgb(47%,29%,69%); stroke-linecap: butt; stroke-width: 2;"/>
+			<path d="M 610,295 L 610,280 Z" style="stroke: rgb(47%,29%,69%); stroke-linecap: butt; stroke-width: 2;"/>
+			<rect x="602" y="240" width="16" height="40" style="stroke: rgb(47%,29%,69%); stroke-linecap: butt; stroke-width: 1.5; fill: rgb(100%,100%,100%); fill-rule: evenodd;"/>
+			<path d="M 610,240 L 610,225 Z" style="stroke: rgb(47%,29%,69%); stroke-linecap: butt; stroke-width: 2;"/>
+			<text x="627" y="264" style="font-family: Helvetica-Bold; font-size: 16px;fill: rgb(47%,29%,69%); stroke:none;" transform="translate(0,528) scale(1,-1)">FB2</text>
+			<text x="627" y="243" style="font-family: Helvetica; font-size: 15px;fill: rgb(47%,29%,69%); stroke:none;" transform="translate(0,486) scale(1,-1)">1 A</text>
+			<path d="M 610,225 L 610,211 Z" style="stroke: rgb(47%,29%,69%); stroke-linecap: butt; stroke-width: 2;"/>
+			<path d="M 588,211 L 632,211 Z" style="stroke: rgb(47%,29%,69%); stroke-linecap: butt; stroke-width: 3;"/>
+			<path d="M 599,199 L 621,199 Z" style="stroke: rgb(47%,29%,69%); stroke-linecap: butt; stroke-width: 3;"/>
+			<path d="M 610,199 L 610,160 Z" style="stroke: rgb(47%,29%,69%); stroke-linecap: butt; stroke-width: 2;"/>
+			<text x="586" y="218" style="font-family: Helvetica; font-size: 16px;fill: rgb(47%,29%,69%); stroke:none;" transform="translate(0,436) scale(1,-1)">+</text>
+			<text x="655" y="200" style="font-family: Helvetica-Bold; font-size: 18px;fill: rgb(9%,18%,27%); stroke:none;" transform="translate(0,400) scale(1,-1)">BT2 / 18650</text>
+			<circle cx="610" cy="320" r="4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(47%,29%,69%); fill-rule: evenodd;"/>
+			<circle cx="610" cy="160" r="4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(47%,29%,69%); fill-rule: evenodd;"/>
+			<text x="300" y="344" style="font-family: Helvetica-Bold; font-size: 17px;fill: rgb(47%,29%,69%); stroke:none;" transform="translate(0,688) scale(1,-1)">1S2P / matched cells / individually fused</text>
+			<text x="300" y="120" style="font-family: Helvetica-Bold; font-size: 17px;fill: rgb(9%,18%,27%); stroke:none;" transform="translate(0,240) scale(1,-1)">Never series-connect these cells to a 1S charger. Do not bridge B- to OUT-.</text>
+			<rect x="1000" y="149" width="385" height="151" rx="12" ry="12" style="stroke: rgb(79%,84%,87%); stroke-linecap: butt; stroke-width: 1.5; fill: rgb(100%,97%,91%); fill-rule: evenodd;"/>
+			<text x="1018" y="270" style="font-family: Helvetica-Bold; font-size: 18px;fill: rgb(67%,38%,0%); stroke:none;" transform="translate(0,540) scale(1,-1)">Ground check before wiring</text>
+			<text x="1018" y="244" style="font-family: Helvetica; font-size: 15px;fill: rgb(31%,39%,47%); stroke:none;" transform="translate(0,488) scale(1,-1)">Some modules join IN- to OUT- internally.</text>
+			<text x="1018" y="220" style="font-family: Helvetica; font-size: 15px;fill: rgb(31%,39%,47%); stroke:none;" transform="translate(0,440) scale(1,-1)">Confirm yours; do not add an external link.</text>
+			<text x="1018" y="196" style="font-family: Helvetica; font-size: 15px;fill: rgb(31%,39%,47%); stroke:none;" transform="translate(0,392) scale(1,-1)">B- remains behind the protection FETs.</text>
+			<text x="1018" y="172" style="font-family: Helvetica; font-size: 15px;fill: rgb(31%,39%,47%); stroke:none;" transform="translate(0,344) scale(1,-1)">Service with panel and batteries removed.</text>
+			<text x="45" y="67" style="font-family: Helvetica-Bold; font-size: 16px;fill: rgb(67%,38%,0%); stroke:none;" transform="translate(0,134) scale(1,-1)">No pair of series diodes is accepted as overvoltage protection. Unattended charging awaits cell-temperature protection.</text>
+		</g>
+	</g>
+</svg>
+</div><p class="small"><a href="01-power.svg">Open full-size SVG</a> · <a href="sheet-1.png">PNG preview</a></p></section><section id="s2"><h2>02 / Controller and LED circuit</h2><p>The BTE13-010A has been converted to its internal 8 MHz clock. Feed the protected battery rail into VCC, leave RAW open, and keep the LDR on the protected load side.</p><div class="drawing"><svg width="1440" height="900" preserveAspectRatio="xMinYMin meet" viewBox="0 0 1440 900" xmlns="http://www.w3.org/2000/svg" version="1.0" fill-rule="evenodd" xmlns:xlink="http://www.w3.org/1999/xlink">
+	<title>...</title>
+	<desc>...</desc>
+	<clipPath id="clip">
+		<rect x="0" y="0" width="1440" height="900"/>
+	</clipPath>
+	<g id="group" transform="scale(1,-1) translate(0,-900)" style="clip-path: url(#clip)">
+		<g transform="">
+			<rect x="0" y="0" width="1440" height="900" style="stroke: rgb(100%,100%,100%); stroke-linecap: butt; stroke-width: 1.5; fill: rgb(100%,100%,100%); fill-rule: evenodd;"/>
+			<text x="42" y="862" style="font-family: Helvetica-Bold; font-size: 15px;fill: rgb(0%,52%,44%); stroke:none;" transform="translate(0,1724) scale(1,-1)">SOLARLIGHTS / REBUILD 2026</text>
+			<text x="42" y="820" style="font-family: Helvetica-Bold; font-size: 32px;fill: rgb(9%,18%,27%); stroke:none;" transform="translate(0,1640) scale(1,-1)">Light controller &amp; LED driver</text>
+			<text x="42" y="790" style="font-family: Helvetica; font-size: 16px;fill: rgb(31%,39%,47%); stroke:none;" transform="translate(0,1580) scale(1,-1)">Reused 16 MHz Pro Mini converted to internal 8 MHz. Switched LDR; dusk to dawn at 100% command, with R3 setting the current.</text>
+			<path d="M 42,768 L 1398,768 Z" style="stroke: rgb(83%,87%,90%); stroke-linecap: butt; stroke-width: 1;"/>
+			<path d="M 42,50 L 1398,50 Z" style="stroke: rgb(83%,87%,90%); stroke-linecap: butt; stroke-width: 1;"/>
+			<text x="42" y="23" style="font-family: Helvetica-Bold; font-size: 13px;fill: rgb(67%,38%,0%); stroke:none;" transform="translate(0,46) scale(1,-1)">REV 0.4 PROPOSAL  |  19 SEP 2026, AMENDED 27 SEP  |  NOT RELEASED FOR OUTDOOR ASSEMBLY</text>
+			<text x="1175" y="23" style="font-family: Helvetica; font-size: 13px;fill: rgb(31%,39%,47%); stroke:none;" transform="translate(0,46) scale(1,-1)">SHEET 2 OF 5 / A3</text>
+			<rect x="350" y="260" width="325" height="430" rx="12" ry="12" style="stroke: rgb(60%,71%,76%); stroke-linecap: butt; stroke-width: 1.5; fill: rgb(92%,96%,97%); fill-rule: evenodd;"/>
+			<text x="370" y="656" style="font-family: Helvetica-Bold; font-size: 21px;fill: rgb(9%,18%,27%); stroke:none;" transform="translate(0,1312) scale(1,-1)">M2 / BTE13-010A</text>
+			<text x="370" y="628" style="font-family: Helvetica; font-size: 14px;fill: rgb(31%,39%,47%); stroke:none;" transform="translate(0,1256) scale(1,-1)">ATmega328P, verified 8 MHz</text>
+			<text x="370" y="610" style="font-family: Helvetica; font-size: 16px;fill: rgb(31%,39%,47%); stroke:none;" transform="translate(0,1220) scale(1,-1)">Remove regulator + power LED</text>
+			<text x="370" y="585" style="font-family: Helvetica; font-size: 16px;fill: rgb(31%,39%,47%); stroke:none;" transform="translate(0,1170) scale(1,-1)">VCC supplied directly; RAW unused</text>
+			<text x="370" y="560" style="font-family: Helvetica; font-size: 16px;fill: rgb(31%,39%,47%); stroke:none;" transform="translate(0,1120) scale(1,-1)">D10/D11: open, reserved</text>
+			<text x="370" y="535" style="font-family: Helvetica; font-size: 16px;fill: rgb(31%,39%,47%); stroke:none;" transform="translate(0,1070) scale(1,-1)">No raw-panel sense on A0; no Q1</text>
+			<path d="M 435,725 L 435,690 Z" style="stroke: rgb(75%,21%,23%); stroke-linecap: butt; stroke-width: 2;"/>
+			<text x="370" y="731" style="font-family: Helvetica-Bold; font-size: 16px;fill: rgb(75%,21%,23%); stroke:none;" transform="translate(0,1462) scale(1,-1)">VBAT_SYS</text>
+			<path d="M 600,725 L 600,690 Z" style="stroke: rgb(20%,26%,32%); stroke-linecap: butt; stroke-width: 2;"/>
+			<text x="553" y="731" style="font-family: Helvetica-Bold; font-size: 16px;fill: rgb(20%,26%,32%); stroke:none;" transform="translate(0,1462) scale(1,-1)">GND_LOAD</text>
+			<text x="445" y="700" style="font-family: Helvetica; font-size: 14px;fill: rgb(75%,21%,23%); stroke:none;" transform="translate(0,1400) scale(1,-1)">VCC</text>
+			<text x="610" y="700" style="font-family: Helvetica; font-size: 14px;fill: rgb(20%,26%,32%); stroke:none;" transform="translate(0,1400) scale(1,-1)">GND</text>
+			<circle cx="350" cy="500" r="4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(0%,52%,44%); fill-rule: evenodd;"/>
+			<text x="362" y="509" style="font-family: Helvetica; font-size: 16px;fill: rgb(0%,52%,44%); stroke:none;" transform="translate(0,1018) scale(1,-1)">D7</text>
+			<path d="M 350,500 L 160,500 Z" style="stroke: rgb(0%,52%,44%); stroke-linecap: butt; stroke-width: 2;"/>
+			<path d="M 160,500 L 160,475 Z" style="stroke: rgb(0%,52%,44%); stroke-linecap: butt; stroke-width: 2;"/>
+			<path d="M 160,475 L 160,460 Z" style="stroke: rgb(0%,52%,44%); stroke-linecap: butt; stroke-width: 2;"/>
+			<rect x="152" y="420" width="16" height="40" style="stroke: rgb(0%,52%,44%); stroke-linecap: butt; stroke-width: 1.5; fill: rgb(100%,100%,100%); fill-rule: evenodd;"/>
+			<path d="M 160,420 L 160,405 Z" style="stroke: rgb(0%,52%,44%); stroke-linecap: butt; stroke-width: 2;"/>
+			<text x="177" y="444" style="font-family: Helvetica-Bold; font-size: 16px;fill: rgb(0%,52%,44%); stroke:none;" transform="translate(0,888) scale(1,-1)">LDR1</text>
+			<text x="177" y="423" style="font-family: Helvetica; font-size: 15px;fill: rgb(0%,52%,44%); stroke:none;" transform="translate(0,846) scale(1,-1)">ambient light</text>
+			<circle cx="160" cy="440" r="29" style="stroke: rgb(0%,52%,44%); stroke-linecap: butt; stroke-width: 1.5; fill: none; fill-rule: evenodd;"/>
+			<path d="M 100,485 L 124,460 Z" style="stroke: rgb(0%,52%,44%); stroke-linecap: butt; stroke-width: 2;"/>
+			<path d="M 104,461 L 124,460 Z" style="stroke: rgb(0%,52%,44%); stroke-linecap: butt; stroke-width: 2;"/>
+			<path d="M 123,480 L 124,460 Z" style="stroke: rgb(0%,52%,44%); stroke-linecap: butt; stroke-width: 2;"/>
+			<path d="M 160,405 L 160,375 Z" style="stroke: rgb(0%,52%,44%); stroke-linecap: butt; stroke-width: 2;"/>
+			<circle cx="160" cy="375" r="4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(0%,52%,44%); fill-rule: evenodd;"/>
+			<path d="M 160,375 L 350,375 Z" style="stroke: rgb(0%,52%,44%); stroke-linecap: butt; stroke-width: 2;"/>
+			<circle cx="350" cy="375" r="4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(0%,52%,44%); fill-rule: evenodd;"/>
+			<text x="362" y="384" style="font-family: Helvetica; font-size: 16px;fill: rgb(0%,52%,44%); stroke:none;" transform="translate(0,768) scale(1,-1)">A1</text>
+			<path d="M 160,375 L 160,355 Z" style="stroke: rgb(0%,52%,44%); stroke-linecap: butt; stroke-width: 2;"/>
+			<path d="M 160,355 L 160,340 Z" style="stroke: rgb(9%,18%,27%); stroke-linecap: butt; stroke-width: 2;"/>
+			<rect x="152" y="300" width="16" height="40" style="stroke: rgb(9%,18%,27%); stroke-linecap: butt; stroke-width: 1.5; fill: rgb(100%,100%,100%); fill-rule: evenodd;"/>
+			<path d="M 160,300 L 160,285 Z" style="stroke: rgb(9%,18%,27%); stroke-linecap: butt; stroke-width: 2;"/>
+			<text x="177" y="324" style="font-family: Helvetica-Bold; font-size: 16px;fill: rgb(9%,18%,27%); stroke:none;" transform="translate(0,648) scale(1,-1)">R4</text>
+			<text x="177" y="303" style="font-family: Helvetica; font-size: 15px;fill: rgb(9%,18%,27%); stroke:none;" transform="translate(0,606) scale(1,-1)">100k</text>
+			<path d="M 160,285 L 160,245 Z" style="stroke: rgb(20%,26%,32%); stroke-linecap: butt; stroke-width: 2;"/>
+			<path d="M 160,245 L 160,235 Z" style="stroke: rgb(20%,26%,32%); stroke-linecap: butt; stroke-width: 2;"/>
+			<path d="M 146,235 L 174,235 Z" style="stroke: rgb(20%,26%,32%); stroke-linecap: butt; stroke-width: 2;"/>
+			<path d="M 151,229 L 169,229 Z" style="stroke: rgb(20%,26%,32%); stroke-linecap: butt; stroke-width: 2;"/>
+			<path d="M 156,223 L 164,223 Z" style="stroke: rgb(20%,26%,32%); stroke-linecap: butt; stroke-width: 2;"/>
+			<text x="180" y="226" style="font-family: Helvetica; font-size: 14px;fill: rgb(20%,26%,32%); stroke:none;" transform="translate(0,452) scale(1,-1)">GND_LOAD</text>
+			<circle cx="350" cy="300" r="4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(0%,52%,44%); fill-rule: evenodd;"/>
+			<text x="362" y="309" style="font-family: Helvetica; font-size: 16px;fill: rgb(0%,52%,44%); stroke:none;" transform="translate(0,618) scale(1,-1)">D2</text>
+			<path d="M 265,300 L 350,300 Z" style="stroke: rgb(0%,52%,44%); stroke-linecap: butt; stroke-width: 2;"/>
+			<path d="M 265,300 L 265,195 Z" style="stroke: rgb(0%,52%,44%); stroke-linecap: butt; stroke-width: 2;"/>
+			<circle cx="265" cy="195" r="4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(9%,18%,27%); fill-rule: evenodd;"/>
+			<circle cx="315" cy="195" r="4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(9%,18%,27%); fill-rule: evenodd;"/>
+			<path d="M 272,208 L 309,208 Z" style="stroke: rgb(9%,18%,27%); stroke-linecap: butt; stroke-width: 2;"/>
+			<path d="M 290,219 L 290,208 Z" style="stroke: rgb(9%,18%,27%); stroke-linecap: butt; stroke-width: 2;"/>
+			<path d="M 315,195 L 355,195 Z" style="stroke: rgb(20%,26%,32%); stroke-linecap: butt; stroke-width: 2;"/>
+			<path d="M 355,195 L 355,185 Z" style="stroke: rgb(20%,26%,32%); stroke-linecap: butt; stroke-width: 2;"/>
+			<path d="M 341,185 L 369,185 Z" style="stroke: rgb(20%,26%,32%); stroke-linecap: butt; stroke-width: 2;"/>
+			<path d="M 346,179 L 364,179 Z" style="stroke: rgb(20%,26%,32%); stroke-linecap: butt; stroke-width: 2;"/>
+			<path d="M 351,173 L 359,173 Z" style="stroke: rgb(20%,26%,32%); stroke-linecap: butt; stroke-width: 2;"/>
+			<text x="375" y="176" style="font-family: Helvetica; font-size: 14px;fill: rgb(20%,26%,32%); stroke:none;" transform="translate(0,352) scale(1,-1)">GND_LOAD</text>
+			<text x="208" y="156" style="font-family: Helvetica-Bold; font-size: 16px;fill: rgb(9%,18%,27%); stroke:none;" transform="translate(0,312) scale(1,-1)">SW1 / test</text>
+			<circle cx="675" cy="500" r="4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(0%,52%,44%); fill-rule: evenodd;"/>
+			<text x="687" y="509" style="font-family: Helvetica; font-size: 16px;fill: rgb(0%,52%,44%); stroke:none;" transform="translate(0,1018) scale(1,-1)">D9 / PWM</text>
+			<path d="M 675,500 L 735,500 Z" style="stroke: rgb(0%,52%,44%); stroke-linecap: butt; stroke-width: 2;"/>
+			<path d="M 735,500 L 735,650 Z" style="stroke: rgb(0%,52%,44%); stroke-linecap: butt; stroke-width: 2;"/>
+			<path d="M 735,650 L 1090,650 Z" style="stroke: rgb(0%,52%,44%); stroke-linecap: butt; stroke-width: 2;"/>
+			<path d="M 1090,645 L 1090,630 Z" style="stroke: rgb(0%,52%,44%); stroke-linecap: butt; stroke-width: 2;"/>
+			<rect x="1082" y="590" width="16" height="40" style="stroke: rgb(0%,52%,44%); stroke-linecap: butt; stroke-width: 1.5; fill: rgb(100%,100%,100%); fill-rule: evenodd;"/>
+			<path d="M 1090,590 L 1090,575 Z" style="stroke: rgb(0%,52%,44%); stroke-linecap: butt; stroke-width: 2;"/>
+			<text x="1107" y="614" style="font-family: Helvetica-Bold; font-size: 16px;fill: rgb(0%,52%,44%); stroke:none;" transform="translate(0,1228) scale(1,-1)">R3</text>
+			<text x="1107" y="593" style="font-family: Helvetica; font-size: 15px;fill: rgb(0%,52%,44%); stroke:none;" transform="translate(0,1186) scale(1,-1)">47R</text>
+			<path d="M 1090,575 L 1090,520 Z" style="stroke: rgb(0%,52%,44%); stroke-linecap: butt; stroke-width: 2;"/>
+			<rect x="1000" y="437" width="180" height="83" rx="12" ry="12" style="stroke: rgb(49%,67%,40%); stroke-linecap: butt; stroke-width: 1.5; fill: rgb(94%,97%,92%); fill-rule: evenodd;"/>
+			<text x="1018" y="488" style="font-family: Helvetica-Bold; font-size: 18px;fill: rgb(9%,18%,27%); stroke:none;" transform="translate(0,976) scale(1,-1)">JLED / string</text>
+			<text x="1018" y="461" style="font-family: Helvetica; font-size: 14px;fill: rgb(31%,39%,47%); stroke:none;" transform="translate(0,922) scale(1,-1)">+ top / - bottom</text>
+			<path d="M 1090,437 L 1090,195 Z" style="stroke: rgb(20%,26%,32%); stroke-linecap: butt; stroke-width: 2;"/>
+			<path d="M 1090,195 L 1090,185 Z" style="stroke: rgb(20%,26%,32%); stroke-linecap: butt; stroke-width: 2;"/>
+			<path d="M 1076,185 L 1104,185 Z" style="stroke: rgb(20%,26%,32%); stroke-linecap: butt; stroke-width: 2;"/>
+			<path d="M 1081,179 L 1099,179 Z" style="stroke: rgb(20%,26%,32%); stroke-linecap: butt; stroke-width: 2;"/>
+			<path d="M 1086,173 L 1094,173 Z" style="stroke: rgb(20%,26%,32%); stroke-linecap: butt; stroke-width: 2;"/>
+			<text x="1110" y="176" style="font-family: Helvetica; font-size: 14px;fill: rgb(20%,26%,32%); stroke:none;" transform="translate(0,352) scale(1,-1)">GND_LOAD</text>
+			<text x="1210" y="642" style="font-family: Helvetica-Bold; font-size: 17px;fill: rgb(9%,18%,27%); stroke:none;" transform="translate(0,1284) scale(1,-1)">No Q1, R6, R7 or F1</text>
+			<text x="1210" y="614" style="font-family: Helvetica; font-size: 15px;fill: rgb(31%,39%,47%); stroke:none;" transform="translate(0,1228) scale(1,-1)">Measured string: 2.56 V drop</text>
+			<text x="1210" y="589" style="font-family: Helvetica; font-size: 15px;fill: rgb(31%,39%,47%); stroke:none;" transform="translate(0,1178) scale(1,-1)">I = (VBAT - 2.56) / (R3 + 30R)</text>
+			<text x="1210" y="564" style="font-family: Helvetica; font-size: 15px;fill: rgb(31%,39%,47%); stroke:none;" transform="translate(0,1128) scale(1,-1)">21 / 15 / 11 mA at</text>
+			<text x="1210" y="539" style="font-family: Helvetica; font-size: 15px;fill: rgb(31%,39%,47%); stroke:none;" transform="translate(0,1078) scale(1,-1)">4.20 / 3.70 / 3.40 V</text>
+			<text x="1210" y="514" style="font-family: Helvetica; font-size: 15px;fill: rgb(31%,39%,47%); stroke:none;" transform="translate(0,1028) scale(1,-1)">Fit 56R to stay under 20 mA</text>
+			<text x="1210" y="486" style="font-family: Helvetica; font-size: 15px;fill: rgb(67%,38%,0%); stroke:none;" transform="translate(0,972) scale(1,-1)">Pin max 40 mA absolute</text>
+			<text x="1210" y="464" style="font-family: Helvetica; font-size: 15px;fill: rgb(67%,38%,0%); stroke:none;" transform="translate(0,928) scale(1,-1)">Fit R3 at the board end</text>
+			<circle cx="675" cy="300" r="4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(0%,52%,44%); fill-rule: evenodd;"/>
+			<text x="687" y="309" style="font-family: Helvetica; font-size: 16px;fill: rgb(0%,52%,44%); stroke:none;" transform="translate(0,618) scale(1,-1)">D8 / status</text>
+			<path d="M 675,300 L 815,300 Z" style="stroke: rgb(0%,52%,44%); stroke-linecap: butt; stroke-width: 2;"/>
+			<text x="700" y="268" style="font-family: Helvetica; font-size: 14px;fill: rgb(0%,52%,44%); stroke:none;" transform="translate(0,536) scale(1,-1)">to sheet 3</text>
+			<path d="M 500,208 L 500,180 Z" style="stroke: rgb(75%,21%,23%); stroke-linecap: butt; stroke-width: 2;"/>
+			<path d="M 483,180 L 517,180 Z" style="stroke: rgb(75%,21%,23%); stroke-linecap: butt; stroke-width: 2;"/>
+			<path d="M 483,166 L 517,166 Z" style="stroke: rgb(20%,26%,32%); stroke-linecap: butt; stroke-width: 2;"/>
+			<path d="M 500,166 L 500,138 Z" style="stroke: rgb(20%,26%,32%); stroke-linecap: butt; stroke-width: 2;"/>
+			<text x="524" y="181" style="font-family: Helvetica-Bold; font-size: 15px;fill: rgb(9%,18%,27%); stroke:none;" transform="translate(0,362) scale(1,-1)">C3 100u / 10 V</text>
+			<text x="471" y="187" style="font-family: Helvetica; font-size: 18px;fill: rgb(75%,21%,23%); stroke:none;" transform="translate(0,374) scale(1,-1)">+</text>
+			<path d="M 500,225 L 500,208 Z" style="stroke: rgb(75%,21%,23%); stroke-linecap: butt; stroke-width: 2;"/>
+			<text x="435" y="230" style="font-family: Helvetica-Bold; font-size: 14px;fill: rgb(75%,21%,23%); stroke:none;" transform="translate(0,460) scale(1,-1)">VBAT_SYS</text>
+			<path d="M 500,138 L 500,128 Z" style="stroke: rgb(20%,26%,32%); stroke-linecap: butt; stroke-width: 2;"/>
+			<path d="M 486,128 L 514,128 Z" style="stroke: rgb(20%,26%,32%); stroke-linecap: butt; stroke-width: 2;"/>
+			<path d="M 491,122 L 509,122 Z" style="stroke: rgb(20%,26%,32%); stroke-linecap: butt; stroke-width: 2;"/>
+			<path d="M 496,116 L 504,116 Z" style="stroke: rgb(20%,26%,32%); stroke-linecap: butt; stroke-width: 2;"/>
+			<text x="520" y="119" style="font-family: Helvetica; font-size: 14px;fill: rgb(20%,26%,32%); stroke:none;" transform="translate(0,238) scale(1,-1)">GND_LOAD</text>
+			<path d="M 700,208 L 700,180 Z" style="stroke: rgb(75%,21%,23%); stroke-linecap: butt; stroke-width: 2;"/>
+			<path d="M 683,180 L 717,180 Z" style="stroke: rgb(75%,21%,23%); stroke-linecap: butt; stroke-width: 2;"/>
+			<path d="M 683,166 L 717,166 Z" style="stroke: rgb(20%,26%,32%); stroke-linecap: butt; stroke-width: 2;"/>
+			<path d="M 700,166 L 700,138 Z" style="stroke: rgb(20%,26%,32%); stroke-linecap: butt; stroke-width: 2;"/>
+			<text x="724" y="181" style="font-family: Helvetica-Bold; font-size: 15px;fill: rgb(9%,18%,27%); stroke:none;" transform="translate(0,362) scale(1,-1)">C4 100n</text>
+			<text x="671" y="187" style="font-family: Helvetica; font-size: 18px;fill: rgb(75%,21%,23%); stroke:none;" transform="translate(0,374) scale(1,-1)">+</text>
+			<path d="M 700,225 L 700,208 Z" style="stroke: rgb(75%,21%,23%); stroke-linecap: butt; stroke-width: 2;"/>
+			<text x="640" y="230" style="font-family: Helvetica-Bold; font-size: 14px;fill: rgb(75%,21%,23%); stroke:none;" transform="translate(0,460) scale(1,-1)">VBAT_SYS</text>
+			<path d="M 700,138 L 700,128 Z" style="stroke: rgb(20%,26%,32%); stroke-linecap: butt; stroke-width: 2;"/>
+			<path d="M 686,128 L 714,128 Z" style="stroke: rgb(20%,26%,32%); stroke-linecap: butt; stroke-width: 2;"/>
+			<path d="M 691,122 L 709,122 Z" style="stroke: rgb(20%,26%,32%); stroke-linecap: butt; stroke-width: 2;"/>
+			<path d="M 696,116 L 704,116 Z" style="stroke: rgb(20%,26%,32%); stroke-linecap: butt; stroke-width: 2;"/>
+			<text x="720" y="119" style="font-family: Helvetica; font-size: 14px;fill: rgb(20%,26%,32%); stroke:none;" transform="translate(0,238) scale(1,-1)">GND_LOAD</text>
+			<text x="45" y="67" style="font-family: Helvetica-Bold; font-size: 16px;fill: rgb(67%,38%,0%); stroke:none;" transform="translate(0,134) scale(1,-1)">All ground symbols on this sheet mean OUT-. R3 sets the peak current; duty changes the average only. Verify current at 4.20 V and 100% duty.</text>
+		</g>
+	</g>
+</svg>
+</div><p class="small"><a href="02-controller.svg">Open full-size SVG</a> · <a href="sheet-2.png">PNG preview</a></p></section><section id="s3"><h2>03 / Optional Home Assistant reporting</h2><p>Add telemetry after the lighting circuit passes. An NPN replaces the old status divider; the ESP receives a separate 3.3 V supply. No CHRG wire is fitted.</p><div class="drawing"><svg width="1440" height="900" preserveAspectRatio="xMinYMin meet" viewBox="0 0 1440 900" xmlns="http://www.w3.org/2000/svg" version="1.0" fill-rule="evenodd" xmlns:xlink="http://www.w3.org/1999/xlink">
+	<title>...</title>
+	<desc>...</desc>
+	<clipPath id="clip">
+		<rect x="0" y="0" width="1440" height="900"/>
+	</clipPath>
+	<g id="group" transform="scale(1,-1) translate(0,-900)" style="clip-path: url(#clip)">
+		<g transform="">
+			<rect x="0" y="0" width="1440" height="900" style="stroke: rgb(100%,100%,100%); stroke-linecap: butt; stroke-width: 1.5; fill: rgb(100%,100%,100%); fill-rule: evenodd;"/>
+			<text x="42" y="862" style="font-family: Helvetica-Bold; font-size: 15px;fill: rgb(0%,52%,44%); stroke:none;" transform="translate(0,1724) scale(1,-1)">SOLARLIGHTS / REBUILD 2026</text>
+			<text x="42" y="820" style="font-family: Helvetica-Bold; font-size: 32px;fill: rgb(9%,18%,27%); stroke:none;" transform="translate(0,1640) scale(1,-1)">Optional Wi-Fi telemetry</text>
+			<text x="42" y="790" style="font-family: Helvetica; font-size: 16px;fill: rgb(31%,39%,47%); stroke:none;" transform="translate(0,1580) scale(1,-1)">Add after the lights work. D1 Mini reports battery and lights only. No CHRG connection in this revision.</text>
+			<path d="M 42,768 L 1398,768 Z" style="stroke: rgb(83%,87%,90%); stroke-linecap: butt; stroke-width: 1;"/>
+			<path d="M 42,50 L 1398,50 Z" style="stroke: rgb(83%,87%,90%); stroke-linecap: butt; stroke-width: 1;"/>
+			<text x="42" y="23" style="font-family: Helvetica-Bold; font-size: 13px;fill: rgb(67%,38%,0%); stroke:none;" transform="translate(0,46) scale(1,-1)">REV 0.4 PROPOSAL  |  19 SEP 2026, AMENDED 27 SEP  |  NOT RELEASED FOR OUTDOOR ASSEMBLY</text>
+			<text x="1175" y="23" style="font-family: Helvetica; font-size: 13px;fill: rgb(31%,39%,47%); stroke:none;" transform="translate(0,46) scale(1,-1)">SHEET 3 OF 5 / A3</text>
+			<rect x="65" y="460" width="310" height="230" rx="12" ry="12" style="stroke: rgb(83%,63%,30%); stroke-linecap: butt; stroke-width: 1.5; fill: rgb(100%,97%,91%); fill-rule: evenodd;"/>
+			<text x="85" y="656" style="font-family: Helvetica-Bold; font-size: 21px;fill: rgb(67%,38%,0%); stroke:none;" transform="translate(0,1312) scale(1,-1)">U3 / 3.3 V supply</text>
+			<text x="85" y="628" style="font-family: Helvetica; font-size: 14px;fill: rgb(31%,39%,47%); stroke:none;" transform="translate(0,1256) scale(1,-1)">Buck-boost module TBD</text>
+			<text x="85" y="597" style="font-family: Helvetica; font-size: 16px;fill: rgb(31%,39%,47%); stroke:none;" transform="translate(0,1194) scale(1,-1)">Input: protected battery rail</text>
+			<text x="85" y="572" style="font-family: Helvetica; font-size: 16px;fill: rgb(31%,39%,47%); stroke:none;" transform="translate(0,1144) scale(1,-1)">Qualify radio bursts + standby</text>
+			<text x="85" y="547" style="font-family: Helvetica; font-size: 16px;fill: rgb(31%,39%,47%); stroke:none;" transform="translate(0,1094) scale(1,-1)">Use specified output capacitors</text>
+			<path d="M 95,720 L 95,690 Z" style="stroke: rgb(75%,21%,23%); stroke-linecap: butt; stroke-width: 2;"/>
+			<text x="60" y="727" style="font-family: Helvetica-Bold; font-size: 16px;fill: rgb(75%,21%,23%); stroke:none;" transform="translate(0,1454) scale(1,-1)">VBAT_SYS</text>
+			<path d="M 330,720 L 330,690 Z" style="stroke: rgb(20%,26%,32%); stroke-linecap: butt; stroke-width: 2;"/>
+			<text x="258" y="727" style="font-family: Helvetica-Bold; font-size: 16px;fill: rgb(20%,26%,32%); stroke:none;" transform="translate(0,1454) scale(1,-1)">GND_LOAD</text>
+			<circle cx="375" cy="510" r="4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(75%,21%,23%); fill-rule: evenodd;"/>
+			<text x="387" y="519" style="font-family: Helvetica; font-size: 16px;fill: rgb(75%,21%,23%); stroke:none;" transform="translate(0,1038) scale(1,-1)">3V3</text>
+			<path d="M 375,510 L 755,510 Z" style="stroke: rgb(75%,21%,23%); stroke-linecap: butt; stroke-width: 2;"/>
+			<rect x="755" y="350" width="390" height="370" rx="12" ry="12" style="stroke: rgb(60%,71%,76%); stroke-linecap: butt; stroke-width: 1.5; fill: rgb(92%,96%,97%); fill-rule: evenodd;"/>
+			<text x="775" y="686" style="font-family: Helvetica-Bold; font-size: 21px;fill: rgb(9%,18%,27%); stroke:none;" transform="translate(0,1372) scale(1,-1)">M3 / D1 Mini</text>
+			<text x="775" y="658" style="font-family: Helvetica; font-size: 14px;fill: rgb(31%,39%,47%); stroke:none;" transform="translate(0,1316) scale(1,-1)">Isolate onboard regulator first</text>
+			<circle cx="755" cy="510" r="4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(75%,21%,23%); fill-rule: evenodd;"/>
+			<text x="767" y="519" style="font-family: Helvetica; font-size: 16px;fill: rgb(75%,21%,23%); stroke:none;" transform="translate(0,1038) scale(1,-1)">3V3</text>
+			<text x="778" y="618" style="font-family: Helvetica; font-size: 17px;fill: rgb(31%,39%,47%); stroke:none;" transform="translate(0,1236) scale(1,-1)">5V / USB: disconnected</text>
+			<text x="778" y="593" style="font-family: Helvetica; font-size: 17px;fill: rgb(31%,39%,47%); stroke:none;" transform="translate(0,1186) scale(1,-1)">D6: not fitted</text>
+			<circle cx="1145" cy="510" r="4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(0%,52%,44%); fill-rule: evenodd;"/>
+			<text x="1157" y="519" style="font-family: Helvetica; font-size: 16px;fill: rgb(0%,52%,44%); stroke:none;" transform="translate(0,1038) scale(1,-1)">D0</text>
+			<circle cx="1145" cy="455" r="4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(0%,52%,44%); fill-rule: evenodd;"/>
+			<text x="1157" y="464" style="font-family: Helvetica; font-size: 16px;fill: rgb(0%,52%,44%); stroke:none;" transform="translate(0,928) scale(1,-1)">RST</text>
+			<path d="M 1145,510 L 1220,510 Z" style="stroke: rgb(0%,52%,44%); stroke-linecap: butt; stroke-width: 2;"/>
+			<path d="M 1220,510 L 1220,455 Z" style="stroke: rgb(0%,52%,44%); stroke-linecap: butt; stroke-width: 2;"/>
+			<path d="M 1220,455 L 1145,455 Z" style="stroke: rgb(0%,52%,44%); stroke-linecap: butt; stroke-width: 2;"/>
+			<circle cx="950" cy="350" r="4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(20%,26%,32%); fill-rule: evenodd;"/>
+			<text x="962" y="359" style="font-family: Helvetica; font-size: 16px;fill: rgb(20%,26%,32%); stroke:none;" transform="translate(0,718) scale(1,-1)">G</text>
+			<path d="M 950,350 L 950,305 Z" style="stroke: rgb(20%,26%,32%); stroke-linecap: butt; stroke-width: 2;"/>
+			<path d="M 950,305 L 950,295 Z" style="stroke: rgb(20%,26%,32%); stroke-linecap: butt; stroke-width: 2;"/>
+			<path d="M 936,295 L 964,295 Z" style="stroke: rgb(20%,26%,32%); stroke-linecap: butt; stroke-width: 2;"/>
+			<path d="M 941,289 L 959,289 Z" style="stroke: rgb(20%,26%,32%); stroke-linecap: butt; stroke-width: 2;"/>
+			<path d="M 946,283 L 954,283 Z" style="stroke: rgb(20%,26%,32%); stroke-linecap: butt; stroke-width: 2;"/>
+			<text x="970" y="286" style="font-family: Helvetica; font-size: 14px;fill: rgb(20%,26%,32%); stroke:none;" transform="translate(0,572) scale(1,-1)">GND_LOAD</text>
+			<text x="430" y="734" style="font-family: Helvetica-Bold; font-size: 16px;fill: rgb(75%,21%,23%); stroke:none;" transform="translate(0,1468) scale(1,-1)">VBAT_SYS</text>
+			<path d="M 490,720 L 490,655 Z" style="stroke: rgb(75%,21%,23%); stroke-linecap: butt; stroke-width: 2;"/>
+			<path d="M 490,655 L 490,640 Z" style="stroke: rgb(9%,18%,27%); stroke-linecap: butt; stroke-width: 2;"/>
+			<rect x="482" y="600" width="16" height="40" style="stroke: rgb(9%,18%,27%); stroke-linecap: butt; stroke-width: 1.5; fill: rgb(100%,100%,100%); fill-rule: evenodd;"/>
+			<path d="M 490,600 L 490,585 Z" style="stroke: rgb(9%,18%,27%); stroke-linecap: butt; stroke-width: 2;"/>
+			<text x="507" y="624" style="font-family: Helvetica-Bold; font-size: 16px;fill: rgb(9%,18%,27%); stroke:none;" transform="translate(0,1248) scale(1,-1)">R5</text>
+			<text x="507" y="603" style="font-family: Helvetica; font-size: 15px;fill: rgb(9%,18%,27%); stroke:none;" transform="translate(0,1206) scale(1,-1)">220k</text>
+			<path d="M 490,585 L 490,555 Z" style="stroke: rgb(0%,52%,44%); stroke-linecap: butt; stroke-width: 2;"/>
+			<path d="M 490,555 L 755,555 Z" style="stroke: rgb(0%,52%,44%); stroke-linecap: butt; stroke-width: 2;"/>
+			<circle cx="755" cy="555" r="4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(0%,52%,44%); fill-rule: evenodd;"/>
+			<text x="767" y="564" style="font-family: Helvetica; font-size: 16px;fill: rgb(0%,52%,44%); stroke:none;" transform="translate(0,1128) scale(1,-1)">A0</text>
+			<path d="M 190,430 L 190,402 Z" style="stroke: rgb(75%,21%,23%); stroke-linecap: butt; stroke-width: 2;"/>
+			<path d="M 173,402 L 207,402 Z" style="stroke: rgb(75%,21%,23%); stroke-linecap: butt; stroke-width: 2;"/>
+			<path d="M 173,388 L 207,388 Z" style="stroke: rgb(20%,26%,32%); stroke-linecap: butt; stroke-width: 2;"/>
+			<path d="M 190,388 L 190,360 Z" style="stroke: rgb(20%,26%,32%); stroke-linecap: butt; stroke-width: 2;"/>
+			<text x="214" y="403" style="font-family: Helvetica-Bold; font-size: 15px;fill: rgb(9%,18%,27%); stroke:none;" transform="translate(0,806) scale(1,-1)">C2 470u / 10 V</text>
+			<text x="161" y="409" style="font-family: Helvetica; font-size: 18px;fill: rgb(75%,21%,23%); stroke:none;" transform="translate(0,818) scale(1,-1)">+</text>
+			<text x="110" y="439" style="font-family: Helvetica-Bold; font-size: 16px;fill: rgb(75%,21%,23%); stroke:none;" transform="translate(0,878) scale(1,-1)">VBAT_SYS</text>
+			<path d="M 110,430 L 155,430 Z" style="stroke: rgb(75%,21%,23%); stroke-linecap: butt; stroke-width: 2;"/>
+			<path d="M 155,430 L 190,430 Z" style="stroke: rgb(75%,21%,23%); stroke-linecap: butt; stroke-width: 2;"/>
+			<path d="M 190,360 L 190,350 Z" style="stroke: rgb(20%,26%,32%); stroke-linecap: butt; stroke-width: 2;"/>
+			<path d="M 176,350 L 204,350 Z" style="stroke: rgb(20%,26%,32%); stroke-linecap: butt; stroke-width: 2;"/>
+			<path d="M 181,344 L 199,344 Z" style="stroke: rgb(20%,26%,32%); stroke-linecap: butt; stroke-width: 2;"/>
+			<path d="M 186,338 L 194,338 Z" style="stroke: rgb(20%,26%,32%); stroke-linecap: butt; stroke-width: 2;"/>
+			<text x="210" y="341" style="font-family: Helvetica; font-size: 14px;fill: rgb(20%,26%,32%); stroke:none;" transform="translate(0,682) scale(1,-1)">GND_LOAD</text>
+			<text x="70" y="245" style="font-family: Helvetica-Bold; font-size: 17px;fill: rgb(0%,52%,44%); stroke:none;" transform="translate(0,490) scale(1,-1)">M2 D8</text>
+			<path d="M 70,220 L 220,220 Z" style="stroke: rgb(0%,52%,44%); stroke-linecap: butt; stroke-width: 2;"/>
+			<path d="M 220,220 L 240,220 Z" style="stroke: rgb(0%,52%,44%); stroke-linecap: butt; stroke-width: 2;"/>
+			<rect x="240" y="212" width="60" height="16" style="stroke: rgb(0%,52%,44%); stroke-linecap: butt; stroke-width: 1.5; fill: rgb(100%,100%,100%); fill-rule: evenodd;"/>
+			<path d="M 300,220 L 320,220 Z" style="stroke: rgb(0%,52%,44%); stroke-linecap: butt; stroke-width: 2;"/>
+			<text x="242" y="240" style="font-family: Helvetica-Bold; font-size: 15px;fill: rgb(0%,52%,44%); stroke:none;" transform="translate(0,480) scale(1,-1)">R8 47k</text>
+			<path d="M 320,220 L 445,220 Z" style="stroke: rgb(0%,52%,44%); stroke-linecap: butt; stroke-width: 2;"/>
+			<circle cx="360" cy="220" r="4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(0%,52%,44%); fill-rule: evenodd;"/>
+			<path d="M 360,220 L 360,205 Z" style="stroke: rgb(9%,18%,27%); stroke-linecap: butt; stroke-width: 2;"/>
+			<rect x="352" y="165" width="16" height="40" style="stroke: rgb(9%,18%,27%); stroke-linecap: butt; stroke-width: 1.5; fill: rgb(100%,100%,100%); fill-rule: evenodd;"/>
+			<path d="M 360,165 L 360,150 Z" style="stroke: rgb(9%,18%,27%); stroke-linecap: butt; stroke-width: 2;"/>
+			<text x="377" y="189" style="font-family: Helvetica-Bold; font-size: 16px;fill: rgb(9%,18%,27%); stroke:none;" transform="translate(0,378) scale(1,-1)">R9</text>
+			<text x="377" y="168" style="font-family: Helvetica; font-size: 15px;fill: rgb(9%,18%,27%); stroke:none;" transform="translate(0,336) scale(1,-1)">100k</text>
+			<path d="M 360,145 L 360,135 Z" style="stroke: rgb(20%,26%,32%); stroke-linecap: butt; stroke-width: 2;"/>
+			<path d="M 346,135 L 374,135 Z" style="stroke: rgb(20%,26%,32%); stroke-linecap: butt; stroke-width: 2;"/>
+			<path d="M 351,129 L 369,129 Z" style="stroke: rgb(20%,26%,32%); stroke-linecap: butt; stroke-width: 2;"/>
+			<path d="M 356,123 L 364,123 Z" style="stroke: rgb(20%,26%,32%); stroke-linecap: butt; stroke-width: 2;"/>
+			<text x="380" y="126" style="font-family: Helvetica; font-size: 14px;fill: rgb(20%,26%,32%); stroke:none;" transform="translate(0,252) scale(1,-1)">GND_LOAD</text>
+			<path d="M 360,150 L 360,145 Z" style="stroke: rgb(20%,26%,32%); stroke-linecap: butt; stroke-width: 2;"/>
+			<circle cx="480" cy="220" r="39" style="stroke: rgb(9%,18%,27%); stroke-linecap: butt; stroke-width: 2; fill: none; fill-rule: evenodd;"/>
+			<path d="M 458,242 L 458,198 Z" style="stroke: rgb(9%,18%,27%); stroke-linecap: butt; stroke-width: 3;"/>
+			<path d="M 445,220 L 458,220 Z" style="stroke: rgb(0%,52%,44%); stroke-linecap: butt; stroke-width: 2;"/>
+			<path d="M 458,233 L 500,261 Z" style="stroke: rgb(9%,18%,27%); stroke-linecap: butt; stroke-width: 2;"/>
+			<path d="M 500,261 L 500,285 Z" style="stroke: rgb(9%,18%,27%); stroke-linecap: butt; stroke-width: 2;"/>
+			<path d="M 458,207 L 500,179 Z" style="stroke: rgb(20%,26%,32%); stroke-linecap: butt; stroke-width: 2;"/>
+			<path d="M 500,179 L 500,130 Z" style="stroke: rgb(20%,26%,32%); stroke-linecap: butt; stroke-width: 2;"/>
+			<path d="M 485,196 L 493,183 Z" style="stroke: rgb(20%,26%,32%); stroke-linecap: butt; stroke-width: 2;"/>
+			<path d="M 493,183 L 479,185 Z" style="stroke: rgb(20%,26%,32%); stroke-linecap: butt; stroke-width: 2;"/>
+			<path d="M 500,130 L 500,120 Z" style="stroke: rgb(20%,26%,32%); stroke-linecap: butt; stroke-width: 2;"/>
+			<path d="M 486,120 L 514,120 Z" style="stroke: rgb(20%,26%,32%); stroke-linecap: butt; stroke-width: 2;"/>
+			<path d="M 491,114 L 509,114 Z" style="stroke: rgb(20%,26%,32%); stroke-linecap: butt; stroke-width: 2;"/>
+			<path d="M 496,108 L 504,108 Z" style="stroke: rgb(20%,26%,32%); stroke-linecap: butt; stroke-width: 2;"/>
+			<text x="520" y="111" style="font-family: Helvetica; font-size: 14px;fill: rgb(20%,26%,32%); stroke:none;" transform="translate(0,222) scale(1,-1)">GND_LOAD</text>
+			<text x="552" y="176" style="font-family: Helvetica-Bold; font-size: 17px;fill: rgb(9%,18%,27%); stroke:none;" transform="translate(0,352) scale(1,-1)">Q2 / 2N3904</text>
+			<text x="552" y="153" style="font-family: Helvetica; font-size: 14px;fill: rgb(31%,39%,47%); stroke:none;" transform="translate(0,306) scale(1,-1)">check E/B/C</text>
+			<path d="M 500,285 L 620,285 Z" style="stroke: rgb(0%,52%,44%); stroke-linecap: butt; stroke-width: 2;"/>
+			<circle cx="620" cy="285" r="4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(0%,52%,44%); fill-rule: evenodd;"/>
+			<path d="M 620,285 L 680,285 Z" style="stroke: rgb(0%,52%,44%); stroke-linecap: butt; stroke-width: 2;"/>
+			<path d="M 680,285 L 680,425 Z" style="stroke: rgb(0%,52%,44%); stroke-linecap: butt; stroke-width: 2;"/>
+			<path d="M 680,425 L 755,425 Z" style="stroke: rgb(0%,52%,44%); stroke-linecap: butt; stroke-width: 2;"/>
+			<circle cx="755" cy="425" r="4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(0%,52%,44%); fill-rule: evenodd;"/>
+			<text x="767" y="434" style="font-family: Helvetica; font-size: 16px;fill: rgb(0%,52%,44%); stroke:none;" transform="translate(0,868) scale(1,-1)">D5</text>
+			<path d="M 620,285 L 620,335 Z" style="stroke: rgb(75%,21%,23%); stroke-linecap: butt; stroke-width: 2;"/>
+			<path d="M 620,405 L 620,390 Z" style="stroke: rgb(75%,21%,23%); stroke-linecap: butt; stroke-width: 2;"/>
+			<rect x="612" y="350" width="16" height="40" style="stroke: rgb(75%,21%,23%); stroke-linecap: butt; stroke-width: 1.5; fill: rgb(100%,100%,100%); fill-rule: evenodd;"/>
+			<path d="M 620,350 L 620,335 Z" style="stroke: rgb(75%,21%,23%); stroke-linecap: butt; stroke-width: 2;"/>
+			<text x="637" y="374" style="font-family: Helvetica-Bold; font-size: 16px;fill: rgb(75%,21%,23%); stroke:none;" transform="translate(0,748) scale(1,-1)">R10</text>
+			<text x="637" y="353" style="font-family: Helvetica; font-size: 15px;fill: rgb(75%,21%,23%); stroke:none;" transform="translate(0,706) scale(1,-1)">10k</text>
+			<path d="M 620,405 L 620,445 Z" style="stroke: rgb(75%,21%,23%); stroke-linecap: butt; stroke-width: 2;"/>
+			<text x="582" y="456" style="font-family: Helvetica-Bold; font-size: 16px;fill: rgb(75%,21%,23%); stroke:none;" transform="translate(0,912) scale(1,-1)">ESP 3V3</text>
+			<rect x="830" y="84" width="540" height="151" rx="12" ry="12" style="stroke: rgb(79%,84%,87%); stroke-linecap: butt; stroke-width: 1.5; fill: rgb(94%,96%,97%); fill-rule: evenodd;"/>
+			<text x="848" y="205" style="font-family: Helvetica-Bold; font-size: 18px;fill: rgb(9%,18%,27%); stroke:none;" transform="translate(0,410) scale(1,-1)">Interface behaviour</text>
+			<text x="848" y="179" style="font-family: Helvetica; font-size: 15px;fill: rgb(31%,39%,47%); stroke:none;" transform="translate(0,358) scale(1,-1)">D8 HIGH -&gt; Q2 ON -&gt; D5 LOW -&gt; HA Lights On = true.</text>
+			<text x="848" y="155" style="font-family: Helvetica; font-size: 15px;fill: rgb(31%,39%,47%); stroke:none;" transform="translate(0,310) scale(1,-1)">Collector pulls up only to the ESP supply; YAML is inverted.</text>
+			<text x="848" y="131" style="font-family: Helvetica; font-size: 15px;fill: rgb(31%,39%,47%); stroke:none;" transform="translate(0,262) scale(1,-1)">A0 calculation assumes onboard 220k / 100k resistors.</text>
+			<text x="848" y="107" style="font-family: Helvetica; font-size: 15px;fill: rgb(31%,39%,47%); stroke:none;" transform="translate(0,214) scale(1,-1)">Calibrate actual battery voltage; percentage is approximate.</text>
+			<text x="45" y="67" style="font-family: Helvetica-Bold; font-size: 16px;fill: rgb(67%,38%,0%); stroke:none;" transform="translate(0,134) scale(1,-1)">Disconnect external power AND signal leads before USB/programmer servicing. Never supply the ESP 3V3 pin from the cell directly.</text>
+		</g>
+	</g>
+</svg>
+</div><p class="small"><a href="03-telemetry.svg">Open full-size SVG</a> · <a href="sheet-3.png">PNG preview</a></p></section><section id="s4"><h2>04 / Physical assembly</h2><p>An enclosure placement concept with socketed modules, accessible terminals, protected rails and separation between heat-producing parts and cells. This is not a dimensional template.</p><div class="drawing"><svg width="1440" height="900" preserveAspectRatio="xMinYMin meet" viewBox="0 0 1440 900" xmlns="http://www.w3.org/2000/svg" version="1.0" fill-rule="evenodd" xmlns:xlink="http://www.w3.org/1999/xlink">
+	<title>...</title>
+	<desc>...</desc>
+	<clipPath id="clip">
+		<rect x="0" y="0" width="1440" height="900"/>
+	</clipPath>
+	<g id="group" transform="scale(1,-1) translate(0,-900)" style="clip-path: url(#clip)">
+		<g transform="">
+			<rect x="0" y="0" width="1440" height="900" style="stroke: rgb(100%,100%,100%); stroke-linecap: butt; stroke-width: 1.5; fill: rgb(100%,100%,100%); fill-rule: evenodd;"/>
+			<text x="42" y="862" style="font-family: Helvetica-Bold; font-size: 15px;fill: rgb(0%,52%,44%); stroke:none;" transform="translate(0,1724) scale(1,-1)">SOLARLIGHTS / REBUILD 2026</text>
+			<text x="42" y="820" style="font-family: Helvetica-Bold; font-size: 32px;fill: rgb(9%,18%,27%); stroke:none;" transform="translate(0,1640) scale(1,-1)">What to assemble inside the enclosure</text>
+			<text x="42" y="790" style="font-family: Helvetica; font-size: 16px;fill: rgb(31%,39%,47%); stroke:none;" transform="translate(0,1580) scale(1,-1)">Top-down placement concept, not a drilling template. Use terminal labels and the wire schedule for electrical connections.</text>
+			<path d="M 42,768 L 1398,768 Z" style="stroke: rgb(83%,87%,90%); stroke-linecap: butt; stroke-width: 1;"/>
+			<path d="M 42,50 L 1398,50 Z" style="stroke: rgb(83%,87%,90%); stroke-linecap: butt; stroke-width: 1;"/>
+			<text x="42" y="23" style="font-family: Helvetica-Bold; font-size: 13px;fill: rgb(67%,38%,0%); stroke:none;" transform="translate(0,46) scale(1,-1)">REV 0.4 PROPOSAL  |  19 SEP 2026, AMENDED 27 SEP  |  NOT RELEASED FOR OUTDOOR ASSEMBLY</text>
+			<text x="1175" y="23" style="font-family: Helvetica; font-size: 13px;fill: rgb(31%,39%,47%); stroke:none;" transform="translate(0,46) scale(1,-1)">SHEET 4 OF 5 / A3</text>
+			<rect x="45" y="90" width="915" height="630" rx="26" ry="26" style="stroke: rgb(52%,60%,66%); stroke-linecap: butt; stroke-width: 1.5; fill: rgb(94%,96%,96%); fill-rule: evenodd;"/>
+			<text x="70" y="687" style="font-family: Helvetica-Bold; font-size: 17px;fill: rgb(9%,18%,27%); stroke:none;" transform="translate(0,1374) scale(1,-1)">WEATHERPROOF BOX / SHADED POSITION</text>
+			<rect x="90" y="245" width="615" height="410" rx="10" ry="10" style="stroke: rgb(78%,71%,52%); stroke-linecap: butt; stroke-width: 1.5; fill: rgb(100%,98%,94%); fill-rule: evenodd;"/>
+			<text x="110" y="626" style="font-family: Helvetica-Bold; font-size: 16px;fill: rgb(31%,39%,47%); stroke:none;" transform="translate(0,1252) scale(1,-1)">PERFBOARD / MODULE CARRIER</text>
+			<circle cx="108" cy="605" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="108" cy="583" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="108" cy="561" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="108" cy="539" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="108" cy="517" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="108" cy="495" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="108" cy="473" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="108" cy="451" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="108" cy="429" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="108" cy="407" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="108" cy="385" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="108" cy="363" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="108" cy="341" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="108" cy="319" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="108" cy="297" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="108" cy="275" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="130" cy="605" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="130" cy="583" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="130" cy="561" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="130" cy="539" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="130" cy="517" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="130" cy="495" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="130" cy="473" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="130" cy="451" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="130" cy="429" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="130" cy="407" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="130" cy="385" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="130" cy="363" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="130" cy="341" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="130" cy="319" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="130" cy="297" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="130" cy="275" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="152" cy="605" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="152" cy="583" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="152" cy="561" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="152" cy="539" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="152" cy="517" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="152" cy="495" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="152" cy="473" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="152" cy="451" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="152" cy="429" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="152" cy="407" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="152" cy="385" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="152" cy="363" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="152" cy="341" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="152" cy="319" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="152" cy="297" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="152" cy="275" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="174" cy="605" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="174" cy="583" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="174" cy="561" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="174" cy="539" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="174" cy="517" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="174" cy="495" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="174" cy="473" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="174" cy="451" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="174" cy="429" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="174" cy="407" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="174" cy="385" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="174" cy="363" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="174" cy="341" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="174" cy="319" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="174" cy="297" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="174" cy="275" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="196" cy="605" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="196" cy="583" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="196" cy="561" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="196" cy="539" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="196" cy="517" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="196" cy="495" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="196" cy="473" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="196" cy="451" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="196" cy="429" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="196" cy="407" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="196" cy="385" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="196" cy="363" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="196" cy="341" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="196" cy="319" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="196" cy="297" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="196" cy="275" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="218" cy="605" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="218" cy="583" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="218" cy="561" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="218" cy="539" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="218" cy="517" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="218" cy="495" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="218" cy="473" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="218" cy="451" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="218" cy="429" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="218" cy="407" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="218" cy="385" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="218" cy="363" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="218" cy="341" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="218" cy="319" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="218" cy="297" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="218" cy="275" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="240" cy="605" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="240" cy="583" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="240" cy="561" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="240" cy="539" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="240" cy="517" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="240" cy="495" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="240" cy="473" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="240" cy="451" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="240" cy="429" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="240" cy="407" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="240" cy="385" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="240" cy="363" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="240" cy="341" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="240" cy="319" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="240" cy="297" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="240" cy="275" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="262" cy="605" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="262" cy="583" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="262" cy="561" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="262" cy="539" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="262" cy="517" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="262" cy="495" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="262" cy="473" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="262" cy="451" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="262" cy="429" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="262" cy="407" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="262" cy="385" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="262" cy="363" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="262" cy="341" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="262" cy="319" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="262" cy="297" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="262" cy="275" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="284" cy="605" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="284" cy="583" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="284" cy="561" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="284" cy="539" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="284" cy="517" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="284" cy="495" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="284" cy="473" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="284" cy="451" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="284" cy="429" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="284" cy="407" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="284" cy="385" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="284" cy="363" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="284" cy="341" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="284" cy="319" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="284" cy="297" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="284" cy="275" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="306" cy="605" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="306" cy="583" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="306" cy="561" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="306" cy="539" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="306" cy="517" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="306" cy="495" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="306" cy="473" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="306" cy="451" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="306" cy="429" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="306" cy="407" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="306" cy="385" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="306" cy="363" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="306" cy="341" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="306" cy="319" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="306" cy="297" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="306" cy="275" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="328" cy="605" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="328" cy="583" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="328" cy="561" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="328" cy="539" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="328" cy="517" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="328" cy="495" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="328" cy="473" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="328" cy="451" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="328" cy="429" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="328" cy="407" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="328" cy="385" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="328" cy="363" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="328" cy="341" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="328" cy="319" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="328" cy="297" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="328" cy="275" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="350" cy="605" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="350" cy="583" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="350" cy="561" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="350" cy="539" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="350" cy="517" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="350" cy="495" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="350" cy="473" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="350" cy="451" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="350" cy="429" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="350" cy="407" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="350" cy="385" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="350" cy="363" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="350" cy="341" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="350" cy="319" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="350" cy="297" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="350" cy="275" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="372" cy="605" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="372" cy="583" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="372" cy="561" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="372" cy="539" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="372" cy="517" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="372" cy="495" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="372" cy="473" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="372" cy="451" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="372" cy="429" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="372" cy="407" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="372" cy="385" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="372" cy="363" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="372" cy="341" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="372" cy="319" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="372" cy="297" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="372" cy="275" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="394" cy="605" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="394" cy="583" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="394" cy="561" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="394" cy="539" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="394" cy="517" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="394" cy="495" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="394" cy="473" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="394" cy="451" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="394" cy="429" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="394" cy="407" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="394" cy="385" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="394" cy="363" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="394" cy="341" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="394" cy="319" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="394" cy="297" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="394" cy="275" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="416" cy="605" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="416" cy="583" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="416" cy="561" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="416" cy="539" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="416" cy="517" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="416" cy="495" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="416" cy="473" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="416" cy="451" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="416" cy="429" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="416" cy="407" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="416" cy="385" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="416" cy="363" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="416" cy="341" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="416" cy="319" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="416" cy="297" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="416" cy="275" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="438" cy="605" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="438" cy="583" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="438" cy="561" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="438" cy="539" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="438" cy="517" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="438" cy="495" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="438" cy="473" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="438" cy="451" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="438" cy="429" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="438" cy="407" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="438" cy="385" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="438" cy="363" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="438" cy="341" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="438" cy="319" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="438" cy="297" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="438" cy="275" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="460" cy="605" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="460" cy="583" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="460" cy="561" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="460" cy="539" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="460" cy="517" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="460" cy="495" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="460" cy="473" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="460" cy="451" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="460" cy="429" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="460" cy="407" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="460" cy="385" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="460" cy="363" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="460" cy="341" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="460" cy="319" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="460" cy="297" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="460" cy="275" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="482" cy="605" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="482" cy="583" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="482" cy="561" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="482" cy="539" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="482" cy="517" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="482" cy="495" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="482" cy="473" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="482" cy="451" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="482" cy="429" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="482" cy="407" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="482" cy="385" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="482" cy="363" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="482" cy="341" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="482" cy="319" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="482" cy="297" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="482" cy="275" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="504" cy="605" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="504" cy="583" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="504" cy="561" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="504" cy="539" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="504" cy="517" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="504" cy="495" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="504" cy="473" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="504" cy="451" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="504" cy="429" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="504" cy="407" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="504" cy="385" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="504" cy="363" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="504" cy="341" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="504" cy="319" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="504" cy="297" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="504" cy="275" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="526" cy="605" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="526" cy="583" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="526" cy="561" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="526" cy="539" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="526" cy="517" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="526" cy="495" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="526" cy="473" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="526" cy="451" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="526" cy="429" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="526" cy="407" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="526" cy="385" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="526" cy="363" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="526" cy="341" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="526" cy="319" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="526" cy="297" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="526" cy="275" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="548" cy="605" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="548" cy="583" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="548" cy="561" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="548" cy="539" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="548" cy="517" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="548" cy="495" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="548" cy="473" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="548" cy="451" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="548" cy="429" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="548" cy="407" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="548" cy="385" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="548" cy="363" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="548" cy="341" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="548" cy="319" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="548" cy="297" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="548" cy="275" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="570" cy="605" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="570" cy="583" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="570" cy="561" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="570" cy="539" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="570" cy="517" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="570" cy="495" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="570" cy="473" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="570" cy="451" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="570" cy="429" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="570" cy="407" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="570" cy="385" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="570" cy="363" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="570" cy="341" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="570" cy="319" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="570" cy="297" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="570" cy="275" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="592" cy="605" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="592" cy="583" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="592" cy="561" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="592" cy="539" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="592" cy="517" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="592" cy="495" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="592" cy="473" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="592" cy="451" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="592" cy="429" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="592" cy="407" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="592" cy="385" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="592" cy="363" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="592" cy="341" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="592" cy="319" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="592" cy="297" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="592" cy="275" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="614" cy="605" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="614" cy="583" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="614" cy="561" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="614" cy="539" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="614" cy="517" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="614" cy="495" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="614" cy="473" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="614" cy="451" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="614" cy="429" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="614" cy="407" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="614" cy="385" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="614" cy="363" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="614" cy="341" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="614" cy="319" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="614" cy="297" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="614" cy="275" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="636" cy="605" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="636" cy="583" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="636" cy="561" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="636" cy="539" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="636" cy="517" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="636" cy="495" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="636" cy="473" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="636" cy="451" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="636" cy="429" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="636" cy="407" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="636" cy="385" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="636" cy="363" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="636" cy="341" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="636" cy="319" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="636" cy="297" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="636" cy="275" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="658" cy="605" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="658" cy="583" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="658" cy="561" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="658" cy="539" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="658" cy="517" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="658" cy="495" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="658" cy="473" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="658" cy="451" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="658" cy="429" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="658" cy="407" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="658" cy="385" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="658" cy="363" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="658" cy="341" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="658" cy="319" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="658" cy="297" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="658" cy="275" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="680" cy="605" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="680" cy="583" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="680" cy="561" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="680" cy="539" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="680" cy="517" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="680" cy="495" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="680" cy="473" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="680" cy="451" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="680" cy="429" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="680" cy="407" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="680" cy="385" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="680" cy="363" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="680" cy="341" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="680" cy="319" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="680" cy="297" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<circle cx="680" cy="275" r="1.4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,82%,71%); fill-rule: evenodd;"/>
+			<rect x="115" y="485" width="210" height="100" rx="12" ry="12" style="stroke: rgb(83%,63%,30%); stroke-linecap: butt; stroke-width: 1.5; fill: rgb(100%,97%,91%); fill-rule: evenodd;"/>
+			<text x="135" y="551" style="font-family: Helvetica-Bold; font-size: 21px;fill: rgb(67%,38%,0%); stroke:none;" transform="translate(0,1102) scale(1,-1)">U0 / input 5 V</text>
+			<text x="135" y="523" style="font-family: Helvetica; font-size: 14px;fill: rgb(31%,39%,47%); stroke:none;" transform="translate(0,1046) scale(1,-1)">Selected after bench test</text>
+			<rect x="115" y="310" width="210" height="120" rx="12" ry="12" style="stroke: rgb(60%,71%,76%); stroke-linecap: butt; stroke-width: 1.5; fill: rgb(92%,96%,97%); fill-rule: evenodd;"/>
+			<text x="135" y="396" style="font-family: Helvetica-Bold; font-size: 21px;fill: rgb(9%,18%,27%); stroke:none;" transform="translate(0,792) scale(1,-1)">M1 / charger</text>
+			<text x="135" y="368" style="font-family: Helvetica; font-size: 14px;fill: rgb(31%,39%,47%); stroke:none;" transform="translate(0,736) scale(1,-1)">IN / B / OUT labelled</text>
+			<rect x="425" y="465" width="230" height="115" rx="12" ry="12" style="stroke: rgb(60%,71%,76%); stroke-linecap: butt; stroke-width: 1.5; fill: rgb(92%,96%,97%); fill-rule: evenodd;"/>
+			<text x="445" y="546" style="font-family: Helvetica-Bold; font-size: 21px;fill: rgb(9%,18%,27%); stroke:none;" transform="translate(0,1092) scale(1,-1)">M2 / Pro Mini</text>
+			<text x="445" y="518" style="font-family: Helvetica; font-size: 14px;fill: rgb(31%,39%,47%); stroke:none;" transform="translate(0,1036) scale(1,-1)">8 MHz; sockets; ISP access</text>
+			<rect x="425" y="290" width="230" height="115" rx="12" ry="12" style="stroke: rgb(60%,71%,76%); stroke-linecap: butt; stroke-width: 1.5; fill: rgb(92%,96%,97%); fill-rule: evenodd;"/>
+			<text x="445" y="371" style="font-family: Helvetica-Bold; font-size: 21px;fill: rgb(9%,18%,27%); stroke:none;" transform="translate(0,742) scale(1,-1)">LED driver</text>
+			<text x="445" y="343" style="font-family: Helvetica; font-size: 14px;fill: rgb(31%,39%,47%); stroke:none;" transform="translate(0,686) scale(1,-1)">R3 only - D9 direct</text>
+			<path d="M 368,600 L 368,285 Z" style="stroke: rgb(75%,21%,23%); stroke-linecap: butt; stroke-width: 6;"/>
+			<path d="M 390,600 L 390,285 Z" style="stroke: rgb(20%,26%,32%); stroke-linecap: butt; stroke-width: 6;"/>
+			<text x="345" y="611" style="font-family: Helvetica-Bold; font-size: 18px;fill: rgb(9%,18%,27%); stroke:none;" transform="translate(0,1222) scale(1,-1)">+    -</text>
+			<path d="M 325,400 L 368,400 Z" style="stroke: rgb(75%,21%,23%); stroke-linecap: butt; stroke-width: 3;"/>
+			<path d="M 325,350 L 390,350 Z" style="stroke: rgb(20%,26%,32%); stroke-linecap: butt; stroke-width: 3;"/>
+			<text x="334" y="250" style="font-family: Helvetica-Bold; font-size: 16px;fill: rgb(9%,18%,27%); stroke:none;" transform="translate(0,500) scale(1,-1)">Protected rails</text>
+			<path d="M 368,550 L 425,550 Z" style="stroke: rgb(75%,21%,23%); stroke-linecap: butt; stroke-width: 3;"/>
+			<path d="M 390,505 L 425,505 Z" style="stroke: rgb(20%,26%,32%); stroke-linecap: butt; stroke-width: 3;"/>
+			<path d="M 368,380 L 425,380 Z" style="stroke: rgb(75%,21%,23%); stroke-linecap: butt; stroke-width: 3;"/>
+			<path d="M 390,330 L 425,330 Z" style="stroke: rgb(20%,26%,32%); stroke-linecap: butt; stroke-width: 3;"/>
+			<rect x="745" y="495" width="175" height="130" rx="12" ry="12" style="stroke: rgb(83%,63%,30%); stroke-linecap: butt; stroke-width: 1.5; fill: rgb(100%,97%,91%); fill-rule: evenodd;"/>
+			<text x="765" y="591" style="font-family: Helvetica-Bold; font-size: 21px;fill: rgb(67%,38%,0%); stroke:none;" transform="translate(0,1182) scale(1,-1)">U3 / 3V3</text>
+			<text x="765" y="563" style="font-family: Helvetica; font-size: 14px;fill: rgb(31%,39%,47%); stroke:none;" transform="translate(0,1126) scale(1,-1)">Optional</text>
+			<rect x="745" y="280" width="175" height="150" rx="12" ry="12" style="stroke: rgb(60%,71%,76%); stroke-linecap: butt; stroke-width: 1.5; fill: rgb(92%,96%,97%); fill-rule: evenodd;"/>
+			<text x="765" y="396" style="font-family: Helvetica-Bold; font-size: 21px;fill: rgb(9%,18%,27%); stroke:none;" transform="translate(0,792) scale(1,-1)">M3 / D1</text>
+			<text x="765" y="368" style="font-family: Helvetica; font-size: 14px;fill: rgb(31%,39%,47%); stroke:none;" transform="translate(0,736) scale(1,-1)">Sockets / service</text>
+			<rect x="760" y="294" width="145" height="28" rx="2" ry="2" style="stroke: rgb(60%,71%,76%); stroke-linecap: butt; stroke-width: 1.5; fill: rgb(78%,87%,92%); fill-rule: evenodd;"/>
+			<text x="774" y="302" style="font-family: Helvetica-Bold; font-size: 14px;fill: rgb(9%,43%,69%); stroke:none;" transform="translate(0,604) scale(1,-1)">ANTENNA</text>
+			<text x="745" y="250" style="font-family: Helvetica-Bold; font-size: 16px;fill: rgb(9%,43%,69%); stroke:none;" transform="translate(0,500) scale(1,-1)">Keep antenna clear</text>
+			<rect x="110" y="133" width="260" height="72" rx="30" ry="30" style="stroke: rgb(50%,65%,53%); stroke-linecap: butt; stroke-width: 1.5; fill: rgb(84%,90%,85%); fill-rule: evenodd;"/>
+			<rect x="357" y="155" width="18" height="30" rx="3" ry="3" style="stroke: rgb(50%,65%,53%); stroke-linecap: butt; stroke-width: 1.5; fill: rgb(84%,90%,85%); fill-rule: evenodd;"/>
+			<text x="130" y="161" style="font-family: Helvetica-Bold; font-size: 18px;fill: rgb(9%,18%,27%); stroke:none;" transform="translate(0,322) scale(1,-1)">BT1 / 18650   -      +</text>
+			<rect x="420" y="133" width="260" height="72" rx="30" ry="30" style="stroke: rgb(50%,65%,53%); stroke-linecap: butt; stroke-width: 1.5; fill: rgb(84%,90%,85%); fill-rule: evenodd;"/>
+			<rect x="667" y="155" width="18" height="30" rx="3" ry="3" style="stroke: rgb(50%,65%,53%); stroke-linecap: butt; stroke-width: 1.5; fill: rgb(84%,90%,85%); fill-rule: evenodd;"/>
+			<text x="440" y="161" style="font-family: Helvetica-Bold; font-size: 18px;fill: rgb(9%,18%,27%); stroke:none;" transform="translate(0,322) scale(1,-1)">BT2 / 18650   -      +</text>
+			<text x="110" y="108" style="font-family: Helvetica; font-size: 15px;fill: rgb(31%,39%,47%); stroke:none;" transform="translate(0,216) scale(1,-1)">Insulated parallel holder; fuse each + lead; separate cells from heat.</text>
+			<rect x="190" y="701" width="95" height="36" rx="6" ry="6" style="stroke: rgb(52%,60%,66%); stroke-linecap: butt; stroke-width: 1.5; fill: rgb(89%,91%,94%); fill-rule: evenodd;"/>
+			<text x="202" y="715" style="font-family: Helvetica-Bold; font-size: 13px;fill: rgb(9%,18%,27%); stroke:none;" transform="translate(0,1430) scale(1,-1)">PANEL</text>
+			<rect x="530" y="701" width="95" height="36" rx="6" ry="6" style="stroke: rgb(52%,60%,66%); stroke-linecap: butt; stroke-width: 1.5; fill: rgb(89%,91%,94%); fill-rule: evenodd;"/>
+			<text x="542" y="715" style="font-family: Helvetica-Bold; font-size: 13px;fill: rgb(9%,18%,27%); stroke:none;" transform="translate(0,1430) scale(1,-1)">LIGHTS</text>
+			<rect x="820" y="701" width="95" height="36" rx="6" ry="6" style="stroke: rgb(52%,60%,66%); stroke-linecap: butt; stroke-width: 1.5; fill: rgb(89%,91%,94%); fill-rule: evenodd;"/>
+			<text x="832" y="715" style="font-family: Helvetica-Bold; font-size: 13px;fill: rgb(9%,18%,27%); stroke:none;" transform="translate(0,1430) scale(1,-1)">LDR</text>
+			<rect x="995" y="521" width="398" height="199" rx="12" ry="12" style="stroke: rgb(79%,84%,87%); stroke-linecap: butt; stroke-width: 1.5; fill: rgb(94%,96%,97%); fill-rule: evenodd;"/>
+			<text x="1013" y="690" style="font-family: Helvetica-Bold; font-size: 18px;fill: rgb(9%,18%,27%); stroke:none;" transform="translate(0,1380) scale(1,-1)">Build in this order</text>
+			<text x="1013" y="664" style="font-family: Helvetica; font-size: 15px;fill: rgb(31%,39%,47%); stroke:none;" transform="translate(0,1328) scale(1,-1)">1  Qualify panel regulator + charger.</text>
+			<text x="1013" y="640" style="font-family: Helvetica; font-size: 15px;fill: rgb(31%,39%,47%); stroke:none;" transform="translate(0,1280) scale(1,-1)">2  Convert and test the Pro Mini.</text>
+			<text x="1013" y="616" style="font-family: Helvetica; font-size: 15px;fill: rgb(31%,39%,47%); stroke:none;" transform="translate(0,1232) scale(1,-1)">3  Add R3 (47R) and light string - no MOSFET.</text>
+			<text x="1013" y="592" style="font-family: Helvetica; font-size: 15px;fill: rgb(31%,39%,47%); stroke:none;" transform="translate(0,1184) scale(1,-1)">4  Add LDR; check dusk/dawn + LVC.</text>
+			<text x="1013" y="568" style="font-family: Helvetica; font-size: 15px;fill: rgb(31%,39%,47%); stroke:none;" transform="translate(0,1136) scale(1,-1)">5  Assemble the protected, fused pack.</text>
+			<text x="1013" y="544" style="font-family: Helvetica; font-size: 15px;fill: rgb(31%,39%,47%); stroke:none;" transform="translate(0,1088) scale(1,-1)">6  Add optional telemetry and measure.</text>
+			<rect x="995" y="305" width="398" height="175" rx="12" ry="12" style="stroke: rgb(79%,84%,87%); stroke-linecap: butt; stroke-width: 1.5; fill: rgb(94%,96%,97%); fill-rule: evenodd;"/>
+			<text x="1013" y="450" style="font-family: Helvetica-Bold; font-size: 18px;fill: rgb(9%,18%,27%); stroke:none;" transform="translate(0,900) scale(1,-1)">Label every connector</text>
+			<text x="1013" y="424" style="font-family: Helvetica; font-size: 15px;fill: rgb(31%,39%,47%); stroke:none;" transform="translate(0,848) scale(1,-1)">RED: protected positive / VBAT_SYS</text>
+			<text x="1013" y="400" style="font-family: Helvetica; font-size: 15px;fill: rgb(31%,39%,47%); stroke:none;" transform="translate(0,800) scale(1,-1)">BLACK: load return / OUT-</text>
+			<text x="1013" y="376" style="font-family: Helvetica; font-size: 15px;fill: rgb(31%,39%,47%); stroke:none;" transform="translate(0,752) scale(1,-1)">BLUE: panel input pair</text>
+			<text x="1013" y="352" style="font-family: Helvetica; font-size: 15px;fill: rgb(31%,39%,47%); stroke:none;" transform="translate(0,704) scale(1,-1)">PURPLE: battery-only connections</text>
+			<text x="1013" y="328" style="font-family: Helvetica; font-size: 15px;fill: rgb(31%,39%,47%); stroke:none;" transform="translate(0,656) scale(1,-1)">GREEN: logic / sensor signals</text>
+			<rect x="995" y="112" width="398" height="151" rx="12" ry="12" style="stroke: rgb(79%,84%,87%); stroke-linecap: butt; stroke-width: 1.5; fill: rgb(100%,97%,91%); fill-rule: evenodd;"/>
+			<text x="1013" y="233" style="font-family: Helvetica-Bold; font-size: 18px;fill: rgb(67%,38%,0%); stroke:none;" transform="translate(0,466) scale(1,-1)">Before closing the lid</text>
+			<text x="1013" y="207" style="font-family: Helvetica; font-size: 15px;fill: rgb(31%,39%,47%); stroke:none;" transform="translate(0,414) scale(1,-1)">Strain relief, polarity, cell insulation.</text>
+			<text x="1013" y="183" style="font-family: Helvetica; font-size: 15px;fill: rgb(31%,39%,47%); stroke:none;" transform="translate(0,366) scale(1,-1)">No exposed underside copper.</text>
+			<text x="1013" y="159" style="font-family: Helvetica; font-size: 15px;fill: rgb(31%,39%,47%); stroke:none;" transform="translate(0,318) scale(1,-1)">Charger/cell temperature tests passed.</text>
+			<text x="1013" y="135" style="font-family: Helvetica; font-size: 15px;fill: rgb(31%,39%,47%); stroke:none;" transform="translate(0,270) scale(1,-1)">Log charge, load and actual brightness.</text>
+		</g>
+	</g>
+</svg>
+</div><p class="small"><a href="04-assembly.svg">Open full-size SVG</a> · <a href="sheet-4.png">PNG preview</a></p></section><section id="staging"><h2>05 / Staged testing and serial diagnostics</h2>
+<p class="lede"><b>Stop and test after every stage.</b> Do not assemble the complete battery, charger, solar input and controller and then apply power for the first time. Each row below is an acceptance gate: proceed only after the measured result passes.</p>
+<div class="danger"><b>Never connect two positive power sources to the Pro Mini.</b> Once the protected battery rail supplies VCC, remove the USB–UART adapter's VCC/3V3/5V lead. For serial monitoring use only adapter RX, adapter GND and USB power to the adapter.</div>
+<div class="drawing"><svg width="1440" height="900" preserveAspectRatio="xMinYMin meet" viewBox="0 0 1440 900" xmlns="http://www.w3.org/2000/svg" version="1.0" fill-rule="evenodd" xmlns:xlink="http://www.w3.org/1999/xlink">
+	<title>...</title>
+	<desc>...</desc>
+	<clipPath id="clip">
+		<rect x="0" y="0" width="1440" height="900"/>
+	</clipPath>
+	<g id="group" transform="scale(1,-1) translate(0,-900)" style="clip-path: url(#clip)">
+		<g transform="">
+			<rect x="0" y="0" width="1440" height="900" style="stroke: rgb(100%,100%,100%); stroke-linecap: butt; stroke-width: 1.5; fill: rgb(100%,100%,100%); fill-rule: evenodd;"/>
+			<text x="42" y="862" style="font-family: Helvetica-Bold; font-size: 15px;fill: rgb(0%,52%,44%); stroke:none;" transform="translate(0,1724) scale(1,-1)">SOLARLIGHTS / REBUILD 2026</text>
+			<text x="42" y="820" style="font-family: Helvetica-Bold; font-size: 32px;fill: rgb(9%,18%,27%); stroke:none;" transform="translate(0,1640) scale(1,-1)">Staged power-up &amp; serial diagnostics</text>
+			<text x="42" y="790" style="font-family: Helvetica; font-size: 16px;fill: rgb(31%,39%,47%); stroke:none;" transform="translate(0,1580) scale(1,-1)">Battery powers the controller. The USB-UART listens only: connect RX and GND; leave its power and control pins open.</text>
+			<path d="M 42,768 L 1398,768 Z" style="stroke: rgb(83%,87%,90%); stroke-linecap: butt; stroke-width: 1;"/>
+			<path d="M 42,50 L 1398,50 Z" style="stroke: rgb(83%,87%,90%); stroke-linecap: butt; stroke-width: 1;"/>
+			<text x="42" y="23" style="font-family: Helvetica-Bold; font-size: 13px;fill: rgb(67%,38%,0%); stroke:none;" transform="translate(0,46) scale(1,-1)">REV 0.4 PROPOSAL  |  19 SEP 2026, AMENDED 27 SEP  |  NOT RELEASED FOR OUTDOOR ASSEMBLY</text>
+			<text x="1175" y="23" style="font-family: Helvetica; font-size: 13px;fill: rgb(31%,39%,47%); stroke:none;" transform="translate(0,46) scale(1,-1)">SHEET 5 OF 5 / A3</text>
+			<rect x="45" y="410" width="285" height="300" rx="12" ry="12" style="stroke: rgb(60%,71%,76%); stroke-linecap: butt; stroke-width: 1.5; fill: rgb(92%,96%,97%); fill-rule: evenodd;"/>
+			<text x="65" y="676" style="font-family: Helvetica-Bold; font-size: 21px;fill: rgb(9%,18%,27%); stroke:none;" transform="translate(0,1352) scale(1,-1)">M1 / protected 4056</text>
+			<text x="65" y="648" style="font-family: Helvetica; font-size: 14px;fill: rgb(31%,39%,47%); stroke:none;" transform="translate(0,1296) scale(1,-1)">Read pad labels, not positions</text>
+			<text x="65" y="628" style="font-family: Helvetica; font-size: 15px;fill: rgb(31%,39%,47%); stroke:none;" transform="translate(0,1256) scale(1,-1)">Cell connects to B+ / B-</text>
+			<text x="65" y="605" style="font-family: Helvetica; font-size: 15px;fill: rgb(31%,39%,47%); stroke:none;" transform="translate(0,1210) scale(1,-1)">Load uses OUT+ / OUT-</text>
+			<text x="65" y="582" style="font-family: Helvetica; font-size: 15px;fill: rgb(31%,39%,47%); stroke:none;" transform="translate(0,1164) scale(1,-1)">Never bridge B- to OUT-</text>
+			<circle cx="330" cy="615" r="4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(75%,21%,23%); fill-rule: evenodd;"/>
+			<text x="342" y="624" style="font-family: Helvetica; font-size: 16px;fill: rgb(75%,21%,23%); stroke:none;" transform="translate(0,1248) scale(1,-1)">OUT+</text>
+			<circle cx="330" cy="480" r="4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(20%,26%,32%); fill-rule: evenodd;"/>
+			<text x="342" y="489" style="font-family: Helvetica; font-size: 16px;fill: rgb(20%,26%,32%); stroke:none;" transform="translate(0,978) scale(1,-1)">OUT-</text>
+			<circle cx="110" cy="410" r="4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(47%,29%,69%); fill-rule: evenodd;"/>
+			<text x="122" y="419" style="font-family: Helvetica; font-size: 16px;fill: rgb(47%,29%,69%); stroke:none;" transform="translate(0,838) scale(1,-1)">B+</text>
+			<circle cx="260" cy="410" r="4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(47%,29%,69%); fill-rule: evenodd;"/>
+			<text x="272" y="419" style="font-family: Helvetica; font-size: 16px;fill: rgb(47%,29%,69%); stroke:none;" transform="translate(0,838) scale(1,-1)">B-</text>
+			<path d="M 350,615 L 370,615 Z" style="stroke: rgb(9%,18%,27%); stroke-linecap: butt; stroke-width: 2;"/>
+			<rect x="370" y="607" width="60" height="16" style="stroke: rgb(9%,18%,27%); stroke-linecap: butt; stroke-width: 1.5; fill: rgb(100%,100%,100%); fill-rule: evenodd;"/>
+			<path d="M 430,615 L 450,615 Z" style="stroke: rgb(9%,18%,27%); stroke-linecap: butt; stroke-width: 2;"/>
+			<text x="372" y="635" style="font-family: Helvetica-Bold; font-size: 15px;fill: rgb(9%,18%,27%); stroke:none;" transform="translate(0,1270) scale(1,-1)">F2 1 A</text>
+			<path d="M 330,615 L 350,615 Z" style="stroke: rgb(75%,21%,23%); stroke-linecap: butt; stroke-width: 2;"/>
+			<path d="M 450,615 L 485,615 Z" style="stroke: rgb(75%,21%,23%); stroke-linecap: butt; stroke-width: 2;"/>
+			<path d="M 485,615 L 515,635 Z" style="stroke: rgb(75%,21%,23%); stroke-linecap: butt; stroke-width: 2;"/>
+			<circle cx="485" cy="615" r="4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(75%,21%,23%); fill-rule: evenodd;"/>
+			<circle cx="530" cy="615" r="4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(75%,21%,23%); fill-rule: evenodd;"/>
+			<text x="472" y="662" style="font-family: Helvetica-Bold; font-size: 15px;fill: rgb(9%,18%,27%); stroke:none;" transform="translate(0,1324) scale(1,-1)">S1</text>
+			<text x="450" y="642" style="font-family: Helvetica; font-size: 13px;fill: rgb(31%,39%,47%); stroke:none;" transform="translate(0,1284) scale(1,-1)">service switch</text>
+			<rect x="530" y="410" width="285" height="300" rx="12" ry="12" style="stroke: rgb(60%,71%,76%); stroke-linecap: butt; stroke-width: 1.5; fill: rgb(92%,96%,97%); fill-rule: evenodd;"/>
+			<text x="550" y="676" style="font-family: Helvetica-Bold; font-size: 21px;fill: rgb(9%,18%,27%); stroke:none;" transform="translate(0,1352) scale(1,-1)">M2 / BTE13-010A</text>
+			<text x="550" y="648" style="font-family: Helvetica; font-size: 14px;fill: rgb(31%,39%,47%); stroke:none;" transform="translate(0,1296) scale(1,-1)">internal 8 MHz / debug build</text>
+			<path d="M 530,615 L 530,615 Z" style="stroke: rgb(75%,21%,23%); stroke-linecap: butt; stroke-width: 2;"/>
+			<path d="M 530,615 L 565,615 Z" style="stroke: rgb(75%,21%,23%); stroke-linecap: butt; stroke-width: 2;"/>
+			<circle cx="565" cy="615" r="4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(75%,21%,23%); fill-rule: evenodd;"/>
+			<text x="577" y="624" style="font-family: Helvetica; font-size: 16px;fill: rgb(75%,21%,23%); stroke:none;" transform="translate(0,1248) scale(1,-1)">VCC</text>
+			<circle cx="565" cy="480" r="4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(20%,26%,32%); fill-rule: evenodd;"/>
+			<text x="577" y="489" style="font-family: Helvetica; font-size: 16px;fill: rgb(20%,26%,32%); stroke:none;" transform="translate(0,978) scale(1,-1)">GND</text>
+			<path d="M 330,480 L 565,480 Z" style="stroke: rgb(20%,26%,32%); stroke-linecap: butt; stroke-width: 2;"/>
+			<circle cx="815" cy="565" r="4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(0%,52%,44%); fill-rule: evenodd;"/>
+			<text x="760" y="559" style="font-family: Helvetica-Bold; font-size: 16px;fill: rgb(0%,52%,44%); stroke:none;" transform="translate(0,1118) scale(1,-1)">TX</text>
+			<circle cx="815" cy="525" r="4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(31%,39%,47%); fill-rule: evenodd;"/>
+			<text x="700" y="519" style="font-family: Helvetica-Bold; font-size: 16px;fill: rgb(31%,39%,47%); stroke:none;" transform="translate(0,1038) scale(1,-1)">RX: OPEN</text>
+			<text x="585" y="445" style="font-family: Helvetica-Bold; font-size: 15px;fill: rgb(67%,38%,0%); stroke:none;" transform="translate(0,890) scale(1,-1)">RAW: OPEN</text>
+			<path d="M 558,454 L 572,440 Z" style="stroke: rgb(67%,38%,0%); stroke-linecap: butt; stroke-width: 2;"/>
+			<path d="M 558,440 L 572,454 Z" style="stroke: rgb(67%,38%,0%); stroke-linecap: butt; stroke-width: 2;"/>
+			<rect x="65" y="265" width="245" height="80" rx="35" ry="35" style="stroke: rgb(50%,65%,53%); stroke-linecap: butt; stroke-width: 1.5; fill: rgb(84%,90%,85%); fill-rule: evenodd;"/>
+			<text x="87" y="310" style="font-family: Helvetica-Bold; font-size: 17px;fill: rgb(9%,18%,27%); stroke:none;" transform="translate(0,620) scale(1,-1)">BT1 / one suitable 1S cell</text>
+			<text x="89" y="283" style="font-family: Helvetica-Bold; font-size: 17px;fill: rgb(47%,29%,69%); stroke:none;" transform="translate(0,566) scale(1,-1)">-                         +</text>
+			<path d="M 110,410 L 110,370 Z" style="stroke: rgb(47%,29%,69%); stroke-linecap: butt; stroke-width: 2;"/>
+			<path d="M 110,370 L 275,370 Z" style="stroke: rgb(47%,29%,69%); stroke-linecap: butt; stroke-width: 2;"/>
+			<path d="M 275,370 L 275,345 Z" style="stroke: rgb(47%,29%,69%); stroke-linecap: butt; stroke-width: 2;"/>
+			<path d="M 260,410 L 260,385 Z" style="stroke: rgb(47%,29%,69%); stroke-linecap: butt; stroke-width: 2;"/>
+			<path d="M 260,385 L 95,385 Z" style="stroke: rgb(47%,29%,69%); stroke-linecap: butt; stroke-width: 2;"/>
+			<path d="M 95,385 L 95,345 Z" style="stroke: rgb(47%,29%,69%); stroke-linecap: butt; stroke-width: 2;"/>
+			<text x="45" y="232" style="font-family: Helvetica-Bold; font-size: 18px;fill: rgb(9%,18%,27%); stroke:none;" transform="translate(0,464) scale(1,-1)">Before closing S1</text>
+			<text x="45" y="204" style="font-family: Helvetica; font-size: 15px;fill: rgb(31%,39%,47%); stroke:none;" transform="translate(0,408) scale(1,-1)">1  Meter OUT+ to OUT-: polarity correct.</text>
+			<text x="45" y="181" style="font-family: Helvetica; font-size: 15px;fill: rgb(31%,39%,47%); stroke:none;" transform="translate(0,362) scale(1,-1)">2  Expect approximately the cell voltage.</text>
+			<text x="45" y="158" style="font-family: Helvetica; font-size: 15px;fill: rgb(31%,39%,47%); stroke:none;" transform="translate(0,316) scale(1,-1)">3  UART power lead already removed.</text>
+			<text x="45" y="135" style="font-family: Helvetica; font-size: 15px;fill: rgb(31%,39%,47%); stroke:none;" transform="translate(0,270) scale(1,-1)">4  Close S1; compare serial vdd with meter.</text>
+			<rect x="905" y="290" width="465" height="430" rx="12" ry="12" style="stroke: rgb(0%,52%,44%); stroke-linecap: butt; stroke-width: 1.5; fill: rgb(90%,95%,93%); fill-rule: evenodd;"/>
+			<text x="930" y="686" style="font-family: Helvetica-Bold; font-size: 20px;fill: rgb(0%,52%,44%); stroke:none;" transform="translate(0,1372) scale(1,-1)">USB-UART / EZSBC-style board</text>
+			<text x="930" y="660" style="font-family: Helvetica; font-size: 14px;fill: rgb(31%,39%,47%); stroke:none;" transform="translate(0,1320) scale(1,-1)">Pin order copied from the supplied photo</text>
+			<rect x="870" y="435" width="95" height="155" rx="5" ry="5" style="stroke: rgb(46%,54%,58%); stroke-linecap: butt; stroke-width: 1.5; fill: rgb(86%,89%,91%); fill-rule: evenodd;"/>
+			<rect x="852" y="465" width="38" height="95" rx="3" ry="3" style="stroke: rgb(46%,54%,58%); stroke-linecap: butt; stroke-width: 1.5; fill: rgb(93%,94%,95%); fill-rule: evenodd;"/>
+			<text x="876" y="410" style="font-family: Helvetica-Bold; font-size: 15px;fill: rgb(31%,39%,47%); stroke:none;" transform="translate(0,820) scale(1,-1)">USB</text>
+			<rect x="1010" y="425" width="120" height="190" rx="5" ry="5" style="stroke: rgb(14%,21%,27%); stroke-linecap: butt; stroke-width: 1.5; fill: rgb(14%,21%,27%); fill-rule: evenodd;"/>
+			<text x="1033" y="515" style="font-family: Helvetica-Bold; font-size: 15px;fill: rgb(100%,100%,100%); stroke:none;" transform="translate(0,1030) scale(1,-1)">USB-UART</text>
+			<rect x="1340" y="340" width="30" height="300" rx="2" ry="2" style="stroke: rgb(14%,21%,27%); stroke-linecap: butt; stroke-width: 1.5; fill: rgb(14%,21%,27%); fill-rule: evenodd;"/>
+			<path d="M 1318,625 L 1355,625 Z" style="stroke: rgb(31%,39%,47%); stroke-linecap: butt; stroke-width: 3;"/>
+			<circle cx="1318" cy="625" r="4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(31%,39%,47%); fill-rule: evenodd;"/>
+			<text x="1242" y="619" style="font-family: Helvetica-Bold; font-size: 18px;fill: rgb(31%,39%,47%); stroke:none;" transform="translate(0,1238) scale(1,-1)">DTR</text>
+			<path d="M 1374,633 L 1390,617 Z" style="stroke: rgb(75%,21%,23%); stroke-linecap: butt; stroke-width: 3;"/>
+			<path d="M 1374,617 L 1390,633 Z" style="stroke: rgb(75%,21%,23%); stroke-linecap: butt; stroke-width: 3;"/>
+			<text x="1396" y="619" style="font-family: Helvetica-Bold; font-size: 12px;fill: rgb(75%,21%,23%); stroke:none;" transform="translate(0,1238) scale(1,-1)">OPEN</text>
+			<path d="M 1318,575 L 1355,575 Z" style="stroke: rgb(0%,52%,44%); stroke-linecap: butt; stroke-width: 3;"/>
+			<circle cx="1318" cy="575" r="4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(0%,52%,44%); fill-rule: evenodd;"/>
+			<text x="1242" y="569" style="font-family: Helvetica-Bold; font-size: 18px;fill: rgb(0%,52%,44%); stroke:none;" transform="translate(0,1138) scale(1,-1)">RX</text>
+			<path d="M 1318,525 L 1355,525 Z" style="stroke: rgb(31%,39%,47%); stroke-linecap: butt; stroke-width: 3;"/>
+			<circle cx="1318" cy="525" r="4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(31%,39%,47%); fill-rule: evenodd;"/>
+			<text x="1242" y="519" style="font-family: Helvetica-Bold; font-size: 18px;fill: rgb(31%,39%,47%); stroke:none;" transform="translate(0,1038) scale(1,-1)">TX</text>
+			<path d="M 1374,533 L 1390,517 Z" style="stroke: rgb(75%,21%,23%); stroke-linecap: butt; stroke-width: 3;"/>
+			<path d="M 1374,517 L 1390,533 Z" style="stroke: rgb(75%,21%,23%); stroke-linecap: butt; stroke-width: 3;"/>
+			<text x="1396" y="519" style="font-family: Helvetica-Bold; font-size: 12px;fill: rgb(75%,21%,23%); stroke:none;" transform="translate(0,1038) scale(1,-1)">OPEN</text>
+			<path d="M 1318,475 L 1355,475 Z" style="stroke: rgb(31%,39%,47%); stroke-linecap: butt; stroke-width: 3;"/>
+			<circle cx="1318" cy="475" r="4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(31%,39%,47%); fill-rule: evenodd;"/>
+			<text x="1242" y="469" style="font-family: Helvetica-Bold; font-size: 18px;fill: rgb(31%,39%,47%); stroke:none;" transform="translate(0,938) scale(1,-1)">VO</text>
+			<path d="M 1374,483 L 1390,467 Z" style="stroke: rgb(75%,21%,23%); stroke-linecap: butt; stroke-width: 3;"/>
+			<path d="M 1374,467 L 1390,483 Z" style="stroke: rgb(75%,21%,23%); stroke-linecap: butt; stroke-width: 3;"/>
+			<text x="1396" y="469" style="font-family: Helvetica-Bold; font-size: 12px;fill: rgb(75%,21%,23%); stroke:none;" transform="translate(0,938) scale(1,-1)">OPEN</text>
+			<path d="M 1318,425 L 1355,425 Z" style="stroke: rgb(31%,39%,47%); stroke-linecap: butt; stroke-width: 3;"/>
+			<circle cx="1318" cy="425" r="4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(31%,39%,47%); fill-rule: evenodd;"/>
+			<text x="1242" y="419" style="font-family: Helvetica-Bold; font-size: 18px;fill: rgb(31%,39%,47%); stroke:none;" transform="translate(0,838) scale(1,-1)">CTS</text>
+			<path d="M 1374,433 L 1390,417 Z" style="stroke: rgb(75%,21%,23%); stroke-linecap: butt; stroke-width: 3;"/>
+			<path d="M 1374,417 L 1390,433 Z" style="stroke: rgb(75%,21%,23%); stroke-linecap: butt; stroke-width: 3;"/>
+			<text x="1396" y="419" style="font-family: Helvetica-Bold; font-size: 12px;fill: rgb(75%,21%,23%); stroke:none;" transform="translate(0,838) scale(1,-1)">OPEN</text>
+			<path d="M 1318,375 L 1355,375 Z" style="stroke: rgb(0%,52%,44%); stroke-linecap: butt; stroke-width: 3;"/>
+			<circle cx="1318" cy="375" r="4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(0%,52%,44%); fill-rule: evenodd;"/>
+			<text x="1224" y="369" style="font-family: Helvetica-Bold; font-size: 18px;fill: rgb(0%,52%,44%); stroke:none;" transform="translate(0,738) scale(1,-1)">GND</text>
+			<path d="M 815,565 L 875,565 Z" style="stroke: rgb(0%,52%,44%); stroke-linecap: butt; stroke-width: 4;"/>
+			<path d="M 875,565 L 875,575 Z" style="stroke: rgb(0%,52%,44%); stroke-linecap: butt; stroke-width: 4;"/>
+			<path d="M 875,575 L 1318,575 Z" style="stroke: rgb(0%,52%,44%); stroke-linecap: butt; stroke-width: 4;"/>
+			<text x="835" y="595" style="font-family: Helvetica-Bold; font-size: 15px;fill: rgb(0%,52%,44%); stroke:none;" transform="translate(0,1190) scale(1,-1)">M2 TX -&gt; adapter RX</text>
+			<path d="M 565,480 L 835,480 Z" style="stroke: rgb(20%,26%,32%); stroke-linecap: butt; stroke-width: 4;"/>
+			<path d="M 835,480 L 835,280 Z" style="stroke: rgb(20%,26%,32%); stroke-linecap: butt; stroke-width: 4;"/>
+			<path d="M 835,280 L 1185,280 Z" style="stroke: rgb(20%,26%,32%); stroke-linecap: butt; stroke-width: 4;"/>
+			<path d="M 1185,280 L 1185,375 Z" style="stroke: rgb(20%,26%,32%); stroke-linecap: butt; stroke-width: 4;"/>
+			<path d="M 1185,375 L 1318,375 Z" style="stroke: rgb(20%,26%,32%); stroke-linecap: butt; stroke-width: 4;"/>
+			<text x="850" y="288" style="font-family: Helvetica-Bold; font-size: 15px;fill: rgb(20%,26%,32%); stroke:none;" transform="translate(0,576) scale(1,-1)">M2 GND / OUT- -&gt; adapter GND</text>
+			<rect x="900" y="114" width="470" height="151" rx="12" ry="12" style="stroke: rgb(79%,84%,87%); stroke-linecap: butt; stroke-width: 1.5; fill: rgb(100%,97%,91%); fill-rule: evenodd;"/>
+			<text x="918" y="235" style="font-family: Helvetica-Bold; font-size: 18px;fill: rgb(67%,38%,0%); stroke:none;" transform="translate(0,470) scale(1,-1)">USB-UART rules</text>
+			<text x="918" y="209" style="font-family: Helvetica; font-size: 15px;fill: rgb(31%,39%,47%); stroke:none;" transform="translate(0,418) scale(1,-1)">USB cable powers the adapter itself.</text>
+			<text x="918" y="185" style="font-family: Helvetica; font-size: 15px;fill: rgb(31%,39%,47%); stroke:none;" transform="translate(0,370) scale(1,-1)">Do not connect VO to M2 VCC.</text>
+			<text x="918" y="161" style="font-family: Helvetica; font-size: 15px;fill: rgb(31%,39%,47%); stroke:none;" transform="translate(0,322) scale(1,-1)">Leave DTR, TX and CTS open for monitoring.</text>
+			<text x="918" y="137" style="font-family: Helvetica; font-size: 15px;fill: rgb(31%,39%,47%); stroke:none;" transform="translate(0,274) scale(1,-1)">Keep adapter USB-powered while M2 TX is attached.</text>
+			<text x="390" y="228" style="font-family: Helvetica-Bold; font-size: 18px;fill: rgb(9%,18%,27%); stroke:none;" transform="translate(0,456) scale(1,-1)">Proceed one gate at a time</text>
+			<circle cx="390" cy="176" r="24" style="stroke: rgb(0%,52%,44%); stroke-linecap: butt; stroke-width: 2; fill: rgb(91%,96%,95%); fill-rule: evenodd;"/>
+			<text x="385" y="170" style="font-family: Helvetica-Bold; font-size: 16px;fill: rgb(0%,52%,44%); stroke:none;" transform="translate(0,340) scale(1,-1)">1</text>
+			<text x="373" y="135" style="font-family: Helvetica-Bold; font-size: 13px;fill: rgb(31%,39%,47%); stroke:none;" transform="translate(0,270) scale(1,-1)">M2</text>
+			<path d="M 414,176 L 431,176 Z" style="stroke: rgb(0%,52%,44%); stroke-linecap: butt; stroke-width: 2;"/>
+			<circle cx="455" cy="176" r="24" style="stroke: rgb(0%,52%,44%); stroke-linecap: butt; stroke-width: 2; fill: rgb(91%,96%,95%); fill-rule: evenodd;"/>
+			<text x="450" y="170" style="font-family: Helvetica-Bold; font-size: 16px;fill: rgb(0%,52%,44%); stroke:none;" transform="translate(0,340) scale(1,-1)">2</text>
+			<text x="438" y="135" style="font-family: Helvetica-Bold; font-size: 13px;fill: rgb(31%,39%,47%); stroke:none;" transform="translate(0,270) scale(1,-1)">BAT</text>
+			<path d="M 479,176 L 496,176 Z" style="stroke: rgb(0%,52%,44%); stroke-linecap: butt; stroke-width: 2;"/>
+			<circle cx="520" cy="176" r="24" style="stroke: rgb(0%,52%,44%); stroke-linecap: butt; stroke-width: 2; fill: rgb(91%,96%,95%); fill-rule: evenodd;"/>
+			<text x="515" y="170" style="font-family: Helvetica-Bold; font-size: 16px;fill: rgb(0%,52%,44%); stroke:none;" transform="translate(0,340) scale(1,-1)">3</text>
+			<text x="503" y="135" style="font-family: Helvetica-Bold; font-size: 13px;fill: rgb(31%,39%,47%); stroke:none;" transform="translate(0,270) scale(1,-1)">LDR</text>
+			<path d="M 544,176 L 561,176 Z" style="stroke: rgb(0%,52%,44%); stroke-linecap: butt; stroke-width: 2;"/>
+			<circle cx="585" cy="176" r="24" style="stroke: rgb(0%,52%,44%); stroke-linecap: butt; stroke-width: 2; fill: rgb(91%,96%,95%); fill-rule: evenodd;"/>
+			<text x="580" y="170" style="font-family: Helvetica-Bold; font-size: 16px;fill: rgb(0%,52%,44%); stroke:none;" transform="translate(0,340) scale(1,-1)">4</text>
+			<text x="568" y="135" style="font-family: Helvetica-Bold; font-size: 13px;fill: rgb(31%,39%,47%); stroke:none;" transform="translate(0,270) scale(1,-1)">LVC</text>
+			<path d="M 609,176 L 626,176 Z" style="stroke: rgb(0%,52%,44%); stroke-linecap: butt; stroke-width: 2;"/>
+			<circle cx="650" cy="176" r="24" style="stroke: rgb(0%,52%,44%); stroke-linecap: butt; stroke-width: 2; fill: rgb(91%,96%,95%); fill-rule: evenodd;"/>
+			<text x="645" y="170" style="font-family: Helvetica-Bold; font-size: 16px;fill: rgb(0%,52%,44%); stroke:none;" transform="translate(0,340) scale(1,-1)">5</text>
+			<text x="633" y="135" style="font-family: Helvetica-Bold; font-size: 13px;fill: rgb(31%,39%,47%); stroke:none;" transform="translate(0,270) scale(1,-1)">5 V</text>
+			<path d="M 674,176 L 691,176 Z" style="stroke: rgb(0%,52%,44%); stroke-linecap: butt; stroke-width: 2;"/>
+			<circle cx="715" cy="176" r="24" style="stroke: rgb(0%,52%,44%); stroke-linecap: butt; stroke-width: 2; fill: rgb(91%,96%,95%); fill-rule: evenodd;"/>
+			<text x="710" y="170" style="font-family: Helvetica-Bold; font-size: 16px;fill: rgb(0%,52%,44%); stroke:none;" transform="translate(0,340) scale(1,-1)">6</text>
+			<text x="698" y="135" style="font-family: Helvetica-Bold; font-size: 13px;fill: rgb(31%,39%,47%); stroke:none;" transform="translate(0,270) scale(1,-1)">PV</text>
+			<path d="M 739,176 L 756,176 Z" style="stroke: rgb(0%,52%,44%); stroke-linecap: butt; stroke-width: 2;"/>
+			<circle cx="780" cy="176" r="24" style="stroke: rgb(0%,52%,44%); stroke-linecap: butt; stroke-width: 2; fill: rgb(91%,96%,95%); fill-rule: evenodd;"/>
+			<text x="775" y="170" style="font-family: Helvetica-Bold; font-size: 16px;fill: rgb(0%,52%,44%); stroke:none;" transform="translate(0,340) scale(1,-1)">7</text>
+			<text x="763" y="135" style="font-family: Helvetica-Bold; font-size: 13px;fill: rgb(31%,39%,47%); stroke:none;" transform="translate(0,270) scale(1,-1)">RUN</text>
+			<rect x="390" y="253" width="425" height="127" rx="12" ry="12" style="stroke: rgb(79%,84%,87%); stroke-linecap: butt; stroke-width: 1.5; fill: rgb(94%,96%,97%); fill-rule: evenodd;"/>
+			<text x="408" y="350" style="font-family: Helvetica-Bold; font-size: 18px;fill: rgb(9%,18%,27%); stroke:none;" transform="translate(0,700) scale(1,-1)">Serial checkpoints</text>
+			<text x="408" y="324" style="font-family: Helvetica; font-size: 15px;fill: rgb(31%,39%,47%); stroke:none;" transform="translate(0,648) scale(1,-1)">DAY off: state=0 pct=0 / about 8 s ticks</text>
+			<text x="408" y="300" style="font-family: Helvetica; font-size: 15px;fill: rgb(31%,39%,47%); stroke:none;" transform="translate(0,600) scale(1,-1)">D2 test: state=0 pct=100</text>
+			<text x="408" y="276" style="font-family: Helvetica; font-size: 15px;fill: rgb(31%,39%,47%); stroke:none;" transform="translate(0,552) scale(1,-1)">LVC: state=4 pct=0; button cannot relight</text>
+			<text x="45" y="67" style="font-family: Helvetica-Bold; font-size: 16px;fill: rgb(67%,38%,0%); stroke:none;" transform="translate(0,134) scale(1,-1)">SERIAL IS NOT A CHARGE METER: verify panel input, regulated 5 V, battery voltage and charge current with instruments.</text>
+		</g>
+	</g>
+</svg>
+</div>
+<p class="small"><a href="05-staging.svg">Open full-size SVG</a> · <a href="sheet-5.png">PNG preview</a> · the USB-UART pin order follows the supplied board photograph</p>
+<p class="small">Use <b>OUT- / GND_LOAD</b> for the serial ground, never B-. Verify that the adapter RX input tolerates a Pro Mini TX high level up to the full-cell voltage (about 4.2 V). Keep the USB adapter powered whenever TX is connected, or disconnect TX so an unpowered adapter cannot be back-fed through its RX pin.</p>
+<div class="scroll"><table class="stages"><thead><tr><th>Stage</th><th>Connect or change</th><th>Test and expected result</th><th>Pass before continuing</th></tr></thead><tbody>
+<tr><td><b>0<br>Power off</b></td><td>Identify M1 pads by their printed labels: IN+/IN-, B+/B-, OUT+/OUT-. Confirm M2's onboard regulator is removed or isolated. Leave RAW open. Set the main switch open.</td><td>Use continuity and polarity checks only. Confirm the external wiring does not bridge M1 B- to OUT-. Inspect battery sleeves, holders, fuses and polarity.</td><td>No shorts from VBAT_SYS to GND_LOAD. Every connector is labelled. Battery and panel remain disconnected.</td></tr>
+<tr><td><b>1<br>Controller</b></td><td>Use a current-limited 3.8 V bench supply directly across M2 VCC/GND. No cell, charger or panel. Connect LEDs, D2 and the receive-only serial monitor.</td><td>Compare serial <code>vdd</code> with a meter at VCC/GND. On reset expect the startup test; D2-to-GND should produce <code>state=0 pct=100</code>. Check D9 and LED current.</td><td>Reported voltage is within about 0.05 V after calibration. No hot parts. With R3=47 ohm, LED current is near the documented value for the applied voltage.</td></tr>
+<tr><td><b>2<br>Protected battery</b></td><td>Power down. Connect one suitable 1S cell to M1 B+/B-. Connect M1 OUT+ through F2 and S1 to M2 VCC; connect M1 OUT- to M2 GND. Disconnect the UART power lead permanently.</td><td>With S1 open, measure correct polarity and cell-like voltage at OUT+/OUT-. Close S1 and watch the reset log. Compare <code>vdd</code> with the meter again and repeat the D2 test.</td><td>The controller is powered only from OUT+/OUT-. Serial remains readable using TX, RX-at-adapter and common OUT- ground. No abnormal heating or unexplained current.</td></tr>
+<tr><td><b>3<br>LDR and timing</b></td><td>Fit D7 -&gt; LDR -&gt; A1 -&gt; 100k -&gt; OUT-. Keep the sensor shaded from the LEDs.</td><td>In stable daylight/off operation, timestamps advance by about 8 s. Covering the LDR changes them to about 1 s while darkness is confirmed. After 300 s, expect state 1 and a 2%/s brightness ramp. Uncover for 300 s to return to state 0.</td><td>Short shadows or light flashes do not cause a transition. The threshold gap prevents flicker. Below 3.45 V, normal night duty settles at 50%.</td></tr>
+<tr><td><b>4<br>Low voltage</b></td><td>Return to the current-limited bench supply for this test; do not deliberately over-discharge a lithium cell. Establish night mode, then lower VCC.</td><td>Below 3.30 V for about 30 scheduler seconds, expect <code>state=4 pct=0</code> with immediate shutdown. D2 must not relight it. Recovery requires over 3.60 V and confirmed daylight.</td><td>Cutoff, button lockout and daylight recovery all pass with <code>TIME_SCALE=1</code>.</td></tr>
+<tr><td><b>5<br>5 V charger input</b></td><td>Test U0 MP1584 separately from a current-limited source. With its output disconnected, adjust it to 5.00 V. Check startup, load regulation and reverse leakage before connecting U0 OUT to M1 IN.</td><td>Confirm 5.00 V at M1 IN+/IN-. Identify the charger PROG resistor and begin with a verified conservative 100-150 mA charge setting. Monitor actual charge current and temperature.</td><td>Correct input voltage, current limit, termination near 4.2 V and acceptable temperatures. A CHRG LED alone is not a pass.</td></tr>
+<tr><td><b>6<br>Solar panel</b></td><td>Power down, then connect panel +/− to U0 IN+/IN-. Never connect the approximately 7.6 V open-circuit panel directly to M1 or M2.</td><td>Measure panel voltage, U0's regulated 5 V output, battery voltage and actual charging current in sun, shade and recovery from weak light. Check night-time reverse current.</td><td>U0 remains regulated without overheating, charging recovers after shade, and reverse leakage is acceptable or a qualified blocking solution is fitted.</td></tr>
+<tr><td><b>7<br>Long run</b></td><td>Only after stages 0-6 pass, add the optional telemetry branch. Run at least 14 days before sealing the enclosure.</td><td>Log daily battery voltage, charge/load current or energy, dusk/dawn behaviour, LVC events and temperatures. Test poor Wi-Fi and unavailable services separately.</td><td>No progressive energy deficit, reset loop, unsafe temperature or unexplained state transition. Disable serial diagnostics for the final low-power measurement.</td></tr>
+</tbody></table></div>
+<h3>How to read the diagnostic serial output</h3>
+<div class="scroll"><table><thead><tr><th>Observed output</th><th>Meaning / expected validation</th></tr></thead><tbody>
+<tr><td><code>t=... vdd=... state=0 pct=0</code><br>timestamps about 8 s apart</td><td>Stable DAY state, lights off and low-power watchdog interval.</td></tr>
+<tr><td>State remains 0, timestamps change to about 1 s apart</td><td>A dark reading is being confirmed. The current debug format does not print A1 directly; cadence is the indirect indication.</td></tr>
+<tr><td><code>state=0 pct=100</code></td><td>D2's 60-second manual test is active. State 0 is correct: the button overrides output without changing the day/night state.</td></tr>
+<tr><td><code>state=1 pct=2, 4, 6...</code></td><td>Five minutes of darkness were confirmed and the automatic dusk fade has begun.</td></tr>
+<tr><td><code>state=1</code> or <code>state=2</code>, <code>pct=50</code></td><td>Normal all-night operation while reported VCC is below the 3.45 V low-battery threshold.</td></tr>
+<tr><td><code>state=4 pct=0</code></td><td>Low-voltage cutoff. Output must remain off even if D2 is pressed.</td></tr>
+</tbody></table></div>
+<div class="note"><b>Serial does not validate solar charging.</b> The firmware measures its own VCC and the LDR only. A0 panel sensing and the charger's CHRG signal are unused, so validate panel voltage, regulated 5 V and charge current with instruments.</div>
+<details><summary>Diagnostic firmware settings and programming isolation</summary><p>For bench logs, build with <code>DEBUG_SERIAL=1</code>; the current source uses 9600 baud at the confirmed internal 8 MHz clock. Keep <code>TIME_SCALE=1</code> for real low-voltage timing. Serial adds roughly 1 mA and should be disabled for final sleep-current testing. Application uploads now use ISP because the confirmed fuse configuration has no bootloader: fully disconnect the CH340 adapter, battery, panel and LED string before attaching the ISP programmer. Reconnect the battery supply and the receive-only UART monitor only after programming is complete.</p></details>
+</section><section id="wires"><h2>Terminal-by-terminal wire schedule</h2><p>Every terminal in a row belongs to the same external net. The charger may join IN- and OUT- internally; this schedule adds no external bridge. Read the actual pad labels and transistor pinout.</p><p><a href="wire-schedule.csv">Download CSV checklist</a> · <a href="reviewed-netlist.json">External wiring model (JSON)</a></p><div class="scroll"><table><thead><tr><th>Net name</th><th>Connect these terminals</th></tr></thead><tbody><tr><td><code>PV_POS</code></td><td>PV1.+ / U0.IN+</td></tr><tr><td><code>PV_RETURN</code></td><td>PV1.- / U0.IN-</td></tr><tr><td><code>CHARGE_5V</code></td><td>U0.OUT+ / M1.IN+</td></tr><tr><td><code>CHARGE_RETURN</code></td><td>U0.OUT- / M1.IN-</td></tr><tr><td><code>CELL1_POS</code></td><td>BT1.+ / FB1.1</td></tr><tr><td><code>CELL2_POS</code></td><td>BT2.+ / FB2.1</td></tr><tr><td><code>PACK_POS</code></td><td>FB1.2 / FB2.2 / M1.B+</td></tr><tr><td><code>PACK_NEG</code></td><td>BT1.- / BT2.- / M1.B-</td></tr><tr><td><code>PROTECTED_POS</code></td><td>M1.OUT+ / F2.1</td></tr><tr><td><code>FUSED_POS</code></td><td>F2.2 / S1.1</td></tr><tr><td><code>VBAT_SYS</code></td><td>S1.2 / M2.VCC / C3.+ / C4.1 / U3.VIN / C2.+ / R5.1</td></tr><tr><td><code>GND_LOAD</code></td><td>M1.OUT- / M2.GND / C3.- / C4.2 / JLED.- / R4.2 / SW1.2 / U3.GND / C2.- / M3.G / Q2.E / R9.2</td></tr><tr><td><code>PWM</code></td><td>M2.D9 / R3.1</td></tr><tr><td><code>LED_POS</code></td><td>R3.2 / JLED.+</td></tr><tr><td><code>LDR_POWER</code></td><td>M2.D7 / LDR1.1</td></tr><tr><td><code>LDR_SENSE</code></td><td>LDR1.2 / R4.1 / M2.A1</td></tr><tr><td><code>TEST</code></td><td>M2.D2 / SW1.1</td></tr><tr><td><code>STATUS</code></td><td>M2.D8 / R8.1</td></tr><tr><td><code>STATUS_BASE</code></td><td>R8.2 / R9.1 / Q2.B</td></tr><tr><td><code>STATUS_INVERTED</code></td><td>Q2.C / R10.2 / M3.D5</td></tr><tr><td><code>ESP_3V3</code></td><td>U3.VOUT / M3.3V3 / R10.1</td></tr><tr><td><code>ADC_BATT</code></td><td>R5.2 / M3.A0</td></tr><tr><td><code>WAKE</code></td><td>M3.D0 / M3.RST</td></tr></tbody></table></div></section>
+<section><h2>Validation status</h2><p>Both legacy KiCad sheets export the same 25 nets. Their ERC reports contain 1 error each and 167 / 169 warnings, mostly off-grid drawing endpoints. Matching netlists do not validate the underlying circuit.</p><p>The current scheduler passes nine assertion groups, including dusk debounce, a 14-hour night, the shipped 100% default, low-battery dimming and low-voltage recovery. The BTE13-010A fuse readback confirms internal 8 MHz, BOD 2.7 V and no bootloader; the Rev 0.4 application firmware was subsequently written and verified through ISP. Serial output and the D2 test provide controller-level evidence, but the staged measurements above are still required to qualify the charger, solar input, physical LED current and complete assembly.</p><p>A future low-cost PCB should first be a module carrier using the exact proven parts. The old KiCad files are retained for audit and must not be sent for fabrication.</p></section>
+</main><footer>Local, self-contained guide. Vector schematic source and reproducible generators are included in docs/tools. Original references and baseline firmware are preserved. Engineering sources and limitations are recorded in VALIDATION.md.</footer></html>

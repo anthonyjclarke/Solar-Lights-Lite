@@ -1,0 +1,8 @@
+# Keep documentation and source files consistently diffable across platforms.
+* text=auto eol=lf
+
+# Treat binary engineering/source-reference assets as binary.
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.pdf binary

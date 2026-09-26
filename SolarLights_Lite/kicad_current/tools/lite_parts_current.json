@@ -1,0 +1,313 @@
+{
+ "J1": {
+  "lib": "Connector_Generic:Conn_01x02",
+  "val": "PV in",
+  "pins": {
+   "1": "PV+",
+   "2": "GND"
+  },
+  "fp": "",
+  "note": "screw terminal",
+  "dnp": false,
+  "hide_val": false
+ },
+ "U0": {
+  "lib": "SolarLights_Lite:Reg5V_TBD",
+  "val": "5 V reg - TBD",
+  "pins": {
+   "IN+": "PV+",
+   "IN-": "GND",
+   "OUT+": "IN+",
+   "OUT-": "GND"
+  },
+  "fp": "",
+  "note": "module not yet selected - see BUILD_GUIDE.md",
+  "dnp": false,
+  "hide_val": false
+ },
+ "M1": {
+  "lib": "SolarLights_Lite:TP4056_DW01A",
+  "val": "TP4056 + DW01A",
+  "pins": {
+   "IN+": "IN+",
+   "IN-": "GND",
+   "B+": "BATT_BUS",
+   "B-": "BATT-",
+   "OUT+": "OUT+",
+   "OUT-": "GND",
+   "CHRG": "CHRG"
+  },
+  "fp": "",
+  "note": "charger + protection; CHRG not wired",
+  "dnp": false,
+  "hide_val": false
+ },
+ "FB1": {
+  "lib": "Device:Fuse",
+  "val": "1 A",
+  "pins": {
+   "1": "BATT_BUS",
+   "2": "BATT1+"
+  },
+  "fp": "",
+  "note": "",
+  "dnp": false,
+  "hide_val": false
+ },
+ "FB2": {
+  "lib": "Device:Fuse",
+  "val": "1 A",
+  "pins": {
+   "1": "BATT_BUS",
+   "2": "BATT2+"
+  },
+  "fp": "",
+  "note": "",
+  "dnp": false,
+  "hide_val": false
+ },
+ "BT1": {
+  "lib": "Device:Battery_Cell",
+  "val": "18650",
+  "pins": {
+   "1": "BATT1+",
+   "2": "BATT-"
+  },
+  "fp": "",
+  "note": "",
+  "dnp": false,
+  "hide_val": false
+ },
+ "BT2": {
+  "lib": "Device:Battery_Cell",
+  "val": "18650",
+  "pins": {
+   "1": "BATT2+",
+   "2": "BATT-"
+  },
+  "fp": "",
+  "note": "",
+  "dnp": false,
+  "hide_val": false
+ },
+ "F2": {
+  "lib": "Device:Fuse",
+  "val": "1 A",
+  "pins": {
+   "1": "OUT+",
+   "2": "VBAT_SW"
+  },
+  "fp": "",
+  "note": "",
+  "dnp": false,
+  "hide_val": false
+ },
+ "S1": {
+  "lib": "Switch:SW_SPST",
+  "val": "service",
+  "pins": {
+   "1": "VBAT_SW",
+   "2": "VBAT"
+  },
+  "fp": "",
+  "note": "",
+  "dnp": false,
+  "hide_val": false
+ },
+ "M2": {
+  "lib": "SolarLights_Lite:Pro_Mini_BTE13",
+  "val": "BTE13-010A - int. 8 MHz",
+  "pins": {
+   "VCC": "VBAT",
+   "GND": "GND",
+   "A1": "LDR_SENSE",
+   "D2": "BTN",
+   "D7": "LDR_PWR",
+   "D8": "LIGHTS",
+   "D9": "PWM",
+   "A0": "NC_A0",
+   "D10": "NC_D10",
+   "D11": "NC_D11"
+  },
+  "fp": "",
+  "note": "RAW unused; A0/D10/D11 reserved, left open",
+  "dnp": false,
+  "hide_val": false
+ },
+ "C3": {
+  "lib": "Device:C_Polarized",
+  "val": "100u",
+  "pins": {
+   "1": "VBAT",
+   "2": "GND"
+  },
+  "fp": "Capacitor_THT:CP_Radial_D6.3mm_P2.50mm",
+  "note": "",
+  "dnp": false,
+  "hide_val": false
+ },
+ "SW1": {
+  "lib": "Switch:SW_Push",
+  "val": "test",
+  "pins": {
+   "1": "BTN",
+   "2": "GND"
+  },
+  "fp": "",
+  "note": "",
+  "dnp": false,
+  "hide_val": false
+ },
+ "LDR1": {
+  "lib": "SolarLights_Lite:LDR",
+  "val": "LDR",
+  "pins": {
+   "1": "LDR_PWR",
+   "2": "LDR_SENSE"
+  },
+  "fp": "",
+  "note": "",
+  "dnp": false,
+  "hide_val": false
+ },
+ "R4": {
+  "lib": "Device:R",
+  "val": "100k",
+  "pins": {
+   "1": "LDR_SENSE",
+   "2": "GND"
+  },
+  "fp": "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal",
+  "note": "",
+  "dnp": false,
+  "hide_val": false
+ },
+ "R8": {
+  "lib": "Device:R",
+  "val": "47k",
+  "pins": {
+   "1": "LIGHTS",
+   "2": "Q2_BASE"
+  },
+  "fp": "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal",
+  "note": "",
+  "dnp": false,
+  "hide_val": false
+ },
+ "R9": {
+  "lib": "Device:R",
+  "val": "100k",
+  "pins": {
+   "1": "Q2_BASE",
+   "2": "GND"
+  },
+  "fp": "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal",
+  "note": "base-emitter pulldown",
+  "dnp": false,
+  "hide_val": false
+ },
+ "Q2": {
+  "lib": "Device:Q_NPN_BCE",
+  "val": "2N3904",
+  "pins": {
+   "1": "Q2_BASE",
+   "2": "D1_D5",
+   "3": "GND"
+  },
+  "fp": "",
+  "note": "telemetry status inverter",
+  "dnp": false,
+  "hide_val": false
+ },
+ "R10": {
+  "lib": "Device:R",
+  "val": "10k",
+  "pins": {
+   "1": "D1_D5",
+   "2": "3V3_TEL"
+  },
+  "fp": "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal",
+  "note": "pull-up to 3V3_TEL",
+  "dnp": false,
+  "hide_val": false
+ },
+ "R3": {
+  "lib": "Device:R",
+  "val": "47R",
+  "pins": {
+   "1": "PWM",
+   "2": "LED+"
+  },
+  "fp": "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal",
+  "note": "measured string, ~15 mA @3.7 V; try 56R for <20 mA @4.2 V",
+  "dnp": false,
+  "hide_val": false
+ },
+ "J2": {
+  "lib": "Connector_Generic:Conn_01x02",
+  "val": "LED string",
+  "pins": {
+   "1": "LED+",
+   "2": "LED-"
+  },
+  "fp": "",
+  "note": "screw terminal",
+  "dnp": false,
+  "hide_val": false
+ },
+ "U3": {
+  "lib": "SolarLights_Lite:Reg3V3_TBD",
+  "val": "3V3 tel. - HL802A cand.",
+  "pins": {
+   "IN+": "VBAT",
+   "IN-": "GND",
+   "OUT+": "3V3_TEL",
+   "OUT-": "GND"
+  },
+  "fp": "",
+  "note": "TPS63802/HL802A breakout, jumper=3.3V; candidate, not bench-qualified",
+  "dnp": false,
+  "hide_val": false
+ },
+ "C2": {
+  "lib": "Device:C_Polarized",
+  "val": "470u",
+  "pins": {
+   "1": "VBAT",
+   "2": "GND"
+  },
+  "fp": "Capacitor_THT:CP_Radial_D6.3mm_P2.50mm",
+  "note": "at U3 input",
+  "dnp": false,
+  "hide_val": false
+ },
+ "M3": {
+  "lib": "SolarLights_Lite:D1_Mini",
+  "val": "Wemos D1 Mini",
+  "pins": {
+   "5V": "3V3_TEL",
+   "G": "GND",
+   "A0": "D1_A0",
+   "D5": "D1_D5",
+   "D6": "NC_D6",
+   "D0": "D0RST",
+   "RST": "D0RST"
+  },
+  "fp": "",
+  "note": "ESPHome, hourly deep sleep; onboard regulator removed",
+  "dnp": false,
+  "hide_val": false
+ },
+ "R5": {
+  "lib": "Device:R",
+  "val": "220k",
+  "pins": {
+   "1": "VBAT",
+   "2": "D1_A0"
+  },
+  "fp": "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal",
+  "note": "battery sense, unaffected by U3",
+  "dnp": false,
+  "hide_val": false
+ }
+}

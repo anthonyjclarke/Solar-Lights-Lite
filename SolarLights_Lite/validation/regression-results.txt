@@ -1,0 +1,10 @@
+PASS: 9 regression groups (debounce, 14h dusk-to-dawn, test cap, LVC/recovery, low startup, low brightness, slow tick, evening mode, shipped 100% default)
+
+Run 20 September 2026 after the direct-drive change, in the Cowork Linux workspace on
+this Mac:
+  g++ -std=c++17 -I../include -Wall -Wextra -Werror -fsanitize=address,undefined \
+      -o reg regression.cpp && ./reg
+The ninth group mirrors the shipped main.cpp setup (NIGHT_DUTY_PCT = 100, cap = 100):
+it asserts the night target reaches 100% and halves to 50% below 3.45 V.
+Host tests exercise the scheduler only. They do not emulate AVR registers, ADC
+settling, oscillator drift, sleep current, EMI or Wi-Fi behaviour.

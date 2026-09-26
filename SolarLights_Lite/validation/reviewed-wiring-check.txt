@@ -1,0 +1,2 @@
+PASS: 23 external nets, 67 unique terminals; battery negative separate; no external IN-/OUT- link; ESP supply separate; direct pin drive of the LED branch and inverted status checked.
+This verifies the authored wiring schedule, not module internals or physical construction.

@@ -1,0 +1,7 @@
+{
+  "engineering_net_count": 25,
+  "wiring_net_count": 25,
+  "identical_connectivity": true,
+  "engineering_only": [],
+  "wiring_only": []
+}
