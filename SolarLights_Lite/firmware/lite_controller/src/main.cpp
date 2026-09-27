@@ -1,11 +1,12 @@
-/* REV 0.4 REVIEW PROPOSAL - see docs/BUILD_GUIDE.md.
- * Default: switched LDR, uniform 5% dusk-to-dawn, hard cap including test.
+/* v0.5 DEVELOPMENT PROPOSAL - see docs/BUILD_GUIDE.md.
+ * Default: switched LDR, resistor-limited 100% dusk-to-dawn, hard cap including test.
  * Requires a VERIFIED 8 MHz clock, including a converted 16 MHz Pro Mini.
  * Do not flash an 8 MHz build onto a stock 16 MHz clock configuration.
- * D8 status uses an NPN inverter in the revised wiring (not the old divider).
+ * The v0.5 diagnostic image sends its receive-only telemetry UART on D1/TX
+ * through the NPN interface; D8 is left open in that test profile.
  * Panel sense and charger CHRG are disconnected in the revised build.
  *
- * 20 Sep 2026: the string is driven straight from D9 through R3, no Q1. Measured
+ * 20-Sep-2026: the string is driven straight from D9 through R3, no Q1. Measured
  * string is a 2.56 V drop with no significant dynamic resistance, so
  * I = (VBAT - 2.56 V) / (R3 + approximately 30 ohm pin resistance): 21/15/11 mA at
  * 4.20/3.70/3.40 V with R3 = 47 ohm. Duty is brightness only; the resistor and the
@@ -13,7 +14,7 @@
  */
 /* Pin map: VCC=protected battery (regulator removed), GND=OUT-.
  * A1=LDR midpoint; D7=LDR supply; D9=R3 47R->LED string+ (return to GND, no Q1);
- * D8=47k->NPN base.
+ * D1/TX=47k->NPN base for test telemetry; D8 is left open.
  * D2=button to GND. D10/D11 reserved, leave open. A0 unused in revised build.
  * See validation/ for actual test results; no hardware validation claimed.
  */
@@ -26,7 +27,7 @@
 
 // ------------------------------------------------------------ settings
 #ifndef SENSOR_LDR
-#define SENSOR_LDR    1        // 1 = switched LDR on A1; 0 = legacy panel sense, not wired in Rev 0.4
+#define SENSOR_LDR    1        // 1 = switched LDR on A1; 0 = legacy panel sense, not wired in v0.5
 #endif
 #ifndef DEBUG_SERIAL
 #define DEBUG_SERIAL  1        // 1 = rate-limited event/progress diagnostics at 9600 baud (~1 mA extra)
@@ -88,7 +89,7 @@ void setup() {
   for (uint8_t p = 3; p <= 13; p++) if (p != PIN_ALLNIGHT && p != PIN_CAP) { pinMode(p, OUTPUT); digitalWrite(p, LOW); }
   pinMode(PIN_ALLNIGHT, INPUT_PULLUP); pinMode(PIN_CAP, INPUT_PULLUP);
   _delay_ms(5);
-  bool allNight = true, cap = true; // Rev 0.4: user requested dusk-to-dawn
+  bool allNight = true, cap = true; // v0.5: user requested dusk-to-dawn
   // D10/D11 are reserved; leave jumpers open in this build.
   pinMode(PIN_ALLNIGHT, OUTPUT); digitalWrite(PIN_ALLNIGHT, LOW);   // release pull-ups
   pinMode(PIN_CAP, OUTPUT); digitalWrite(PIN_CAP, LOW);
@@ -263,7 +264,7 @@ void loop() {
 # if SENSOR_LDR
   printDebugStatus(vdd, ldrRaw, r, dark, light, pct, fast);
 # else
-  // Legacy panel-sense builds retain a compact line; Rev 0.4 uses the detailed LDR path above.
+  // Legacy panel-sense builds retain a compact line; v0.5 uses the detailed LDR path above.
   Serial.print(F("time=")); Serial.print(sched.t); Serial.print(F("s vdd=")); Serial.print(vdd, 3);
   Serial.print(F("V panel=")); Serial.print(panel, 2); Serial.print(F("V mode="));
   Serial.print(stateName(sched.state)); Serial.print(F(" output=")); Serial.print(pct); Serial.println(F("%"));

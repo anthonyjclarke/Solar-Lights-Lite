@@ -4,7 +4,31 @@ All notable project milestones are recorded here. This file is a development
 timeline; for an introduction to the project and its current architecture, start
 with [README.md](README.md).
 
-## [0.4.0] - 2026-09-27
+## [0.5.0] - 27-Sep-2026
+
+### Development telemetry
+
+- Reworked telemetry around the existing Wemos D1 Mini; no INA226, temperature
+  probe, ESP32-C3 or other new telemetry module is required.
+- Added an always-on D1 Mini ESPHome profile that captures the Arduino's
+  rate-limited 9600-baud diagnostic lines and publishes parsed controller state
+  to Home Assistant.
+- Reused Q2/R8/R9/R10 as the protected, inverted UART receiver on D6. The
+  parsed `output=` value replaces the separate D8-to-D5 light-status wire while
+  developing.
+- Added a sixth illustrated assembly sheet for the test-only D1 telemetry
+  topology; retained the original D1 Mini deep-sleep configuration as the
+  production reference.
+
+### Documentation
+
+- Promoted active documentation, visual assembly assets and current firmware
+  labels to v0.5.
+- Documented the no-purchase measurement boundary: controller diagnostics,
+  battery voltage and D1 health are visible; panel voltage, current, energy and
+  temperature still need instruments or added hardware.
+
+## [0.4.0] - 27-Sep-2026
 
 ### Repository release
 
@@ -20,7 +44,7 @@ with [README.md](README.md).
 - Moved dated project history into this changelog.
 - Added a project hero illustration and a system-architecture diagram.
 
-## [0.4] - 2026-09-21
+## [0.4] - 21-Sep-2026
 
 ### Controller and programming
 
@@ -40,7 +64,7 @@ with [README.md](README.md).
 - Created the separate `kicad_current` project to reflect the current direct-drive
   circuit while preserving the older KiCad design as an audit baseline.
 
-## [0.4] - 2026-09-20
+## [0.4] - 20-Sep-2026
 
 ### LED measurement and direct-drive revision
 
@@ -52,7 +76,7 @@ with [README.md](README.md).
 - Updated the firmware's normal night setting to 100% command duty; in this design
   duty is brightness control and R3 sets the current limit.
 
-## [0.4] - 2026-09-19
+## [0.4] - 19-Sep-2026
 
 ### Engineering review baseline
 

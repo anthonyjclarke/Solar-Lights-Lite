@@ -1,5 +1,5 @@
 {
-  "revision": "0.4 proposal",
+  "revision": "v0.5 development proposal",
   "scope": "External module terminals only; internal connections must be verified. Not a PCB netlist.",
   "nets": {
     "PV_POS": [
@@ -88,19 +88,19 @@
       "M2.D2",
       "SW1.1"
     ],
-    "STATUS": [
-      "M2.D8",
+    "UART_TX": [
+      "M2.D1/TX",
       "R8.1"
     ],
-    "STATUS_BASE": [
+    "UART_BASE": [
       "R8.2",
       "R9.1",
       "Q2.B"
     ],
-    "STATUS_INVERTED": [
+    "UART_RX_INVERTED": [
       "Q2.C",
       "R10.2",
-      "M3.D5"
+      "M3.D6"
     ],
     "ESP_3V3": [
       "U3.VOUT",

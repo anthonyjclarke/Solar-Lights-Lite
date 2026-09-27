@@ -112,7 +112,7 @@
 			<text x="720" y="133" style="font-family: Helvetica; font-size: 16px;fill: rgb(9%,18%,27%); stroke:none;" transform="translate(0,266) scale(1,-1)">Also connect target VCC and GND; use compatible voltage.</text>
 			<text x="720" y="109" style="font-family: Helvetica; font-size: 16px;fill: rgb(9%,18%,27%); stroke:none;" transform="translate(0,218) scale(1,-1)">Configure actual internal 8 MHz clock and BOD 2.7 V.</text>
 			<text x="720" y="85" style="font-family: Helvetica; font-size: 16px;fill: rgb(9%,18%,27%); stroke:none;" transform="translate(0,170) scale(1,-1)">A USB-to-serial adapter alone cannot perform this conversion.</text>
-			<text x="45" y="30" style="font-family: Helvetica; font-size: 14px;fill: rgb(31%,39%,47%); stroke:none;" transform="translate(0,60) scale(1,-1)">REV 0.4 ADDENDUM / terminal labels cross-checked against user photo and BTE13-010 reference; A4-A7 end pads not shown.</text>
+			<text x="45" y="30" style="font-family: Helvetica; font-size: 14px;fill: rgb(31%,39%,47%); stroke:none;" transform="translate(0,60) scale(1,-1)">v0.5 ADDENDUM / 27-SEP-2026 / terminal labels cross-checked against user photo and BTE13-010 reference; A4-A7 end pads not shown.</text>
 		</g>
 	</g>
 </svg>

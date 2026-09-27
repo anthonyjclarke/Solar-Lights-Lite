@@ -11,5 +11,9 @@
   tests. Sleep and watchdog timing minimise controller standby consumption.
 - Low-voltage cut-off protects the lighting load in firmware; pack protection and
   charger behaviour remain separate hardware concerns.
+- v0.5 reuses the D1 Mini and Q2/R8/R9/R10 as an inverted, receive-only UART
+  monitor during development. The Arduino remains autonomous; the D1's
+  always-on development profile is intentionally not part of the production
+  power budget.
 
 These choices are bounded by the unfinished bench work in `ROADMAP.md`.

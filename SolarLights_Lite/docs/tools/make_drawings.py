@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Rev 0.4 review drawings. Vector SVG/PDF plus raster previews from one source.
+"""v0.5 development drawings. Vector SVG/PDF plus raster previews from one source.
 Run with a Python environment containing reportlab and pypdfium2.
 """
 from pathlib import Path
@@ -51,7 +51,7 @@ def header(n,title,sub):
  global D
  D=Drawing(W,H);rect(0,0,W,H,'#ffffff','#ffffff',0);text(42,38,'SOLARLIGHTS / REBUILD 2026',15,GREEN,True);text(42,80,title,32,INK,True);text(42,110,sub,16,MUTED)
  line(42,132,1398,132,'#d5e0e6',1)
- line(42,850,1398,850,'#d5e0e6',1);text(42,877,'REV 0.4 PROPOSAL  |  19 SEP 2026, AMENDED 27 SEP  |  NOT RELEASED FOR OUTDOOR ASSEMBLY',13,AMBER,True);text(1175,877,f'SHEET {n} OF 5 / A3',13,MUTED)
+ line(42,850,1398,850,'#d5e0e6',1);text(42,877,'v0.5 DEVELOPMENT PROPOSAL  |  27-SEP-2026  |  NOT RELEASED FOR OUTDOOR ASSEMBLY',13,AMBER,True);text(1175,877,f'SHEET {n} OF 6 / A3',13,MUTED)
 def save(name):
  renderSVG.drawToFile(D,str(DOC/(name+'.svg')));return D
 pages=[]
@@ -98,7 +98,7 @@ line(160,495,160,525,GREEN);dot(160,525,GREEN);line(160,525,350,525,GREEN);pin(3
 line(160,525,160,545,GREEN);res(160,580,'R4','100k',True);line(160,615,160,655,GND);ground(160,655)
 # Button
 pin(350,600,'D2',c=GREEN);line(265,600,350,600,GREEN);line(265,600,265,705,GREEN);dot(265,705);dot(315,705);line(272,692,309,692);line(290,681,290,692);line(315,705,355,705,GND);ground(355,705);text(208,744,'SW1 / test',16,INK,True)
-# driver output - measured string driven straight from D9, no switching device (20 Sep 2026)
+# driver output - measured string driven straight from D9, no switching device (20-Sep-2026)
 pin(675,400,'D9 / PWM',c=GREEN);path([(675,400),(735,400),(735,250),(1090,250)],GREEN)
 res(1090,290,'R3','47R',True,GREEN);line(1090,325,1090,380,GREEN)
 rect(1000,380,180,83,'#f0f8ed','#7fab66');text(1018,412,'JLED / string',18,INK,True);text(1018,439,'+ top / - bottom',14,MUTED)
@@ -113,7 +113,7 @@ cap(500,727,'C3','100u / 10 V');line(500,675,500,692,RED);text(435,670,'VBAT_SYS
 cap(700,727,'C4','100n');line(700,675,700,692,RED);text(640,670,'VBAT_SYS',14,RED,True);ground(700,762)
 text(45,833,'All ground symbols on this sheet mean OUT-. R3 sets the peak current; duty changes the average only. Verify current at 4.20 V and 100% duty.',16,AMBER,True)
 pages.append(save('02-controller'))
-header(3,'Optional Wi-Fi telemetry','Add after the lights work. D1 Mini reports battery and lights only. No CHRG connection in this revision.')
+header(3,'Low-power telemetry reference (D1 Mini)','Retained for the later production profile. This is not the always-on D1 Mini UART test system on sheet 6.')
 module(65,210,310,230,'U3 / 3.3 V supply','Buck-boost module TBD',True)
 lines(85,303,['Input: protected battery rail','Qualify radio bursts + standby','Use specified output capacitors'],16,MUTED)
 line(95,180,95,210,RED);text(60,173,'VBAT_SYS',16,RED,True);line(330,180,330,210,GND);text(258,173,'GND_LOAD',16,GND,True)
@@ -214,8 +214,37 @@ for i,(x,label) in enumerate(zip(gate_x,gate_names),1):
 note(390,520,425,'Serial checkpoints',['DAY off: state=0 pct=0 / about 8 s ticks','D2 test: state=0 pct=100','LVC: state=4 pct=0; button cannot relight'])
 text(45,833,'SERIAL IS NOT A CHARGE METER: verify panel input, regulated 5 V, battery voltage and charge current with instruments.',16,AMBER,True)
 pages.append(save('05-staging'))
+header(6,'Development telemetry (Wemos D1 Mini)','TEST SYSTEM ONLY: always-on Wi-Fi and UART capture. Reuses the existing status transistor parts; no INA226 or new telemetry module. Production D1 profile remains on sheet 3.')
+note(42,140,1356,'Read this first',['Always-on Home Assistant test configuration: Q2/R8/R9/R10 become a safe, inverted UART receiver. The D1 Mini deep-sleep production reference is sheet 3.'],True)
+# Three blocks make the only active signal path unambiguous: Arduino TX -> Q2 -> D1 D6.
+module(65,240,305,230,'1 / M2 Arduino','Flash pro8_debug')
+lines(88,325,['VCC: VBAT_SYS','GND: OUT- / GND_LOAD','D1/TX: 9600-baud diagnostics','D8: OPEN in this test profile'],16,MUTED,25)
+pin(370,420,'D1 / TX',c=GREEN);pin(370,450,'GND',c=GND)
+module(475,240,435,230,'2 / Reused UART receiver','Q2 inverts and level-shifts the Arduino TX')
+text(500,320,'M2 D1/TX',15,GREEN,True);path([(370,420),(420,420),(420,350),(500,350)],GREEN,3);line(500,350,545,350,GREEN,3);res(595,350,'R8','47k',False,GREEN);line(645,350,675,350,GREEN,3)
+D.add(Circle(720,H-350,38,fillColor=None,strokeColor=HexColor(INK),strokeWidth=2));line(698,328,698,372,INK,3);line(675,350,698,350,GREEN)
+path([(698,337),(755,305),(755,335)],INK);path([(698,363),(755,402),(755,442)],GND);ground(755,442,'OUT-')
+res(665,400,'R9','100k',True,GREEN);line(665,435,665,442,GND)
+line(755,335,820,335,GREEN,3);dot(820,335,GREEN);path([(820,335),(850,335),(850,435),(970,435)],GREEN,3)
+res(820,300,'R10','10k',True,RED);text(780,255,'ESP 3V3',15,RED,True)
+text(790,410,'Q2 / 2N3904',16,INK,True)
+module(970,240,370,230,'3 / M3 Wemos D1 Mini','Always-on test telemetry',True)
+lines(994,330,['3V3: qualified U3 buck-boost','D6: inverted UART RX','A0: existing battery divider','D5: OPEN; `output=` is light state'],16,MUTED,22)
+pin(970,435,'D6 RX',c=GREEN);pin(970,465,'G',c=GND);pin(970,450,'A0',c=BLUE)
+# The two ground pins share OUT-, but no signal returns from the D1 to the Arduino.
+path([(370,450),(420,450),(420,490),(920,490),(920,465),(970,465)],GND,3)
+text(470,514,'OUT- / GND_LOAD common return only — D1 Mini TX remains OPEN',15,GND,True)
+# Battery sensing is separated from the UART drawing for an easy calibration check.
+rect(65,565,365,155,'#edf5f8','#9ab6c4',12);text(88,598,'Existing battery reading',19,INK,True)
+text(88,628,'VBAT_SYS',15,RED,True);line(190,620,190,642,RED);res(190,675,'R5','220k',True,BLUE);line(190,710,190,725,BLUE)
+path([(190,725),(190,745),(935,745),(935,450),(970,450)],BLUE,3)
+lines(245,632,['D1 A0 has its onboard divider too.','Calibrate its 5.21 multiplier against a meter.','Compare it with parsed','Arduino VDD.'],14,MUTED,19)
+note(465,565,420,'What Home Assistant receives',['Arduino: VDD, LDR, sense/mode/night, output duty,','LVC/test progress, cause, transition and raw line.','D1: battery voltage/percentage, Wi-Fi, reset, heap and uptime.'])
+note(910,565,430,'No-purchase boundary',['Not measured: panel voltage, charge/load current, energy,','physical LED current or temperatures.','`output=` replaces D8-to-D5: leave both pins open.'],True)
+text(465,770,'Test rules: run pro8_debug • no USB-UART adapter on M2 • keep D1 awake • use solar-lights-lite.yaml later for production',16,AMBER,True)
+pages.append(save('06-telemetry-dev'))
 # Multipage A3 PDF; PDF render is authoritative preview.
-fn=OUT/'SolarLights_Rev04_Drawings.pdf';cv=Canvas(str(fn),pagesize=landscape(A3));pw,ph=landscape(A3)
+fn=OUT/'SolarLights_Rev05_Drawings.pdf';cv=Canvas(str(fn),pagesize=landscape(A3));pw,ph=landscape(A3)
 for d in pages:
  cv.saveState();scale=min(pw/W,ph/H);cv.translate((pw-W*scale)/2,(ph-H*scale)/2);cv.scale(scale,scale);renderPDF.draw(d,cv,0,0);cv.restoreState();cv.showPage()
 cv.save()

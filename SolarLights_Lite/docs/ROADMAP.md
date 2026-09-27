@@ -17,5 +17,7 @@ been qualified. No outdoor or seasonal performance is verified.
   verify low-voltage cut-off and recovery.
 - Complete protected-pack wiring and real panel tests, then log at least two weeks
   including overcast conditions and later winter behaviour.
-- Treat ESPHome telemetry and any future carrier PCB as optional work after the
-  lighting and charging path pass their acceptance tests.
+- Use the v0.5 D1 Mini UART telemetry only as a development aid after the
+  lighting and charging path pass their acceptance tests; return to the
+  low-power D1 profile before measuring final energy use. Any carrier PCB
+  remains optional follow-on work.

@@ -1,6 +1,13 @@
 # Your BTE13-010A and transistor inventory
 
-19 September 2026 - hardware-identification addendum to Rev 0.4
+v0.5 current-build addendum | 27-Sep-2026
+
+> **Current v0.5 test wiring.** The existing Wemos D1 Mini is an always-on,
+> development-only Home Assistant receiver. Arduino **D1/TX** feeds R8 and Q2;
+> Q2's collector feeds D1 Mini **D6** with R10 pulled up to ESP 3.3 V. This reuses
+> the installed parts as a protected inverted 9600-baud UART and replaces the old
+> D8-to-D5 status connection during development. D8 and D5 remain open. No INA226
+> or other telemetry hardware is fitted.
 
 ## Decision
 
@@ -19,7 +26,7 @@ A substantially lower-peak-current string could be bench-evaluated with your 2N7
 | Item | Treatment |
 |---|---|
 | 16 MHz crystal | Can remain fitted if the MCU is actually configured for its internal 8 MHz oscillator. Merely compiling at 8 MHz is insufficient. |
-| Clock / brownout | Proposed internal 8 MHz, BOD 2.7 V, ISP programming; retain the Rev 0.4 conversion workflow. Programming access is now user-confirmed. Preserve the working serial bootloader; ISP-only conversion is an option, not a new required action. |
+| Clock / brownout | Confirmed internal 8 MHz, BOD 2.7 V, no bootloader; routine programming is ISP only. |
 | Supply | After removing/isolating the regulator, connect protected battery VBAT_SYS to **VCC** and OUT- to **GND**. Leave **RAW** disconnected. |
 | Regulator | The small package by the serial/power end is the candidate regulator. Its marking is not legible enough to select pins from the photograph. Trace RAW-to-input and VCC-to-output before removal; do not guess a part number. |
 | Power LED | Identify the LED/resistor branch continuously connected to VCC. Remove that LED or its series resistor, not an adjacent decoupling capacitor. The D13 indicator is a separate branch. |
@@ -47,13 +54,14 @@ Top/component view as your front photo: serial header to the left; crystal and r
 | A1 | PC1 / ADC1 | LDR / 100k midpoint |
 | 7 | PD7 | Switched supply to LDR |
 | 9 | PB1 / OC1A | R6 100 ohm -> Q1 gate in MOSFET version |
-| 8 | PB0 | R8 47k -> Q2 2N3904 base |
+| TX / 1 | PD1 / UART TX | v0.5 test profile: R8 47k -> Q2 2N3904 base |
+| 8 | PB0 | Leave open in v0.5 test profile; it is only a production-reference status option |
 | 2 | PD2 | Test button to GND |
 | 11 | PB3 / MOSI | ISP only; no mode jumper fitted |
 | 12 | PB4 / MISO | ISP only |
 | 13 | PB5 / SCK | ISP only; onboard indicator may load this line |
 | RST | PC6 / RESET | ISP reset; either verified RST pad |
-| A0, A4-A7 | Analog / I2C pins | Not used in Rev 0.4 |
+| A0, A4-A7 | Analog / I2C pins | Not used in v0.5 |
 | TX, RX, DTR | Serial / auto-reset | Not a substitute for the ISP interface |
 
 ISP connects **MOSI->11, MISO->12, SCK->13, programmer RESET->RST, target VCC and GND**. Programmer connector numbering varies. Do not connect the programmer's reset output to the board's DTR capacitor input.
@@ -87,7 +95,7 @@ Programming access is confirmed by the user's successful 6,488-byte flash. The a
 
 ---
 
-## Q1 disposition - direct pin drive, 20 September 2026
+## Q1 disposition - direct pin drive, 20-Sep-2026
 
 The string has now been measured: 2.56 V drop, no significant dynamic resistance, so
 the series resistor sets the current ([measurement](../validation/led-string-measurement.md)).
@@ -133,7 +141,7 @@ affect H01, H02, H03, H05, H06 or H08 to H16.
 
 ---
 
-## U0 / U3 candidate part - TPS63802 buck-boost breakout, 21 September 2026
+## U0 / U3 candidate part - TPS63802 buck-boost breakout, 21-Sep-2026
 
 You have two of a small breakout ("HL802A") built around the TI TPS63802 buck-boost
 chip. Input 1.8-5.5 V, output pin-strap selectable to a fixed 3.3 V (2 A) or 5 V (1 A),
@@ -163,7 +171,7 @@ elsewhere in the build - not for U0.
 
 ---
 
-## U0 candidates - AMS1117 LDO board and MP1584EN buck module, 21 September 2026
+## U0 candidates - AMS1117 LDO board and MP1584EN buck module, 21-Sep-2026
 
 **AMS1117 board: reject for U0.** Electrically it survives - the chip's input is
 rated to 15 V, well above panel Voc even cold - so it will not be damaged. The

@@ -6,7 +6,7 @@ BT1 / BT2,Matched 18650 cells (x2, 1S2P),Reuse,,Same type/age/capacity/state of 
 FB1 / FB2,1 A fuse (per cell),New - buy,,One per cell positive lead, before the parallel junction
 F2,1 A main fuse,New - buy,,In series on OUT+ before the service switch
 S1,Service switch (SPST),New - buy,,In series after F2, breaks the whole protected rail
-M2,Existing 16 MHz Pro Mini (BTE13-010A),Reuse - needs conversion,,"Convert to internal 8 MHz via ISP (or confirm existing flash is genuinely 8 MHz); remove onboard regulator and power LED. NOTE: 2nd board found 21 Sep is a Pro Micro (ATmega32U4), NOT a Pro Mini - firmware uses 328P-specific registers that do not exist on 32U4 (button-wake ISR, ADC channels); not a drop-in, keep as spare"
+M2,Existing 16 MHz Pro Mini (BTE13-010A),Reuse - needs conversion,,"Convert to internal 8 MHz via ISP (or confirm existing flash is genuinely 8 MHz); remove onboard regulator and power LED. NOTE: 2nd board found 21-Sep-2026 is a Pro Micro (ATmega32U4), NOT a Pro Mini - firmware uses 328P-specific registers that do not exist on 32U4 (button-wake ISR, ADC channels); not a drop-in, keep as spare"
 Q1,MOSFET,Not fitted,,Removed - measured string runs at ~15 mA direct from the pin
 R6 / R7,Gate resistor / pull-down,Not fitted,,Only existed for the MOSFET
 R3,47 ohm 1/4 W resistor,New - buy (have on hand?),,Sets LED current directly from D9. Try 56 ohm if you prefer <20 mA at 4.20 V
@@ -15,11 +15,11 @@ C3,100 uF electrolytic,Reuse/buy,,>=6.3 V rating (10 V preferred); across the Pr
 LDR1 / R4,LDR + 100k resistor,Fitted (was optional),,Now the default sensor path (SENSOR_LDR=1)
 SW1,Momentary push button,Reuse/buy,,Test button to D2
 U3,Low-Iq 3.3 V buck-boost,Candidate - TPS63802/HL802A breakout (have 2),,"Set jumper to 3.3 V; not yet bench-qualified against BUILD_GUIDE step 9"
-M3,Existing Wemos D1 Mini,Reuse - needs mod,,Remove/isolate onboard regulator before feeding external 3V3
+M3,Existing Wemos D1 Mini,Reuse - v0.5 test system,,Always-on Home Assistant telemetry during development; feed qualified external 3V3 and use D6 as the protected UART receive input. Use the separate deep-sleep YAML for production measurement.
 C2,470 uF electrolytic,Reuse/buy,,At U3's input, observe polarity
 R5,220k resistor,Reuse/buy,,Battery-voltage sense divider to D1 Mini A0
-Q2,2N3904 NPN,Have (confirmed in kit),,Telemetry status inverter, replaces the old resistor divider
-R8,47k resistor,Reuse/buy,,D8 to Q2 base
+Q2,2N3904 NPN,Have (confirmed in kit),,v0.5 protected inverted UART receiver from Arduino D1/TX to D1 Mini D6
+R8,47k resistor,Reuse/buy,,Arduino D1/TX to Q2 base in the v0.5 test system
 R9,100k resistor,Reuse/buy,,Base-emitter pulldown
-R10,10k resistor,Reuse/buy,,Pull-up from Q2 collector to the 3V3 telemetry rail
+R10,10k resistor,Reuse/buy,,Pull-up from Q2 collector to the 3V3 telemetry rail; collector feeds D1 Mini D6
 Enclosure,"Weatherproof box, glands, standoffs, insulated cell holder",New - buy,,Keep cells shaded and away from charger/resistor heat

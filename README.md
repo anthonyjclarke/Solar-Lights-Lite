@@ -1,6 +1,6 @@
 # Solar Lights Lite
 
-![version: v0.4.0](https://img.shields.io/badge/version-v0.4.0-0072B2?style=for-the-badge)
+![version: v0.5.0](https://img.shields.io/badge/version-v0.5.0-0072B2?style=for-the-badge)
 ![platform: ATmega328P](https://img.shields.io/badge/platform-ATmega328P-4E9A06?style=for-the-badge)
 ![PlatformIO: 6.x](https://img.shields.io/badge/PlatformIO-6.x-F5822A?style=for-the-badge)
 ![status: review proposal](https://img.shields.io/badge/status-review%20proposal-B36A00?style=for-the-badge)
@@ -68,7 +68,9 @@ qualification steps in the build guide**.
 - Senses ambient light and turns the LED string on at dusk.
 - Runs the measured LED string directly from the controller through a current-limiting resistor.
 - Protects the battery by dimming at low voltage and shutting the light off at a confirmed low-voltage threshold.
-- Supports optional ESPHome telemetry for battery, Wi-Fi, and light-state reporting.
+- Supports a no-purchase D1 Mini development telemetry profile that captures the
+  controller's serial diagnostics in Home Assistant, plus a separate low-power
+  D1 Mini production-reference profile.
 - Uses a staged assembly process so each supply, charging, controller, lighting, and telemetry function can be tested independently.
 
 ## System at a glance
@@ -93,14 +95,14 @@ flowchart LR
 | Charging and storage | Protected TP4056-family module and matched 1S2P 18650 pack | Charging current, protection topology, temperature behaviour, and cell condition require verification. |
 | Controller | BTE13-010A / ATmega328P Pro Mini-class board | Runs at verified internal 8 MHz and handles LDR, button, battery monitoring, and LED control. |
 | Lighting | LED string driven from D9 through R3 = 47 ohm | Bench measurement indicated about 15 mA at 3.7 V; the resistor, not PWM alone, sets branch current. |
-| Telemetry | Optional D1 Mini with a separate qualified 3.3 V supply | Keeps monitoring separate from the lighting controller and makes its energy cost measurable. |
+| Telemetry | Existing D1 Mini, qualified 3.3 V supply, and reused Q2 interface | Always-on development profile captures controller UART diagnostics; a separate profile returns to hourly deep sleep for production measurement. |
 
 ![Assembly placement proposal](SolarLights_Lite/docs/sheet-4.png)
 
 ## Start here
 
 1. Read the [build guide](SolarLights_Lite/docs/BUILD_GUIDE.md) before wiring anything.
-2. Use the [illustrated assembly guide](SolarLights_Lite/docs/ASSEMBLY.html) for the power, controller, telemetry, and enclosure drawings.
+2. Use the [illustrated assembly guide](SolarLights_Lite/docs/ASSEMBLY.html) for the power, controller, D1 Mini development telemetry, production-reference telemetry, and enclosure drawings.
 3. Follow the [validation report](SolarLights_Lite/docs/VALIDATION.md) and its acceptance gates. It records both what has been demonstrated and what remains open.
 4. Compile, upload and monitor only through the canonical [firmware programming procedure](SolarLights_Lite/firmware/lite_controller/PROGRAMMING.md).
 5. Use the [parts list](SolarLights_Lite/docs/SolarLights_Lite_Parts_List.csv), [wire schedule](SolarLights_Lite/docs/wire-schedule.csv), and [reviewed terminal netlist](SolarLights_Lite/docs/reviewed-netlist.json) at the bench.

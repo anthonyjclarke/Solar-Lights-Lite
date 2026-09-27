@@ -24,15 +24,18 @@ Do **not** burn a bootloader or add fuse-write (`lfuse:w`, `hfuse:w`,
 `efuse:w`) options during ordinary updates. A normal flash command writes only
 the application and leaves these settings alone.
 
-There is no bootloader, so the USB-UART board is **monitoring only**. Firmware
-is flashed over ISP with either a USBasp or a second Arduino running ArduinoISP.
+There is no bootloader, so firmware is flashed over ISP with either a USBasp or a
+second Arduino running ArduinoISP. In the v0.5 test system the D1 Mini is the
+normal receive-only diagnostic monitor; a USB-UART board is optional and not
+needed for Home Assistant telemetry.
 
 ## 1. What connects when
 
 | Job | Interface | Connections |
 |---|---|---|
 | Flash firmware | USBasp or ArduinoISP | MOSI, MISO, SCK, RESET, VCC, GND |
-| Read diagnostics | USB-UART adapter | Target TX to adapter RX; common GND |
+| Read diagnostics (v0.5 test) | Wemos D1 Mini | Target D1/TX through Q2/R8/R9/R10 to D1 Mini D6; common OUT- |
+| Read diagnostics (temporary local) | USB-UART adapter | Target TX to adapter RX; common GND |
 
 During ISP work, disconnect the UART adapter, battery, panel, LED string and
 all other peripherals. The target must have exactly one power source.
@@ -239,10 +242,25 @@ avrdude -c stk500v1 -P COM5 -b 19200 -p m328p -v -U flash:w:.pio\build\pro8_debu
 Do not pass `-B` to the stock ArduinoISP sketch; it does not implement avrdude's
 SCK-duration command.
 
-## 7. Serial diagnostics after flashing
+## 7. Diagnostics after flashing
 
-Disconnect the ISP programmer first and power the controller normally. On the
-photographed USB-UART adapter connect only:
+Disconnect the ISP programmer first and power the controller normally. For the
+v0.5 test system, flash `../../esphome/solar-lights-lite-dev-d1.yaml` to the
+existing Wemos D1 Mini, then connect only the protected receiver path:
+
+| Arduino / interface | D1 Mini / interface |
+|---|---|
+| D1 / TX | R8 47 kOhm -> Q2 base |
+| Q2 collector | D6, with R10 10 kOhm to ESP 3.3 V |
+| OUT- / GND_LOAD | Q2 emitter and D1 Mini GND |
+
+R9 (100 kOhm) connects Q2 base to OUT-. Do not connect D1 Mini TX to the
+Arduino; D5 and Arduino D8 remain open in this profile. Home Assistant receives
+the raw diagnostic line and parsed controller data at 9600 baud. The D1 Mini
+must stay powered while this link is fitted.
+
+For a temporary local monitor instead, the photographed USB-UART adapter connects
+only:
 
 | Pro Mini | UART adapter |
 |---|---|
@@ -266,7 +284,9 @@ pio device monitor --baud 9600 --port COM5
 ```
 
 On reset, the debug image prints a one-time field guide, then rate-limited live
-diagnostics. Production firmware intentionally prints nothing.
+diagnostics. Production firmware intentionally prints nothing. The v0.5 D1 Mini
+path replaces the USB-UART connection for normal development; use `pro8` and the
+low-power ESPHome profile for final energy measurements.
 
 ## 8. Optional read-only fuse check
 
@@ -292,7 +312,8 @@ the implemented extended-fuse bits as `0x05`; this represents the same setting.
 | Signature is not `0x1e950f` | Wrong target or wiring; stop without writing. |
 | Flash verification mismatch | Confirm external current avrdude is running, then rebuild and retry once. |
 | Serial text unreadable | Confirm the 8 MHz target and the `pro8_debug` image. |
-| No serial output | Production image flashed, TX/RX reversed, missing common OUT- ground, or wrong port. |
+| No Home Assistant diagnostics | Production image flashed, D1/TX not routed through Q2 to D6, missing common OUT- ground, D1 Mini not powered, or stale Wi-Fi/API connection. |
+| No USB serial output | Production image flashed, TX/RX reversed, missing common OUT- ground, or wrong port. |
 
 ## 10. Final checklist
 
@@ -303,7 +324,7 @@ the implemented extended-fuse bits as `0x05`; this represents the same setting.
 - USBasp voltage and pin 1 are verified.
 - Signature is `0x1e950f`.
 - External avrdude reports both write and verification success.
-- ISP is disconnected before normal power and UART monitoring return.
+- ISP is disconnected before normal power and D1 Mini or USB-UART monitoring return.
 
 For firmware behaviour and staged hardware validation, use the
 [assembly and diagnostics guide](../../docs/ASSEMBLY.html#staging).

@@ -12,5 +12,8 @@ applies low-voltage cut-off, and handles the startup and button test intervals.
 
 The controller wakes every second while lit, fading, or confirming a transition;
 otherwise it uses an eight-second watchdog wake and power-down sleep. PWM requires
-idle sleep while the LEDs are on. The optional ESPHome configuration is separate
-under `firmware/esphome/` and is not required for the light controller.
+idle sleep while the LEDs are on. ESPHome is separate under
+`firmware/esphome/` and is not required for the light controller.
+`solar-lights-lite-dev-d1.yaml` keeps the D1 Mini awake and parses the Arduino's
+diagnostic UART through Q2; `solar-lights-lite.yaml` is the separate
+hourly-deep-sleep production-reference profile.

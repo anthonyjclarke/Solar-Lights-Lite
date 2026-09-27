@@ -1,12 +1,18 @@
 # SolarLights Lite - engineering review
 
-Revision 0.4 proposal | 19 September 2026 | repository release amended 27 September 2026 | Not released for outdoor assembly
+Revision 0.5 development proposal | 27-Sep-2026 | Not released for outdoor assembly
 
 > **Historical evidence, not the current programming procedure.** This report
 > preserves dated commands, port names and machine-specific results so the test
 > history remains auditable. For a clean iMac or MacBook setup and all current
 > build, upload and serial-monitor steps, use
 > [`firmware/lite_controller/PROGRAMMING.md`](../firmware/lite_controller/PROGRAMMING.md).
+
+> **v0.5 integration status.** The current test configuration reuses the D1 Mini
+> and Q2/R8/R9/R10 as a receive-only, inverted UART monitor (Arduino D1/TX to D1
+> Mini D6). It has not added current, energy, panel-voltage or temperature
+> measurement hardware. The dated v0.4 evidence below remains historical evidence;
+> it is not a test result for this new telemetry path.
 
 **The rebuild has a useful architecture, but the supplied design is not yet build-ready.** A small independent controller and sleeping Wi-Fi telemetry are sensible. Reuse the existing panel and a protected TP4056 module, after resolving its input supply and confirming the actual module. Use reduced brightness from dusk to dawn, as requested during this review.
 
@@ -84,7 +90,7 @@ Programming access is user-confirmed. Verify/correct the likely 16 MHz runtime /
 
 ---
 
-## Addendum - 20 September 2026: measured string and direct pin drive
+## Addendum - 20-Sep-2026: measured string and direct pin drive
 
 New evidence: [validation/led-string-measurement.md](../validation/led-string-measurement.md).
 The user measured the string on a Nordic Power Profiler Kit II through one 47 ohm series
@@ -120,7 +126,7 @@ the MOSFET driver.
 
 ---
 
-## Addendum - 21 September 2026: second board identified as ATmega32U4 (Pro Micro), corrected
+## Addendum - 21-Sep-2026: second board identified as ATmega32U4 (Pro Micro), corrected
 
 **Supersedes the addendum this replaces, filed earlier the same day.** That entry
 assumed the "8 MHz" board was a second Pro Mini (ATmega328P). The user's photos show
@@ -150,7 +156,7 @@ on this chip as it stands:**
 - `DIDR0 = _BV(ADC0D) | _BV(ADC1D)` disables digital buffers on ADC0/ADC1 (PF0/PF1 on
   the 32U4) - pins this board most likely doesn't even route to the header - instead
   of the ones actually in use.
-- `TCCR1B` PWM-prescaler poke for D9 (the ~1.96 kHz figure used in the 20 Sep LED
+- `TCCR1B` PWM-prescaler poke for D9 (the ~1.96 kHz figure used in the 20-Sep-2026 LED
   measurement) assumes D9 drives Timer1/OC1A, as it does on the 328P. Genuine
   SparkFun Pro Micro pinouts also route D9 to OC1A, so this may carry over, but it is
   **not verified for this specific clone's silkscreen** and should not be assumed.
@@ -177,7 +183,7 @@ This does not change M1/U0/U3/charging, Q1, the LED drive, or the LDR wiring. Se
 
 ---
 
-## Addendum - 21 September 2026: BTE13-010A fuses set to internal 8 MHz, BOD 2.7 V
+## Addendum - 21-Sep-2026: BTE13-010A fuses set to internal 8 MHz, BOD 2.7 V
 
 Bench result. USBasp on this board failed to initialise ("cannot set sck period" /
 "target does not answer") - consistent with old clone firmware, per the known-issues
@@ -222,7 +228,7 @@ This does not change M1/U0/U3/charging, Q1, the LED drive, or the LDR wiring.
 
 ---
 
-## Addendum - 21 September 2026: chip still running pre-conversion firmware
+## Addendum - 21-Sep-2026: chip still running pre-conversion firmware
 
 Clarified with the user after an apparent contradiction: a serial monitor session
 over the CH340 adapter showed clean "SolarLights Lite" / `t=.../vdd=.../state=.../
@@ -232,7 +238,7 @@ not. Timeline, confirmed by the user:
 - A few days ago: old firmware uploaded to this same Pro Mini via the CH340 adapter,
   through whatever bootloader was on the chip at the time (the user has no other Pro
   Mini board - this is the same physical chip throughout).
-- 21 Sep 2026: ISP fuse write (internal 8 MHz / BOD 2.7 V / no bootloader) done on
+- 21-Sep-2026: ISP fuse write (internal 8 MHz / BOD 2.7 V / no bootloader) done on
   this chip via a self-built Arduino Nano as ISP. No firmware upload has happened via
   ISP yet.
 
@@ -264,7 +270,7 @@ pio run -e pro8_isp -t upload --upload-port /dev/cu.usbserial-XXXX
 
 ---
 
-## Addendum - 21 September 2026: ISP link recovered after a cold power cycle
+## Addendum - 21-Sep-2026: ISP link recovered after a cold power cycle
 
 After the ISP fuse write, the Nano-as-ISP link to this same chip went from working
 (fuse write + independent read-back both clean) to consistently reading
@@ -295,7 +301,7 @@ firmware via `pio run -e pro8_isp -t upload --upload-port /dev/cu.usbserial-XXXX
 
 ---
 
-## Addendum - 21 September 2026: Rev 0.4 firmware genuinely on the chip; root-caused the upload tool
+## Addendum - 21-Sep-2026: Rev 0.4 firmware genuinely on the chip; root-caused the upload tool
 
 **Milestone: the actual reviewed Rev 0.4 firmware is now written and verified on the
 BTE13-010A**, replacing the pre-conversion code that had been running until this
@@ -336,7 +342,7 @@ removing the board's onboard regulator and power LED.
 
 The dated observations above remain evidence only. The machine-independent current procedure is consolidated in [the firmware programming guide](../firmware/lite_controller/PROGRAMMING.md); this file remains the dated, blow-by-blow record.
 
-### Addendum - 21 September 2026: USBasp works cleanly on the iMac
+### Addendum - 21-Sep-2026: USBasp works cleanly on the iMac
 
 On the iMac (`AnthonysiMac5K4`), direct USBasp upload of the same Rev 0.4 firmware succeeded on the first attempt, using the system avrdude (8.3, Homebrew-installed):
 

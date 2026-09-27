@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE svg
+  PUBLIC '-//W3C//DTD SVG 1.0//EN'
+  'http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd'>
+<svg width="1440" height="900" preserveAspectRatio="xMinYMin meet" viewBox="0 0 1440 900" xmlns="http://www.w3.org/2000/svg" version="1.0" fill-rule="evenodd" xmlns:xlink="http://www.w3.org/1999/xlink">
+	<title>...</title>
+	<desc>...</desc>
+	<clipPath id="clip">
+		<rect x="0" y="0" width="1440" height="900"/>
+	</clipPath>
+	<g id="group" transform="scale(1,-1) translate(0,-900)" style="clip-path: url(#clip)">
+		<g transform="">
+			<rect x="0" y="0" width="1440" height="900" style="stroke: rgb(100%,100%,100%); stroke-linecap: butt; stroke-width: 1.5; fill: rgb(100%,100%,100%); fill-rule: evenodd;"/>
+			<text x="42" y="862" style="font-family: Helvetica-Bold; font-size: 15px;fill: rgb(0%,52%,44%); stroke:none;" transform="translate(0,1724) scale(1,-1)">SOLARLIGHTS / REBUILD 2026</text>
+			<text x="42" y="820" style="font-family: Helvetica-Bold; font-size: 32px;fill: rgb(9%,18%,27%); stroke:none;" transform="translate(0,1640) scale(1,-1)">Development telemetry (Wemos D1 Mini)</text>
+			<text x="42" y="790" style="font-family: Helvetica; font-size: 16px;fill: rgb(31%,39%,47%); stroke:none;" transform="translate(0,1580) scale(1,-1)">TEST SYSTEM ONLY: always-on Wi-Fi and UART capture. Reuses the existing status transistor parts; no INA226 or new telemetry module. Production D1 profile remains on sheet 3.</text>
+			<path d="M 42,768 L 1398,768 Z" style="stroke: rgb(83%,87%,90%); stroke-linecap: butt; stroke-width: 1;"/>
+			<path d="M 42,50 L 1398,50 Z" style="stroke: rgb(83%,87%,90%); stroke-linecap: butt; stroke-width: 1;"/>
+			<text x="42" y="23" style="font-family: Helvetica-Bold; font-size: 13px;fill: rgb(67%,38%,0%); stroke:none;" transform="translate(0,46) scale(1,-1)">v0.5 DEVELOPMENT PROPOSAL  |  27-SEP-2026  |  NOT RELEASED FOR OUTDOOR ASSEMBLY</text>
+			<text x="1175" y="23" style="font-family: Helvetica; font-size: 13px;fill: rgb(31%,39%,47%); stroke:none;" transform="translate(0,46) scale(1,-1)">SHEET 6 OF 6 / A3</text>
+			<rect x="42" y="681" width="1356" height="79" rx="12" ry="12" style="stroke: rgb(79%,84%,87%); stroke-linecap: butt; stroke-width: 1.5; fill: rgb(100%,97%,91%); fill-rule: evenodd;"/>
+			<text x="60" y="730" style="font-family: Helvetica-Bold; font-size: 18px;fill: rgb(67%,38%,0%); stroke:none;" transform="translate(0,1460) scale(1,-1)">Read this first</text>
+			<text x="60" y="704" style="font-family: Helvetica; font-size: 15px;fill: rgb(31%,39%,47%); stroke:none;" transform="translate(0,1408) scale(1,-1)">Always-on Home Assistant test configuration: Q2/R8/R9/R10 become a safe, inverted UART receiver. The D1 Mini deep-sleep production reference is sheet 3.</text>
+			<rect x="65" y="430" width="305" height="230" rx="12" ry="12" style="stroke: rgb(60%,71%,76%); stroke-linecap: butt; stroke-width: 1.5; fill: rgb(92%,96%,97%); fill-rule: evenodd;"/>
+			<text x="85" y="626" style="font-family: Helvetica-Bold; font-size: 21px;fill: rgb(9%,18%,27%); stroke:none;" transform="translate(0,1252) scale(1,-1)">1 / M2 Arduino</text>
+			<text x="85" y="598" style="font-family: Helvetica; font-size: 14px;fill: rgb(31%,39%,47%); stroke:none;" transform="translate(0,1196) scale(1,-1)">Flash pro8_debug</text>
+			<text x="88" y="575" style="font-family: Helvetica; font-size: 16px;fill: rgb(31%,39%,47%); stroke:none;" transform="translate(0,1150) scale(1,-1)">VCC: VBAT_SYS</text>
+			<text x="88" y="550" style="font-family: Helvetica; font-size: 16px;fill: rgb(31%,39%,47%); stroke:none;" transform="translate(0,1100) scale(1,-1)">GND: OUT- / GND_LOAD</text>
+			<text x="88" y="525" style="font-family: Helvetica; font-size: 16px;fill: rgb(31%,39%,47%); stroke:none;" transform="translate(0,1050) scale(1,-1)">D1/TX: 9600-baud diagnostics</text>
+			<text x="88" y="500" style="font-family: Helvetica; font-size: 16px;fill: rgb(31%,39%,47%); stroke:none;" transform="translate(0,1000) scale(1,-1)">D8: OPEN in this test profile</text>
+			<circle cx="370" cy="480" r="4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(0%,52%,44%); fill-rule: evenodd;"/>
+			<text x="382" y="489" style="font-family: Helvetica; font-size: 16px;fill: rgb(0%,52%,44%); stroke:none;" transform="translate(0,978) scale(1,-1)">D1 / TX</text>
+			<circle cx="370" cy="450" r="4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(20%,26%,32%); fill-rule: evenodd;"/>
+			<text x="382" y="459" style="font-family: Helvetica; font-size: 16px;fill: rgb(20%,26%,32%); stroke:none;" transform="translate(0,918) scale(1,-1)">GND</text>
+			<rect x="475" y="430" width="435" height="230" rx="12" ry="12" style="stroke: rgb(60%,71%,76%); stroke-linecap: butt; stroke-width: 1.5; fill: rgb(92%,96%,97%); fill-rule: evenodd;"/>
+			<text x="495" y="626" style="font-family: Helvetica-Bold; font-size: 21px;fill: rgb(9%,18%,27%); stroke:none;" transform="translate(0,1252) scale(1,-1)">2 / Reused UART receiver</text>
+			<text x="495" y="598" style="font-family: Helvetica; font-size: 14px;fill: rgb(31%,39%,47%); stroke:none;" transform="translate(0,1196) scale(1,-1)">Q2 inverts and level-shifts the Arduino TX</text>
+			<text x="500" y="580" style="font-family: Helvetica-Bold; font-size: 15px;fill: rgb(0%,52%,44%); stroke:none;" transform="translate(0,1160) scale(1,-1)">M2 D1/TX</text>
+			<path d="M 370,480 L 420,480 Z" style="stroke: rgb(0%,52%,44%); stroke-linecap: butt; stroke-width: 3;"/>
+			<path d="M 420,480 L 420,550 Z" style="stroke: rgb(0%,52%,44%); stroke-linecap: butt; stroke-width: 3;"/>
+			<path d="M 420,550 L 500,550 Z" style="stroke: rgb(0%,52%,44%); stroke-linecap: butt; stroke-width: 3;"/>
+			<path d="M 500,550 L 545,550 Z" style="stroke: rgb(0%,52%,44%); stroke-linecap: butt; stroke-width: 3;"/>
+			<path d="M 545,550 L 565,550 Z" style="stroke: rgb(0%,52%,44%); stroke-linecap: butt; stroke-width: 2;"/>
+			<rect x="565" y="542" width="60" height="16" style="stroke: rgb(0%,52%,44%); stroke-linecap: butt; stroke-width: 1.5; fill: rgb(100%,100%,100%); fill-rule: evenodd;"/>
+			<path d="M 625,550 L 645,550 Z" style="stroke: rgb(0%,52%,44%); stroke-linecap: butt; stroke-width: 2;"/>
+			<text x="567" y="570" style="font-family: Helvetica-Bold; font-size: 15px;fill: rgb(0%,52%,44%); stroke:none;" transform="translate(0,1140) scale(1,-1)">R8 47k</text>
+			<path d="M 645,550 L 675,550 Z" style="stroke: rgb(0%,52%,44%); stroke-linecap: butt; stroke-width: 3;"/>
+			<circle cx="720" cy="550" r="38" style="stroke: rgb(9%,18%,27%); stroke-linecap: butt; stroke-width: 2; fill: none; fill-rule: evenodd;"/>
+			<path d="M 698,572 L 698,528 Z" style="stroke: rgb(9%,18%,27%); stroke-linecap: butt; stroke-width: 3;"/>
+			<path d="M 675,550 L 698,550 Z" style="stroke: rgb(0%,52%,44%); stroke-linecap: butt; stroke-width: 2;"/>
+			<path d="M 698,563 L 755,595 Z" style="stroke: rgb(9%,18%,27%); stroke-linecap: butt; stroke-width: 2;"/>
+			<path d="M 755,595 L 755,565 Z" style="stroke: rgb(9%,18%,27%); stroke-linecap: butt; stroke-width: 2;"/>
+			<path d="M 698,537 L 755,498 Z" style="stroke: rgb(20%,26%,32%); stroke-linecap: butt; stroke-width: 2;"/>
+			<path d="M 755,498 L 755,458 Z" style="stroke: rgb(20%,26%,32%); stroke-linecap: butt; stroke-width: 2;"/>
+			<path d="M 755,458 L 755,448 Z" style="stroke: rgb(20%,26%,32%); stroke-linecap: butt; stroke-width: 2;"/>
+			<path d="M 741,448 L 769,448 Z" style="stroke: rgb(20%,26%,32%); stroke-linecap: butt; stroke-width: 2;"/>
+			<path d="M 746,442 L 764,442 Z" style="stroke: rgb(20%,26%,32%); stroke-linecap: butt; stroke-width: 2;"/>
+			<path d="M 751,436 L 759,436 Z" style="stroke: rgb(20%,26%,32%); stroke-linecap: butt; stroke-width: 2;"/>
+			<text x="775" y="439" style="font-family: Helvetica; font-size: 14px;fill: rgb(20%,26%,32%); stroke:none;" transform="translate(0,878) scale(1,-1)">OUT-</text>
+			<path d="M 665,535 L 665,520 Z" style="stroke: rgb(0%,52%,44%); stroke-linecap: butt; stroke-width: 2;"/>
+			<rect x="657" y="480" width="16" height="40" style="stroke: rgb(0%,52%,44%); stroke-linecap: butt; stroke-width: 1.5; fill: rgb(100%,100%,100%); fill-rule: evenodd;"/>
+			<path d="M 665,480 L 665,465 Z" style="stroke: rgb(0%,52%,44%); stroke-linecap: butt; stroke-width: 2;"/>
+			<text x="682" y="504" style="font-family: Helvetica-Bold; font-size: 16px;fill: rgb(0%,52%,44%); stroke:none;" transform="translate(0,1008) scale(1,-1)">R9</text>
+			<text x="682" y="483" style="font-family: Helvetica; font-size: 15px;fill: rgb(0%,52%,44%); stroke:none;" transform="translate(0,966) scale(1,-1)">100k</text>
+			<path d="M 665,465 L 665,458 Z" style="stroke: rgb(20%,26%,32%); stroke-linecap: butt; stroke-width: 2;"/>
+			<path d="M 755,565 L 820,565 Z" style="stroke: rgb(0%,52%,44%); stroke-linecap: butt; stroke-width: 3;"/>
+			<circle cx="820" cy="565" r="4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(0%,52%,44%); fill-rule: evenodd;"/>
+			<path d="M 820,565 L 850,565 Z" style="stroke: rgb(0%,52%,44%); stroke-linecap: butt; stroke-width: 3;"/>
+			<path d="M 850,565 L 850,465 Z" style="stroke: rgb(0%,52%,44%); stroke-linecap: butt; stroke-width: 3;"/>
+			<path d="M 850,465 L 970,465 Z" style="stroke: rgb(0%,52%,44%); stroke-linecap: butt; stroke-width: 3;"/>
+			<path d="M 820,635 L 820,620 Z" style="stroke: rgb(75%,21%,23%); stroke-linecap: butt; stroke-width: 2;"/>
+			<rect x="812" y="580" width="16" height="40" style="stroke: rgb(75%,21%,23%); stroke-linecap: butt; stroke-width: 1.5; fill: rgb(100%,100%,100%); fill-rule: evenodd;"/>
+			<path d="M 820,580 L 820,565 Z" style="stroke: rgb(75%,21%,23%); stroke-linecap: butt; stroke-width: 2;"/>
+			<text x="837" y="604" style="font-family: Helvetica-Bold; font-size: 16px;fill: rgb(75%,21%,23%); stroke:none;" transform="translate(0,1208) scale(1,-1)">R10</text>
+			<text x="837" y="583" style="font-family: Helvetica; font-size: 15px;fill: rgb(75%,21%,23%); stroke:none;" transform="translate(0,1166) scale(1,-1)">10k</text>
+			<text x="780" y="645" style="font-family: Helvetica-Bold; font-size: 15px;fill: rgb(75%,21%,23%); stroke:none;" transform="translate(0,1290) scale(1,-1)">ESP 3V3</text>
+			<text x="790" y="490" style="font-family: Helvetica-Bold; font-size: 16px;fill: rgb(9%,18%,27%); stroke:none;" transform="translate(0,980) scale(1,-1)">Q2 / 2N3904</text>
+			<rect x="970" y="430" width="370" height="230" rx="12" ry="12" style="stroke: rgb(83%,63%,30%); stroke-linecap: butt; stroke-width: 1.5; fill: rgb(100%,97%,91%); fill-rule: evenodd;"/>
+			<text x="990" y="626" style="font-family: Helvetica-Bold; font-size: 21px;fill: rgb(67%,38%,0%); stroke:none;" transform="translate(0,1252) scale(1,-1)">3 / M3 Wemos D1 Mini</text>
+			<text x="990" y="598" style="font-family: Helvetica; font-size: 14px;fill: rgb(31%,39%,47%); stroke:none;" transform="translate(0,1196) scale(1,-1)">Always-on test telemetry</text>
+			<text x="994" y="570" style="font-family: Helvetica; font-size: 16px;fill: rgb(31%,39%,47%); stroke:none;" transform="translate(0,1140) scale(1,-1)">3V3: qualified U3 buck-boost</text>
+			<text x="994" y="548" style="font-family: Helvetica; font-size: 16px;fill: rgb(31%,39%,47%); stroke:none;" transform="translate(0,1096) scale(1,-1)">D6: inverted UART RX</text>
+			<text x="994" y="526" style="font-family: Helvetica; font-size: 16px;fill: rgb(31%,39%,47%); stroke:none;" transform="translate(0,1052) scale(1,-1)">A0: existing battery divider</text>
+			<text x="994" y="504" style="font-family: Helvetica; font-size: 16px;fill: rgb(31%,39%,47%); stroke:none;" transform="translate(0,1008) scale(1,-1)">D5: OPEN; `output=` is light state</text>
+			<circle cx="970" cy="465" r="4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(0%,52%,44%); fill-rule: evenodd;"/>
+			<text x="982" y="474" style="font-family: Helvetica; font-size: 16px;fill: rgb(0%,52%,44%); stroke:none;" transform="translate(0,948) scale(1,-1)">D6 RX</text>
+			<circle cx="970" cy="435" r="4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(20%,26%,32%); fill-rule: evenodd;"/>
+			<text x="982" y="444" style="font-family: Helvetica; font-size: 16px;fill: rgb(20%,26%,32%); stroke:none;" transform="translate(0,888) scale(1,-1)">G</text>
+			<circle cx="970" cy="450" r="4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(9%,43%,69%); fill-rule: evenodd;"/>
+			<text x="982" y="459" style="font-family: Helvetica; font-size: 16px;fill: rgb(9%,43%,69%); stroke:none;" transform="translate(0,918) scale(1,-1)">A0</text>
+			<path d="M 370,450 L 420,450 Z" style="stroke: rgb(20%,26%,32%); stroke-linecap: butt; stroke-width: 3;"/>
+			<path d="M 420,450 L 420,410 Z" style="stroke: rgb(20%,26%,32%); stroke-linecap: butt; stroke-width: 3;"/>
+			<path d="M 420,410 L 920,410 Z" style="stroke: rgb(20%,26%,32%); stroke-linecap: butt; stroke-width: 3;"/>
+			<path d="M 920,410 L 920,435 Z" style="stroke: rgb(20%,26%,32%); stroke-linecap: butt; stroke-width: 3;"/>
+			<path d="M 920,435 L 970,435 Z" style="stroke: rgb(20%,26%,32%); stroke-linecap: butt; stroke-width: 3;"/>
+			<text x="470" y="386" style="font-family: Helvetica-Bold; font-size: 15px;fill: rgb(20%,26%,32%); stroke:none;" transform="translate(0,772) scale(1,-1)">OUT- / GND_LOAD common return only — D1 Mini TX remains OPEN</text>
+			<rect x="65" y="180" width="365" height="155" rx="12" ry="12" style="stroke: rgb(60%,71%,76%); stroke-linecap: butt; stroke-width: 1.5; fill: rgb(92%,96%,97%); fill-rule: evenodd;"/>
+			<text x="88" y="302" style="font-family: Helvetica-Bold; font-size: 19px;fill: rgb(9%,18%,27%); stroke:none;" transform="translate(0,604) scale(1,-1)">Existing battery reading</text>
+			<text x="88" y="272" style="font-family: Helvetica-Bold; font-size: 15px;fill: rgb(75%,21%,23%); stroke:none;" transform="translate(0,544) scale(1,-1)">VBAT_SYS</text>
+			<path d="M 190,280 L 190,258 Z" style="stroke: rgb(75%,21%,23%); stroke-linecap: butt; stroke-width: 2;"/>
+			<path d="M 190,260 L 190,245 Z" style="stroke: rgb(9%,43%,69%); stroke-linecap: butt; stroke-width: 2;"/>
+			<rect x="182" y="205" width="16" height="40" style="stroke: rgb(9%,43%,69%); stroke-linecap: butt; stroke-width: 1.5; fill: rgb(100%,100%,100%); fill-rule: evenodd;"/>
+			<path d="M 190,205 L 190,190 Z" style="stroke: rgb(9%,43%,69%); stroke-linecap: butt; stroke-width: 2;"/>
+			<text x="207" y="229" style="font-family: Helvetica-Bold; font-size: 16px;fill: rgb(9%,43%,69%); stroke:none;" transform="translate(0,458) scale(1,-1)">R5</text>
+			<text x="207" y="208" style="font-family: Helvetica; font-size: 15px;fill: rgb(9%,43%,69%); stroke:none;" transform="translate(0,416) scale(1,-1)">220k</text>
+			<path d="M 190,190 L 190,175 Z" style="stroke: rgb(9%,43%,69%); stroke-linecap: butt; stroke-width: 2;"/>
+			<path d="M 190,175 L 190,155 Z" style="stroke: rgb(9%,43%,69%); stroke-linecap: butt; stroke-width: 3;"/>
+			<path d="M 190,155 L 935,155 Z" style="stroke: rgb(9%,43%,69%); stroke-linecap: butt; stroke-width: 3;"/>
+			<path d="M 935,155 L 935,450 Z" style="stroke: rgb(9%,43%,69%); stroke-linecap: butt; stroke-width: 3;"/>
+			<path d="M 935,450 L 970,450 Z" style="stroke: rgb(9%,43%,69%); stroke-linecap: butt; stroke-width: 3;"/>
+			<text x="245" y="268" style="font-family: Helvetica; font-size: 14px;fill: rgb(31%,39%,47%); stroke:none;" transform="translate(0,536) scale(1,-1)">D1 A0 has its onboard divider too.</text>
+			<text x="245" y="249" style="font-family: Helvetica; font-size: 14px;fill: rgb(31%,39%,47%); stroke:none;" transform="translate(0,498) scale(1,-1)">Calibrate its 5.21 multiplier against a meter.</text>
+			<text x="245" y="230" style="font-family: Helvetica; font-size: 14px;fill: rgb(31%,39%,47%); stroke:none;" transform="translate(0,460) scale(1,-1)">Compare it with parsed</text>
+			<text x="245" y="211" style="font-family: Helvetica; font-size: 14px;fill: rgb(31%,39%,47%); stroke:none;" transform="translate(0,422) scale(1,-1)">Arduino VDD.</text>
+			<rect x="465" y="208" width="420" height="127" rx="12" ry="12" style="stroke: rgb(79%,84%,87%); stroke-linecap: butt; stroke-width: 1.5; fill: rgb(94%,96%,97%); fill-rule: evenodd;"/>
+			<text x="483" y="305" style="font-family: Helvetica-Bold; font-size: 18px;fill: rgb(9%,18%,27%); stroke:none;" transform="translate(0,610) scale(1,-1)">What Home Assistant receives</text>
+			<text x="483" y="279" style="font-family: Helvetica; font-size: 15px;fill: rgb(31%,39%,47%); stroke:none;" transform="translate(0,558) scale(1,-1)">Arduino: VDD, LDR, sense/mode/night, output duty,</text>
+			<text x="483" y="255" style="font-family: Helvetica; font-size: 15px;fill: rgb(31%,39%,47%); stroke:none;" transform="translate(0,510) scale(1,-1)">LVC/test progress, cause, transition and raw line.</text>
+			<text x="483" y="231" style="font-family: Helvetica; font-size: 15px;fill: rgb(31%,39%,47%); stroke:none;" transform="translate(0,462) scale(1,-1)">D1: battery voltage/percentage, Wi-Fi, reset, heap and uptime.</text>
+			<rect x="910" y="208" width="430" height="127" rx="12" ry="12" style="stroke: rgb(79%,84%,87%); stroke-linecap: butt; stroke-width: 1.5; fill: rgb(100%,97%,91%); fill-rule: evenodd;"/>
+			<text x="928" y="305" style="font-family: Helvetica-Bold; font-size: 18px;fill: rgb(67%,38%,0%); stroke:none;" transform="translate(0,610) scale(1,-1)">No-purchase boundary</text>
+			<text x="928" y="279" style="font-family: Helvetica; font-size: 15px;fill: rgb(31%,39%,47%); stroke:none;" transform="translate(0,558) scale(1,-1)">Not measured: panel voltage, charge/load current, energy,</text>
+			<text x="928" y="255" style="font-family: Helvetica; font-size: 15px;fill: rgb(31%,39%,47%); stroke:none;" transform="translate(0,510) scale(1,-1)">physical LED current or temperatures.</text>
+			<text x="928" y="231" style="font-family: Helvetica; font-size: 15px;fill: rgb(31%,39%,47%); stroke:none;" transform="translate(0,462) scale(1,-1)">`output=` replaces D8-to-D5: leave both pins open.</text>
+			<text x="465" y="130" style="font-family: Helvetica-Bold; font-size: 16px;fill: rgb(67%,38%,0%); stroke:none;" transform="translate(0,260) scale(1,-1)">Test rules: run pro8_debug • no USB-UART adapter on M2 • keep D1 awake • use solar-lights-lite.yaml later for production</text>
+		</g>
+	</g>
+</svg>

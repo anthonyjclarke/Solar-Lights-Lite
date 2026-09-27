@@ -1,10 +1,10 @@
 # SolarLights Lite - rebuild guide
 
-Rev 0.4 proposal | 19 September 2026 | repository release amended 27 September 2026
+v0.5 development proposal | 27-Sep-2026 | Not released for outdoor assembly
 
-**Goal: reuse the panel, TP4056 modules, 16 MHz Pro Mini and existing lights; run dimly from dusk to dawn with low standby consumption.** Open `ASSEMBLY.html` for the illustrated guide, or print `../../output/pdf/SolarLights_Rev04_Drawings.pdf` at A3 landscape. Review `VALIDATION.md` first. A checklist version of the parts table below is at [SolarLights_Lite_Parts_List.csv](SolarLights_Lite_Parts_List.csv). For a schematic that matches this document part-for-part, see [../kicad_current/](../kicad_current/README.md) - the KiCad folder in ../kicad/ is the frozen Rev 0.3 audit baseline, not this circuit.
+**Goal: reuse the panel, TP4056 modules, 16 MHz Pro Mini and existing lights; run dimly from dusk to dawn with low standby consumption.** Open `ASSEMBLY.html` for the illustrated guide, or print `../../output/pdf/SolarLights_Rev05_Drawings.pdf` at A3 landscape. Review `VALIDATION.md` first. A checklist version of the parts table below is at [SolarLights_Lite_Parts_List.csv](SolarLights_Lite_Parts_List.csv). For a schematic that matches this document part-for-part, see [../kicad_current/](../kicad_current/README.md) - the KiCad folder in ../kicad/ is the frozen Rev 0.3 audit baseline, not this circuit.
 
-> **Release status (27 September):** the design remains a staged bench proposal.
+> **Release status (27-Sep-2026):** the design remains a staged bench proposal.
 > The direct-drive branch is resistor-limited; its normal dusk-to-dawn command is
 > 100% duty, producing about 15 mA at 3.7 V with R3 = 47 ohm. Do not apply the
 > historical 5% PWM cap language elsewhere in the archived material to this build.
@@ -18,21 +18,21 @@ Use the photographed **BTE13-010A** after its internal-8-MHz conversion. **2N390
 1. Existing panel -> a qualified 5 V regulator -> protected TP4056 input. The old pair of series diodes is removed as a voltage-limiting scheme. A blocking diode may be required by the chosen regulator's reverse-current specification; it is not the voltage regulator.
 2. Two matched 4.2 V-charge Li-ion cells in **1S2P** (parallel, not series), each with a positive-terminal fuse, -> charger B+/B-. All loads use OUT+/OUT-. A main load fuse and service switch feed the protected battery rail.
 3. The Pro Mini runs from that rail at a verified 8 MHz after removing its regulator and power LED. Switched LDR -> A1; D9 -> R3 47 ohm -> light string positive, string negative to load GND. R3 sets the current; there is no switching device in this build.
-4. Optional D1 Mini telemetry uses a qualified 3.3 V supply, battery ADC divider and NPN lights-status interface. Assemble the lights controller first; add telemetry after measuring its energy cost.
+4. During development, an always-on Wemos D1 Mini records the Arduino's own diagnostics and its Wi-Fi/battery health in Home Assistant without an Arduino USB connection. It reuses the fitted Q2/R8/R9/R10 status interface as a protected, inverted serial receiver; no INA226, temperature sensor or other telemetry module is required. The separate D1 Mini low-power profile remains the later production reference.
 
-**Read module pad labels, not board positions.** The illustrations are functional terminal maps, not photographs or universal pin layouts. All four drawings (01-power through 04-assembly) were regenerated on 20 Sep for the direct-drive change; if you have an older cached copy open, re-export ASSEMBLY.html or the PDF. If a switching device is reintroduced for a brighter string, its pin order must come from the exact part/package datasheet.
+**Read module pad labels, not board positions.** The illustrations are functional terminal maps, not photographs or universal pin layouts. All four drawings (01-power through 04-assembly) were regenerated on 20-Sep-2026 for the direct-drive change; if you have an older cached copy open, re-export ASSEMBLY.html or the PDF. If a switching device is reintroduced for a brighter string, its pin order must come from the exact part/package datasheet.
 
 ## Parts and selection gates
 
 | Ref | Part / starting value | Selection or qualification |
 |---|---|---|
 | PV1 | Existing AS102-0712A 1.2 W panel | Confirm polarity, wiring condition and actual Voc; retain initially. |
-| U0 | 5 V input regulator - candidate: MP1584EN adjustable buck module (in hand), trimmed to 5 V | Rated above measured cold Voc with margin (target at least 12 V input capability; MP1584EN covers 28 V), output bounded to the selected charger's permitted range across no-load/startup; low input quiescent current; weak-light recovery. **Not** the AMS1117 LDO board also in the kit - a linear regulator wastes ~30% of the panel's tiny budget as heat and drops out of regulation in low light. **Not** the TPS63802/HL802A breakout either - its 5.5 V input ceiling is under the panel's 7.6 V Voc. Candidate accepted 21 Sep 2026, not yet bench-qualified - trim to exactly 5 V and check for night-time reverse leakage before wiring to M1. See [board/parts assessment](BOARD_AND_PARTS.md). |
+| U0 | 5 V input regulator - candidate: MP1584EN adjustable buck module (in hand), trimmed to 5 V | Rated above measured cold Voc with margin (target at least 12 V input capability; MP1584EN covers 28 V), output bounded to the selected charger's permitted range across no-load/startup; low input quiescent current; weak-light recovery. **Not** the AMS1117 LDO board also in the kit - a linear regulator wastes ~30% of the panel's tiny budget as heat and drops out of regulation in low light. **Not** the TPS63802/HL802A breakout either - its 5.5 V input ceiling is under the panel's 7.6 V Voc. Candidate accepted 21-Sep-2026, not yet bench-qualified - trim to exactly 5 V and check for night-time reverse leakage before wiring to M1. See [board/parts assessment](BOARD_AND_PARTS.md). |
 | M1 | Protected TP4056-family module | Six labelled terminals, identified chip, documented ground topology, adjustable PROG, verified 4.2 V charge voltage. Start 100-150 mA only after verifying programming law. |
 | BT1/2 | Matched 18650 pair | Same type, age, chemistry, capacity and state of charge; inspect sleeves/positive insulators. Prefer a preassembled protected 1S2P pack if cell condition is uncertain. Do not solder directly to bare cell cans. |
 | FB1/2 | 1 A branch fuses, provisional | At each holder positive, before parallel junction. Check normal inrush, wire/holder ratings and fuse breaking capability. A single downstream fuse cannot interrupt one cell feeding a fault in the other. |
 | F2 / S1 | 1 A main fuse / service switch | Fuse after OUT+; switch in series to system rail. Values provisional against actual current and wiring. |
-| M2 | Existing 16 MHz Pro Mini (BTE13-010A). A second board found 21 Sep turned out to be an ATmega32U4 **Pro Micro**, not a Pro Mini - see below, not a drop-in for M2. | Verify ATmega328P marking, remove power LED and onboard regulator, feed from U0/U3's regulated rail, do not use RAW. Convert to internal 8 MHz via ISP, or confirm its existing flash is genuinely running at 8 MHz. See [board/parts assessment](BOARD_AND_PARTS.md). |
+| M2 | Existing 16 MHz Pro Mini (BTE13-010A). A second board found 21-Sep-2026 turned out to be an ATmega32U4 **Pro Micro**, not a Pro Mini - see below, not a drop-in for M2. | Verify ATmega328P marking, remove power LED and onboard regulator, feed from U0/U3's regulated rail, do not use RAW. Convert to internal 8 MHz via ISP, or confirm its existing flash is genuinely running at 8 MHz. See [board/parts assessment](BOARD_AND_PARTS.md). |
 | Q1 | Not fitted | Measured string draws approximately 15 mA at 3.7 V through R3, inside the pin rating. See [Q1 disposition](BOARD_AND_PARTS.md). A brighter string reinstates Q1, R6, R7 and F1 together. |
 | R6 / R7 | Not fitted | Gate series/pull-down exist only for a MOSFET. With no switch, the pin is low at reset and high-impedance while unpowered, so the string is dark. |
 | R3 | 47 ohm, 1/4 W, at the board end | From the measured string: I = (VBAT - 2.56 V) / (R3 + approximately 30 ohm pin resistance). 21/15/11 mA at 4.20/3.70/3.40 V. Fit 56 ohm if you prefer the pin to stay under 20 mA at full charge. Dissipation is under 25 mW. Parallel bare LEDs still require branch ballast, not one common resistor. |
@@ -40,20 +40,23 @@ Use the photographed **BTE13-010A** after its internal-8-MHz conversion. **2N390
 | C3 / C4 | 100 uF / 100 nF across M2 rail | Positive to protected VBAT; at least 6.3 V rating, 10 V preferred for electrolytics. Keep close to controller/driver. |
 | LDR1 / R4 | Existing LDR / 100k | D7 -> LDR -> A1 -> R4 -> load GND. Shade from LEDs; weatherproof without obscuring ambient light. |
 | SW1 | Momentary normally-open button | D2 to load GND. 60-second test obeys the same 100% direct-drive brightness setting and LVC. |
-| U3 | Low-Iq 3.3 V buck-boost - candidate: TPS63802/HL802A breakout (in hand, qty 2), jumper set to 3.3 V | Optional telemetry supply; verify 3.0-4.2 V input operation, radio bursts, output stability and reverse-current behaviour. Target >=500 mA transient support and measured total standby <=0.5 mA for telemetry branch. Candidate datasheet on file, 21 Sep 2026; not yet bench-qualified - see [board/parts assessment](BOARD_AND_PARTS.md). |
-| M3 | Existing D1 Mini | Isolate/remove onboard regulator before external 3V3 supply. Disconnect external wiring for USB servicing. D0 links to RST. |
-| C2 | 470 uF / 10 V at U3 input | Observe polarity and inrush. Fit output capacitors required by the chosen converter; do not assume any arbitrary bulk capacitor is stable. |
-| R5 | 220k to D1 Mini A0 | Assumes onboard 220k/100k divider; verify clone. At 4.2 V: ADC core ~0.778 V, A0 header ~2.489 V. Nominal overall gain 5.4. |
-| Q2 / R8 / R9 / R10 | 2N3904 NPN; 47k / 100k / 10k | D8 ->47k->base; 100k base-emitter; emitter GND; collector D5; 10k collector to ESP 3V3. Verify actual E/B/C pin order. |
+| U3 | Low-Iq 3.3 V buck-boost - candidate: TPS63802/HL802A breakout (in hand, qty 2), jumper set to 3.3 V | Supplies either D1 profile from the protected rail. Verify 3.0-4.2 V input operation, radio bursts, output stability and reverse-current behaviour. Target >=500 mA transient support and measured total standby <=0.5 mA only applies to the later low-power profile. |
+| M3 | Existing Wemos D1 Mini | Use the existing `solar-lights-lite.yaml` for the later hourly deep-sleep profile and `solar-lights-lite-dev-d1.yaml` while testing. In the test profile, D6 receives inverted Arduino diagnostics through Q2; D5 and D8 are left open. |
+| C2 | 470 uF / 10 V at U3 input | Observe polarity and the selected converter's required output capacitors. Required for either battery-powered D1 profile. |
+| R5 | 220k to D1 Mini A0 | Assumes onboard 220k/100k divider; verify clone. At 4.2 V: ADC core ~0.778 V, A0 header ~2.489 V. Nominal overall gain 5.4; recalibrate it against a meter. |
+| Q2 / R8 / R9 / R10 | 2N3904 NPN; 47k / 100k / 10k | **Development profile:** Arduino D1/TX -> R8 -> base; R9 base-emitter; emitter OUT-; collector -> D6 with R10 pull-up to ESP 3V3. This inverts and level-shifts the UART. **Production profile:** restore the original D8 status -> D5 wiring if desired. Verify actual E/B/C pin order. |
 | Enclosure | Glands, standoffs, insulated cell holder | Keep cells shaded and separated from charger/resistor heat. Antenna clear of cells, wires and metal. Allow inspection and strain relief. |
 
-**Not fitted:** old panel divider R1/R2/C1, CHRG diode D3, connection to D6, and D10/D11 mode jumpers. Reference designators intentionally follow the earlier build where possible.
+**Not fitted:** old panel divider R1/R2/C1, CHRG diode D3 and its former D6 input,
+and D10/D11 mode jumpers. The v0.5 development UART is the only D6 connection:
+Q2 collector to D1 Mini D6. Reference designators intentionally follow the earlier
+build where possible.
 
 ## Firmware programming status
 
 The BTE13-010A is confirmed at internal 8 MHz with BOD 2.7 V and no bootloader. Application uploads therefore use ISP; the UART adapter is monitoring-only. All current compile, USBasp, Arduino-as-ISP and 9600-baud diagnostic instructions are consolidated in [the firmware programming guide](../firmware/lite_controller/PROGRAMMING.md). Dated serial-bootloader and machine-specific experiments remain under `validation/` as evidence, not procedure.
 
-## Second board identified as a Pro Micro (ATmega32U4), 21 September 2026
+## Second board identified as a Pro Micro (ATmega32U4), 21-Sep-2026
 
 The "8 MHz" board found in the kit turned out, from photos, to be silkscreened
 **Pro Micro** with an **ATmega32U4-MU** - a genuinely different chip family, not a
@@ -87,12 +90,51 @@ The one-time clock/fuse conversion is complete and must not be repeated during r
 | 6 | Fit switched LDR and test button. | Cover/uncover: transition after 5-minute persistence; threshold gap prevents flicker. Lights remain on throughout the night. Button never exceeds cap. |
 | 7 | Sweep supply below 3.30 V for >30 s. | LED turns fully off when LVC confirms; button cannot relight; battery recovery alone in darkness does not relight; daylight + >3.60 V restores operation. Hardware protection remains a separate test. |
 | 8 | Assemble fused pack using suitably matched/charged cells; connect pack to M1, then loads. | Never parallel unequal/unknown cells directly. Voltage equality alone does not establish health or safe equalisation current. Do not short the pack to test protection; use a current-limited simulator/load. |
-| 9 | Add optional U3/M3/Q2 telemetry. | 3V3 within module/ESP specifications during bursts at lowest input; hourly wake/reconnect works; D5 reads both states; battery ADC calibrated. Measure sleep current and total wake charge. |
-| 10 | Run Wi-Fi unavailable, HA unavailable, OTA ON then OFF tests. | Sleep fallback works with unavailable services; OTA OFF returns to sleep; no repeated brownout boot cycle. |
-| 11 | Connect qualified panel path and test in real sun/shade. | Charge termination with telemetry attached; automatic weak-light recovery; acceptable cell and component temperatures. Qualify cell-temperature inhibit before unattended installation. |
-| 12 | Log at least 14 days including overcast weather, then actual winter. | Record daily charge/load mAh or Wh, dusk/dawn voltages, light usefulness, temperatures and LVC events. No promise of year-round operation from a short sunny test. |
+| 9 | Add the always-on D1 Mini test telemetry before final assembly. Flash `firmware/esphome/solar-lights-lite-dev-d1.yaml`; flash M2 with `pio run -e pro8_debug`. | D1 stays online with Wi-Fi/HA absent; it receives a complete Arduino line at least every 60 s when stable; no Arduino USB-UART adapter is attached. Q2's emitter connects only to OUT- / GND_LOAD. |
+| 10 | Compare the D1 A0 battery voltage and parsed Arduino VDD with a meter at 3.30, 3.70 and 4.20 V. | Both values are within the stated calibration accuracy. A known light test reports `output=100%`; the D1 reports it as `Arduino Lights Commanded`. The TP4056 CHRG LED is not a current measurement. |
+| 11 | Run Wi-Fi unavailable, HA unavailable and OTA tests. | D1 remains running and retains serial diagnostics while services are unavailable; no brownout loop. It reconnects after an AP/HA restart and accepts an OTA update without losing the Arduino UART interface. |
+| 12 | Complete real-sun/shade tests with the qualified panel path. | Charge termination with telemetry attached; automatic weak-light recovery; acceptable cell and component temperatures. Qualify cell-temperature inhibit before unattended installation. |
+| 13 | Log at least 14 days including overcast weather, then actual winter. | Record daily charge/load mAh or Wh, dusk/dawn voltages, light usefulness, temperatures and LVC events. No promise of year-round operation from a short sunny test. |
 
-For bench debugging build `pio run -e pro8_debug`. Each reset prints a one-time field guide before the rate-limited 9600-baud data. Build `pio run -e pro8` for deployment and sleep-current tests. Do not use `pio -t upload`: flashing is performed separately with a current system `avrdude`. Exact operating-system setup, commands and isolation rules are only in [PROGRAMMING.md](../firmware/lite_controller/PROGRAMMING.md).
+For bench debugging build `pio run -e pro8_debug`. Each reset prints a one-time field guide before the rate-limited 9600-baud data. The D1 development image receives that data through its protected software UART and publishes the raw line plus parsed values to Home Assistant. Build `pio run -e pro8` for final controller sleep-current tests; it intentionally emits no serial telemetry. Do not use `pio -t upload`: flashing is performed separately with a current system `avrdude`. Exact operating-system setup, commands and isolation rules are only in [PROGRAMMING.md](../firmware/lite_controller/PROGRAMMING.md).
+
+## Development telemetry station (Wemos D1 Mini)
+
+`firmware/esphome/solar-lights-lite-dev-d1.yaml` is the maximum capability available
+from the existing D1 Mini and fitted resistor/transistor interface. It replaces the
+USB serial monitor with Home Assistant entities while the D1 stays awake to hear every
+Arduino diagnostic line. It is deliberately excluded from the final battery budget
+and must not be mistaken for an outdoor/runtime configuration. The existing
+`firmware/esphome/solar-lights-lite.yaml` remains the D1 Mini hourly deep-sleep
+reference for the later low-power design.
+
+### Development wiring
+
+1. Keep D1 Mini **GND** on TP4056 **OUT- / GND_LOAD** and power it through the
+   qualified U3 3.3 V supply, as in the retained production profile. Do not use B-.
+2. Reuse the existing Q2 interface, but move its input from M2 D8 to M2 **D1/TX**
+   and move its collector from D1 Mini D5 to **D6**. The final wiring is:
+   `M2 D1/TX -> R8 47k -> Q2 base`; `R9 100k base -> OUT-`; `Q2 emitter -> OUT-`;
+   `Q2 collector -> D6`; `R10 10k from collector -> ESP 3V3`.
+3. Do not connect D1 Mini TX to M2. Q2 makes the receive path safe for the D1's
+   3.3 V GPIO and inverts it; the development YAML declares D6 as an inverted,
+   9600-baud software UART. Leave D5 and M2 D8 open in this profile.
+4. Retain the existing A0 battery divider: `VBAT_SYS -> R5 220k -> A0`. Check the
+   D1 clone's onboard divider before trusting the 5.21 multiplier. There is no safe
+   additional panel, current, energy or temperature measurement without more hardware.
+
+The configuration publishes the raw Arduino line and its scheduler time, VDD,
+LDR ratio/raw/voltage, output duty, LVC progress, test time, battery band,
+light sense, scheduler mode, night flag, output cause and transition state. It
+also publishes D1 reset cause, heap/fragmentation, Wi-Fi identity/signal and uptime.
+These show whether a controller event was real, whether the telemetry unit itself is
+healthy, and whether a missing report is an Arduino or network issue.
+
+This no-purchase profile cannot measure charge current, harvested energy, panel
+voltage or physical LED current; it reports the controller's command/state, not a
+replacement for a current meter. Its useful cross-check is D1 A0 battery voltage
+versus Arduino VDD. Record meter values at 3.30, 3.70 and 4.20 V and adjust the
+D1 multiplier accordingly.
 
 ## Energy budget you can verify
 
@@ -103,7 +145,7 @@ Use battery-side measured currents. Let D be PWM duty fraction, Ipk the maximum 
 Avoid counting the same telemetry sleep current twice. The worked table below separately budgets controller and telemetry. These are scenarios, not measured predictions.
 
 Pre-measurement scenarios, kept for the record. They assumed an unbounded 200 mA peak,
-which the 20 September measurement replaced; see the measured-string table below.
+which the 20-Sep-2026 measurement replaced; see the measured-string table below.
 
 | Assumption at 14 dark hours | Proposed 5% command | 10% command | Old 100% lighting |
 |---|---:|---:|---:|
@@ -114,7 +156,7 @@ which the 20 September measurement replaced; see the measured-string table below
 | Other standby allowance | 1.0 mAh | 1.0 mAh | Board-dependent |
 | **Illustrative total** | **~160 mAh/day** | **~302 mAh/day** | **>2,800 mAh/day** |
 
-### Measured-string scenario, 20 September 2026
+### Measured-string scenario, 20-Sep-2026
 
 With R3 fitted, duty no longer bounds current: the resistor does, and 100% duty is the
 measured 15 mA at 3.7 V. Fourteen dark hours, same controller and telemetry rows:

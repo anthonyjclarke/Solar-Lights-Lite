@@ -58,7 +58,7 @@ def box(lines, col=AMBER, pad=6):
 c.setFillColor(GREEN); c.setFont('Helvetica-Bold', 8.5); c.drawString(L, y, 'SOLARLIGHTS / REBUILD 2026'); y -= 20
 c.setFillColor(INK); c.setFont('Helvetica-Bold', 17); c.drawString(L, y, 'Bench sheet: steps 1 and 2'); y -= 16
 c.setFillColor(MUTED); c.setFont('Helvetica', 9.3)
-c.drawString(L, y, 'Upload diagnostic firmware, prove the controller, then measure the string. Rev 0.4 amended.'); y -= 13
+c.drawString(L, y, 'Upload diagnostic firmware, prove the controller, then measure the string. v0.5 development proposal.'); y -= 13
 rule()
 
 box(['Before you start',

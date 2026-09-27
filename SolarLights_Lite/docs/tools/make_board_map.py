@@ -30,7 +30,7 @@ rect(45,650,630,155,'#f0f6f8');txt(65,681,'OPERATING CONNECTIONS',18,'#008572',T
 for i,s in enumerate(['VCC = protected battery; GND = OUT-; RAW = unused','A1 = LDR sense; 7 = LDR power; 9 = LED PWM','8 = status to Q2 2N3904; 2 = test button to GND','Regulator / power LED removed only after trace identification.']):txt(65,713+i*24,s,16)
 rect(700,650,650,155,'#fff7e8');txt(720,681,'ISP CONNECTIONS / BOARD DISCONNECTED FROM BUILD',17,'#a76000',True)
 for i,s in enumerate(['MOSI -> 11     MISO -> 12     SCK -> 13     RESET -> RST','Also connect target VCC and GND; use compatible voltage.','Configure actual internal 8 MHz clock and BOD 2.7 V.','A USB-to-serial adapter alone cannot perform this conversion.']):txt(720,713+i*24,s,16)
-txt(45,840,'REV 0.4 ADDENDUM / terminal labels cross-checked against user photo and BTE13-010 reference; A4-A7 end pads not shown.',14,'#516578')
+txt(45,840,'v0.5 ADDENDUM / 27-SEP-2026 / terminal labels cross-checked against user photo and BTE13-010 reference; A4-A7 end pads not shown.',14,'#516578')
 renderSVG.drawToFile(d,str(P/'BTE13-010A-pin-map.svg'))
 out=P.parents[1]/'output/pdf/BTE13-010A_Pin_Map.pdf';c=Canvas(str(out),pagesize=landscape(A4));pw,ph=landscape(A4);s=min(pw/W,ph/H);c.translate((pw-W*s)/2,(ph-H*s)/2);c.scale(s,s);renderPDF.draw(d,c,0,0);c.save()
 p=pypdfium2.PdfDocument(str(out));p[0].render(scale=1.8).to_pil().save(P/'BTE13-010A-pin-map.png')

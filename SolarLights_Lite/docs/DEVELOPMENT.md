@@ -12,5 +12,11 @@ separate current `avrdude` ISP procedure in `firmware/lite_controller/PROGRAMMIN
 That guide also specifies USBasp/Arduino-as-ISP isolation, fuse readback, and serial
 monitoring. Normal updates do not write fuses.
 
+For v0.5 bench telemetry, flash
+`firmware/esphome/solar-lights-lite-dev-d1.yaml` to the existing Wemos D1 Mini.
+It remains awake and receives the debug image's D1/TX output through the reused
+Q2/R8/R9/R10 inverter at D6. It is a receive-only, test-only monitor; use the
+separate `solar-lights-lite.yaml` profile when returning to low-power testing.
+
 For scheduler-only checks, build the host tests in `test_host/` with a C++17 compiler
 and include path `../include`; the recorded validation evidence is under `validation/`.
