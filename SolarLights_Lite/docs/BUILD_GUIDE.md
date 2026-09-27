@@ -49,9 +49,9 @@ Use the photographed **BTE13-010A** after its internal-8-MHz conversion. **2N390
 
 **Not fitted:** old panel divider R1/R2/C1, CHRG diode D3, connection to D6, and D10/D11 mode jumpers. Reference designators intentionally follow the earlier build where possible.
 
-## Confirmed programming result
+## Firmware programming status
 
-Your existing serial bootloader/upload path is now reported working at 57600 baud via the CH340 adapter, with signature 0x1e950f and 6,488 bytes verified. **Do not erase this working bootloader just to follow the earlier optional ISP-only route below.** The attached working source uses `Serial.begin(19200)` but is readable at 38400, strongly indicating a 16 MHz runtime with an 8 MHz build. Verify/correct the actual clock; after true 8 MHz operation that source should use a 19200 monitor. See [recorded hardware result](../validation/user-hardware-upload.md).
+The BTE13-010A is confirmed at internal 8 MHz with BOD 2.7 V and no bootloader. Application uploads therefore use ISP; the UART adapter is monitoring-only. All current compile, USBasp, Arduino-as-ISP and 9600-baud diagnostic instructions are consolidated in [the firmware programming guide](../firmware/lite_controller/PROGRAMMING.md). Dated serial-bootloader and machine-specific experiments remain under `validation/` as evidence, not procedure.
 
 ## Second board identified as a Pro Micro (ATmega32U4), 21 September 2026
 
@@ -66,23 +66,14 @@ this chip. Full detail and the exact lines involved are in the dated addendum in
 `VALIDATION.md`. Using this board for M2 would mean porting that logic and the
 PlatformIO board target to ATmega32U4, not just verifying a clock and a pinout.
 
-**M2 stays on the ATmega328P path** - the BTE13-010A, converted or clock-confirmed
-per the workflow below. The Pro Micro is a genuinely useful board (native USB,
+**M2 stays on the ATmega328P path** - the confirmed internal-8-MHz BTE13-010A.
+The Pro Micro is a genuinely useful board (native USB,
 no separate FTDI adapter needed to program it) but is better kept as a spare for a
 future project than adopted here.
 
-## Pro Mini conversion using existing hardware (only if still required)
+## Controller preparation and servicing
 
-Full step-by-step for someone who has not done this before, including programmer wiring,
-what every fuse bit means and how to recover from mistakes: [CLOCK_CONVERSION.md](CLOCK_CONVERSION.md).
-
-Confirm MCU marking and board schematic first. Remove the board from the assembly. With all batteries, panel and other modules disconnected, use ISP at a target-compatible voltage. A 5 V Arduino programmer must not drive a 3.3 V target without suitable level conversion. Avoid multiple power supplies.
-
-Using [MiniCore's documented configuration workflow](https://github.com/MCUdude/MiniCore), select the actual ATmega328P, **internal 8 MHz**, **BOD 2.7 V**, and **no bootloader** for an ISP-only build. Apply the fuse settings with its Burn Bootloader operation, then upload with the programmer. Read back signature and fuses. No raw fuse-write command is provided before the actual MCU is identified. Selecting “8 MHz” only at compilation is insufficient.
-
-The existing 16 MHz resonator can stay physically present when the internal oscillator is selected. Remove the board regulator and power LED/resistor; preserve local decoupling. Feed VCC, leave RAW disconnected. Verify D9 PWM is approximately 1.96 kHz and the watchdog is approximately 1/8 seconds. The internal RC and watchdog are not precision clocks. UART logs may require oscillator calibration.
-
-The PlatformIO `pro8` environment builds for 8 MHz but its normal upload target assumes a serial bootloader; it can no longer reach the BTE13-010A now that its fuses are set to no-bootloader (21 Sep 2026, see `VALIDATION.md`). Use the `pro8_isp` environment instead - `pio run -e pro8_isp -t upload` - which uploads via Arduino-as-ISP (`stk500v1`) at the same wiring and port already confirmed working for the fuse write. Standard Arduino pin numbering and Timer1 behaviour must be preserved if building through MiniCore instead. For the full upload method, port-finding tips and the avrdude-version gotcha (PlatformIO's bundled avrdude vs. the system one), see [ISP_FIRMWARE_UPLOAD.md](ISP_FIRMWARE_UPLOAD.md).
+The one-time clock/fuse conversion is complete and must not be repeated during routine updates; [CLOCK_CONVERSION.md](CLOCK_CONVERSION.md) now records status only. Remove or isolate the onboard regulator and power LED/resistor, preserve local decoupling, feed protected battery voltage to VCC and leave RAW disconnected. Verify D9 PWM is approximately 1.96 kHz during a partial-duty test. For every subsequent firmware build, upload, verification and serial-monitor session, follow [PROGRAMMING.md](../firmware/lite_controller/PROGRAMMING.md).
 
 ## Wiring order and acceptance gates
 
@@ -91,7 +82,7 @@ The PlatformIO `pro8` environment builds for 8 MHz but its normal upload target 
 | 1 | Photograph/label M1 pads; inspect traces and continuity with cells/panel removed. | Identify B+, B-, OUT+, OUT-, IN+, IN-. B- and OUT- are protection-separated; a conductive MOSFET path when powered is not proof they are the same net. If unsure, obtain actual board schematic. |
 | 2 | Qualify U0 separately on a current-limited source emulating the panel. | 5 V output within charger specification at load/no-load, startup and maximum panel voltage. Test low-current source limits/cloud transitions. Do not use cells for this test. |
 | 3 | Identify PROG and set conservative charge current. Test charger with a suitable battery simulator or supervised known cell. | Correct charge voltage/current, thermal behaviour and termination. Do not assume CHRG LED proves termination or net charging. |
-| 4 | Convert/program M2 and add C3/C4. Use 3.8 V current-limited bench supply. | Battery estimate within +/-0.05 V after calibration; supply sweep 3.3-4.2 V; sleep target <=20 uA excluding regulator/other boards. |
+| 4 | Program M2 using the canonical firmware procedure and add C3/C4. Use a 3.8 V current-limited bench supply for functional testing after the programmer is removed. | Battery estimate within +/-0.05 V after calibration; supply sweep 3.3-4.2 V; sleep target <=20 uA excluding regulator/other boards. |
 | 5 | Add R3 from D9 to the string, string return to load GND. No Q1, R6, R7 or F1. | Measure string current at 3.40, 3.70 and 4.20 V at 100% duty on a current-limited supply: expect approximately 11, 15 and 21 mA with 47 ohm. Anything above 22 mA at 4.20 V means fit 56 ohm. Pin and resistor cool. Lights dark with M2 unplugged and at reset. |
 | 6 | Fit switched LDR and test button. | Cover/uncover: transition after 5-minute persistence; threshold gap prevents flicker. Lights remain on throughout the night. Button never exceeds cap. |
 | 7 | Sweep supply below 3.30 V for >30 s. | LED turns fully off when LVC confirms; button cannot relight; battery recovery alone in darkness does not relight; daylight + >3.60 V restores operation. Hardware protection remains a separate test. |
@@ -101,7 +92,7 @@ The PlatformIO `pro8` environment builds for 8 MHz but its normal upload target 
 | 11 | Connect qualified panel path and test in real sun/shade. | Charge termination with telemetry attached; automatic weak-light recovery; acceptable cell and component temperatures. Qualify cell-temperature inhibit before unattended installation. |
 | 12 | Log at least 14 days including overcast weather, then actual winter. | Record daily charge/load mAh or Wh, dusk/dawn voltages, light usefulness, temperatures and LVC events. No promise of year-round operation from a short sunny test. |
 
-For bench debugging `DEBUG_SERIAL=1`; `TIME_SCALE=60` accelerates debounce AND low-voltage delay as well as night scheduling. It does not reproduce a 30-second real battery sag. Restore `TIME_SCALE=1` and `DEBUG_SERIAL=0` before the real-time LVC and current tests.
+For bench debugging use `pro8_usbasp_debug`, or `pro8_arduinoisp_debug` with the fallback programmer. Each reset prints a one-time field guide before the rate-limited 9600-baud data. Use `pro8_usbasp` or `pro8_arduinoisp` for deployment and sleep-current tests. Exact commands and isolation rules are only in [PROGRAMMING.md](../firmware/lite_controller/PROGRAMMING.md).
 
 ## Energy budget you can verify
 

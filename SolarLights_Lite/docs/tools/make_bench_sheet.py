@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""One-page bench sheet for steps 1 and 2 (clock conversion, then string current).
+"""One-page bench sheet for controller upload/diagnostics, then string current.
 Writes ../../output/pdf/Bench_Steps_1_2.pdf and a PNG preview in ../.
 Run with a Python environment containing reportlab and pypdfium2.
 """
@@ -58,7 +58,7 @@ def box(lines, col=AMBER, pad=6):
 c.setFillColor(GREEN); c.setFont('Helvetica-Bold', 8.5); c.drawString(L, y, 'SOLARLIGHTS / REBUILD 2026'); y -= 20
 c.setFillColor(INK); c.setFont('Helvetica-Bold', 17); c.drawString(L, y, 'Bench sheet: steps 1 and 2'); y -= 16
 c.setFillColor(MUTED); c.setFont('Helvetica', 9.3)
-c.drawString(L, y, 'Convert the clock, flash the merged firmware, then measure the string. Rev 0.4 amended, 20 Sep 2026.'); y -= 13
+c.drawString(L, y, 'Upload diagnostic firmware, prove the controller, then measure the string. Rev 0.4 amended.'); y -= 13
 rule()
 
 box(['Before you start',
@@ -67,39 +67,34 @@ box(['Before you start',
      'Duty does not limit current: only R3 and the pin do. Verify at 4.20 V and 100% duty.'])
 
 # ---------------------------------------------------------------- step 1
-head('1', 'Convert the ATmega328P to internal 8 MHz, BOD 2.7 V   (closes H03)')
-txt('Power the board from the ISP or a bench supply, never both. Battery and panel disconnected.', col=MUTED)
+head('1', 'Upload the diagnostic application firmware')
+txt('The clock/fuse conversion is complete: internal 8 MHz, BOD 2.7 V, no bootloader. Do not repeat it.', col=AMBER, bold=True)
+txt('Disconnect cells, panel, UART and LED string. Power from one verified target-compatible ISP source only.', col=MUTED)
 y -= 2
-row(['Fuse', 'Value', 'Meaning'], [70, 62, 300], bold=True, col=MUTED, size=8.5)
+row(['Action', 'Command / pass result'], [152, 300], bold=True, col=MUTED, size=8.5)
 c.setStrokeColor(LINE); c.line(L, y + 9, R, y + 9)
-row(['Low', '0xE2', 'Internal 8 MHz RC, CKDIV8 off, slow rising power'], [70, 62, 300])
-row(['High', '0xD9', 'Factory default: SPIEN on, no boot reset vector'], [70, 62, 300])
-row(['Extended', '0xFD', 'BOD 2.7 V. avrdude may read it back as 0x05: same three bits'], [70, 62, 300])
+row(['Open firmware folder', 'cd SolarLights_Lite/firmware/lite_controller'], [152, 300], size=8.6)
+row(['Check the target', 'avrdude -c usbasp -p m328p -v   -> signature 0x1e950f'], [152, 300], size=8.6)
+row(['Compile diagnostics', 'platformio run -e pro8_usbasp_debug   -> SUCCESS'], [152, 300], size=8.6)
+row(['Upload and verify', 'platformio run -e pro8_usbasp_debug -t upload'], [152, 300], size=8.6)
 y -= 2
-txt('avrdude -c usbasp -p m328p -U lfuse:w:0xE2:m -U hfuse:w:0xD9:m -U efuse:w:0xFD:m', size=8.6, col=INK)
-txt('Arduino as ISP instead: -c stk500v1 -P /dev/cu.usbmodemXXXX -b 19200', size=8.6, col=MUTED)
-txt('Or MiniCore: ATmega328P, Clock "Internal 8 MHz", BOD 2.7 V, Bootloader "No bootloader", Burn Bootloader.', size=8.6, col=MUTED)
-y -= 2
-txt('Read back and confirm:  avrdude -c usbasp -p m328p -U lfuse:r:-:h -U hfuse:r:-:h -U efuse:r:-:h', size=8.6)
-txt('Chip erase removes any bootloader. From here on, upload with the programmer, not over serial.', size=8.6, col=AMBER)
-y -= 2
-txt('Board work: remove the regulator and the power LED or its series resistor. Feed VCC directly, leave RAW', col=MUTED)
-txt('unused, keep the local decoupling. The 16 MHz crystal can stay fitted; it is simply not selected.', col=MUTED)
+txt('Disconnect all ISP wires before normal power returns. USB-UART is monitoring-only: target TX -> adapter RX,', size=8.6)
+txt('OUT-/GND -> adapter GND; leave adapter VO/VCC, TX, DTR and CTS open. Monitor at 9600 baud.', size=8.6)
 y -= 3
-txt('Pass: fuses read back as written, and the board runs with VCC at 3.3 V.', bold=True)
+txt('Full clean-Mac setup, Arduino-as-ISP fallback and troubleshooting: firmware/lite_controller/PROGRAMMING.md', bold=True)
 rule()
 
 # ---------------------------------------------------------------- step 2
-head('2', 'Flash the merged firmware and check it thinks straight')
-txt('Build with DEBUG_SERIAL 1 and TIME_SCALE 60, F_CPU 8 MHz. Upload with the programmer. Serial at 9600.', col=MUTED)
+head('2', 'Check the diagnostic firmware on a current-limited bench supply')
+txt('Use the debug environment above. It enables serial but keeps the real timing scale (TIME_SCALE = 1).', col=MUTED)
 y -= 2
 row(['Check', 'Expect'], [190, 250], bold=True, col=MUTED, size=8.5)
 c.setStrokeColor(LINE); c.line(L, y + 9, R, y + 9)
-row(['Serial line per wake', 't=... vdd=3.80 state=... pct=...'], [190, 250])
+row(['Startup after reset', 'One-time field guide, then rate-limited named diagnostic fields'], [190, 250])
 row(['VCC at 3.80 V', 'vdd within 0.05 V of the meter (set BANDGAP_V = 1.10 x Vmeter / Vreported)'], [190, 250], size=8.4)
 row(['D9 PWM frequency', '1.9 to 2.0 kHz, confirming the 8 MHz clock'], [190, 250])
-row(['Cover the LDR 5 s', 'state goes to night, pct ramps to 100 (5 s = 5 "minutes" at TIME_SCALE 60)'], [190, 250], size=8.4)
-row(['Uncover the LDR', 'state returns to day, pct fades to 0'], [190, 250])
+row(['Pull D2 to GND', 'cause=BUTTON_TEST, output=100%, button timer counts down'], [190, 250], size=8.4)
+row(['Cover / uncover LDR', 'DUSK / DAWN confirmation reaches 300 s before mode changes'], [190, 250])
 rule()
 
 # ---------------------------------------------------------------- gate 5
@@ -114,17 +109,17 @@ y -= 2
 box(['Decision rule',
      'Over 22 mA at 4.20 V: fit 56 ohm and repeat the three readings (expect 18 / 13 / 9 mA).',
      'Within tolerance but too dim from the street at 3 am: keep 47 ohm and accept the 21 mA peak,',
-     'or cap commanded duty above 4.0 V in firmware. Tell Claude which and it changes three files.'])
+     'or document the measurements before deliberately changing the commanded duty in firmware.'])
 txt('Also confirm: R3 and the D9 pin stay at ambient; the string is dark with M2 unplugged and during reset.', size=8.8, col=MUTED)
 y -= 1
-txt('Then restore DEBUG_SERIAL 0 and TIME_SCALE 1 before any real-time LVC or overnight test.', size=8.8, bold=True, col=RED)
+txt('For sleep-current and deployment, upload pro8_usbasp (quiet production build).', size=8.8, bold=True, col=RED)
 
 # ---------------------------------------------------------------- footer
 c.setStrokeColor(LINE); c.setLineWidth(0.8); c.line(L, 46, R, 46)
 c.setFont('Helvetica-Bold', 7.8); c.setFillColor(AMBER)
 c.drawString(L, 34, 'NOT RELEASED FOR OUTDOOR ASSEMBLY  |  H01 and H02 remain open before cells are connected')
 c.setFont('Helvetica', 7.8); c.setFillColor(MUTED)
-c.drawRightString(R, 34, 'docs/tools/make_bench_sheet.py')
+c.drawRightString(R, 34, 'make_bench_sheet.py')
 c.showPage(); c.save()
 
 page = pdf.PdfDocument(str(FN))[0]

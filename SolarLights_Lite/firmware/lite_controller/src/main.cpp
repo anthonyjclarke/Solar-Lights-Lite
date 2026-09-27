@@ -29,7 +29,13 @@
 #define SENSOR_LDR    1        // 1 = switched LDR on A1; 0 = legacy panel sense, not wired in Rev 0.4
 #endif
 #ifndef DEBUG_SERIAL
-#define DEBUG_SERIAL  0        // 1 = print one status line per wake at 9600 baud (bench only – uses ~1 mA more)
+#define DEBUG_SERIAL  0        // 1 = rate-limited event/progress diagnostics at 9600 baud (~1 mA extra)
+#endif
+#ifndef DEBUG_ACTIVE_REPORT_S
+#define DEBUG_ACTIVE_REPORT_S  10  // progress cadence while confirming/testing/cutoff timing
+#endif
+#ifndef DEBUG_IDLE_REPORT_S
+#define DEBUG_IDLE_REPORT_S    60  // stable-state heartbeat; events still print immediately
 #endif
 #ifndef TIME_SCALE
 #define TIME_SCALE    1        // bench testing: 60 makes 1 real second count as 1 minute
@@ -101,7 +107,21 @@ void setup() {
   power_twi_disable(); power_spi_disable(); power_timer2_disable();
 #if DEBUG_SERIAL
   Serial.begin(9600);
-  Serial.println(F("SolarLights Lite"));
+  Serial.println(F("SolarLights Lite diagnostics"));
+  Serial.println(F("--- one-time field guide ---"));
+  Serial.println(F("time=scheduler seconds since reset; vdd=measured controller supply"));
+  Serial.println(F("battery=OK/MID/LOW/CRITICAL voltage band (not a state-of-charge estimate)"));
+  Serial.println(F("ldr=A1 as % of VCC; raw=ADC 0..1023; ldr_v=calculated A1 volts"));
+  Serial.println(F("sense=DARK below 30%, MID from 30..60%, LIGHT above 60%"));
+  Serial.println(F("mode=DAY/EVENING/OVERNIGHT/PREDAWN/LVC scheduler state"));
+  Serial.println(F("night=YES after confirmed dusk; output=commanded D9 PWM percentage"));
+  Serial.println(F("cause=why output is commanded: test/day/night/low-battery/LVC"));
+  Serial.println(F("confirm=DUSK or DAWN elapsed/300s; NONE means no transition pending"));
+  Serial.println(F("lvc=seconds below 3.30V/30s; button=manual-test seconds remaining"));
+  Serial.println(F("next_tick=planned watchdog interval; 1s active or 8s low-power"));
+  Serial.println(F("battery thresholds: LOW<3.45V; LVC<3.30V for 30s; resume>3.60V in DAY"));
+  Serial.println(F("reporting: immediate events, 10s active progress, 10% fades, 60s stable"));
+  Serial.println(F("--- live diagnostics ---"));
 #else
   power_usart0_disable();
 #endif
@@ -118,6 +138,105 @@ void setLights(uint8_t pct) {
   digitalWrite(PIN_STATUS, HIGH);
 }
 
+#if DEBUG_SERIAL
+static const __FlashStringHelper* stateName(lite::State state) {
+  switch (state) {
+    case lite::DAY:       return F("DAY");
+    case lite::EVENING:   return F("EVENING");
+    case lite::OVERNIGHT: return F("OVERNIGHT");
+    case lite::PREDAWN:   return F("PREDAWN");
+    case lite::LVC:       return F("LVC");
+    default:              return F("UNKNOWN");
+  }
+}
+
+static uint8_t senseCode(bool dark, bool light) { return dark ? 0 : (light ? 2 : 1); }
+static const __FlashStringHelper* senseName(uint8_t sense) {
+  return sense == 0 ? F("DARK") : (sense == 2 ? F("LIGHT") : F("MID"));
+}
+
+// The voltage bands describe firmware decisions, not a calibrated state of charge.
+static uint8_t batteryBand(float vdd) {
+  if (vdd < sched.cfg.lvcOffV) return 0;
+  if (vdd < sched.cfg.lowBattV) return 1;
+  if (vdd <= sched.cfg.lvcResumeV) return 2;
+  return 3;
+}
+static const __FlashStringHelper* batteryName(uint8_t band) {
+  switch (band) {
+    case 0:  return F("CRITICAL");
+    case 1:  return F("LOW");
+    case 2:  return F("MID");
+    default: return F("OK");
+  }
+}
+
+static const __FlashStringHelper* outputCause(float vdd, uint8_t pct, bool buttonActive) {
+  if (sched.state == lite::LVC) return F("LVC_OFF");
+  bool startupActive = sched.t < sched.cfg.selfTestS;
+  if ((startupActive || buttonActive) && vdd < sched.cfg.lvcOffV) return F("LOW_VOLT_BLOCK");
+  if (startupActive) return F("STARTUP_TEST");
+  if (buttonActive) return F("BUTTON_TEST");
+  if (sched.state == lite::DAY) return pct ? F("FADE_TO_DAY_OFF") : F("DAY_OFF");
+  if (sched.allNight) return vdd < sched.cfg.lowBattV ? F("LOW_BATT_NIGHT") : F("ALL_NIGHT");
+  if (sched.state == lite::EVENING) return F("EVENING_SCHEDULE");
+  if (sched.state == lite::PREDAWN) return F("PREDAWN_SCHEDULE");
+  return F("OVERNIGHT_OFF");
+}
+
+static void printDebugStatus(float vdd, uint16_t ldrRaw, float ldrRatio,
+                             bool dark, bool light, uint8_t pct, bool fast) {
+  static bool first = true;
+  static uint32_t lastReport = 0;
+  static uint8_t lastState = 0xFF, lastSense = 0xFF, lastBand = 0xFF;
+  static uint8_t lastReportedPct = 0;
+  static bool lastNight = false, lastButton = false, lastOutputOn = false;
+
+  uint8_t sense = senseCode(dark, light);
+  uint8_t band = batteryBand(vdd);
+  bool buttonActive = sched.buttonUntil && sched.t <= sched.buttonUntil;
+  bool outputOn = pct > 0;
+  bool progress = sched.debounce > 0 || sched.lvcCount > 0 || buttonActive;
+  uint32_t period = progress ? DEBUG_ACTIVE_REPORT_S : DEBUG_IDLE_REPORT_S;
+  uint8_t pctDelta = pct > lastReportedPct ? pct - lastReportedPct : lastReportedPct - pct;
+  bool event = first || sched.state != lastState || sense != lastSense || band != lastBand ||
+               sched.night != lastNight || buttonActive != lastButton || outputOn != lastOutputOn;
+  bool fadeProgress = pctDelta >= 10;
+  bool heartbeat = (uint32_t)(sched.t - lastReport) >= period;
+  if (!event && !fadeProgress && !heartbeat) return;
+
+  Serial.print(F("time=")); Serial.print(sched.t); Serial.print(F("s"));
+  Serial.print(F(" vdd=")); Serial.print(vdd, 3); Serial.print(F("V"));
+  Serial.print(F(" battery=")); Serial.print(batteryName(band));
+  Serial.print(F(" ldr=")); Serial.print(ldrRatio * 100.0f, 1); Serial.print(F("%"));
+  Serial.print(F(" raw=")); Serial.print(ldrRaw);
+  Serial.print(F(" ldr_v=")); Serial.print(ldrRatio * vdd, 3); Serial.print(F("V"));
+  Serial.print(F(" sense=")); Serial.print(senseName(sense));
+  Serial.print(F(" mode=")); Serial.print(stateName(sched.state));
+  Serial.print(F(" night=")); Serial.print(sched.night ? F("YES") : F("NO"));
+  Serial.print(F(" output=")); Serial.print(pct); Serial.print(F("%"));
+  Serial.print(F(" cause=")); Serial.print(outputCause(vdd, pct, buttonActive));
+
+  Serial.print(F(" confirm="));
+  if (sched.debounce) {
+    Serial.print(sched.night ? F("DAWN") : F("DUSK"));
+    Serial.print(F(" ")); Serial.print(sched.debounce); Serial.print(F("/"));
+    Serial.print(sched.cfg.debounceS); Serial.print(F("s"));
+  } else Serial.print(F("NONE"));
+
+  Serial.print(F(" lvc=")); Serial.print(sched.lvcCount); Serial.print(F("/"));
+  Serial.print(sched.cfg.lvcHoldS); Serial.print(F("s"));
+  Serial.print(F(" button="));
+  Serial.print(buttonActive ? sched.buttonUntil - sched.t : 0); Serial.print(F("s"));
+  Serial.print(F(" next_tick=")); Serial.print(fast ? 1 : 8); Serial.println(F("s"));
+  Serial.flush();
+
+  first = false; lastReport = sched.t; lastState = sched.state; lastSense = sense;
+  lastBand = band; lastReportedPct = pct; lastNight = sched.night;
+  lastButton = buttonActive; lastOutputOn = outputOn;
+}
+#endif
+
 void loop() {
   static uint32_t dt = 1;
   // ---- measure
@@ -126,7 +245,8 @@ void loop() {
   bool dark, light;
 #if SENSOR_LDR
   digitalWrite(PIN_LDR_PWR, HIGH); _delay_ms(5);
-  float r = adcRaw(1) / 1023.0;
+  uint16_t ldrRaw = adcRaw(1);
+  float r = ldrRaw / 1023.0;
   digitalWrite(PIN_LDR_PWR, LOW);
   dark = r < LDR_DARK; light = r > LDR_LIGHT;
 #else
@@ -138,17 +258,20 @@ void loop() {
   if (btnPressed) { btnPressed = false; sched.button(); }
   uint8_t pct = sched.step(dt * TIME_SCALE, vdd, dark, light);
   setLights(pct);
+  bool fast = sched.needFastTick();
 #if DEBUG_SERIAL
-  Serial.print(F("t=")); Serial.print(sched.t); Serial.print(F(" vdd=")); Serial.print(vdd, 3);
-# if !SENSOR_LDR
-  Serial.print(F(" panel=")); Serial.print(panel, 2);
-# endif
-  Serial.print(F(" state=")); Serial.print(sched.state); Serial.print(F(" pct=")); Serial.println(pct);
+# if SENSOR_LDR
+  printDebugStatus(vdd, ldrRaw, r, dark, light, pct, fast);
+# else
+  // Legacy panel-sense builds retain a compact line; Rev 0.4 uses the detailed LDR path above.
+  Serial.print(F("time=")); Serial.print(sched.t); Serial.print(F("s vdd=")); Serial.print(vdd, 3);
+  Serial.print(F("V panel=")); Serial.print(panel, 2); Serial.print(F("V mode="));
+  Serial.print(stateName(sched.state)); Serial.print(F(" output=")); Serial.print(pct); Serial.println(F("%"));
   Serial.flush();
+# endif
 #endif
 
   // ---- sleep until the watchdog (or button)
-  bool fast = sched.needFastTick();
   wdtSet(fast);
   dt = fast ? 1 : 8;
   wdtFired = false;

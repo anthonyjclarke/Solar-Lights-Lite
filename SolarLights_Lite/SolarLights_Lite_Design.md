@@ -267,7 +267,7 @@ Checked so far:
 - **Host sim:** winter nights switch on at 17:15 (confirmed 5 min later) and off at 22:30, with pre-dawn 05:30 → dawn. Low battery cuts out at 3.25 V after 30 s and recovers next day. All-night mode tested too. The Stage 1 profile holds 20 % and skips pre-dawn: 203 mAh/night.
 - **Not yet run on hardware.**
 
-**Flashing:** in PlatformIO, `pio run -e pro8 -t upload` with the FTDI adapter at 3.3 V and the batteries disconnected. In the Arduino IDE, choose *Pro or Pro Mini, ATmega328P 3.3 V 8 MHz*, rename `main.cpp` to `SolarLights_Lite.ino` and put `schedule.h` in the same sketch folder.
+**Firmware servicing:** the controller has no bootloader, so the FTDI/UART adapter is monitoring-only. Use the consolidated [firmware programming procedure](firmware/lite_controller/PROGRAMMING.md) for PlatformIO builds, USBasp or Arduino-as-ISP uploads, verification and serial diagnostics.
 
 ### 5.2 D1 Mini – `firmware/esphome/solar-lights-lite.yaml`
 

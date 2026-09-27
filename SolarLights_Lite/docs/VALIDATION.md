@@ -2,6 +2,12 @@
 
 Revision 0.4 proposal | 19 September 2026 | repository release amended 27 September 2026 | Not released for outdoor assembly
 
+> **Historical evidence, not the current programming procedure.** This report
+> preserves dated commands, port names and machine-specific results so the test
+> history remains auditable. For a clean iMac or MacBook setup and all current
+> build, upload and serial-monitor steps, use
+> [`firmware/lite_controller/PROGRAMMING.md`](../firmware/lite_controller/PROGRAMMING.md).
+
 **The rebuild has a useful architecture, but the supplied design is not yet build-ready.** A small independent controller and sleeping Wi-Fi telemetry are sensible. Reuse the existing panel and a protected TP4056 module, after resolving its input supply and confirming the actual module. Use reduced brightness from dusk to dawn, as requested during this review.
 
 The drawings in `docs/` supersede the old assembly instructions. The old KiCad files remain evidence of the reviewed design, not a fabrication release. No hardware was connected, programmed, measured, or ordered by this assistant. Later user-reported and recorded programming/measurement results are documented in the dated addenda below.
@@ -328,7 +334,7 @@ one actually proven twice and is the fallback if the override misbehaves.
 is approximately 1.96 kHz, and the 1000 ms-blink watch-timed sanity check, before
 removing the board's onboard regulator and power LED.
 
-All of the above - the proven upload method, the avrdude-version nuance, and the full gotchas list - is now consolidated in [ISP_FIRMWARE_UPLOAD.md](ISP_FIRMWARE_UPLOAD.md) for quick reference; this file remains the dated, blow-by-blow record.
+The dated observations above remain evidence only. The machine-independent current procedure is consolidated in [the firmware programming guide](../firmware/lite_controller/PROGRAMMING.md); this file remains the dated, blow-by-blow record.
 
 ### Addendum - 21 September 2026: USBasp works cleanly on the iMac
 

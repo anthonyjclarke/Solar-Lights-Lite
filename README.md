@@ -56,15 +56,15 @@ flowchart LR
 1. Read the [build guide](SolarLights_Lite/docs/BUILD_GUIDE.md) before wiring anything.
 2. Use the [illustrated assembly guide](SolarLights_Lite/docs/ASSEMBLY.html) for the power, controller, telemetry, and enclosure drawings.
 3. Follow the [validation report](SolarLights_Lite/docs/VALIDATION.md) and its acceptance gates. It records both what has been demonstrated and what remains open.
-4. Flash only through the documented [ISP firmware upload procedure](SolarLights_Lite/docs/ISP_FIRMWARE_UPLOAD.md).
+4. Compile, upload and monitor only through the canonical [firmware programming procedure](SolarLights_Lite/firmware/lite_controller/PROGRAMMING.md).
 5. Use the [parts list](SolarLights_Lite/docs/SolarLights_Lite_Parts_List.csv), [wire schedule](SolarLights_Lite/docs/wire-schedule.csv), and [reviewed terminal netlist](SolarLights_Lite/docs/reviewed-netlist.json) at the bench.
 
 ## Repository guide
 
 | Location | Contents |
 |---|---|
-| [`SolarLights_Lite/docs/`](SolarLights_Lite/docs/) | Current assembly, component, validation, and upload documentation. |
-| [`SolarLights_Lite/firmware/`](SolarLights_Lite/firmware/) | ATmega328P controller source and optional ESPHome configuration. |
+| [`SolarLights_Lite/docs/`](SolarLights_Lite/docs/) | Current assembly, component and validation documentation. |
+| [`SolarLights_Lite/firmware/`](SolarLights_Lite/firmware/) | ATmega328P controller source, canonical programming procedure and optional ESPHome configuration. |
 | [`SolarLights_Lite/kicad_current/`](SolarLights_Lite/kicad_current/) | Current-build KiCad reference for the direct-drive LED branch. |
 | [`SolarLights_Lite/kicad/`](SolarLights_Lite/kicad/) | Frozen Rev 0.3 audit baseline; do not fabricate from it. |
 | [`SolarLights_Lite/validation/`](SolarLights_Lite/validation/) | Test records, measurements, historical baselines, and captured tool output. |

@@ -43,7 +43,7 @@ def row(cells, widths, size=9, bold=False, col=INK, lead=13.5, dx=0):
 
 # header
 c.setFillColor(GREEN); c.setFont('Helvetica-Bold', 8.5); c.drawString(L, y, 'SOLARLIGHTS / REBUILD 2026'); y -= 20
-c.setFillColor(INK); c.setFont('Helvetica-Bold', 17); c.drawString(L, y, 'USBasp to BTE13-010A Pro Mini'); y -= 16
+c.setFillColor(INK); c.setFont('Helvetica-Bold', 17); c.drawString(L, y, 'USBasp application-firmware upload'); y -= 16
 c.setFillColor(MUTED); c.setFont('Helvetica', 9.3)
 c.drawString(L, y, 'Six wires. Every pin you need is on the board\'s top row. Nothing else connected: no FTDI, no battery, no string.'); y -= 14
 rule()
@@ -97,22 +97,21 @@ c.drawString(L, y, 'RESET goes to RST, not to a numbered pin. MOSI and MISO are 
 rule()
 
 # ---- jumpers and commands
-head('4', 'USBasp jumpers, then the commands')
-txt('JP1 or a "3V3/5V" pad pair: leave at 5 V. This board is a 16 MHz Pro Mini, so it programs at 5 V.', col=MUTED)
+head('4', 'USBasp setup, then the commands')
+txt('The target is already converted to internal 8 MHz. Routine application uploads never rewrite its fuses.', col=AMBER, bold=True)
+txt('Use a verified target-compatible 3.3 V power and logic configuration for the isolated rebuilt controller.', col=MUTED)
+txt('Some clone voltage jumpers change target power but not signal level: verify the actual unit with a meter.', col=MUTED)
 txt('JP2 is only for updating the USBasp\'s own firmware. Leave it open.', col=MUTED)
 txt('JP3, "slow SCK": fit it if the chip will not answer. Old clone firmware ignores avrdude\'s -B option.', col=MUTED)
 y -= 3
 txt('Plug the USBasp into the Mac. No driver is needed on macOS. Test first, this writes nothing:', col=INK)
 txt('avrdude -c usbasp -p m328p -v', size=8.8, bold=True)
-txt('Expect:  Device signature = 0x1e950f (probably m328p)', size=8.8, col=GREEN)
+txt('Expect: Device signature = 0x1e950f. Stop if it differs, or reads all 00 / all ff.', size=8.8, col=GREEN)
 y -= 3
-txt('Write the fuses, then read them back:', col=INK)
-txt('avrdude -c usbasp -p m328p -U lfuse:w:0xE2:m -U hfuse:w:0xD9:m -U efuse:w:0xFD:m', size=8.8, bold=True)
-txt('avrdude -c usbasp -p m328p -U lfuse:r:-:h -U hfuse:r:-:h -U efuse:r:-:h', size=8.8, bold=True)
-txt('Expect 0xe2, 0xd9, 0xfd. The last one often reads back as 0x05: only three bits exist, same value.', size=8.8, col=MUTED)
-y -= 2
-txt('avrdude lives with the Arduino IDE at ~/Library/Arduino15/packages/arduino/tools/avrdude/*/bin/,', size=8.6, col=MUTED)
-txt('or install your own with: brew install avrdude', size=8.6, col=MUTED)
+txt('From SolarLights_Lite/firmware/lite_controller, compile and upload the diagnostic build:', col=INK)
+txt('platformio run -e pro8_usbasp_debug', size=8.8, bold=True)
+txt('platformio run -e pro8_usbasp_debug -t upload', size=8.8, bold=True)
+txt('Use pro8_usbasp instead for the quiet production build. A successful upload must verify flash.', size=8.6, col=MUTED)
 rule()
 
 # ---- troubleshooting
@@ -127,11 +126,11 @@ for a, b in [('could not find USB device 0x16c0/0x5dc', 'USBasp not enumerated: 
     row([a, b], [250, 230], size=8.6)
 y -= 2
 c.setFillColor(RED); c.setFont('Helvetica-Bold', 8.8)
-c.drawString(L, y, 'Never program RSTDISBL, and never select an external clock you do not have. Both lock the chip out of ISP.')
+c.drawString(L, y, 'Never add fuse-write options to a routine application upload. Disconnect ISP before restoring battery power.')
 
 c.setStrokeColor(LINE); c.setLineWidth(0.8); c.line(L, 46, R, 46)
 c.setFont('Helvetica-Bold', 7.8); c.setFillColor(AMBER)
-c.drawString(L, 34, 'STEP 1 OF THE BENCH SHEET  |  Full background in docs/CLOCK_CONVERSION.md')
+c.drawString(L, 34, 'CANONICAL PROCEDURE: firmware/lite_controller/PROGRAMMING.md')
 c.setFont('Helvetica', 7.8); c.setFillColor(MUTED)
 c.drawRightString(R, 34, 'docs/tools/make_usbasp_sheet.py')
 c.showPage(); c.save()
