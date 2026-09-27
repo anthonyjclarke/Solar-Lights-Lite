@@ -108,10 +108,11 @@ txt('Plug the USBasp into the Mac. No driver is needed on macOS. Test first, thi
 txt('avrdude -c usbasp -p m328p -v', size=8.8, bold=True)
 txt('Expect: Device signature = 0x1e950f. Stop if it differs, or reads all 00 / all ff.', size=8.8, col=GREEN)
 y -= 3
-txt('From SolarLights_Lite/firmware/lite_controller, compile and upload the diagnostic build:', col=INK)
-txt('platformio run -e pro8_usbasp_debug', size=8.8, bold=True)
-txt('platformio run -e pro8_usbasp_debug -t upload', size=8.8, bold=True)
-txt('Use pro8_usbasp instead for the quiet production build. A successful upload must verify flash.', size=8.6, col=MUTED)
+txt('From SolarLights_Lite/firmware/lite_controller, compile diagnostics with:', col=INK)
+txt('pio run -e pro8_debug', size=8.8, bold=True)
+txt('Then flash with the separately installed current avrdude, not pio -t upload:', size=8.6, col=INK)
+txt('avrdude -c usbasp -p m328p -v -U flash:w:.pio/build/pro8_debug/firmware.hex:i', size=6.7, bold=True)
+txt('Use pio run -e pro8 and .pio/build/pro8/firmware.hex for quiet production. Verify flash.', size=8.0, col=MUTED)
 rule()
 
 # ---- troubleshooting

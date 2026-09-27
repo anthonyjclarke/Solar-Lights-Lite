@@ -92,7 +92,7 @@ The one-time clock/fuse conversion is complete and must not be repeated during r
 | 11 | Connect qualified panel path and test in real sun/shade. | Charge termination with telemetry attached; automatic weak-light recovery; acceptable cell and component temperatures. Qualify cell-temperature inhibit before unattended installation. |
 | 12 | Log at least 14 days including overcast weather, then actual winter. | Record daily charge/load mAh or Wh, dusk/dawn voltages, light usefulness, temperatures and LVC events. No promise of year-round operation from a short sunny test. |
 
-For bench debugging use `pro8_usbasp_debug`, or `pro8_arduinoisp_debug` with the fallback programmer. Each reset prints a one-time field guide before the rate-limited 9600-baud data. Use `pro8_usbasp` or `pro8_arduinoisp` for deployment and sleep-current tests. Exact commands and isolation rules are only in [PROGRAMMING.md](../firmware/lite_controller/PROGRAMMING.md).
+For bench debugging build `pio run -e pro8_debug`. Each reset prints a one-time field guide before the rate-limited 9600-baud data. Build `pio run -e pro8` for deployment and sleep-current tests. Do not use `pio -t upload`: flashing is performed separately with a current system `avrdude`. Exact operating-system setup, commands and isolation rules are only in [PROGRAMMING.md](../firmware/lite_controller/PROGRAMMING.md).
 
 ## Energy budget you can verify
 

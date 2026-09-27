@@ -75,8 +75,8 @@ row(['Action', 'Command / pass result'], [152, 300], bold=True, col=MUTED, size=
 c.setStrokeColor(LINE); c.line(L, y + 9, R, y + 9)
 row(['Open firmware folder', 'cd SolarLights_Lite/firmware/lite_controller'], [152, 300], size=8.6)
 row(['Check the target', 'avrdude -c usbasp -p m328p -v   -> signature 0x1e950f'], [152, 300], size=8.6)
-row(['Compile diagnostics', 'platformio run -e pro8_usbasp_debug   -> SUCCESS'], [152, 300], size=8.6)
-row(['Upload and verify', 'platformio run -e pro8_usbasp_debug -t upload'], [152, 300], size=8.6)
+row(['Compile diagnostics', 'pio run -e pro8_debug   -> SUCCESS'], [152, 300], size=8.6)
+row(['Upload and verify', 'external current avrdude; never pio -t upload'], [152, 300], size=8.6)
 y -= 2
 txt('Disconnect all ISP wires before normal power returns. USB-UART is monitoring-only: target TX -> adapter RX,', size=8.6)
 txt('OUT-/GND -> adapter GND; leave adapter VO/VCC, TX, DTR and CTS open. Monitor at 9600 baud.', size=8.6)
@@ -112,7 +112,7 @@ box(['Decision rule',
      'or document the measurements before deliberately changing the commanded duty in firmware.'])
 txt('Also confirm: R3 and the D9 pin stay at ambient; the string is dark with M2 unplugged and during reset.', size=8.8, col=MUTED)
 y -= 1
-txt('For sleep-current and deployment, upload pro8_usbasp (quiet production build).', size=8.8, bold=True, col=RED)
+txt('For sleep-current and deployment, build pio run -e pro8 then flash its .hex with external avrdude.', size=8.2, bold=True, col=RED)
 
 # ---------------------------------------------------------------- footer
 c.setStrokeColor(LINE); c.setLineWidth(0.8); c.line(L, 46, R, 46)

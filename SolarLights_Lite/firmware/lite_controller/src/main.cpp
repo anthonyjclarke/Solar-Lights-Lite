@@ -29,7 +29,7 @@
 #define SENSOR_LDR    1        // 1 = switched LDR on A1; 0 = legacy panel sense, not wired in Rev 0.4
 #endif
 #ifndef DEBUG_SERIAL
-#define DEBUG_SERIAL  0        // 1 = rate-limited event/progress diagnostics at 9600 baud (~1 mA extra)
+#define DEBUG_SERIAL  1        // 1 = rate-limited event/progress diagnostics at 9600 baud (~1 mA extra)
 #endif
 #ifndef DEBUG_ACTIVE_REPORT_S
 #define DEBUG_ACTIVE_REPORT_S  10  // progress cadence while confirming/testing/cutoff timing
