@@ -13,6 +13,52 @@ TP4056-family charger, LED string, and a Pro Mini-sized controller—while repla
 assumptions with documented wiring, measured limits, staged tests, and a more
 efficient dusk-to-dawn control strategy.
 
+## Why?
+
+<img src="SolarLights_Lite/docs/images/why-reuse.png" width="480" alt="A solar panel, garden lights, battery cell, microcontroller, and reused electronic parts on a workbench.">
+
+This project is about reuse, repurposing, and seeing what can be made from the
+small mountain of parts already on hand.
+
+Over the years I have collected solar panels, outdoor light strings, pond pumps,
+electronic components, and a respectable quantity of AliExpress purchases that
+seemed essential at the time. Some projects were started, some are half-finished,
+and some remain proudly theoretical.
+
+Rather than buying another ready-made solution, this is an excuse to put useful
+bits back to work, learn along the way, and turn a few neglected components into
+something practical.
+
+There is also a longer-running interest behind it: electronics, embedded systems,
+batteries, low-power devices, programming, and figuring out why things do or do
+not work. I originally qualified in electronics and engineering, and have been
+programming since writing games for the Oric, C16, and C64 in 6502 assembler.
+
+Home Assistant is already part of the household, so there is a natural temptation
+to connect, measure, automate, and possibly overthink things. AI tools such as
+ChatGPT and Claude are part of the process too: useful for learning, checking
+assumptions, troubleshooting, and moving a project along when the manual has
+vanished or was translated from another planet.
+
+Could this be cheaper? Simpler? Less engineered?
+
+Almost certainly.
+
+But I am retired, curious, have the time, and intend to have some fun.
+
+If that sounds reasonable, read on.
+
+### A note on reclaimed vape batteries
+
+Reclaimed vape batteries deserve extra care. They may be usable, but their
+history, condition, chemistry, protection, and suitability are not always known.
+
+I have used reclaimed vape cells with a TP4056-based charger without problems,
+but that is personal experience, not a safety guarantee or a recommendation. Do
+your own research, inspect and test cells appropriately, and make your own safe
+decisions. If there is any doubt, use known, purpose-bought rechargeable batteries
+instead.
+
 This is an open engineering project for careful bench development. It is **not yet
 approved for unattended outdoor use, PCB fabrication, or assembly without the
 qualification steps in the build guide**.
