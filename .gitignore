@@ -23,5 +23,10 @@ venv/
 # Local configuration, credentials, and generated logs
 secrets.yaml
 secrets.yml
+secrets.h
+credentials.h
+credentials.*
+.env
+.env.*
 *.local
 *.log

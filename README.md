@@ -59,6 +59,13 @@ flowchart LR
 4. Compile, upload and monitor only through the canonical [firmware programming procedure](SolarLights_Lite/firmware/lite_controller/PROGRAMMING.md).
 5. Use the [parts list](SolarLights_Lite/docs/SolarLights_Lite_Parts_List.csv), [wire schedule](SolarLights_Lite/docs/wire-schedule.csv), and [reviewed terminal netlist](SolarLights_Lite/docs/reviewed-netlist.json) at the bench.
 
+For concise current context, use [architecture](SolarLights_Lite/docs/ARCHITECTURE.md),
+[hardware](SolarLights_Lite/docs/HARDWARE.md),
+[design decisions](SolarLights_Lite/docs/DESIGN_DECISIONS.md),
+[development](SolarLights_Lite/docs/DEVELOPMENT.md),
+[testing](SolarLights_Lite/docs/TESTING.md), and
+[roadmap](SolarLights_Lite/docs/ROADMAP.md).
+
 ## Repository guide
 
 | Location | Contents |
