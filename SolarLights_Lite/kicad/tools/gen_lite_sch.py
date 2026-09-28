@@ -321,7 +321,7 @@ sch = f'''(kicad_sch (version 20230121) (generator eeschema)
   (paper "A3")
   (title_block
     (title "Solar Front Lights – Lite")
-    (date "2026-09-18")
+    (date "18-Sep-2026")
     (rev "0.3")
     (company "AJC & Co")
     (comment 1 "Flow: panel -> diodes -> TP4056 -> battery rail -> Pro Mini, LED driver, D1 Mini")

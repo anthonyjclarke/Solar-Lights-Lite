@@ -4,6 +4,18 @@ All notable project milestones are recorded here. This file is a development
 timeline; for an introduction to the project and its current architecture, start
 with [README.md](README.md).
 
+## [0.5.1] 28-09-2026
+
+### Changed
+
+- Reworked the v0.5 current-build KiCad sheet into six labelled functional
+  blocks on the 2.54 mm grid, using inter-block net labels for a clearer layout.
+
+### Fixed
+
+- Added the intentionally open Pro Mini `D8` pin to the current-build symbol;
+  its single-pin no-connect is now explicit in the exported netlist.
+
 ## [0.5.0] - 27-Sep-2026
 
 ### Development telemetry

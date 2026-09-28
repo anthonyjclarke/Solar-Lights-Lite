@@ -1,6 +1,6 @@
 # SolarLights Lite – Parts-Bin Design & Build
 
-Rev 0.2 · 17 Sep 2026 · home-built companion to SolarLights v2 (v2 is unchanged)
+Rev 0.2 · 17-Sep-2026 · home-built companion to SolarLights v2 (v2 is unchanged)
 
 Rev 0.2: staged panel plan – build and test on the existing 1.2 W panel, then upgrade the panel only if the winter results call for it.
 
@@ -261,7 +261,7 @@ Checked so far:
 | F1   | Install night     | Watch dusk and ~22:30; check HA                               | On within 10 min of dark at 20 %; off ~22:15 (1st night fallback) |
 | F2   | First 14 days     | Log battery at ~07:00 and ~16:00 from HA history              | Back to ≥ 4.10 V most afternoons; no LVC                          |
 | F3   | 14 days, Oct–Nov  | **Winter emulation:** cover ½ the panel with opaque card/tape | Battery at dusk flat or rising over 14 days; no LVC               |
-| F4   | 1 Jun–31 Aug 2027 | Real winter; weekly check of the dusk battery trend           | Dusk battery ≥ 3.70 V; no LVC nights                              |
+| F4   | 01-Jun-2027–31-Aug-2027 | Real winter; weekly check of the dusk battery trend           | Dusk battery ≥ 3.70 V; no LVC nights                              |
 | F5   | Any time          | Lights On = off at the 19:00 report while it's dark           | Never happens (it means LVC or a fault)                           |
 
 - **Why F3 works:** spring sun (~5 PSH) with half the panel covered gives about the same daily harvest as an uncovered panel in June. You get a winter answer in November instead of waiting until next July.
@@ -315,7 +315,7 @@ If none trigger through F4, stay on Stage 1 – it's working as designed.
 | Source         | waveshare.com/solar-panel-6v-5w.htm             | core-electronics.com.au (search WS-24166)                   |
 | Harvest, June* | ≈ 1,700 mAh/day                                 | ≈ 2,000 mAh/day (TP4056 limits at ~1 A)                     |
 
-\* Via TP4056, good aspect. Prices and stock as listed on 17 Sep 2026.
+\* Via TP4056, good aspect. Prices and stock as listed on 17-Sep-2026.
 
 Notes:
 - **Connector:** cut off the DC plug or micro-USB and wire the leads to the PV screw terminal. On the WS-24166 the USB VBUS (red) is + and GND (black) is −. Confirm polarity with a meter in sun.
@@ -345,11 +345,11 @@ No other hardware changes are needed:
 
 | Dates               | Activity                                        |
 |---------------------|-------------------------------------------------|
-| Oct 2026            | Build, bench tests B1–B8, install, F1           |
+| 01-Oct-2026–31-Oct-2026            | Build, bench tests B1–B8, install, F1           |
 | Oct–Nov             | F2 (14 days) then F3 winter emulation (14 days) |
 | Late Nov            | Decision point 1 – buy panel now if F3 fails    |
 | Dec–May             | Normal running (summer surplus)                 |
-| 1 Jun–31 Aug 2027   | F4 real winter monitoring                       |
+| 01-Jun-2027–31-Aug-2027   | F4 real winter monitoring                       |
 | Any trigger in §7.3 | Stage 2 panel swap (§8), then F1/F2 re-check    |
 
 ---

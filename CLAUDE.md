@@ -11,5 +11,7 @@ status NPN; D2 is the button. The switched A1 LDR is not yet wired. Panel/charge
 qualification, complete wiring, and outdoor validation are incomplete.
 
 Do not commit secrets, credentials, `.env` files, `.pio/`, or editor/build output.
+Write human-readable dates as `dd-mmm-yyyy`; retain machine-mandated date formats
+inside captured tool output and generated evidence.
 Use `SolarLights_Lite/docs/` as the shared source of truth, especially
 `ARCHITECTURE.md`, `HARDWARE.md`, and `ROADMAP.md`.

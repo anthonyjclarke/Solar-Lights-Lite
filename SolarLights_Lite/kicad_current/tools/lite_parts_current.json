@@ -114,26 +114,6 @@
   "dnp": false,
   "hide_val": false
  },
- "M2": {
-  "lib": "SolarLights_Lite:Pro_Mini_BTE13",
-  "val": "BTE13-010A - int. 8 MHz",
-  "pins": {
-   "VCC": "VBAT",
-   "GND": "GND",
-   "A1": "LDR_SENSE",
-   "D2": "BTN",
-   "D7": "LDR_PWR",
-   "D8": "LIGHTS",
-   "D9": "PWM",
-   "A0": "NC_A0",
-   "D10": "NC_D10",
-   "D11": "NC_D11"
-  },
-  "fp": "",
-  "note": "RAW unused; A0/D10/D11 reserved, left open",
-  "dnp": false,
-  "hide_val": false
- },
  "C3": {
   "lib": "Device:C_Polarized",
   "val": "100u",
@@ -143,91 +123,6 @@
   },
   "fp": "Capacitor_THT:CP_Radial_D6.3mm_P2.50mm",
   "note": "",
-  "dnp": false,
-  "hide_val": false
- },
- "SW1": {
-  "lib": "Switch:SW_Push",
-  "val": "test",
-  "pins": {
-   "1": "BTN",
-   "2": "GND"
-  },
-  "fp": "",
-  "note": "",
-  "dnp": false,
-  "hide_val": false
- },
- "LDR1": {
-  "lib": "SolarLights_Lite:LDR",
-  "val": "LDR",
-  "pins": {
-   "1": "LDR_PWR",
-   "2": "LDR_SENSE"
-  },
-  "fp": "",
-  "note": "",
-  "dnp": false,
-  "hide_val": false
- },
- "R4": {
-  "lib": "Device:R",
-  "val": "100k",
-  "pins": {
-   "1": "LDR_SENSE",
-   "2": "GND"
-  },
-  "fp": "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal",
-  "note": "",
-  "dnp": false,
-  "hide_val": false
- },
- "R8": {
-  "lib": "Device:R",
-  "val": "47k",
-  "pins": {
-   "1": "LIGHTS",
-   "2": "Q2_BASE"
-  },
-  "fp": "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal",
-  "note": "",
-  "dnp": false,
-  "hide_val": false
- },
- "R9": {
-  "lib": "Device:R",
-  "val": "100k",
-  "pins": {
-   "1": "Q2_BASE",
-   "2": "GND"
-  },
-  "fp": "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal",
-  "note": "base-emitter pulldown",
-  "dnp": false,
-  "hide_val": false
- },
- "Q2": {
-  "lib": "Device:Q_NPN_BCE",
-  "val": "2N3904",
-  "pins": {
-   "1": "Q2_BASE",
-   "2": "D1_D5",
-   "3": "GND"
-  },
-  "fp": "",
-  "note": "telemetry status inverter",
-  "dnp": false,
-  "hide_val": false
- },
- "R10": {
-  "lib": "Device:R",
-  "val": "10k",
-  "pins": {
-   "1": "D1_D5",
-   "2": "3V3_TEL"
-  },
-  "fp": "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal",
-  "note": "pull-up to 3V3_TEL",
   "dnp": false,
   "hide_val": false
  },
@@ -255,17 +150,138 @@
   "dnp": false,
   "hide_val": false
  },
- "U3": {
-  "lib": "SolarLights_Lite:Reg3V3_TBD",
-  "val": "3V3 tel. - HL802A cand.",
+ "M2": {
+  "lib": "SolarLights_Lite:Pro_Mini_BTE13",
+  "val": "BTE13-010A - int. 8 MHz",
   "pins": {
-   "IN+": "VBAT",
-   "IN-": "GND",
-   "OUT+": "3V3_TEL",
-   "OUT-": "GND"
+   "VCC": "VBAT",
+   "GND": "GND",
+   "A1": "LDR_SENSE",
+   "D2": "BTN",
+   "D7": "LDR_PWR",
+   "D1": "UART_TX",
+   "D8": "NC_D8",
+   "D9": "PWM",
+   "A0": "NC_A0",
+   "D10": "NC_D10",
+   "D11": "NC_D11"
   },
   "fp": "",
-  "note": "TPS63802/HL802A breakout, jumper=3.3V; candidate, not bench-qualified",
+  "note": "RAW unused; A0/D10/D11 reserved, left open",
+  "dnp": false,
+  "hide_val": false
+ },
+ "LDR1": {
+  "lib": "SolarLights_Lite:LDR",
+  "val": "LDR",
+  "pins": {
+   "1": "LDR_PWR",
+   "2": "LDR_SENSE"
+  },
+  "fp": "",
+  "note": "",
+  "dnp": false,
+  "hide_val": false
+ },
+ "R4": {
+  "lib": "Device:R",
+  "val": "100k",
+  "pins": {
+   "1": "LDR_SENSE",
+   "2": "GND"
+  },
+  "fp": "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal",
+  "note": "",
+  "dnp": false,
+  "hide_val": false
+ },
+ "SW1": {
+  "lib": "Switch:SW_Push",
+  "val": "test",
+  "pins": {
+   "1": "BTN",
+   "2": "GND"
+  },
+  "fp": "",
+  "note": "",
+  "dnp": false,
+  "hide_val": false
+ },
+ "R8": {
+  "lib": "Device:R",
+  "val": "47k",
+  "pins": {
+   "1": "UART_TX",
+   "2": "Q2_BASE"
+  },
+  "fp": "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal",
+  "note": "",
+  "dnp": false,
+  "hide_val": false
+ },
+ "R9": {
+  "lib": "Device:R",
+  "val": "100k",
+  "pins": {
+   "1": "Q2_BASE",
+   "2": "GND"
+  },
+  "fp": "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal",
+  "note": "B-E pulldown",
+  "dnp": false,
+  "hide_val": false
+ },
+ "Q2": {
+  "lib": "Device:Q_NPN_BCE",
+  "val": "2N3904",
+  "pins": {
+   "1": "Q2_BASE",
+   "2": "D1_D6",
+   "3": "GND"
+  },
+  "fp": "",
+  "note": "dev UART inverter",
+  "dnp": false,
+  "hide_val": false
+ },
+ "R10": {
+  "lib": "Device:R",
+  "val": "10k",
+  "pins": {
+   "1": "D1_D6",
+   "2": "3V3_TEL"
+  },
+  "fp": "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal",
+  "note": "pull-up",
+  "dnp": false,
+  "hide_val": false
+ },
+ "R5": {
+  "lib": "Device:R",
+  "val": "220k",
+  "pins": {
+   "1": "VBAT",
+   "2": "D1_A0"
+  },
+  "fp": "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal",
+  "note": "battery sense, unaffected by U3",
+  "dnp": false,
+  "hide_val": false
+ },
+ "M3": {
+  "lib": "SolarLights_Lite:D1_Mini",
+  "val": "Wemos D1 Mini",
+  "pins": {
+   "5V": "3V3_TEL",
+   "G": "GND",
+   "A0": "D1_A0",
+   "D5": "NC_D5",
+   "D6": "D1_D6",
+   "D0": "D0RST",
+   "RST": "D0RST"
+  },
+  "fp": "",
+  "note": "ESPHome v0.5 dev UART; always-on; onboard regulator removed",
   "dnp": false,
   "hide_val": false
  },
@@ -281,32 +297,17 @@
   "dnp": false,
   "hide_val": false
  },
- "M3": {
-  "lib": "SolarLights_Lite:D1_Mini",
-  "val": "Wemos D1 Mini",
+ "U3": {
+  "lib": "SolarLights_Lite:Reg3V3_TBD",
+  "val": "3V3 tel. - HL802A cand.",
   "pins": {
-   "5V": "3V3_TEL",
-   "G": "GND",
-   "A0": "D1_A0",
-   "D5": "D1_D5",
-   "D6": "NC_D6",
-   "D0": "D0RST",
-   "RST": "D0RST"
+   "IN+": "VBAT",
+   "IN-": "GND",
+   "OUT+": "3V3_TEL",
+   "OUT-": "GND"
   },
   "fp": "",
-  "note": "ESPHome, hourly deep sleep; onboard regulator removed",
-  "dnp": false,
-  "hide_val": false
- },
- "R5": {
-  "lib": "Device:R",
-  "val": "220k",
-  "pins": {
-   "1": "VBAT",
-   "2": "D1_A0"
-  },
-  "fp": "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal",
-  "note": "battery sense, unaffected by U3",
+  "note": "TPS63802/HL802A breakout, jumper=3.3V; candidate, not bench-qualified",
   "dnp": false,
   "hide_val": false
  }

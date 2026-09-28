@@ -9,6 +9,9 @@ ATmega328P BTE13-010A/Pro Mini path at internal 8 MHz.
 - Keep the existing small C++/Arduino style: fixed-width types, named pin and
   threshold constants, comments for electrical constraints, and hardware-free
   scheduler logic in `include/schedule.h` for host tests.
+- Write human-readable dates as `dd-mmm-yyyy` (for example, `27-Sep-2026`).
+  Preserve formats emitted by tools in captured or generated evidence, such as
+  ERC timestamps and exported netlists.
 - Never touch or commit `secrets.h`, credentials, `.env` files, `.pio/`, or
   editor/build output. Preserve user changes outside the requested scope.
 - Never commit or push without explicit instruction.

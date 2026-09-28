@@ -1,6 +1,6 @@
 # _archive - safe to delete
 
-Moved here on 20 September 2026 while tidying the project. Nothing in this folder is
+Moved here on 20-Sep-2026 while tidying the project. Nothing in this folder is
 part of the current build, and nothing in the live folders links to it. Drag the whole
 folder to the Trash whenever you like.
 

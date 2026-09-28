@@ -1,4 +1,4 @@
-# LED string measurement - 20 September 2026
+# LED string measurement - 20-Sep-2026
 
 Measured by the user with a Nordic Power Profiler Kit II as the supply and current
 meter, a single 47 ohm resistor in series between supply positive and string positive,

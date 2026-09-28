@@ -1,6 +1,6 @@
 # User-reported BTE13-010A programming result
 
-Recorded 19 September 2026. Source: user report, not a tool-observed flash operation.
+Recorded 19-Sep-2026. Source: user report, not a tool-observed flash operation.
 
 - Project target: Arduino Pro Mini ATmega328P 3.3 V / 8 MHz.
 - Upload speed corrected from 19200 to 57600 baud.

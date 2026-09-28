@@ -322,7 +322,7 @@ sch = f'''(kicad_sch (version 20230121) (generator eeschema)
   (paper "A3")
   (title_block
     (title "Solar Front Lights – Lite · wiring view")
-    (date "2026-09-18")
+    (date "18-Sep-2026")
     (rev "0.3w")
     (company "AJC & Co")
     (comment 1 "KiCad version of images/SolarLights_Lite_Wiring.png – same circuit, block layout")

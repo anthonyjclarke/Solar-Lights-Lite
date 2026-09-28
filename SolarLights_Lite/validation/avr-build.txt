@@ -41,7 +41,7 @@ sh: /tmp/solar-validation-pio/packages/toolchain-atmelavr/bin/avr-g++: Bad CPU t
 *** [.pio/build/pro8/FrameworkArduino/CDC.cpp.o] Error 126
 ========================= [FAILED] Took 49.19 seconds =========================
 
---- 20 September 2026, direct-drive firmware -------------------------------------
+--- 20-Sep-2026, direct-drive firmware -------------------------------------
 
 The PlatformIO toolchain still cannot execute on this Mac (above). As a separate check,
 the patched src/main.cpp and include/schedule.h were cross-compiled in the session's

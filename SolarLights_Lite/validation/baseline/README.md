@@ -2,7 +2,7 @@
 
 Parts-bin build of the Solar Front Lights redesign.
 Folder: `~/PlatformIO/Projects/SolarLights_2026_Lite` · sibling: `../SolarLights_2026_v2`
-Last updated 19 Sep 2026.
+Last updated 19-Sep-2026.
 
 ---
 
@@ -47,7 +47,7 @@ Two sheets of the same circuit, both verified 25/25 nets:
 - Measure the LED string and set `R3` (Rlim) plus the current cap in the firmware.
 - Decide whether to keep the LDR (fitted DNP) or run on the panel-voltage sense alone.
 
-Note, 20 September 2026: `SolarLights_Lite/SolarLights_Lite_Build.html` and
+Note, 20-Sep-2026: `SolarLights_Lite/SolarLights_Lite_Build.html` and
 `SolarLights_Lite/images/` listed above were moved to `_archive/` during a folder tidy.
 They were superseded documentation, not evidence; the firmware and YAML snapshots in this
 directory are untouched.

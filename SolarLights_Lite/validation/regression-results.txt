@@ -1,6 +1,6 @@
 PASS: 9 regression groups (debounce, 14h dusk-to-dawn, test cap, LVC/recovery, low startup, low brightness, slow tick, evening mode, shipped 100% default)
 
-Run 20 September 2026 after the direct-drive change, in the Cowork Linux workspace on
+Run 20-Sep-2026 after the direct-drive change, in the Cowork Linux workspace on
 this Mac:
   g++ -std=c++17 -I../include -Wall -Wextra -Werror -fsanitize=address,undefined \
       -o reg regression.cpp && ./reg
