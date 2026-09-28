@@ -1,6 +1,6 @@
 # SolarLights Lite - rebuild guide
 
-v0.5 development proposal | 27-Sep-2026 | Not released for outdoor assembly
+v0.5 live project status | 27-Sep-2026 | Active bench development
 
 **Goal: reuse the panel, TP4056 modules, 16 MHz Pro Mini and existing lights; run dimly from dusk to dawn with low standby consumption.** Open `ASSEMBLY.html` for the illustrated guide, or print `../../output/pdf/SolarLights_Rev05_Drawings.pdf` at A3 landscape. Review `VALIDATION.md` first. A checklist version of the parts table below is at [SolarLights_Lite_Parts_List.csv](SolarLights_Lite_Parts_List.csv). For a schematic that matches this document part-for-part, see [../kicad_current/](../kicad_current/README.md) - the KiCad folder in ../kicad/ is the frozen Rev 0.3 audit baseline, not this circuit.
 

@@ -51,7 +51,7 @@ def header(n,title,sub):
  global D
  D=Drawing(W,H);rect(0,0,W,H,'#ffffff','#ffffff',0);text(42,38,'SOLARLIGHTS / REBUILD 2026',15,GREEN,True);text(42,80,title,32,INK,True);text(42,110,sub,16,MUTED)
  line(42,132,1398,132,'#d5e0e6',1)
- line(42,850,1398,850,'#d5e0e6',1);text(42,877,'v0.5 DEVELOPMENT PROPOSAL  |  27-SEP-2026  |  NOT RELEASED FOR OUTDOOR ASSEMBLY',13,AMBER,True);text(1175,877,f'SHEET {n} OF 6 / A3',13,MUTED)
+ line(42,850,1398,850,'#d5e0e6',1);text(42,877,'v0.5 LIVE PROJECT STATUS  |  27-SEP-2026  |  ACTIVE BENCH DEVELOPMENT',13,GREEN,True);text(1175,877,f'SHEET {n} OF 7 / A3',13,MUTED)
 def save(name):
  renderSVG.drawToFile(D,str(DOC/(name+'.svg')));return D
 pages=[]
@@ -224,7 +224,9 @@ module(475,240,435,230,'2 / Reused UART receiver','Q2 inverts and level-shifts t
 text(500,320,'M2 D1/TX',15,GREEN,True);path([(370,420),(420,420),(420,350),(500,350)],GREEN,3);line(500,350,545,350,GREEN,3);res(595,350,'R8','47k',False,GREEN);line(645,350,675,350,GREEN,3)
 D.add(Circle(720,H-350,38,fillColor=None,strokeColor=HexColor(INK),strokeWidth=2));line(698,328,698,372,INK,3);line(675,350,698,350,GREEN)
 path([(698,337),(755,305),(755,335)],INK);path([(698,363),(755,402),(755,442)],GND);ground(755,442,'OUT-')
-res(665,400,'R9','100k',True,GREEN);line(665,435,665,442,GND)
+# R9 is the base-emitter pull-down: it must not float. Tie its top to the
+# R8/Q2-base node and its bottom to Q2 emitter / OUT-.
+res(665,400,'R9','100k',True,GREEN);path([(665,365),(665,350),(698,350)],GREEN,2);path([(665,435),(665,442),(755,442)],GND,2)
 line(755,335,820,335,GREEN,3);dot(820,335,GREEN);path([(820,335),(850,335),(850,435),(970,435)],GREEN,3)
 res(820,300,'R10','10k',True,RED);text(780,255,'ESP 3V3',15,RED,True)
 text(790,410,'Q2 / 2N3904',16,INK,True)
@@ -243,6 +245,35 @@ note(465,565,420,'What Home Assistant receives',['Arduino: VDD, LDR, sense/mode/
 note(910,565,430,'No-purchase boundary',['Not measured: panel voltage, charge/load current, energy,','physical LED current or temperatures.','`output=` replaces D8-to-D5: leave both pins open.'],True)
 text(465,770,'Test rules: run pro8_debug • no USB-UART adapter on M2 • keep D1 awake • use solar-lights-lite.yaml later for production',16,AMBER,True)
 pages.append(save('06-telemetry-dev'))
+# Whole-system view for the assembly guide. Detailed terminal drawings remain on sheets 1, 2 and 6.
+header(7,'Current architecture schematic','Live v0.5 bench wiring. The development receiver captures the Arduino UART in Home Assistant; it is not a current or energy meter.')
+note(42,140,1356,'How to use this sheet',['Read this as the system-level schematic. Follow sheets 1, 2 and 6 for terminal-level wiring. The editable KiCad source in kicad_current/ uses this same D1/TX-to-D6 development route.'],True)
+module(42,260,180,110,'PV1 / panel','Existing 1.2 W')
+module(270,260,210,110,'U0 / 5 V input','MP1584EN candidate')
+module(535,245,220,140,'M1 / protected charger','TP4056 family + protection')
+module(830,260,220,110,'BT1 + BT2 / 1S2P','Each positive lead fused')
+text(76,334,'PV+ / PV-',15,BLUE,True);text(300,334,'IN -> regulated 5 V',15,INK);text(558,334,'IN+ / IN-   B+ / B-',15,INK);text(860,334,'BATT+ / BATT-',15,PURPLE,True)
+line(222,315,270,315,BLUE,3);line(480,315,535,315,RED,3);path([(645,385),(645,415),(940,415),(940,370)],PURPLE,3)
+text(690,405,'cell-side wiring: B+ / B- only',14,PURPLE,True)
+line(755,405,1300,405,RED,3);text(775,390,'OUT+ -> F2 -> S1 -> VBAT_SYS',15,RED,True)
+line(755,435,1300,435,GND,3);text(775,458,'OUT- / GND_LOAD common return',15,GND,True)
+module(70,485,360,195,'M2 / BTE13-010A Pro Mini','Internal 8 MHz, ISP programmed')
+lines(96,580,['VCC <- VBAT_SYS    GND <- OUT-','D7 -> LDR -> A1 -> R4 -> OUT-','D9 -> R3 47R -> LED string -> OUT-','D1/TX -> development UART (9600 baud)','D8 open in the development profile'],16,MUTED,23)
+module(525,510,255,150,'U3 / 3.3 V supply','Qualified U3 rail for M3')
+lines(548,610,['VIN <- VBAT_SYS','VOUT -> ESP 3V3','GND -> OUT-'],16,MUTED,21)
+module(900,485,390,195,'M3 / Wemos D1 Mini','Always-on v0.5 development telemetry',True)
+lines(926,580,['A0 <- R5 220k <- VBAT_SYS','D6 <- Q2 collector (inverted UART RX)','GND <- OUT-; ESP 3V3 <- U3','Wi-Fi -> Home Assistant: raw line + parsed state','D5 open; D1 Mini TX open'],16,MUTED,23)
+path([(970,405),(970,465),(180,465),(180,485)],RED,3);path([(1080,405),(1080,510)],RED,3);path([(1215,405),(1215,485)],RED,3)
+path([(1000,435),(1000,470),(150,470),(150,485)],GND,3);path([(1110,435),(1110,510)],GND,3);path([(1245,435),(1245,485)],GND,3)
+text(75,705,'D1/TX',16,GREEN,True);line(145,698,475,698,GREEN,3);res(525,698,'R8','47k',False,GREEN);line(575,698,620,698,GREEN,3)
+D.add(Circle(665,H-698,34,fillColor=None,strokeColor=HexColor(INK),strokeWidth=2));text(653,702,'Q2',12,INK,True)
+line(620,698,632,698,GREEN,3);path([(632,686),(670,660),(670,685)],INK);path([(632,710),(670,735)],GND)
+res(730,650,'R10','10k',True,RED);line(670,685,730,685,GREEN,3);line(730,615,730,600,RED,3);text(690,596,'ESP 3V3',14,RED,True)
+path([(730,685),(840,685),(840,600),(900,600)],GREEN,3);text(850,588,'D6 RX',15,GREEN,True)
+path([(285,665),(285,720),(855,720),(855,575),(900,575)],BLUE,3);text(700,712,'R5 -> A0 battery sense',14,BLUE,True)
+note(42,740,610,'Current visible in Home Assistant',['Arduino: state, VDD, LDR, output, low-voltage progress and raw diagnostics.','D1: battery, Wi-Fi, reset reason, heap and uptime.'])
+note(705,740,635,'Still measured with instruments',['Panel/charge voltage and charge/load current or energy.','Physical LED current and temperature.'],True)
+pages.append(save('07-current-architecture'))
 # Multipage A3 PDF; PDF render is authoritative preview.
 fn=OUT/'SolarLights_Rev05_Drawings.pdf';cv=Canvas(str(fn),pagesize=landscape(A3));pw,ph=landscape(A3)
 for d in pages:

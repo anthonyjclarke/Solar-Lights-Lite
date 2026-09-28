@@ -16,8 +16,8 @@
 			<text x="42" y="790" style="font-family: Helvetica; font-size: 16px;fill: rgb(31%,39%,47%); stroke:none;" transform="translate(0,1580) scale(1,-1)">Top-down placement concept, not a drilling template. Use terminal labels and the wire schedule for electrical connections.</text>
 			<path d="M 42,768 L 1398,768 Z" style="stroke: rgb(83%,87%,90%); stroke-linecap: butt; stroke-width: 1;"/>
 			<path d="M 42,50 L 1398,50 Z" style="stroke: rgb(83%,87%,90%); stroke-linecap: butt; stroke-width: 1;"/>
-			<text x="42" y="23" style="font-family: Helvetica-Bold; font-size: 13px;fill: rgb(67%,38%,0%); stroke:none;" transform="translate(0,46) scale(1,-1)">v0.5 DEVELOPMENT PROPOSAL  |  27-SEP-2026  |  NOT RELEASED FOR OUTDOOR ASSEMBLY</text>
-			<text x="1175" y="23" style="font-family: Helvetica; font-size: 13px;fill: rgb(31%,39%,47%); stroke:none;" transform="translate(0,46) scale(1,-1)">SHEET 4 OF 6 / A3</text>
+			<text x="42" y="23" style="font-family: Helvetica-Bold; font-size: 13px;fill: rgb(0%,52%,44%); stroke:none;" transform="translate(0,46) scale(1,-1)">v0.5 LIVE PROJECT STATUS  |  27-SEP-2026  |  ACTIVE BENCH DEVELOPMENT</text>
+			<text x="1175" y="23" style="font-family: Helvetica; font-size: 13px;fill: rgb(31%,39%,47%); stroke:none;" transform="translate(0,46) scale(1,-1)">SHEET 4 OF 7 / A3</text>
 			<rect x="45" y="90" width="915" height="630" rx="26" ry="26" style="stroke: rgb(52%,60%,66%); stroke-linecap: butt; stroke-width: 1.5; fill: rgb(94%,96%,96%); fill-rule: evenodd;"/>
 			<text x="70" y="687" style="font-family: Helvetica-Bold; font-size: 17px;fill: rgb(9%,18%,27%); stroke:none;" transform="translate(0,1374) scale(1,-1)">WEATHERPROOF BOX / SHADED POSITION</text>
 			<rect x="90" y="245" width="615" height="410" rx="10" ry="10" style="stroke: rgb(78%,71%,52%); stroke-linecap: butt; stroke-width: 1.5; fill: rgb(100%,98%,94%); fill-rule: evenodd;"/>

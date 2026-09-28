@@ -58,7 +58,7 @@ def box(lines, col=AMBER, pad=6):
 c.setFillColor(GREEN); c.setFont('Helvetica-Bold', 8.5); c.drawString(L, y, 'SOLARLIGHTS / REBUILD 2026'); y -= 20
 c.setFillColor(INK); c.setFont('Helvetica-Bold', 17); c.drawString(L, y, 'Bench sheet: steps 1 and 2'); y -= 16
 c.setFillColor(MUTED); c.setFont('Helvetica', 9.3)
-c.drawString(L, y, 'Upload diagnostic firmware, prove the controller, then measure the string. v0.5 development proposal.'); y -= 13
+c.drawString(L, y, 'Upload diagnostic firmware, prove the controller, then measure the string. v0.5 live project status.'); y -= 13
 rule()
 
 box(['Before you start',
@@ -117,7 +117,7 @@ txt('For sleep-current and deployment, build pio run -e pro8 then flash its .hex
 # ---------------------------------------------------------------- footer
 c.setStrokeColor(LINE); c.setLineWidth(0.8); c.line(L, 46, R, 46)
 c.setFont('Helvetica-Bold', 7.8); c.setFillColor(AMBER)
-c.drawString(L, 34, 'NOT RELEASED FOR OUTDOOR ASSEMBLY  |  H01 and H02 remain open before cells are connected')
+c.drawString(L, 34, 'ACTIVE BENCH DEVELOPMENT  |  H01 and H02 remain open before cells are connected')
 c.setFont('Helvetica', 7.8); c.setFillColor(MUTED)
 c.drawRightString(R, 34, 'make_bench_sheet.py')
 c.showPage(); c.save()

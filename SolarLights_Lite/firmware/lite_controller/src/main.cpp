@@ -1,4 +1,4 @@
-/* v0.5 DEVELOPMENT PROPOSAL - see docs/BUILD_GUIDE.md.
+/* v0.5 LIVE PROJECT - see docs/BUILD_GUIDE.md.
  * Default: switched LDR, resistor-limited 100% dusk-to-dawn, hard cap including test.
  * Requires a VERIFIED 8 MHz clock, including a converted 16 MHz Pro Mini.
  * Do not flash an 8 MHz build onto a stock 16 MHz clock configuration.

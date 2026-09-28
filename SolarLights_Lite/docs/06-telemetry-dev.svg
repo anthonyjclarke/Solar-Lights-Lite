@@ -16,8 +16,8 @@
 			<text x="42" y="790" style="font-family: Helvetica; font-size: 16px;fill: rgb(31%,39%,47%); stroke:none;" transform="translate(0,1580) scale(1,-1)">TEST SYSTEM ONLY: always-on Wi-Fi and UART capture. Reuses the existing status transistor parts; no INA226 or new telemetry module. Production D1 profile remains on sheet 3.</text>
 			<path d="M 42,768 L 1398,768 Z" style="stroke: rgb(83%,87%,90%); stroke-linecap: butt; stroke-width: 1;"/>
 			<path d="M 42,50 L 1398,50 Z" style="stroke: rgb(83%,87%,90%); stroke-linecap: butt; stroke-width: 1;"/>
-			<text x="42" y="23" style="font-family: Helvetica-Bold; font-size: 13px;fill: rgb(67%,38%,0%); stroke:none;" transform="translate(0,46) scale(1,-1)">v0.5 DEVELOPMENT PROPOSAL  |  27-SEP-2026  |  NOT RELEASED FOR OUTDOOR ASSEMBLY</text>
-			<text x="1175" y="23" style="font-family: Helvetica; font-size: 13px;fill: rgb(31%,39%,47%); stroke:none;" transform="translate(0,46) scale(1,-1)">SHEET 6 OF 6 / A3</text>
+			<text x="42" y="23" style="font-family: Helvetica-Bold; font-size: 13px;fill: rgb(0%,52%,44%); stroke:none;" transform="translate(0,46) scale(1,-1)">v0.5 LIVE PROJECT STATUS  |  27-SEP-2026  |  ACTIVE BENCH DEVELOPMENT</text>
+			<text x="1175" y="23" style="font-family: Helvetica; font-size: 13px;fill: rgb(31%,39%,47%); stroke:none;" transform="translate(0,46) scale(1,-1)">SHEET 6 OF 7 / A3</text>
 			<rect x="42" y="681" width="1356" height="79" rx="12" ry="12" style="stroke: rgb(79%,84%,87%); stroke-linecap: butt; stroke-width: 1.5; fill: rgb(100%,97%,91%); fill-rule: evenodd;"/>
 			<text x="60" y="730" style="font-family: Helvetica-Bold; font-size: 18px;fill: rgb(67%,38%,0%); stroke:none;" transform="translate(0,1460) scale(1,-1)">Read this first</text>
 			<text x="60" y="704" style="font-family: Helvetica; font-size: 15px;fill: rgb(31%,39%,47%); stroke:none;" transform="translate(0,1408) scale(1,-1)">Always-on Home Assistant test configuration: Q2/R8/R9/R10 become a safe, inverted UART receiver. The D1 Mini deep-sleep production reference is sheet 3.</text>
@@ -62,7 +62,10 @@
 			<path d="M 665,480 L 665,465 Z" style="stroke: rgb(0%,52%,44%); stroke-linecap: butt; stroke-width: 2;"/>
 			<text x="682" y="504" style="font-family: Helvetica-Bold; font-size: 16px;fill: rgb(0%,52%,44%); stroke:none;" transform="translate(0,1008) scale(1,-1)">R9</text>
 			<text x="682" y="483" style="font-family: Helvetica; font-size: 15px;fill: rgb(0%,52%,44%); stroke:none;" transform="translate(0,966) scale(1,-1)">100k</text>
+			<path d="M 665,535 L 665,550 Z" style="stroke: rgb(0%,52%,44%); stroke-linecap: butt; stroke-width: 2;"/>
+			<path d="M 665,550 L 698,550 Z" style="stroke: rgb(0%,52%,44%); stroke-linecap: butt; stroke-width: 2;"/>
 			<path d="M 665,465 L 665,458 Z" style="stroke: rgb(20%,26%,32%); stroke-linecap: butt; stroke-width: 2;"/>
+			<path d="M 665,458 L 755,458 Z" style="stroke: rgb(20%,26%,32%); stroke-linecap: butt; stroke-width: 2;"/>
 			<path d="M 755,565 L 820,565 Z" style="stroke: rgb(0%,52%,44%); stroke-linecap: butt; stroke-width: 3;"/>
 			<circle cx="820" cy="565" r="4" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(0%,52%,44%); fill-rule: evenodd;"/>
 			<path d="M 820,565 L 850,565 Z" style="stroke: rgb(0%,52%,44%); stroke-linecap: butt; stroke-width: 3;"/>

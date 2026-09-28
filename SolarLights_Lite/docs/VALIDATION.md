@@ -1,6 +1,6 @@
 # SolarLights Lite - engineering review
 
-Revision 0.5 development proposal | 27-Sep-2026 | Not released for outdoor assembly
+Revision 0.5 live project status | 27-Sep-2026 | Active bench development
 
 > **Historical evidence, not the current programming procedure.** This report
 > preserves dated commands, port names and machine-specific results so the test

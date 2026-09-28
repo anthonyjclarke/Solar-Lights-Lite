@@ -1,5 +1,5 @@
 {
-  "revision": "v0.5 development proposal",
+  "revision": "v0.5 live project configuration",
   "scope": "External module terminals only; internal connections must be verified. Not a PCB netlist.",
   "nets": {
     "PV_POS": [

@@ -18,9 +18,9 @@ overwritten to produce this.
 - **Q1, R6, R7, F1 are not fitted.** D9 drives R3 (47R) directly into the LED
   string - see `../validation/led-string-measurement.md` and the "Q1
   disposition" note in `BOARD_AND_PARTS.md`.
-- Q2 (2N3904) + R8/R9/R10 is retained as the protected level-shift interface.
-  In v0.5 test wiring it moves from the drawn D8-to-D5 status path to the
-  Arduino D1/TX-to-D1 Mini D6 receive-only UART path; see `../docs/BUILD_GUIDE.md`.
+- Q2 (2N3904) + R8/R9/R10 is the protected v0.5 receive-only UART interface:
+  Arduino D1/TX feeds D1 Mini D6 through the inverted level shifter. D8 and D5
+  are open in this development configuration; see `../docs/BUILD_GUIDE.md`.
 - **U3**, a low-Iq 3.3 V supply, now feeds the D1 Mini and the R10 pull-up
   directly, instead of running the D1 Mini off raw VBAT. Candidate as of
   21-Sep-2026: the TPS63802/HL802A breakout (on hand, qty 2), jumper set to
@@ -34,9 +34,7 @@ overwritten to produce this.
 Every part and net here was checked against `../docs/BUILD_GUIDE.md`'s
 "Parts and selection gates" table and against a `kicad-cli sch export netlist`
 pass (no accidental shorts, and only the intentionally-unused pins - M1.CHRG,
-M2.A0/D10/D11 and M3.D6 show up unconnected in this core schematic). The v0.5
-test-only UART fly-wire is documented separately and is intentionally not a PCB
-release change.
+M2.A0/D8/D10/D11 and M3.D5 - are open in the development configuration).
 
 ## Files
 

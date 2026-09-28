@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
-"""Generate the SolarLights Lite CURRENT-BUILD KiCad schematic (Rev 0.4b,
-21 Sep 2026): direct pin-drive LED branch (no Q1/R6/R7/F1), 1S2P per-cell
-fusing, a main-rail service switch, U0/U3 regulators still TBD, and the
-NPN status-inverter telemetry interface. Writes to its own project so the
+"""Generate the SolarLights Lite v0.5 current-build KiCad schematic:
+direct pin-drive LED branch (no Q1/R6/R7/F1), 1S2P per-cell fusing, a
+main-rail service switch, U0/U3 regulators, and the NPN-inverted D1/TX to
+D6 development-UART receiver. Writes to its own project so the
 Rev 0.3 audit-baseline schematic in ../../kicad/ is untouched.
 
 Needs KiCad's stock symbol libraries (KICAD_LIBS, default /usr/share/kicad/symbols).
@@ -10,7 +10,7 @@ Needs KiCad's stock symbol libraries (KICAD_LIBS, default /usr/share/kicad/symbo
 import os, re, uuid, json
 
 LIBDIR = os.environ.get("KICAD_LIBS", "/usr/share/kicad/symbols")
-OUT = os.path.abspath(os.path.join(os.path.dirname(__file__), "kicad_current"))
+OUT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 os.makedirs(os.path.join(OUT, "tools"), exist_ok=True)
 PRJ = "SolarLights_Lite_Current"
 NS = uuid.UUID("9f2d77a1-55b6-4f2e-9a11-77c0de5501ac")
@@ -46,19 +46,19 @@ part("S1", "Switch:SW_SPST", "service", (192, 40, 0), {"1": "VBAT_SW", "2": "VBA
 # --- controller (BTE13-010A Pro Mini, converted to internal 8 MHz) --------
 part("M2", "SolarLights_Lite:Pro_Mini_BTE13", "BTE13-010A - int. 8 MHz", (230, 120, 0),
      {"VCC": "VBAT", "GND": "GND", "A1": "LDR_SENSE", "D2": "BTN",
-      "D7": "LDR_PWR", "D8": "LIGHTS", "D9": "PWM", "A0": "NC_A0",
+      "D7": "LDR_PWR", "D1": "UART_TX", "D8": "NC_D8", "D9": "PWM", "A0": "NC_A0",
       "D10": "NC_D10", "D11": "NC_D11"},
      note="RAW unused; A0/D10/D11 reserved, left open")
 part("C3", "Device:C_Polarized", "100u", (196, 128, 0), {"1": "VBAT", "2": "GND"}, fp=ECAP)
 part("SW1", "Switch:SW_Push", "test", (270, 190, 0), {"1": "BTN", "2": "GND"})
 part("LDR1", "SolarLights_Lite:LDR", "LDR", (140, 185, 0), {"1": "LDR_PWR", "2": "LDR_SENSE"})
 part("R4", "Device:R", "100k", (172, 196, 0), {"1": "LDR_SENSE", "2": "GND"}, fp=RES)
-# --- telemetry status interface: NPN inverter, not the old divider --------
-part("R8", "Device:R", "47k", (275, 130, 90), {"1": "LIGHTS", "2": "Q2_BASE"}, fp=RES)
+# --- development telemetry: NPN-inverted D1/TX to D6 UART receiver ---------
+part("R8", "Device:R", "47k", (275, 130, 90), {"1": "UART_TX", "2": "Q2_BASE"}, fp=RES)
 part("R9", "Device:R", "100k", (275, 148, 0), {"1": "Q2_BASE", "2": "GND"}, fp=RES, note="base-emitter pulldown")
-part("Q2", "Device:Q_NPN_BCE", "2N3904", (295, 130, 0), {"1": "Q2_BASE", "2": "D1_D5", "3": "GND"},
-     note="telemetry status inverter")
-part("R10", "Device:R", "10k", (330, 118, 0), {"1": "D1_D5", "2": "3V3_TEL"}, fp=RES, note="pull-up to 3V3_TEL")
+part("Q2", "Device:Q_NPN_BCE", "2N3904", (295, 130, 0), {"1": "Q2_BASE", "2": "D1_D6", "3": "GND"},
+     note="development UART inverter")
+part("R10", "Device:R", "10k", (330, 118, 0), {"1": "D1_D6", "2": "3V3_TEL"}, fp=RES, note="pull-up to 3V3_TEL")
 # --- LED driver: direct pin drive, no Q1/R6/R7/F1 --------------------------
 part("R3", "Device:R", "47R", (355, 68, 0), {"1": "PWM", "2": "LED+"}, fp=RES,
      note="measured string, ~15 mA @3.7 V; try 56R for <20 mA @4.2 V")
@@ -69,8 +69,8 @@ part("U3", "SolarLights_Lite:Reg3V3_TBD", "3V3 tel. - HL802A cand.", (300, 205, 
      note="TPS63802/HL802A breakout, jumper=3.3V; candidate, not bench-qualified")
 part("C2", "Device:C_Polarized", "470u", (283, 205, 0), {"1": "VBAT", "2": "GND"}, fp=ECAP, note="at U3 input")
 part("M3", "SolarLights_Lite:D1_Mini", "Wemos D1 Mini", (330, 175, 0),
-     {"5V": "3V3_TEL", "G": "GND", "A0": "D1_A0", "D5": "D1_D5", "D6": "NC_D6", "D0": "D0RST", "RST": "D0RST"},
-     note="ESPHome, hourly deep sleep; onboard regulator removed")
+     {"5V": "3V3_TEL", "G": "GND", "A0": "D1_A0", "D5": "NC_D5", "D6": "D1_D6", "D0": "D0RST", "RST": "D0RST"},
+     note="ESPHome v0.5 dev UART; always-on; onboard regulator removed")
 part("R5", "Device:R", "220k", (290, 150, 0), {"1": "VBAT", "2": "D1_A0"}, fp=RES, note="battery sense, unaffected by U3")
 
 CUSTOM = {
@@ -80,7 +80,7 @@ CUSTOM = {
    bottom=[("B+", "B+"), ("B-", "B−")]),
  "Pro_Mini_BTE13": dict(ref="M", w=19.05,
    left=[("VCC", "VCC"), ("GND", "GND"), ("A0", "A0"), ("A1", "A1")],
-   right=[("D9", "D9 PWM"), ("D8", "D8 lights"), ("D2", "D2 btn"), ("D10", "D10"), ("D11", "D11"), ("D7", "D7 LDR")]),
+   right=[("D9", "D9 PWM"), ("D1", "D1 TX"), ("D8", "D8 open"), ("D2", "D2 btn"), ("D10", "D10"), ("D11", "D11"), ("D7", "D7 LDR")]),
  "D1_Mini": dict(ref="M", w=17.78,
    left=[("5V", "5V"), ("G", "G"), ("A0", "A0"), ("D6", "D6")],
    right=[("D5", "D5"), ("D0", "D0"), ("RST", "RST")]),
@@ -218,12 +218,13 @@ wire([pin("C3", 2), (196, 140)]); gnd(196, 140)
 # ---- Pro Mini (BTE13-010A) -------------------------------------------------
 wire([pin("M2", "GND"), (204, pin("M2", "GND")[1]), (204, 132)]); gnd(204, 132)
 noconnect(*pin("M2", "A0"))
+noconnect(*pin("M2", "D8"))
 noconnect(*pin("M2", "D10"))
 noconnect(*pin("M2", "D11"))
 # D9 straight to R3 - no gate driver
 wire([pin("M2", "D9"), (258, pin("M2", "D9")[1]), (258, 68), pin("R3", 1)])
-# D8 -> base resistor -> Q2 (status inverter); R9 taps the base for the pulldown
-wire([pin("M2", "D8"), (pin("R8", 1)[0], pin("M2", "D8")[1]), pin("R8", 1)])
+# D1/TX -> base resistor -> Q2 (development UART inverter); R9 pulls the base down
+wire([pin("M2", "D1"), (pin("R8", 1)[0], pin("M2", "D1")[1]), pin("R8", 1)])
 wire([pin("R8", 2), pin("Q2", 1)])
 bx = (pin("R8", 2)[0] + pin("Q2", 1)[0]) / 2
 wire([(bx, pin("R8", 2)[1]), (bx, pin("R9", 1)[1]), pin("R9", 1)])
@@ -241,18 +242,18 @@ wire([pin("R4", 2), (172, 203)]); gnd(172, 203)
 # ---- LED driver: R3 direct from D9 to the string --------------------------
 wire([pin("R3", 2), (355, 78), pin("J2", 1)])
 wire([pin("J2", 2), (322, 78), (322, 90)]); gnd(322, 90)
-# ---- Q2 (status inverter): emitter to GND, collector feeds D1_D5 ----------
+# ---- Q2 (development UART inverter): emitter to GND, collector feeds D1_D6 -
 ex, ey = pin("Q2", 3)
 wire([(ex, ey), (ex, 142)]); gnd(ex, 142)
 cx, cy = pin("Q2", 2)
 r10x, r10y = pin("R10", 1)
 wire([(cx, cy), (cx, r10y), pin("R10", 1)])
-# collector net continues right to the D1 Mini status input
-wire([(cx + 20, r10y), (365, r10y), (365, pin("M3", "D5")[1]), pin("M3", "D5")])
+# collector net continues right to the D1 Mini D6 UART receiver
+wire([(cx + 20, r10y), (365, r10y), (365, pin("M3", "D6")[1]), pin("M3", "D6")])
 # ---- D1 Mini + its own telemetry supply U3 ---------------------------------
 wire([pin("M3", "G"), (305, pin("M3", "G")[1]), (305, 186)]); gnd(305, 186)
 wire([pin("R5", 2), (290, 175), pin("M3", "A0")])
-noconnect(*pin("M3", "D6"))
+noconnect(*pin("M3", "D5"))
 wire([pin("M3", "D0"), (358, pin("M3", "D0")[1]), (358, pin("M3", "RST")[1]), pin("M3", "RST")])
 # 3V3_TEL node: R10 bottom, U3 output and M3 5V all meet at (r10x, 205)
 wire([pin("R10", 2), (r10x, 205)])
@@ -335,11 +336,11 @@ sch = f'''(kicad_sch (version 20230121) (generator eeschema)
   (paper "A3")
   (title_block
     (title "Solar Front Lights - Lite (current build)")
-    (date "2026-09-21")
-    (rev "0.4b")
+    (date "27-Sep-2026")
+    (rev "0.5")
     (company "AJC & Co")
-    (comment 1 "Flow: panel -> U0 (TBD 5V reg) -> TP4056 -> battery rail -> Pro Mini, direct-drive LED, D1 Mini")
-    (comment 2 "21 Sep 2026: Q1/R6/R7/F1 removed - D9 drives R3 (47R) directly, approx 15 mA @3.7 V. U0 still TBD; U3 candidate = TPS63802/HL802A breakout (not U0 - 5.5V input ceiling too low for panel Voc).")
+    (comment 1 "Flow: panel -> U0 -> TP4056 -> battery rail -> Pro Mini, direct-drive LED and D1 Mini development telemetry")
+    (comment 2 "v0.5: Arduino D1/TX -> R8/Q2/R10 -> D1 Mini D6 (inverted 9600-baud UART). D8 and D5 are open in the development profile.")
   )
   (lib_symbols
 {lib_symbols}

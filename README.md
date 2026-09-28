@@ -3,7 +3,7 @@
 ![version: v0.5.0](https://img.shields.io/badge/version-v0.5.0-0072B2?style=for-the-badge)
 ![platform: ATmega328P](https://img.shields.io/badge/platform-ATmega328P-4E9A06?style=for-the-badge)
 ![PlatformIO: 6.x](https://img.shields.io/badge/PlatformIO-6.x-F5822A?style=for-the-badge)
-![status: review proposal](https://img.shields.io/badge/status-review%20proposal-B36A00?style=for-the-badge)
+![status: active bench development](https://img.shields.io/badge/status-active%20bench%20development-008572?style=for-the-badge)
 
 ![Solar Lights Lite hero: a solar panel, compact control electronics, and warm garden light at dusk](SolarLights_Lite/docs/images/solar-lights-lite-hero.png)
 
