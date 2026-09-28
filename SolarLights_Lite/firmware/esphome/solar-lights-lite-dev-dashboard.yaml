@@ -1,0 +1,201 @@
+# Solar Lights Lite v0.5 -- Home Assistant development telemetry dashboard.
+#
+# Import this file through Home Assistant's dashboard YAML editor after flashing
+# solar-lights-lite-dev-d1.yaml. It uses only built-in Lovelace cards. Entity IDs
+# assume the default ESPHome device name and friendly name from that file; adjust
+# them here if Home Assistant has assigned different entity IDs.
+#
+# This is a bench dashboard. It shows controller and receiver health, but does
+# not measure panel/charge/load current, energy or temperature.
+
+title: Solar Lights — Development Telemetry
+views:
+  - title: Bench telemetry
+    path: solar-lights-development
+    icon: mdi:solar-power-variant-outline
+    type: sections
+    max_columns: 3
+    badges:
+      - type: entity
+        entity: binary_sensor.solar_lights_development_telemetry_d1_status
+        name: D1 online
+      - type: entity
+        entity: binary_sensor.solar_lights_development_telemetry_arduino_diagnostics_fresh
+        name: UART fresh
+      - type: entity
+        entity: binary_sensor.solar_lights_development_telemetry_arduino_lights_commanded
+        name: Lights
+
+    sections:
+      - type: grid
+        cards:
+          - type: markdown
+            content: |-
+              ## Solar Lights Lite · v0.5 bench station
+              The Wemos D1 Mini receives the Pro Mini's diagnostic UART through
+              Q2 and publishes it here. This is status telemetry—not a current,
+              energy, or temperature meter.
+
+          - type: gauge
+            entity: sensor.solar_lights_development_telemetry_battery_voltage
+            name: Battery rail
+            needle: true
+            min: 3.2
+            max: 4.25
+            severity:
+              red: 3.2
+              yellow: 3.5
+              green: 3.7
+
+          - type: gauge
+            entity: sensor.solar_lights_development_telemetry_arduino_light_duty
+            name: Light output
+            needle: true
+            min: 0
+            max: 100
+            severity:
+              green: 1
+              yellow: 70
+              red: 95
+
+      - type: grid
+        title: Battery and controller
+        cards:
+          - type: tile
+            entity: sensor.solar_lights_development_telemetry_battery_level
+            name: Battery estimate
+            icon: mdi:battery
+            color: green
+          - type: tile
+            entity: sensor.solar_lights_development_telemetry_battery_voltage
+            name: Battery voltage
+            icon: mdi:flash
+            color: amber
+          - type: tile
+            entity: sensor.solar_lights_development_telemetry_arduino_vdd
+            name: Arduino VDD
+            icon: mdi:memory
+            color: cyan
+          - type: tile
+            entity: sensor.solar_lights_development_telemetry_arduino_scheduler_time
+            name: Scheduler time
+            icon: mdi:timer-outline
+
+          - type: entities
+            title: Controller state
+            show_header_toggle: false
+            entities:
+              - entity: sensor.solar_lights_development_telemetry_arduino_mode
+                name: Operating mode
+                icon: mdi:state-machine
+              - entity: sensor.solar_lights_development_telemetry_arduino_night
+                name: Night state
+                icon: mdi:weather-night
+              - entity: sensor.solar_lights_development_telemetry_arduino_light_sense
+                name: Light sense
+                icon: mdi:theme-light-dark
+              - entity: sensor.solar_lights_development_telemetry_arduino_battery_band
+                name: Arduino battery band
+                icon: mdi:battery-heart-variant
+              - entity: sensor.solar_lights_development_telemetry_arduino_transition_confirmation
+                name: Transition confirmation
+                icon: mdi:timer-sand
+              - entity: sensor.solar_lights_development_telemetry_arduino_output_cause
+                name: Output cause
+                icon: mdi:lightbulb-auto-outline
+
+      - type: grid
+        title: Light and low-voltage behaviour
+        cards:
+          - type: tile
+            entity: binary_sensor.solar_lights_development_telemetry_arduino_lights_commanded
+            name: Lights commanded
+            icon: mdi:lightbulb-on-outline
+            color: amber
+          - type: tile
+            entity: sensor.solar_lights_development_telemetry_arduino_light_duty
+            name: PWM duty
+            icon: mdi:brightness-percent
+            color: amber
+          - type: tile
+            entity: sensor.solar_lights_development_telemetry_arduino_lvc_elapsed
+            name: LVC elapsed
+            icon: mdi:battery-alert-variant-outline
+            color: red
+          - type: tile
+            entity: sensor.solar_lights_development_telemetry_arduino_button_test_remaining
+            name: Button test left
+            icon: mdi:gesture-tap-button
+
+          - type: history-graph
+            title: Last 24 h · battery and output
+            hours_to_show: 24
+            refresh_interval: 60
+            entities:
+              - entity: sensor.solar_lights_development_telemetry_battery_voltage
+                name: Battery V
+              - entity: sensor.solar_lights_development_telemetry_arduino_vdd
+                name: Arduino VDD
+              - entity: sensor.solar_lights_development_telemetry_arduino_light_duty
+                name: Light duty %
+
+          - type: history-graph
+            title: Last 24 h · ambient light
+            hours_to_show: 24
+            refresh_interval: 60
+            entities:
+              - entity: sensor.solar_lights_development_telemetry_arduino_ldr
+                name: LDR %
+              - entity: sensor.solar_lights_development_telemetry_arduino_ldr_voltage
+                name: LDR V
+
+      - type: grid
+        title: UART and D1 health
+        cards:
+          - type: tile
+            entity: binary_sensor.solar_lights_development_telemetry_d1_status
+            name: D1 API status
+            icon: mdi:wifi-check
+            color: green
+          - type: tile
+            entity: binary_sensor.solar_lights_development_telemetry_arduino_diagnostics_fresh
+            name: Arduino UART fresh
+            icon: mdi:serial-port
+            color: green
+          - type: tile
+            entity: sensor.solar_lights_development_telemetry_d1_wifi_signal
+            name: Wi-Fi signal
+            icon: mdi:wifi
+            color: blue
+          - type: tile
+            entity: sensor.solar_lights_development_telemetry_d1_uptime
+            name: D1 uptime
+            icon: mdi:clock-outline
+
+          - type: entities
+            title: Receiver diagnostics
+            show_header_toggle: false
+            entities:
+              - entity: sensor.solar_lights_development_telemetry_d1_ip_address
+                name: IP address
+                icon: mdi:ip-network
+              - entity: sensor.solar_lights_development_telemetry_d1_connected_ssid
+                name: Connected SSID
+                icon: mdi:wifi
+              - entity: sensor.solar_lights_development_telemetry_d1_reset_reason
+                name: Last reset reason
+                icon: mdi:restart-alert
+              - entity: sensor.solar_lights_development_telemetry_d1_esphome_version
+                name: ESPHome version
+                icon: mdi:chip
+              - entity: sensor.solar_lights_development_telemetry_d1_heap_free
+                name: Free heap
+                icon: mdi:memory
+              - entity: sensor.solar_lights_development_telemetry_d1_heap_largest_block
+                name: Largest heap block
+                icon: mdi:memory
+
+          - type: markdown
+            title: Latest Arduino diagnostic line
+            content: >-
+              {{ states('sensor.solar_lights_development_telemetry_arduino_diagnostic_line') }}
