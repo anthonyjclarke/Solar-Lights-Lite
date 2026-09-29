@@ -13,7 +13,7 @@
  },
  "U0": {
   "lib": "SolarLights_Lite:Reg5V_TBD",
-  "val": "5 V reg - TBD",
+  "val": "5 V reg - OPEN ITEM",
   "pins": {
    "IN+": "PV+",
    "IN-": "GND",
@@ -21,7 +21,7 @@
    "OUT-": "GND"
   },
   "fp": "",
-  "note": "module not yet selected - see BUILD_GUIDE.md",
+  "note": "open item: not fitted; bench 5 V panel direct to M1 - see BUILD_GUIDE.md",
   "dnp": false,
   "hide_val": false
  },
@@ -185,7 +185,7 @@
  },
  "R4": {
   "lib": "Device:R",
-  "val": "100k",
+  "val": "47k",
   "pins": {
    "1": "LDR_SENSE",
    "2": "GND"
@@ -281,7 +281,7 @@
    "RST": "D0RST"
   },
   "fp": "",
-  "note": "ESPHome v0.5 dev UART; always-on; onboard regulator removed",
+  "note": "ESPHome v0.5 dev UART; bench: micro-USB power, U3 OUT disconnected",
   "dnp": false,
   "hide_val": false
  },
@@ -299,7 +299,7 @@
  },
  "U3": {
   "lib": "SolarLights_Lite:Reg3V3_TBD",
-  "val": "3V3 tel. - HL802A cand.",
+  "val": "3V3 tel. - TPS63802",
   "pins": {
    "IN+": "VBAT",
    "IN-": "GND",
@@ -307,7 +307,7 @@
    "OUT-": "GND"
   },
   "fp": "",
-  "note": "TPS63802/HL802A breakout, jumper=3.3V; candidate, not bench-qualified",
+  "note": "TPS63802/HL802A, 3.3V; OUT to D1 3V3 in production only",
   "dnp": false,
   "hide_val": false
  }

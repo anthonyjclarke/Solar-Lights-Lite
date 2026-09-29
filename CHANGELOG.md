@@ -4,6 +4,47 @@ All notable project milestones are recorded here. This file is a development
 timeline; for an introduction to the project and its current architecture, start
 with [README.md](README.md).
 
+## [0.5.5] 30-09-2026
+
+### Changed
+
+- R4 in the LDR divider is now 47k (was 100k); no firmware change was needed. At
+  100k the 30% dark threshold needed the LDR above about 233k. The bench stayed
+  around 50% (LDR ~100k) all night, so dusk never confirmed and the lights stayed
+  off. At 47k the thresholds correspond to an LDR above ~110k for dark and below
+  ~31k for light. A fully covered LDR now reads 9.1% (raw 93, about 470k),
+  giving a clear margin under the 30% threshold. Covered and uncovered tests
+  confirmed dusk, the full fade-up, and dawn. Recorded in `HARDWARE.md` that the
+  watchdog clock runs about 12% slow (measured against the serial timestamps). Updated sheet 2, the KiCad schematic/PDF/preview, the parts list,
+  `HARDWARE.md`, `BUILD_GUIDE.md`, `BOARD_AND_PARTS.md`, `CLAUDE.md`, the
+  assembly guide and the `LDR_DARK` comment in `main.cpp` (comment only; the
+  build output is unchanged).
+
+## [0.5.4] 30-09-2026
+
+### Changed
+
+- Documentation now treats the whole v0.5 circuit as built. The switched LDR
+  (D7 -> LDR -> A1 -> R4 100k -> OUT-) is wired, as shown on sheet 2. Removed
+  the "not yet wired" LDR status from `CLAUDE.md`, `HARDWARE.md`, `ROADMAP.md`,
+  `TESTING.md`, and drawing sheets 2 and 7.
+- Regenerated drawing sheets 1–7, `ASSEMBLY.html`, and the A3 PDF. The footer
+  now reads "v0.5 AS BUILT | 30-SEP-2026", and sheet 7 is titled as-built wiring.
+  LDR threshold calibration, charger qualification and outdoor validation
+  are still listed as outstanding.
+- Recorded the bench power arrangement. **U0 is now an open item:** it is not
+  fitted, and a 5 V bench panel feeds M1 IN directly. U0 will be chosen once the
+  production panel is confirmed; MP1584EN remains the candidate for the 7.6 V
+  panel. **U3 is fitted:** a TPS63802 breakout set to 3.3 V supplies the D1 Mini.
+  Its VIN is on VBAT_SYS. On the bench the always-on D1 runs from its own
+  micro-USB, with U3 OUT disconnected from the D1 3V3 pin so the battery is not
+  drained overnight; never connect both. In production (battery only), U3 OUT is
+  the D1's only supply. The D1's onboard regulator stays fitted, and sheet 3 no
+  longer says to isolate it. Updated `HARDWARE.md`, `ROADMAP.md`,
+  `BUILD_GUIDE.md`, `BOARD_AND_PARTS.md`, the parts list, `README.md`, drawing
+  sheets 1, 3, 4, 6 and 7, the assembly guide, and the U0/U3 values and notes
+  in the `kicad_current` schematic, PDF and preview.
+
 ## [0.5.3] 29-09-2026
 
 ### Changed

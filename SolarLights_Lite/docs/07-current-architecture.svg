@@ -13,10 +13,10 @@
 			<rect x="0" y="0" width="1440" height="900" style="stroke: rgb(100%,100%,100%); stroke-linecap: butt; stroke-width: 1.5; fill: rgb(100%,100%,100%); fill-rule: evenodd;"/>
 			<text x="42" y="862" style="font-family: Helvetica-Bold; font-size: 15px;fill: rgb(0%,52%,44%); stroke:none;" transform="translate(0,1724) scale(1,-1)">SOLARLIGHTS / REBUILD 2026</text>
 			<text x="42" y="820" style="font-family: Helvetica-Bold; font-size: 32px;fill: rgb(9%,18%,27%); stroke:none;" transform="translate(0,1640) scale(1,-1)">Current architecture schematic</text>
-			<text x="42" y="790" style="font-family: Helvetica; font-size: 16px;fill: rgb(31%,39%,47%); stroke:none;" transform="translate(0,1580) scale(1,-1)">Live v0.5 bench wiring. The development receiver captures the Arduino UART in Home Assistant; it is not a current or energy meter.</text>
+			<text x="42" y="790" style="font-family: Helvetica; font-size: 16px;fill: rgb(31%,39%,47%); stroke:none;" transform="translate(0,1580) scale(1,-1)">As-built v0.5 wiring. The development receiver captures the Arduino UART in Home Assistant; it is not a current or energy meter.</text>
 			<path d="M 42,768 L 1398,768 Z" style="stroke: rgb(83%,87%,90%); stroke-linecap: butt; stroke-width: 1;"/>
 			<path d="M 42,50 L 1398,50 Z" style="stroke: rgb(83%,87%,90%); stroke-linecap: butt; stroke-width: 1;"/>
-			<text x="42" y="23" style="font-family: Helvetica-Bold; font-size: 13px;fill: rgb(0%,52%,44%); stroke:none;" transform="translate(0,46) scale(1,-1)">v0.5 LIVE PROJECT STATUS  |  27-SEP-2026  |  ACTIVE BENCH DEVELOPMENT</text>
+			<text x="42" y="23" style="font-family: Helvetica-Bold; font-size: 13px;fill: rgb(0%,52%,44%); stroke:none;" transform="translate(0,46) scale(1,-1)">v0.5 AS BUILT  |  30-SEP-2026  |  ACTIVE BENCH DEVELOPMENT</text>
 			<text x="1175" y="23" style="font-family: Helvetica; font-size: 13px;fill: rgb(31%,39%,47%); stroke:none;" transform="translate(0,46) scale(1,-1)">SHEET 7 OF 7 / A3</text>
 			<path d="M 42,760 L 42,58 Z" style="stroke: rgb(94%,96%,97%); stroke-linecap: butt; stroke-width: 0.7;"/>
 			<path d="M 78,760 L 78,58 Z" style="stroke: rgb(94%,96%,97%); stroke-linecap: butt; stroke-width: 0.7;"/>
@@ -114,15 +114,15 @@
 			<path d="M 242,652 L 242,656.5 Z" style="stroke: rgb(67%,38%,0%); stroke-linecap: butt; stroke-width: 2.2;"/>
 			<path d="M 249.071068,649.071068 L 252.253048,652.253048 Z" style="stroke: rgb(67%,38%,0%); stroke-linecap: butt; stroke-width: 2.2;"/>
 			<rect x="319" y="562" width="240" height="108" rx="14" ry="14" style="stroke: none; stroke-linecap: butt; stroke-width: 2; fill: rgb(92%,92%,93%); fill-rule: evenodd;"/>
-			<rect x="316" y="568" width="240" height="108" rx="14" ry="14" style="stroke: rgb(82%,87%,90%); stroke-linecap: butt; stroke-width: 1.2; fill: rgb(100%,100%,100%); fill-rule: evenodd;"/>
-			<rect x="334" y="672" width="204" height="4" rx="2" ry="2" style="stroke: none; stroke-linecap: butt; stroke-width: 2; fill: rgb(75%,21%,23%); fill-rule: evenodd;"/>
-			<rect x="334" y="635" width="31.336000000000013" height="21" rx="10.5" ry="10.5" style="stroke: none; stroke-linecap: butt; stroke-width: 2; fill: rgb(75%,21%,23%); fill-rule: evenodd;"/>
+			<rect x="316" y="568" width="240" height="108" rx="14" ry="14" style="stroke: rgb(89%,77%,56%); stroke-linecap: butt; stroke-width: 1.2; fill: rgb(100%,98%,94%); fill-rule: evenodd;"/>
+			<rect x="334" y="672" width="204" height="4" rx="2" ry="2" style="stroke: none; stroke-linecap: butt; stroke-width: 2; fill: rgb(67%,38%,0%); fill-rule: evenodd;"/>
+			<rect x="334" y="635" width="31.336000000000013" height="21" rx="10.5" ry="10.5" style="stroke: none; stroke-linecap: butt; stroke-width: 2; fill: rgb(67%,38%,0%); fill-rule: evenodd;"/>
 			<text x="342" y="641" style="font-family: Helvetica-Bold; font-size: 12px;fill: rgb(100%,100%,100%); stroke:none;" transform="translate(0,1282) scale(1,-1)">U0</text>
-			<text x="373.336" y="640" style="font-family: Helvetica-Bold; font-size: 19px;fill: rgb(9%,18%,27%); stroke:none;" transform="translate(0,1280) scale(1,-1)">5 V input</text>
-			<text x="334" y="614" style="font-family: Helvetica; font-size: 13.5px;fill: rgb(31%,39%,47%); stroke:none;" transform="translate(0,1228) scale(1,-1)">MP1584EN candidate</text>
-			<text x="334" y="586" style="font-family: Helvetica-Bold; font-size: 13px;fill: rgb(9%,18%,27%); stroke:none;" transform="translate(0,1172) scale(1,-1)">IN -&gt; regulated 5 V</text>
-			<circle cx="526" cy="642" r="21" style="stroke: none; stroke-linecap: butt; stroke-width: 1.5; fill: rgb(97%,90%,90%); fill-rule: evenodd;"/>
-			<polygon points="529 655, 518 640, 525 640, 522 629, 534 645, 527 645" style="stroke: none; stroke-linecap: butt; stroke-width: 1.5; fill: rgb(75%,21%,23%); fill-rule: evenodd;"/>
+			<text x="373.336" y="640" style="font-family: Helvetica-Bold; font-size: 19px;fill: rgb(67%,38%,0%); stroke:none;" transform="translate(0,1280) scale(1,-1)">5 V input</text>
+			<text x="334" y="614" style="font-family: Helvetica; font-size: 13.5px;fill: rgb(31%,39%,47%); stroke:none;" transform="translate(0,1228) scale(1,-1)">Open item - not fitted</text>
+			<text x="334" y="586" style="font-family: Helvetica-Bold; font-size: 13px;fill: rgb(67%,38%,0%); stroke:none;" transform="translate(0,1172) scale(1,-1)">Bench: 5 V panel direct</text>
+			<circle cx="526" cy="642" r="21" style="stroke: none; stroke-linecap: butt; stroke-width: 1.5; fill: rgb(96%,92%,87%); fill-rule: evenodd;"/>
+			<polygon points="529 655, 518 640, 525 640, 522 629, 534 645, 527 645" style="stroke: none; stroke-linecap: butt; stroke-width: 1.5; fill: rgb(67%,38%,0%); fill-rule: evenodd;"/>
 			<rect x="603" y="562" width="300" height="108" rx="14" ry="14" style="stroke: none; stroke-linecap: butt; stroke-width: 2; fill: rgb(92%,92%,93%); fill-rule: evenodd;"/>
 			<rect x="600" y="568" width="300" height="108" rx="14" ry="14" style="stroke: rgb(82%,87%,90%); stroke-linecap: butt; stroke-width: 1.2; fill: rgb(100%,100%,100%); fill-rule: evenodd;"/>
 			<rect x="618" y="672" width="264" height="4" rx="2" ry="2" style="stroke: none; stroke-linecap: butt; stroke-width: 2; fill: rgb(9%,18%,27%); fill-rule: evenodd;"/>
@@ -224,8 +224,6 @@
 			<rect x="60" y="261" width="26.697000000000003" height="18" rx="4" ry="4" style="stroke: rgb(9%,43%,69%); stroke-linecap: butt; stroke-width: 1; fill: rgb(88%,92%,96%); fill-rule: evenodd;"/>
 			<text x="66" y="265.5" style="font-family: Helvetica-Bold; font-size: 11.5px;fill: rgb(9%,43%,69%); stroke:none;" transform="translate(0,531) scale(1,-1)">D7</text>
 			<text x="96.697" y="265" style="font-family: Helvetica; font-size: 13.5px;fill: rgb(9%,18%,27%); stroke:none;" transform="translate(0,530) scale(1,-1)">-&gt; LDR -&gt; A1 -&gt; R4 -&gt; OUT-</text>
-			<rect x="300" y="261" width="91.44999999999999" height="19" rx="9.5" ry="9.5" style="stroke: none; stroke-linecap: butt; stroke-width: 2; fill: rgb(67%,38%,0%); fill-rule: evenodd;"/>
-			<text x="306" y="267" style="font-family: Helvetica-Bold; font-size: 10px;fill: rgb(100%,100%,100%); stroke:none;" transform="translate(0,534) scale(1,-1)">NOT YET WIRED</text>
 			<rect x="60" y="231" width="26.697000000000003" height="18" rx="4" ry="4" style="stroke: rgb(67%,38%,0%); stroke-linecap: butt; stroke-width: 1; fill: rgb(95%,92%,87%); fill-rule: evenodd;"/>
 			<text x="66" y="235.5" style="font-family: Helvetica-Bold; font-size: 11.5px;fill: rgb(67%,38%,0%); stroke:none;" transform="translate(0,471) scale(1,-1)">D9</text>
 			<text x="96.697" y="235" style="font-family: Helvetica; font-size: 13.5px;fill: rgb(9%,18%,27%); stroke:none;" transform="translate(0,470) scale(1,-1)">-&gt; R3 47R -&gt; LED string -&gt; OUT-</text>
@@ -241,7 +239,7 @@
 			<rect x="538" y="353" width="31.336000000000013" height="21" rx="10.5" ry="10.5" style="stroke: none; stroke-linecap: butt; stroke-width: 2; fill: rgb(75%,21%,23%); fill-rule: evenodd;"/>
 			<text x="546" y="359" style="font-family: Helvetica-Bold; font-size: 12px;fill: rgb(100%,100%,100%); stroke:none;" transform="translate(0,718) scale(1,-1)">U3</text>
 			<text x="577.336" y="358" style="font-family: Helvetica-Bold; font-size: 19px;fill: rgb(9%,18%,27%); stroke:none;" transform="translate(0,716) scale(1,-1)">3.3 V supply</text>
-			<text x="538" y="332" style="font-family: Helvetica; font-size: 13.5px;fill: rgb(31%,39%,47%); stroke:none;" transform="translate(0,664) scale(1,-1)">Qualified buck-boost rail for M3</text>
+			<text x="538" y="332" style="font-family: Helvetica; font-size: 13.5px;fill: rgb(31%,39%,47%); stroke:none;" transform="translate(0,664) scale(1,-1)">TPS63802 at 3.3 V for M3</text>
 			<circle cx="780" cy="360" r="21" style="stroke: none; stroke-linecap: butt; stroke-width: 1.5; fill: rgb(97%,90%,90%); fill-rule: evenodd;"/>
 			<polygon points="783 373, 772 358, 779 358, 776 347, 788 363, 781 363" style="stroke: none; stroke-linecap: butt; stroke-width: 1.5; fill: rgb(75%,21%,23%); fill-rule: evenodd;"/>
 			<path d="M 560,472 L 560,445 Z" style="stroke: rgb(75%,21%,23%); stroke-linecap: butt; stroke-width: 3;"/>
@@ -250,7 +248,7 @@
 			<circle cx="560" cy="472" r="5" style="stroke: none; stroke-linecap: butt; stroke-width: 1.5; fill: rgb(75%,21%,23%); fill-rule: evenodd;"/>
 			<path d="M 600,438 L 600,394 Z" style="stroke: rgb(20%,26%,32%); stroke-linecap: butt; stroke-width: 3;"/>
 			<circle cx="600" cy="438" r="5" style="stroke: none; stroke-linecap: butt; stroke-width: 1.5; fill: rgb(20%,26%,32%); fill-rule: evenodd;"/>
-			<text x="538" y="306" style="font-family: Helvetica; font-size: 12.5px;fill: rgb(31%,39%,47%); stroke:none;" transform="translate(0,612) scale(1,-1)">VIN &lt;- VBAT_SYS    GND -&gt; OUT-</text>
+			<text x="538" y="306" style="font-family: Helvetica; font-size: 12.5px;fill: rgb(31%,39%,47%); stroke:none;" transform="translate(0,612) scale(1,-1)">VIN &lt;- VBAT_SYS   OUT -&gt; M3 (prod)</text>
 			<rect x="1003" y="156" width="398" height="232" rx="14" ry="14" style="stroke: none; stroke-linecap: butt; stroke-width: 2; fill: rgb(92%,92%,93%); fill-rule: evenodd;"/>
 			<rect x="1000" y="162" width="398" height="232" rx="14" ry="14" style="stroke: rgb(89%,77%,56%); stroke-linecap: butt; stroke-width: 1.2; fill: rgb(100%,98%,94%); fill-rule: evenodd;"/>
 			<rect x="1018" y="390" width="362" height="4" rx="2" ry="2" style="stroke: none; stroke-linecap: butt; stroke-width: 2; fill: rgb(67%,38%,0%); fill-rule: evenodd;"/>
@@ -270,7 +268,7 @@
 			<text x="1054.6970000000001" y="303" style="font-family: Helvetica; font-size: 13.5px;fill: rgb(9%,18%,27%); stroke:none;" transform="translate(0,606) scale(1,-1)">&lt;- R5 220k &lt;- VBAT_SYS</text>
 			<rect x="1018" y="269" width="32.45849999999996" height="18" rx="4" ry="4" style="stroke: rgb(75%,21%,23%); stroke-linecap: butt; stroke-width: 1; fill: rgb(96%,89%,90%); fill-rule: evenodd;"/>
 			<text x="1024" y="273.5" style="font-family: Helvetica-Bold; font-size: 11.5px;fill: rgb(75%,21%,23%); stroke:none;" transform="translate(0,547) scale(1,-1)">3V3</text>
-			<text x="1060.4585" y="273" style="font-family: Helvetica; font-size: 13.5px;fill: rgb(9%,18%,27%); stroke:none;" transform="translate(0,546) scale(1,-1)">&lt;- U3 ESP 3V3</text>
+			<text x="1060.4585" y="273" style="font-family: Helvetica; font-size: 13.5px;fill: rgb(9%,18%,27%); stroke:none;" transform="translate(0,546) scale(1,-1)">&lt;- U3 (prod) / D1 USB (bench)</text>
 			<rect x="1018" y="239" width="37.552999999999884" height="18" rx="4" ry="4" style="stroke: rgb(20%,26%,32%); stroke-linecap: butt; stroke-width: 1; fill: rgb(89%,90%,91%); fill-rule: evenodd;"/>
 			<text x="1024" y="243.5" style="font-family: Helvetica-Bold; font-size: 11.5px;fill: rgb(20%,26%,32%); stroke:none;" transform="translate(0,487) scale(1,-1)">GND</text>
 			<text x="1065.5529999999999" y="243" style="font-family: Helvetica; font-size: 13.5px;fill: rgb(9%,18%,27%); stroke:none;" transform="translate(0,486) scale(1,-1)">&lt;- OUT-</text>

@@ -16,7 +16,7 @@
 			<text x="42" y="790" style="font-family: Helvetica; font-size: 16px;fill: rgb(31%,39%,47%); stroke:none;" transform="translate(0,1580) scale(1,-1)">TEST SYSTEM ONLY: always-on Wi-Fi and UART capture. Reuses the existing status transistor parts; no INA226 or new telemetry module. Production D1 profile remains on sheet 3.</text>
 			<path d="M 42,768 L 1398,768 Z" style="stroke: rgb(83%,87%,90%); stroke-linecap: butt; stroke-width: 1;"/>
 			<path d="M 42,50 L 1398,50 Z" style="stroke: rgb(83%,87%,90%); stroke-linecap: butt; stroke-width: 1;"/>
-			<text x="42" y="23" style="font-family: Helvetica-Bold; font-size: 13px;fill: rgb(0%,52%,44%); stroke:none;" transform="translate(0,46) scale(1,-1)">v0.5 LIVE PROJECT STATUS  |  27-SEP-2026  |  ACTIVE BENCH DEVELOPMENT</text>
+			<text x="42" y="23" style="font-family: Helvetica-Bold; font-size: 13px;fill: rgb(0%,52%,44%); stroke:none;" transform="translate(0,46) scale(1,-1)">v0.5 AS BUILT  |  30-SEP-2026  |  ACTIVE BENCH DEVELOPMENT</text>
 			<text x="1175" y="23" style="font-family: Helvetica; font-size: 13px;fill: rgb(31%,39%,47%); stroke:none;" transform="translate(0,46) scale(1,-1)">SHEET 6 OF 7 / A3</text>
 			<path d="M 42,760 L 42,58 Z" style="stroke: rgb(94%,96%,97%); stroke-linecap: butt; stroke-width: 0.7;"/>
 			<path d="M 78,760 L 78,58 Z" style="stroke: rgb(94%,96%,97%); stroke-linecap: butt; stroke-width: 0.7;"/>
@@ -190,7 +190,7 @@
 			<circle cx="1358" cy="627" r="2.6" style="stroke: none; stroke-linecap: butt; stroke-width: 1.5; fill: rgb(67%,38%,0%); fill-rule: evenodd;"/>
 			<rect x="996" y="569" width="32.45849999999996" height="18" rx="4" ry="4" style="stroke: rgb(75%,21%,23%); stroke-linecap: butt; stroke-width: 1; fill: rgb(96%,89%,90%); fill-rule: evenodd;"/>
 			<text x="1002" y="573.5" style="font-family: Helvetica-Bold; font-size: 11.5px;fill: rgb(75%,21%,23%); stroke:none;" transform="translate(0,1147) scale(1,-1)">3V3</text>
-			<text x="1038.4585" y="573" style="font-family: Helvetica; font-size: 13.5px;fill: rgb(9%,18%,27%); stroke:none;" transform="translate(0,1146) scale(1,-1)">qualified U3 buck-boost</text>
+			<text x="1038.4585" y="573" style="font-family: Helvetica; font-size: 13.5px;fill: rgb(9%,18%,27%); stroke:none;" transform="translate(0,1146) scale(1,-1)">D1 micro-USB; U3 OUT unplugged</text>
 			<rect x="996" y="539" width="26.697000000000003" height="18" rx="4" ry="4" style="stroke: rgb(0%,52%,44%); stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,93%,92%); fill-rule: evenodd;"/>
 			<text x="1002" y="543.5" style="font-family: Helvetica-Bold; font-size: 11.5px;fill: rgb(0%,52%,44%); stroke:none;" transform="translate(0,1087) scale(1,-1)">D6</text>
 			<text x="1032.6970000000001" y="543" style="font-family: Helvetica; font-size: 13.5px;fill: rgb(9%,18%,27%); stroke:none;" transform="translate(0,1086) scale(1,-1)">inverted UART RX</text>
@@ -268,7 +268,7 @@
 			<rect x="42" y="62" width="1356" height="34" rx="10" ry="10" style="stroke: rgb(87%,75%,60%); stroke-linecap: butt; stroke-width: 1; fill: rgb(96%,93%,90%); fill-rule: evenodd;"/>
 			<rect x="52" y="70" width="84.453" height="20" rx="10.0" ry="10.0" style="stroke: none; stroke-linecap: butt; stroke-width: 2; fill: rgb(67%,38%,0%); fill-rule: evenodd;"/>
 			<text x="60" y="76" style="font-family: Helvetica-Bold; font-size: 11px;fill: rgb(100%,100%,100%); stroke:none;" transform="translate(0,152) scale(1,-1)">TEST RULES</text>
-			<text x="150.453" y="74" style="font-family: Helvetica-Bold; font-size: 13.5px;fill: rgb(67%,38%,0%); stroke:none;" transform="translate(0,148) scale(1,-1)">Test rules: run pro8_debug • no USB-UART adapter on M2 • keep D1 awake • use solar-lights-lite.yaml later for production</text>
+			<text x="150.453" y="74" style="font-family: Helvetica-Bold; font-size: 13.5px;fill: rgb(67%,38%,0%); stroke:none;" transform="translate(0,148) scale(1,-1)">Test rules: run pro8_debug • no USB-UART on M2 • D1 on micro-USB, U3 OUT off • use solar-lights-lite.yaml later for production</text>
 		</g>
 	</g>
 </svg>

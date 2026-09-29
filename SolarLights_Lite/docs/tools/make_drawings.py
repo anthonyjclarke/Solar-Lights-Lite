@@ -51,7 +51,7 @@ def header(n,title,sub):
  global D
  D=Drawing(W,H);rect(0,0,W,H,'#ffffff','#ffffff',0);text(42,38,'SOLARLIGHTS / REBUILD 2026',15,GREEN,True);text(42,80,title,32,INK,True);text(42,110,sub,16,MUTED)
  line(42,132,1398,132,'#d5e0e6',1)
- line(42,850,1398,850,'#d5e0e6',1);text(42,877,'v0.5 LIVE PROJECT STATUS  |  27-SEP-2026  |  ACTIVE BENCH DEVELOPMENT',13,GREEN,True);text(1175,877,f'SHEET {n} OF 7 / A3',13,MUTED)
+ line(42,850,1398,850,'#d5e0e6',1);text(42,877,'v0.5 AS BUILT  |  30-SEP-2026  |  ACTIVE BENCH DEVELOPMENT',13,GREEN,True);text(1175,877,f'SHEET {n} OF 7 / A3',13,MUTED)
 def save(name):
  renderSVG.drawToFile(D,str(DOC/(name+'.svg')));return D
 # ---- presentation layer: shadowed cards, ref pills, pin chips, icons, line hops.
@@ -162,7 +162,7 @@ def hswitch(x,y,c=RED,label=None):
  disc(x+4,y,4,'#ffffff',c,2);line(x+8,y-2,x+42,y-16,c,2.5);disc(x+46,y,4,'#ffffff',c,2)
  if label:text(x-8,y+24,label,12,c,True)
 pages=[]
-header(1,'Power, charging & battery','Terminal-level schematic. Amber blocks need part selection and bench qualification. All loads connect to protected outputs.')
+header(1,'Power, charging & battery','Terminal-level schematic. Amber blocks are open items or need bench qualification. All loads connect to protected outputs.')
 grid()
 legend(160,(('PV input',BLUE,None),('Regulated 5 V',RED,[6,4]),('VBAT_SYS  protected +',RED,None),('GND_LOAD / OUT-',GND,None),('Cell side  B+ / B-',PURPLE,None)))
 T=196
@@ -170,8 +170,8 @@ T=196
 card(42,T,232,214,BLUE);head(42,T,'PV1','Existing','AS102-0712A 1.2 W',BLUE);badge(234,T+34,BLUE);i_sun(234,T+34,AMBER)
 lines(60,T+96,['Vmp 7 V / Imp 170 mA','Voc 7.6 V at 25 C','Cold Voc: measure'],14,INK,22)
 rchip(262,T+162,'+',BLUE);rchip(262,T+190,'-',BLUE)
-card(330,T,274,214,AMBER,'#fffaf0','#e5c58f');head(330,T,'U0','5 V regulator','PART TBD - required',AMBER,AMBER);badge(564,T+34,AMBER);i_bolt(564,T+34,AMBER)
-lines(348,T+96,['Vin rating > cold Voc','5 V at load AND no-load','Test cloud/startup cycling'],14,INK,22)
+card(330,T,274,214,AMBER,'#fffaf0','#e5c58f');head(330,T,'U0','5 V regulator','OPEN ITEM - not fitted',AMBER,AMBER);badge(564,T+34,AMBER);i_bolt(564,T+34,AMBER)
+lines(348,T+96,['Bench: 5 V panel direct to M1','Choose once panel is final','Vin rating > cold Voc'],14,INK,22)
 chip(344,T+162,'IN+',BLUE);chip(344,T+190,'IN-',BLUE);rchip(592,T+162,'OUT+',RED);rchip(592,T+190,'OUT-',BLUE)
 card(660,T,310,300,INK);head(660,T,'M1','Protected 4056','Verify actual chip and pad labels',INK);badge(930,T+34,GREEN);i_shield(930,T+34,GREEN)
 lines(678,T+96,['Start 100-150 mA charge','PROG resistor: verify law','Cell TEMP inhibit unresolved'],14,AMBER,22)
@@ -223,9 +223,8 @@ path([(350,460),(LX,460),(LX,495)],GREEN,3);disc(350,460,4,GREEN)
 disc(LX,515,27,'#ffffff',GREEN,2);box(LX-7,495,14,40,'#ffffff',GREEN,0,2)
 for ax,ay in ((LX-44,478),(LX-36,494)):line(ax,ay,ax+14,ay+12,GREEN,2);poly([(ax+17,ay+15),(ax+6,ay+13),(ax+14,ay+5)],GREEN)
 text(LX+38,510,'LDR1',15,GREEN,True);text(LX+38,530,'ambient light',13,MUTED)
-pill(LX+86,494,'NOT YET WIRED',AMBER,size=10,pad=6)   # bench state: remove once the LDR is fitted
 line(LX,535,LX,560,GREEN,3);disc(LX,560,5,GREEN);line(LX,560,350,560,GREEN,3);disc(350,560,4,GREEN)
-line(LX,560,LX,565,GREEN,3);res(LX,600,'R4','100k',True);line(LX,635,LX,655,GND,2);ground(LX,655)
+line(LX,560,LX,565,GREEN,3);res(LX,600,'R4','47k',True);line(LX,635,LX,655,GND,2);ground(LX,655)
 # test button
 path([(350,630),(300,630),(300,700)],GREEN,3);disc(350,630,4,GREEN)
 disc(300,700,4.5,INK);disc(352,700,4.5,INK);line(306,686,346,686,INK,2.5);line(326,674,326,686,INK,2.5);line(352,700,392,700,GND,2);ground(392,700)
@@ -256,13 +255,13 @@ legend(160,(('VBAT_SYS  protected +',RED,None),('ESP 3V3',RED,[2,3]),('GND_LOAD 
 UT=246
 pill(62,196,'VBAT_SYS',RED,size=12);line(100,217,100,UT,RED,3)
 pill(250,196,'GND_LOAD',GND,size=12);line(300,217,300,UT,GND,3)
-card(42,UT,320,196,AMBER,'#fffaf0','#e5c58f');head(42,UT,'U3','3.3 V supply','Buck-boost module TBD',AMBER,AMBER);badge(322,UT+34,AMBER);i_bolt(322,UT+34,AMBER)
-lines(60,UT+96,['Input: protected battery rail','Qualify radio bursts + standby','Use specified output capacitors'],14,INK,22)
+card(42,UT,320,196,AMBER,'#fffaf0','#e5c58f');head(42,UT,'U3','3.3 V supply','TPS63802 breakout, 3.3 V',AMBER,AMBER);badge(322,UT+34,AMBER);i_bolt(322,UT+34,AMBER)
+lines(60,UT+96,['VIN: VBAT_SYS (battery only)','OUT: D1 3V3 pin only','Qualify radio bursts + standby'],14,INK,22)
 rchip(350,420,'3V3',RED)
 # M3 D1 Mini
 MX,MT,MB=760,246,540
-card(MX,MT,400,MB-MT,INK);head(MX,MT,'M3','D1 Mini','Isolate onboard regulator first',INK);badge(MX+360,MT+34,BLUE);i_wifi(MX+360,MT+34,BLUE)
-lines(MX+18,MT+96,['5V / USB: disconnected','D6: not fitted'],14,INK,22)
+card(MX,MT,400,MB-MT,INK);head(MX,MT,'M3','D1 Mini','Powered from U3 only',INK);badge(MX+360,MT+34,BLUE);i_wifi(MX+360,MT+34,BLUE)
+lines(MX+18,MT+96,['5V pin + USB: not connected','Onboard regulator: fitted, unused'],14,INK,22)
 chip(MX+12,380,'A0',GREEN);chip(MX+12,420,'3V3',RED);chip(MX+12,500,'D5',GREEN)
 rchip(MX+388,380,'D0',GREEN);rchip(MX+388,440,'RST',GREEN);chip(MX+184,MB-22,'G',GND)
 path([(MX+400,380),(MX+440,380),(MX+440,440),(MX+400,440)],GREEN,3);disc(MX+400,380,4,GREEN);disc(MX+400,440,4,GREEN)
@@ -300,7 +299,7 @@ badge(80,248,INK);i_box(80,248,INK);text(110,254,'WEATHERPROOF BOX / SHADED POSI
 box(78,280,640,396,'#fffaf0','#c8b787',12,1.5);pill(94,292,'PERFBOARD / MODULE CARRIER',tint(AMBER,0.8),size=11)
 for x in range(98,706,22):
  for y in range(330,668,22):disc(x,y,1.4,'#e3d6b6')
-card(105,338,222,104,AMBER,'#fffaf0','#e5c58f');head(105,338,'U0','Input 5 V','Selected after bench test',AMBER,AMBER)
+card(105,338,222,104,AMBER,'#fffaf0','#e5c58f');head(105,338,'U0','Input 5 V','Open item - not fitted',AMBER,AMBER)
 card(105,486,222,120,INK);head(105,486,'M1','Charger','IN / B / OUT labelled',INK)
 card(452,338,240,112,INK);head(452,338,'M2','Pro Mini','8 MHz; sockets; ISP access',INK)
 card(452,500,240,112,GREEN,'#f3faf1','#a8cc97');head(452,500,'','LED driver','R3 only - D9 direct',GREEN)
@@ -311,7 +310,7 @@ line(372,366,452,366,RED,3);line(398,412,452,412,GND,3);line(372,528,452,528,RED
 for x_,y_,c in ((372,520,RED),(398,568,GND),(372,366,RED),(398,412,GND),(372,528,RED),(398,580,GND)):disc(x_,y_,4.5,c)
 pill(328,642,'Protected rails',INK,size=11)
 # telemetry modules and antenna keep-out
-card(752,300,186,112,AMBER,'#fffaf0','#e5c58f');head(752,300,'U3','3V3','Optional',AMBER,AMBER)
+card(752,300,186,112,AMBER,'#fffaf0','#e5c58f');head(752,300,'U3','3V3','TPS63802',AMBER,AMBER)
 card(752,448,186,168,INK);head(752,448,'M3','D1','Sockets / service',INK)
 box(768,568,154,30,tint(BLUE,0.18),BLUE,4,1.5);i_wifi(790,580,BLUE);text(810,589,'ANTENNA',13,BLUE,True)
 D.add(Rect(742,H-676,206,100,rx=10,ry=10,fillColor=None,strokeColor=HexColor(BLUE),strokeWidth=1.5,strokeDashArray=[5,4]))
@@ -410,7 +409,7 @@ line(820,330,820,325,GREEN,2.5);res(820,290,'R10','10k',True,RED);line(820,255,8
 text(860,322,'D6 RX',11,GREEN,True)
 # 3: D1 Mini
 card(978,T,420,B-T,AMBER,'#fffaf0','#e5c58f');head(978,T,'3','M3 Wemos D1 Mini','Always-on test telemetry',AMBER,AMBER);badge(1358,T+34,AMBER);i_wifi(1358,T+34,AMBER)
-row(996,322,'3V3',RED,'qualified U3 buck-boost');row(996,352,'D6',GREEN,'inverted UART RX');row(996,382,'A0',BLUE,'existing battery divider');row(996,412,'D5',MUTED,'OPEN; `output=` is light state')
+row(996,322,'3V3',RED,'D1 micro-USB; U3 OUT unplugged');row(996,352,'D6',GREEN,'inverted UART RX');row(996,382,'A0',BLUE,'existing battery divider');row(996,412,'D5',MUTED,'OPEN; `output=` is light state')
 chip(1000,452,'G',GND)
 path([(920,330),(938,330),(938,352),(978,352)],GREEN,3.5);disc(978,352,4,GREEN)
 # common return: both grounds share OUT-, but nothing returns from the D1 to the Arduino
@@ -423,11 +422,11 @@ lines(170,640,['D1 A0 has its onboard divider too.','Calibrate its 5.21 multipli
 path([(100,782),(958,782)],BLUE,3);vhop(958,382,782,[500],BLUE);line(958,382,978,382,BLUE,3);disc(978,382,4,BLUE);arrow(958,640,'u',BLUE)
 info(480,560,450,'What Home Assistant receives',['Arduino: VDD, LDR, sense/mode/night, output duty,','LVC/test progress, cause, transition and raw line.','D1: battery voltage/percentage, Wi-Fi, reset, heap and uptime.'],GREEN,i_wifi,size=12.5,lead=22)
 info(980,560,418,'No-purchase boundary',['Not measured: panel voltage, charge/load current, energy,','physical LED current or temperatures.','`output=` replaces D8-to-D5: leave both pins open.'],AMBER,i_warn,'#fffaf0','#e5c58f',12.5,22)
-warn('Test rules: run pro8_debug • no USB-UART adapter on M2 • keep D1 awake • use solar-lights-lite.yaml later for production',label='TEST RULES')
+warn('Test rules: run pro8_debug • no USB-UART on M2 • D1 on micro-USB, U3 OUT off • use solar-lights-lite.yaml later for production',label='TEST RULES')
 
 pages.append(save('06-telemetry-dev'))
 # Whole-system view for the assembly guide. Detailed terminal drawings remain on sheets 1, 2 and 6.
-header(7,'Current architecture schematic','Live v0.5 bench wiring. The development receiver captures the Arduino UART in Home Assistant; it is not a current or energy meter.')
+header(7,'Current architecture schematic','As-built v0.5 wiring. The development receiver captures the Arduino UART in Home Assistant; it is not a current or energy meter.')
 grid()
 strip(144,'HOW TO USE','System-level view. Follow sheets 1, 2 and 6 for terminal-level wiring. The editable KiCad source in kicad_current/ uses this same D1/TX-to-D6 development route.')
 legend(202,(('PV input',BLUE,None),('VBAT_SYS  protected +',RED,None),('GND_LOAD / OUT-',GND,None),('Cell side  B+ / B-',PURPLE,None),('UART  9600 baud, inverted',GREEN,None),('Battery sense',BLUE,[6,4]),('ESP 3V3',RED,[2,3])))
@@ -435,7 +434,7 @@ legend(202,(('PV input',BLUE,None),('VBAT_SYS  protected +',RED,None),('GND_LOAD
 # ---- row A: energy chain
 TOP,AH=224,108
 card(42,TOP,230,AH,BLUE);head(42,TOP,'PV1','Solar panel','Existing 1.2 W',BLUE);text(60,TOP+90,'PV+ / PV-',13,BLUE,True);badge(242,TOP+34,BLUE);i_sun(242,TOP+34,AMBER)
-card(316,TOP,240,AH,RED);head(316,TOP,'U0','5 V input','MP1584EN candidate',RED);text(334,TOP+90,'IN -> regulated 5 V',13,INK,True);badge(526,TOP+34,RED);i_bolt(526,TOP+34,RED)
+card(316,TOP,240,AH,AMBER,'#fffaf0','#e5c58f');head(316,TOP,'U0','5 V input','Open item - not fitted',AMBER,AMBER);text(334,TOP+90,'Bench: 5 V panel direct',13,AMBER,True);badge(526,TOP+34,AMBER);i_bolt(526,TOP+34,AMBER)
 card(600,TOP,300,AH,INK);head(600,TOP,'M1','Protected charger','TP4056 family + protection',INK);text(618,TOP+90,'IN+ / IN-      B+ / B-',13,INK,True);badge(870,TOP+34,GREEN);i_shield(870,TOP+34,GREEN)
 card(970,TOP,270,AH,PURPLE);head(970,TOP,'BT1 + BT2','1S2P cells','Each positive lead fused',PURPLE);text(988,TOP+90,'BATT+ / BATT-',13,PURPLE,True);badge(1210,TOP+34,PURPLE);i_batt(1210,TOP+34,PURPLE)
 MY=TOP+AH/2
@@ -467,19 +466,19 @@ def taps(xv,xg):
 # M2 Pro Mini
 card(42,CY,400,CB-CY,INK);head(42,CY,'M2','BTE13-010A Pro Mini','Internal 8 MHz, ISP programmed',INK);badge(402,CY+34,INK);i_chip(402,CY+34,INK);taps(190,230)
 row(60,600,'VCC',RED,'<- VBAT_SYS');row(212,600,'GND',GND,'<- OUT-')
-row(60,630,'D7',BLUE,'-> LDR -> A1 -> R4 -> OUT-');pill(300,620,'NOT YET WIRED',AMBER,size=10,pad=6)
+row(60,630,'D7',BLUE,'-> LDR -> A1 -> R4 -> OUT-')
 row(60,660,'D9',AMBER,'-> R3 47R -> LED string -> OUT-')
 row(60,690,'D1/TX',GREEN,'-> R8 -> Q2 base (9600 baud)')
 row(60,720,'D8',MUTED,'open in the development profile')
 # U3 3.3 V supply
-card(520,CY,300,100,RED);head(520,CY,'U3','3.3 V supply','Qualified buck-boost rail for M3',RED);badge(780,CY+34,RED);i_bolt(780,CY+34,RED);taps(560,600)
-text(538,CY+88,'VIN <- VBAT_SYS    GND -> OUT-',12.5,MUTED)
+card(520,CY,300,100,RED);head(520,CY,'U3','3.3 V supply','TPS63802 at 3.3 V for M3',RED);badge(780,CY+34,RED);i_bolt(780,CY+34,RED);taps(560,600)
+text(538,CY+88,'VIN <- VBAT_SYS   OUT -> M3 (prod)',12.5,MUTED)
 # M3 D1 Mini
 MX=1000
 card(MX,CY,398,CB-CY,AMBER,'#fffaf0','#e5c58f');head(MX,CY,'M3','Wemos D1 Mini','Always-on development telemetry',AMBER,AMBER);badge(1358,CY+34,AMBER);i_wifi(1358,CY+34,AMBER)
 line(1300,GB,1300,CY,GND,3);disc(1300,GB,5,GND)
 row(MX+18,592,'A0',BLUE,'<- R5 220k <- VBAT_SYS')
-row(MX+18,622,'3V3',RED,'<- U3 ESP 3V3')
+row(MX+18,622,'3V3',RED,'<- U3 (prod) / D1 USB (bench)')
 row(MX+18,652,'GND',GND,'<- OUT-')
 row(MX+18,690,'D6',GREEN,'<- Q2 collector (inverted RX)')
 row(MX+18,720,'D5',MUTED,'open;  TX open')

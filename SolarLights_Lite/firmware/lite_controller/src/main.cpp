@@ -50,7 +50,7 @@
 #endif
 const float PANEL_DARK_V  = 1.5;  // panel volts – tune from serial/HA logs
 const float PANEL_LIGHT_V = 3.0;
-const float LDR_DARK      = 0.30; // A1 ratio with 100k lower resistor
+const float LDR_DARK      = 0.30; // A1 ratio with R4 = 47k lower resistor (dark: LDR > ~110k)
 const float LDR_LIGHT     = 0.60;
 const float DIV_PANEL     = (1000.0 + 330.0) / 330.0;
 const float BANDGAP_V     = 1.10; // calibrate: BANDGAP_V = 1.10 * Vmeter / Vreported

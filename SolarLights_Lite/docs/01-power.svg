@@ -13,10 +13,10 @@
 			<rect x="0" y="0" width="1440" height="900" style="stroke: rgb(100%,100%,100%); stroke-linecap: butt; stroke-width: 1.5; fill: rgb(100%,100%,100%); fill-rule: evenodd;"/>
 			<text x="42" y="862" style="font-family: Helvetica-Bold; font-size: 15px;fill: rgb(0%,52%,44%); stroke:none;" transform="translate(0,1724) scale(1,-1)">SOLARLIGHTS / REBUILD 2026</text>
 			<text x="42" y="820" style="font-family: Helvetica-Bold; font-size: 32px;fill: rgb(9%,18%,27%); stroke:none;" transform="translate(0,1640) scale(1,-1)">Power, charging &amp; battery</text>
-			<text x="42" y="790" style="font-family: Helvetica; font-size: 16px;fill: rgb(31%,39%,47%); stroke:none;" transform="translate(0,1580) scale(1,-1)">Terminal-level schematic. Amber blocks need part selection and bench qualification. All loads connect to protected outputs.</text>
+			<text x="42" y="790" style="font-family: Helvetica; font-size: 16px;fill: rgb(31%,39%,47%); stroke:none;" transform="translate(0,1580) scale(1,-1)">Terminal-level schematic. Amber blocks are open items or need bench qualification. All loads connect to protected outputs.</text>
 			<path d="M 42,768 L 1398,768 Z" style="stroke: rgb(83%,87%,90%); stroke-linecap: butt; stroke-width: 1;"/>
 			<path d="M 42,50 L 1398,50 Z" style="stroke: rgb(83%,87%,90%); stroke-linecap: butt; stroke-width: 1;"/>
-			<text x="42" y="23" style="font-family: Helvetica-Bold; font-size: 13px;fill: rgb(0%,52%,44%); stroke:none;" transform="translate(0,46) scale(1,-1)">v0.5 LIVE PROJECT STATUS  |  27-SEP-2026  |  ACTIVE BENCH DEVELOPMENT</text>
+			<text x="42" y="23" style="font-family: Helvetica-Bold; font-size: 13px;fill: rgb(0%,52%,44%); stroke:none;" transform="translate(0,46) scale(1,-1)">v0.5 AS BUILT  |  30-SEP-2026  |  ACTIVE BENCH DEVELOPMENT</text>
 			<text x="1175" y="23" style="font-family: Helvetica; font-size: 13px;fill: rgb(31%,39%,47%); stroke:none;" transform="translate(0,46) scale(1,-1)">SHEET 1 OF 7 / A3</text>
 			<path d="M 42,760 L 42,58 Z" style="stroke: rgb(94%,96%,97%); stroke-linecap: butt; stroke-width: 0.7;"/>
 			<path d="M 78,760 L 78,58 Z" style="stroke: rgb(94%,96%,97%); stroke-linecap: butt; stroke-width: 0.7;"/>
@@ -117,12 +117,12 @@
 			<rect x="348" y="663" width="31.336000000000013" height="21" rx="10.5" ry="10.5" style="stroke: none; stroke-linecap: butt; stroke-width: 2; fill: rgb(67%,38%,0%); fill-rule: evenodd;"/>
 			<text x="356" y="669" style="font-family: Helvetica-Bold; font-size: 12px;fill: rgb(100%,100%,100%); stroke:none;" transform="translate(0,1338) scale(1,-1)">U0</text>
 			<text x="387.336" y="668" style="font-family: Helvetica-Bold; font-size: 19px;fill: rgb(67%,38%,0%); stroke:none;" transform="translate(0,1336) scale(1,-1)">5 V regulator</text>
-			<text x="348" y="642" style="font-family: Helvetica; font-size: 13.5px;fill: rgb(31%,39%,47%); stroke:none;" transform="translate(0,1284) scale(1,-1)">PART TBD - required</text>
+			<text x="348" y="642" style="font-family: Helvetica; font-size: 13.5px;fill: rgb(31%,39%,47%); stroke:none;" transform="translate(0,1284) scale(1,-1)">OPEN ITEM - not fitted</text>
 			<circle cx="564" cy="670" r="21" style="stroke: none; stroke-linecap: butt; stroke-width: 1.5; fill: rgb(96%,92%,87%); fill-rule: evenodd;"/>
 			<polygon points="567 683, 556 668, 563 668, 560 657, 572 673, 565 673" style="stroke: none; stroke-linecap: butt; stroke-width: 1.5; fill: rgb(67%,38%,0%); fill-rule: evenodd;"/>
-			<text x="348" y="608" style="font-family: Helvetica; font-size: 14px;fill: rgb(9%,18%,27%); stroke:none;" transform="translate(0,1216) scale(1,-1)">Vin rating &gt; cold Voc</text>
-			<text x="348" y="586" style="font-family: Helvetica; font-size: 14px;fill: rgb(9%,18%,27%); stroke:none;" transform="translate(0,1172) scale(1,-1)">5 V at load AND no-load</text>
-			<text x="348" y="564" style="font-family: Helvetica; font-size: 14px;fill: rgb(9%,18%,27%); stroke:none;" transform="translate(0,1128) scale(1,-1)">Test cloud/startup cycling</text>
+			<text x="348" y="608" style="font-family: Helvetica; font-size: 14px;fill: rgb(9%,18%,27%); stroke:none;" transform="translate(0,1216) scale(1,-1)">Bench: 5 V panel direct to M1</text>
+			<text x="348" y="586" style="font-family: Helvetica; font-size: 14px;fill: rgb(9%,18%,27%); stroke:none;" transform="translate(0,1172) scale(1,-1)">Choose once panel is final</text>
+			<text x="348" y="564" style="font-family: Helvetica; font-size: 14px;fill: rgb(9%,18%,27%); stroke:none;" transform="translate(0,1128) scale(1,-1)">Vin rating &gt; cold Voc</text>
 			<rect x="344" y="533" width="30.216000000000008" height="18" rx="4" ry="4" style="stroke: rgb(9%,43%,69%); stroke-linecap: butt; stroke-width: 1; fill: rgb(88%,92%,96%); fill-rule: evenodd;"/>
 			<text x="350" y="537.5" style="font-family: Helvetica-Bold; font-size: 11.5px;fill: rgb(9%,43%,69%); stroke:none;" transform="translate(0,1075) scale(1,-1)">IN+</text>
 			<rect x="344" y="505" width="27.329499999999996" height="18" rx="4" ry="4" style="stroke: rgb(9%,43%,69%); stroke-linecap: butt; stroke-width: 1; fill: rgb(88%,92%,96%); fill-rule: evenodd;"/>

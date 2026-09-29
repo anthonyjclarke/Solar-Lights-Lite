@@ -32,7 +32,8 @@ that `D8` was open. Its intentional single-pin net is
 ## What changed vs. the Rev 0.3 baseline
 
 - **U0**, a 5 V input regulator, replaces the old two-diode panel-voltage-limiting
-  scheme. It is still not selected – see `../docs/BUILD_GUIDE.md`. It is **not**
+  scheme. It is an open item and not fitted: the bench uses a 5 V panel straight into M1
+  until the production panel is chosen – see `../docs/BUILD_GUIDE.md`. It is **not**
   the TPS63802/HL802A breakout below; its 5.5 V input ceiling is under the
   panel's 7.6 V Voc.
 - **FB1 / FB2** give each cell its own fuse off the shared charger B+ node
@@ -46,7 +47,9 @@ that `D8` was open. Its intentional single-pin net is
   are open in this development configuration; see `../docs/BUILD_GUIDE.md`.
 - **U3**, a low-Iq 3.3 V supply, feeds the D1 Mini and the R10 pull-up directly,
   instead of running the D1 Mini from raw `VBAT`. The TPS63802/HL802A breakout
-  is the candidate, jumper set to 3.3 V, but is not bench-qualified.
+  is fitted, set to 3.3 V, with VIN on `VBAT`. The schematic shows the production
+  connection. On the bench the always-on D1 Mini runs from its micro-USB and U3 OUT
+  is disconnected from `3V3_TEL`, so U3 is not yet qualified as the D1's supply.
 - The old panel-sense divider (R1/R2/C1) and A0 wiring, the D10/D11 mode
   jumpers (JP1/JP2), and the CHRG-to-D1-Mini diode (D3) are absent because they
   are not used in the current firmware or build guide.

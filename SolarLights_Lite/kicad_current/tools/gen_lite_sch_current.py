@@ -38,12 +38,12 @@ RES = "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal"
 CAP = "Capacitor_THT:C_Disc_D5.0mm_W2.5mm_P5.00mm"
 ECAP = "Capacitor_THT:CP_Radial_D6.3mm_P2.50mm"
 
-# --- 1 solar input, regulator (TBD), charger, cells ------------------------
+# --- 1 solar input, regulator (open item), charger, cells ------------------------
 part("J1", "Connector_Generic:Conn_01x02", "PV in", (14, 20, 0), {"1": "PV+", "2": "GND"},
      note="screw terminal", mirror=True)
-part("U0", "SolarLights_Lite:Reg5V_TBD", "5 V reg - TBD", (30, 21, 0),
+part("U0", "SolarLights_Lite:Reg5V_TBD", "5 V reg - OPEN ITEM", (30, 21, 0),
      {"IN+": "PV+", "IN-": "GND", "OUT+": "IN+", "OUT-": "GND"},
-     note="module not yet selected - see BUILD_GUIDE.md")
+     note="open item: not fitted; bench 5 V panel direct to M1 - see BUILD_GUIDE.md")
 part("M1", "SolarLights_Lite:TP4056_DW01A", "TP4056 + DW01A", (52, 22, 0),
      {"IN+": "IN+", "IN-": "GND", "B+": "BATT_BUS", "B-": "BATT-", "OUT+": "OUT+", "OUT-": "GND", "CHRG": "CHRG"},
      note="charger + protection; CHRG not wired", note_at="hide")
@@ -67,7 +67,7 @@ part("M2", "SolarLights_Lite:Pro_Mini_BTE13", "BTE13-010A - int. 8 MHz", (38, 66
       "D10": "NC_D10", "D11": "NC_D11"},
      note="RAW unused; A0/D10/D11 reserved, left open")
 part("LDR1", "SolarLights_Lite:LDR", "LDR", (16, 83.5, 0), {"1": "LDR_PWR", "2": "LDR_SENSE"})
-part("R4", "Device:R", "100k", (16, 89.5, 0), {"1": "LDR_SENSE", "2": "GND"}, fp=RES)
+part("R4", "Device:R", "47k", (16, 89.5, 0), {"1": "LDR_SENSE", "2": "GND"}, fp=RES)
 part("SW1", "Switch:SW_Push", "test", (40, 84, 0), {"1": "BTN", "2": "GND"})
 # --- 5 development telemetry: NPN-inverted D1/TX to D6 UART receiver --------
 part("R8", "Device:R", "47k", (78.5, 67, 90), {"1": "UART_TX", "2": "Q2_BASE"}, fp=RES)
@@ -79,12 +79,12 @@ part("R5", "Device:R", "220k", (104.5, 68, 90), {"1": "VBAT", "2": "D1_A0"}, fp=
      note="battery sense, unaffected by U3")
 part("M3", "SolarLights_Lite:D1_Mini", "Wemos D1 Mini", (128, 66, 0),
      {"5V": "3V3_TEL", "G": "GND", "A0": "D1_A0", "D5": "NC_D5", "D6": "D1_D6", "D0": "D0RST", "RST": "D0RST"},
-     note="ESPHome v0.5 dev UART; always-on; onboard regulator removed")
-# --- 6 D1 Mini's own 3.3 V supply (TBD) -------------------------------------
+     note="ESPHome v0.5 dev UART; bench: micro-USB power, U3 OUT disconnected")
+# --- 6 D1 Mini's own 3.3 V supply (TPS63802) ----------------------------------
 part("C2", "Device:C_Polarized", "470u", (84, 89.5, 0), {"1": "VBAT", "2": "GND"}, fp=ECAP, note="at U3 input")
-part("U3", "SolarLights_Lite:Reg3V3_TBD", "3V3 tel. - HL802A cand.", (98, 88, 0),
+part("U3", "SolarLights_Lite:Reg3V3_TBD", "3V3 tel. - TPS63802", (98, 88, 0),
      {"IN+": "VBAT", "IN-": "GND", "OUT+": "3V3_TEL", "OUT-": "GND"},
-     note="TPS63802/HL802A breakout, jumper=3.3V; candidate, not bench-qualified",
+     note="TPS63802/HL802A, 3.3V; OUT to D1 3V3 in production only",
      note_at=(111, 89, "left"))
 
 # Box symbols: pins listed top to bottom; widths are half-widths on the 2.54 grid.

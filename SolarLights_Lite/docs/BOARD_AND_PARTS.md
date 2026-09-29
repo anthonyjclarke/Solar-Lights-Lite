@@ -51,7 +51,7 @@ Top/component view as your front photo: serial header to the left; crystal and r
 | VCC | VCC / AVCC supply | Protected VBAT_SYS after board regulator removal |
 | GND | Ground | Protected OUT- / GND_LOAD |
 | RAW | Regulator input | Leave unconnected |
-| A1 | PC1 / ADC1 | LDR / 100k midpoint |
+| A1 | PC1 / ADC1 | LDR / 47k midpoint |
 | 7 | PD7 | Switched supply to LDR |
 | 9 | PB1 / OC1A | R6 100 ohm -> Q1 gate in MOSFET version |
 | TX / 1 | PD1 / UART TX | v0.5 test profile: R8 47k -> Q2 2N3904 base |
@@ -148,6 +148,10 @@ chip. Input 1.8-5.5 V, output pin-strap selectable to a fixed 3.3 V (2 A) or 5 V
 quiescent current 20-30 uA, about 10 x 8 mm. Datasheet on file at
 [references/TPS63802_HL802A_datasheet.pdf](references/TPS63802_HL802A_datasheet.pdf).
 
+**Status 30-Sep-2026:** fitted as U3, set to 3.3 V, VIN on VBAT_SYS. In the
+production profile it is the D1 Mini's only supply. On the bench the always-on D1
+runs from its micro-USB, with U3 OUT disconnected from the D1 3V3 pin.
+
 **Not suitable for U0.** The actual panel (AS102-0712A) has Voc 7.6 V at 25 C, and Voc
 *rises* in cold weather - H01 already flags that cold/no-load Voc is not bounded by
 the old diode scheme. This module's absolute maximum input is a fraction over its 5.5 V
@@ -208,3 +212,7 @@ This closes the open U0 candidate search for now: MP1584EN is the accept,
 AMS1117 is the reject, and both replace the earlier undecided "module TBD".
 U0 remains not-yet-bench-qualified until the 5 V trim and reverse-leakage
 checks above are done - see wiring-order step 1 in BUILD_GUIDE.md.
+
+**Status 30-Sep-2026 – open item:** U0 is not fitted. The bench uses a 5 V
+panel directly into M1, and the U0 choice is deferred until the production
+panel is confirmed.

@@ -27,7 +27,7 @@ Use the photographed **BTE13-010A** after its internal-8-MHz conversion. **2N390
 | Ref | Part / starting value | Selection or qualification |
 |---|---|---|
 | PV1 | Existing AS102-0712A 1.2 W panel | Confirm polarity, wiring condition and actual Voc; retain initially. |
-| U0 | 5 V input regulator - candidate: MP1584EN adjustable buck module (in hand), trimmed to 5 V | Rated above measured cold Voc with margin (target at least 12 V input capability; MP1584EN covers 28 V), output bounded to the selected charger's permitted range across no-load/startup; low input quiescent current; weak-light recovery. **Not** the AMS1117 LDO board also in the kit - a linear regulator wastes ~30% of the panel's tiny budget as heat and drops out of regulation in low light. **Not** the TPS63802/HL802A breakout either - its 5.5 V input ceiling is under the panel's 7.6 V Voc. Candidate accepted 21-Sep-2026, not yet bench-qualified - trim to exactly 5 V and check for night-time reverse leakage before wiring to M1. See [board/parts assessment](BOARD_AND_PARTS.md). |
+| U0 | 5 V input regulator - candidate: MP1584EN adjustable buck module (in hand), trimmed to 5 V | Rated above measured cold Voc with margin (target at least 12 V input capability; MP1584EN covers 28 V), output bounded to the selected charger's permitted range across no-load/startup; low input quiescent current; weak-light recovery. **Not** the AMS1117 LDO board also in the kit - a linear regulator wastes ~30% of the panel's tiny budget as heat and drops out of regulation in low light. **Not** the TPS63802/HL802A breakout either - its 5.5 V input ceiling is under the panel's 7.6 V Voc. Candidate accepted 21-Sep-2026. **Open item (30-Sep-2026): U0 is not fitted;** the bench uses a 5 V panel straight into M1. Selection is revisited once the production panel is confirmed; if MP1584EN is used, trim to exactly 5 V and check for night-time reverse leakage before wiring to M1. See [board/parts assessment](BOARD_AND_PARTS.md). |
 | M1 | Protected TP4056-family module | Six labelled terminals, identified chip, documented ground topology, adjustable PROG, verified 4.2 V charge voltage. Start 100-150 mA only after verifying programming law. |
 | BT1/2 | Matched 18650 pair | Same type, age, chemistry, capacity and state of charge; inspect sleeves/positive insulators. Prefer a preassembled protected 1S2P pack if cell condition is uncertain. Do not solder directly to bare cell cans. |
 | FB1/2 | 1 A branch fuses, provisional | At each holder positive, before parallel junction. Check normal inrush, wire/holder ratings and fuse breaking capability. A single downstream fuse cannot interrupt one cell feeding a fault in the other. |
@@ -38,9 +38,9 @@ Use the photographed **BTE13-010A** after its internal-8-MHz conversion. **2N390
 | R3 | 47 ohm, 1/4 W, at the board end | From the measured string: I = (VBAT - 2.56 V) / (R3 + approximately 30 ohm pin resistance). 21/15/11 mA at 4.20/3.70/3.40 V. Fit 56 ohm if you prefer the pin to stay under 20 mA at full charge. Dissipation is under 25 mW. Parallel bare LEDs still require branch ballast, not one common resistor. |
 | F1 | Not fitted in the LED branch | The branch is no longer fed from the battery rail; its fault current is bounded by R3 and the pin. The main fuse F2 on OUT+ is unchanged. |
 | C3 / C4 | 100 uF / 100 nF across M2 rail | Positive to protected VBAT; at least 6.3 V rating, 10 V preferred for electrolytics. Keep close to controller/driver. |
-| LDR1 / R4 | Existing LDR / 100k | D7 -> LDR -> A1 -> R4 -> load GND. Shade from LEDs; weatherproof without obscuring ambient light. |
+| LDR1 / R4 | Existing LDR / 47k | D7 -> LDR -> A1 -> R4 -> load GND. Shade from LEDs; weatherproof without obscuring ambient light. |
 | SW1 | Momentary normally-open button | D2 to load GND. 60-second test obeys the same 100% direct-drive brightness setting and LVC. |
-| U3 | Low-Iq 3.3 V buck-boost - candidate: TPS63802/HL802A breakout (in hand, qty 2), jumper set to 3.3 V | Supplies either D1 profile from the protected rail. Verify 3.0-4.2 V input operation, radio bursts, output stability and reverse-current behaviour. Target >=500 mA transient support and measured total standby <=0.5 mA only applies to the later low-power profile. |
+| U3 | Low-Iq 3.3 V buck-boost - **fitted**: TPS63802/HL802A breakout, set to 3.3 V | VIN from the protected rail (VBAT_SYS). Production: U3 OUT is the D1 Mini's only supply, on its 3V3 pin. Bench (30-Sep-2026): the always-on D1 runs from its own micro-USB, and U3 OUT is disconnected from D1 3V3 so the battery is not drained. Never connect both. Verify 3.0-4.2 V input operation, radio bursts, output stability and reverse-current behaviour. Target >=500 mA transient support and measured total standby <=0.5 mA only applies to the later low-power profile. |
 | M3 | Existing Wemos D1 Mini | Use the existing `solar-lights-lite.yaml` for the later hourly deep-sleep profile and `solar-lights-lite-dev-d1.yaml` while testing. In the test profile, D6 receives inverted Arduino diagnostics through Q2; D5 and D8 are left open. |
 | C2 | 470 uF / 10 V at U3 input | Observe polarity and the selected converter's required output capacitors. Required for either battery-powered D1 profile. |
 | R5 | 220k to D1 Mini A0 | Assumes onboard 220k/100k divider; verify clone. At 4.2 V: ADC core ~0.778 V, A0 header ~2.489 V. Nominal overall gain 5.4; recalibrate it against a meter. |
@@ -113,8 +113,10 @@ Secrets, flashing, checks and the dashboard import are covered step by step in
 
 ### Development wiring
 
-1. Keep D1 Mini **GND** on TP4056 **OUT- / GND_LOAD** and power it through the
-   qualified U3 3.3 V supply, as in the retained production profile. Do not use B-.
+1. Keep D1 Mini **GND** on TP4056 **OUT- / GND_LOAD** and power it from
+   its own micro-USB. Disconnect U3 OUT from the D1 3V3 pin while USB is
+   connected; U3 VIN stays on VBAT_SYS. Production reconnects U3 OUT and removes
+   USB. Do not use B-.
 2. Reuse the existing Q2 interface, but move its input from M2 D8 to M2 **D1/TX**
    and move its collector from D1 Mini D5 to **D6**. The final wiring is:
    `M2 D1/TX -> R8 47k -> Q2 base`; `R9 100k base -> OUT-`; `Q2 emitter -> OUT-`;

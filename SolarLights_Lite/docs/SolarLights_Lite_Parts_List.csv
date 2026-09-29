@@ -1,6 +1,6 @@
 Ref,Part / value,Status,Have it?,Notes
 PV1,Existing AS102-0712A 1.2 W panel,Reuse,,Confirm polarity and actual Voc before wiring
-U0,5 V input regulator,Candidate - MP1584EN adjustable buck module (have),,"Trim to exactly 5 V under no load before wiring to M1; check for night-time reverse leakage; NOT the AMS1117 LDO (also have) - wastes ~30% of panel power as heat; NOT the TPS63802/HL802A - 5.5 V input ceiling too low"
+U0,5 V input regulator,OPEN ITEM - not fitted; bench uses 5 V panel direct to M1. Candidate: MP1584EN (have),,"Select once the production panel is confirmed; Trim to exactly 5 V under no load before wiring to M1; check for night-time reverse leakage; NOT the AMS1117 LDO (also have) - wastes ~30% of panel power as heat; NOT the TPS63802/HL802A - 5.5 V input ceiling too low"
 M1,Protected TP4056-family charger module,Reuse,,Identify actual chip and PROG resistor before setting charge current
 BT1 / BT2,Matched 18650 cells (x2, 1S2P),Reuse,,Same type/age/capacity/state of charge; prefer a preassembled protected pack
 FB1 / FB2,1 A fuse (per cell),New - buy,,One per cell positive lead, before the parallel junction
@@ -12,9 +12,9 @@ R6 / R7,Gate resistor / pull-down,Not fitted,,Only existed for the MOSFET
 R3,47 ohm 1/4 W resistor,New - buy (have on hand?),,Sets LED current directly from D9. Try 56 ohm if you prefer <20 mA at 4.20 V
 F1,LED branch fuse,Not fitted,,Branch is no longer fed from the battery rail
 C3,100 uF electrolytic,Reuse/buy,,>=6.3 V rating (10 V preferred); across the Pro Mini's VBAT/GND
-LDR1 / R4,LDR + 100k resistor,Fitted (was optional),,Now the default sensor path (SENSOR_LDR=1)
+LDR1 / R4,LDR + 47k resistor,Fitted (was optional),,Now the default sensor path (SENSOR_LDR=1); R4 changed 100k -> 47k on 30-Sep-2026 for dark margin
 SW1,Momentary push button,Reuse/buy,,Test button to D2
-U3,Low-Iq 3.3 V buck-boost,Candidate - TPS63802/HL802A breakout (have 2),,"Set jumper to 3.3 V; not yet bench-qualified against BUILD_GUIDE step 9"
+U3,Low-Iq 3.3 V buck-boost,Fitted - TPS63802/HL802A breakout set to 3.3 V,,"VIN from VBAT_SYS; OUT -> D1 3V3 in production only. Bench: D1 on its micro-USB with U3 OUT disconnected. Battery operation not yet qualified against BUILD_GUIDE step 9"
 M3,Existing Wemos D1 Mini,Reuse - v0.5 test system,,Always-on Home Assistant telemetry during development; feed qualified external 3V3 and use D6 as the protected UART receive input. Use the separate deep-sleep YAML for production measurement.
 C2,470 uF electrolytic,Reuse/buy,,At U3's input, observe polarity
 R5,220k resistor,Reuse/buy,,Battery-voltage sense divider to D1 Mini A0

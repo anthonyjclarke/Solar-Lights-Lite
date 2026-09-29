@@ -12,7 +12,7 @@ Bench testing should use an isolated current-limited supply before cells or pane
    through the v0.5 D1 Mini Home Assistant telemetry, without an Arduino USB-UART
    connection.
 2. Sweep 3.3–4.2 V and confirm LED current at 3.40, 3.70, and 4.20 V.
-3. Wire the LDR, then cover/uncover it to verify the five-minute transition delay.
+3. Cover/uncover the LDR to verify the five-minute transition delay.
 4. Verify the button and low-voltage cut-off/recovery conditions.
 5. Qualify the panel/charger and then run outdoor and winter logging.
 

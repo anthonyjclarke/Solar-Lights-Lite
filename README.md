@@ -77,7 +77,7 @@ qualification steps in the build guide**.
 
 ```mermaid
 flowchart LR
-    PV[1.2 W solar panel] --> REG[Qualified 5 V input regulator]
+    PV[Solar panel] --> REG[5 V input regulator - open item]
     REG --> CHG[Protected TP4056-family charger]
     CHG --> BAT[1S2P Li-ion battery pack]
     BAT --> MCU[ATmega328P controller]
@@ -91,11 +91,11 @@ flowchart LR
 
 | Area | Current approach | Why it matters |
 |---|---|---|
-| Solar input | Existing 1.2 W panel with a qualified 5 V regulator | The panel's open-circuit voltage must be conditioned before it reaches the charger. |
+| Solar input | Panel plus a 5 V input regulator (U0 is an open item; the bench uses a 5 V panel direct) | The panel's open-circuit voltage must be conditioned before it reaches the charger. |
 | Charging and storage | Protected TP4056-family module and matched 1S2P 18650 pack | Charging current, protection topology, temperature behaviour, and cell condition require verification. |
 | Controller | BTE13-010A / ATmega328P Pro Mini-class board | Runs at verified internal 8 MHz and handles LDR, button, battery monitoring, and LED control. |
 | Lighting | LED string driven from D9 through R3 = 47 ohm | Bench measurement indicated about 15 mA at 3.7 V; the resistor, not PWM alone, sets branch current. |
-| Telemetry | Existing D1 Mini, qualified 3.3 V supply, and reused Q2 interface | Always-on development profile captures controller UART diagnostics; a separate profile returns to hourly deep sleep for production measurement. |
+| Telemetry | Existing D1 Mini, TPS63802 3.3 V supply from the battery (bench D1 runs on micro-USB), and reused Q2 interface | Always-on development profile captures controller UART diagnostics; a separate profile returns to hourly deep sleep for production measurement. |
 
 ![Assembly placement proposal](SolarLights_Lite/docs/sheet-4.png)
 
