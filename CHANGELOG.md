@@ -4,6 +4,27 @@ All notable project milestones are recorded here. This file is a development
 timeline; for an introduction to the project and its current architecture, start
 with [README.md](README.md).
 
+## [0.5.2] 29-09-2026
+
+### Changed
+
+- Redesigned all seven A3 drawing sheets (`docs/sheet-1.png` to `sheet-7.png`,
+  the matching SVGs and `output/pdf/SolarLights_Rev05_Drawings.pdf`) in a single
+  visual style: shadowed cards with reference badges and icons, colour-coded pin
+  chips, net legends, line hops at crossings, and labelled rule banners. Wording
+  and connections are unchanged.
+- Moved the drawing helpers into one shared block in `docs/tools/make_drawings.py`.
+- Regenerated `docs/ASSEMBLY.html` so its embedded drawings match the new sheets.
+
+### Fixed
+
+- Removed overlapping labels and wires on sheets 2, 3, 5 and 6; the USB-UART
+  wiring on sheet 5 no longer runs through the header pin labels.
+- Marked the switched D7/A1 LDR as "not yet wired" on sheets 2 and 7 to match
+  the bench state.
+- Corrected `CLAUDE.md`: D1/TX feeds the Q2 UART inverter and D8 is open in v0.5.
+- Updated stale drawing-regeneration notes in `BUILD_GUIDE.md` and `VALIDATION.md`.
+
 ## [0.5.1] 28-09-2026
 
 ### Changed

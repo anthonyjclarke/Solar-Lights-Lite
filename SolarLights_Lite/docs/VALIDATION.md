@@ -123,6 +123,9 @@ actual harvest, and everything the Rev 0.4 acceptance gates still require before
 Drawings 02-controller.svg and 04-assembly.svg have not been regenerated and still show
 the MOSFET driver.
 
+Update 29-Sep-2026: all seven drawings, including 02-controller.svg and 04-assembly.svg,
+have since been regenerated and show D9 driving the string through R3 with no MOSFET.
+
 
 ---
 

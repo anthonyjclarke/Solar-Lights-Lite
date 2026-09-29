@@ -20,7 +20,7 @@ Use the photographed **BTE13-010A** after its internal-8-MHz conversion. **2N390
 3. The Pro Mini runs from that rail at a verified 8 MHz after removing its regulator and power LED. Switched LDR -> A1; D9 -> R3 47 ohm -> light string positive, string negative to load GND. R3 sets the current; there is no switching device in this build.
 4. During development, an always-on Wemos D1 Mini records the Arduino's own diagnostics and its Wi-Fi/battery health in Home Assistant without an Arduino USB connection. It reuses the fitted Q2/R8/R9/R10 status interface as a protected, inverted serial receiver; no INA226, temperature sensor or other telemetry module is required. The separate D1 Mini low-power profile remains the later production reference.
 
-**Read module pad labels, not board positions.** The illustrations are functional terminal maps, not photographs or universal pin layouts. All four drawings (01-power through 04-assembly) were regenerated on 20-Sep-2026 for the direct-drive change; if you have an older cached copy open, re-export ASSEMBLY.html or the PDF. If a switching device is reintroduced for a brighter string, its pin order must come from the exact part/package datasheet.
+**Read module pad labels, not board positions.** The illustrations are functional terminal maps, not photographs or universal pin layouts. All seven drawings (01-power through 07-current-architecture) were regenerated on 29-Sep-2026 and show the 20-Sep-2026 direct-drive change; if you have an older cached copy open, re-export ASSEMBLY.html or the PDF. If a switching device is reintroduced for a brighter string, its pin order must come from the exact part/package datasheet.
 
 ## Parts and selection gates
 
