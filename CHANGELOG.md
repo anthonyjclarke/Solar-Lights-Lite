@@ -4,6 +4,30 @@ All notable project milestones are recorded here. This file is a development
 timeline; for an introduction to the project and its current architecture, start
 with [README.md](README.md).
 
+## [0.5.3] 29-09-2026
+
+### Changed
+
+- Renamed the development D1 ESPHome device to `telemetry` / `Telemetry` in
+  `solar-lights-lite-dev-d1.yaml`, matching the deployed bench unit; Home
+  Assistant entity IDs are now `*.telemetry_*`.
+- Added the `debug:` component, a fallback AP (`ap_password` secret) and the
+  local `web_server` to the development D1 profile.
+- Replaced `solar-lights-lite-dev-dashboard.yaml` with the working bench layout:
+  heading sections, mode and battery badges, "no data yet" fallbacks for the
+  gauges, 24-hour history graphs and a D1 receiver panel.
+- Rewrote the ESPHome section of `docs/DEVELOPMENT.md` as a step-by-step
+  procedure: required secrets, validating and flashing, checks, and importing
+  the dashboard. `BUILD_GUIDE.md` now links to it.
+
+### Fixed
+
+- Diagnostic lines no longer arrive in two parts: the UART debug buffer is now
+  256 bytes with a 500 ms timeout, up from the default 150 bytes / 100 ms.
+- Trailing CR/LF are now stripped, and lines containing non-printable bytes are
+  dropped. Corrupted UART text had made Home Assistant drop the API connection
+  over and over.
+
 ## [0.5.2] 29-09-2026
 
 ### Changed

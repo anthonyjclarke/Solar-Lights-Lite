@@ -8,10 +8,17 @@
 #
 # This stays awake to receive every Arduino report. It is a test image, not the
 # low-power production profile; use solar-lights-lite.yaml for that later work.
+#
+# The device is named `telemetry` so Home Assistant entity IDs are
+# `*.telemetry_*`, matching solar-lights-lite-dev-dashboard.yaml. Renaming it
+# changes every entity ID; update the dashboard to match.
+#
+# Required ESPHome secrets: wifi_ssid, wifi_password, esphome_encryption_key,
+# ap_password.
 
 substitutions:
-  name: solar-lights-lite-dev
-  friendly: Solar Lights Development Telemetry
+  name: telemetry
+  friendly: Telemetry
 
 esphome:
   name: ${name}
@@ -24,14 +31,23 @@ esp8266:
 logger:
   level: WARN
 
+debug:
+  update_interval: 30s     # required by the debug reset-reason and heap sensors
+
 wifi:
   ssid: !secret wifi_ssid
   password: !secret wifi_password
   fast_connect: true
   power_save_mode: none
   reboot_timeout: 0s       # preserve UART capture when AP/HA is unavailable
+  ap:
+    ssid: "${name}-fallback"
+    password: !secret ap_password
 
 captive_portal:
+
+web_server:
+  port: 80
 
 api:
   encryption:
@@ -60,11 +76,23 @@ uart:
     direction: RX
     dummy_receiver: true
     after:
+      # Defaults (150 bytes / 100 ms) split the ~160-char Arduino line in two.
+      bytes: 256
+      timeout: 500ms
       delimiter: "\n"
     sequence:
       - lambda: |-
           std::string line(bytes.begin(), bytes.end());
+          // Drop trailing CR/LF, then reject any line with corrupted bytes:
+          // non-UTF-8 text makes HA drop the API connection (reconnect loop).
+          while (!line.empty() && (line.back() == '\n' || line.back() == '\r')) line.pop_back();
           if (line.empty()) return;
+          for (unsigned char c : line) {
+            if (c < 0x20 || c > 0x7E) {
+              ESP_LOGW("arduino", "Dropped corrupted UART line (%u bytes)", (unsigned) line.size());
+              return;
+            }
+          }
           id(arduino_diagnostic_line).publish_state(line.c_str());
 
           auto number_of = [&](const char *key, float *result) -> bool {

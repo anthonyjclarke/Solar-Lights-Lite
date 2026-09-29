@@ -108,6 +108,9 @@ and must not be mistaken for an outdoor/runtime configuration. The existing
 `firmware/esphome/solar-lights-lite.yaml` remains the D1 Mini hourly deep-sleep
 reference for the later low-power design.
 
+Secrets, flashing, checks and the dashboard import are covered step by step in
+[DEVELOPMENT.md](DEVELOPMENT.md#esphome-development-telemetry-d1-mini).
+
 ### Development wiring
 
 1. Keep D1 Mini **GND** on TP4056 **OUT- / GND_LOAD** and power it through the
