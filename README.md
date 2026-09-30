@@ -1,9 +1,19 @@
 # Solar Lights Lite
 
-![version: 0.6.0](https://img.shields.io/badge/version-0.6.0-0072B2?style=for-the-badge)
-![controller: ATmega328P](https://img.shields.io/badge/controller-ATmega328P-4E9A06?style=for-the-badge)
-![telemetry: ESPHome](https://img.shields.io/badge/telemetry-ESPHome-18BCF2?style=for-the-badge)
-![status: field validation](https://img.shields.io/badge/status-field%20validation-008572?style=for-the-badge)
+[![version: 0.6.0](https://img.shields.io/badge/version-0.6.0-0072B2?style=for-the-badge)](CHANGELOG.md)
+[![status: field validation](https://img.shields.io/badge/status-field%20validation-008572?style=for-the-badge)](docs/10-commissioning.md)
+[![licence: CC0 1.0](https://img.shields.io/badge/licence-CC0%201.0-EF9421?style=for-the-badge&logo=creativecommons&logoColor=white)](LICENSE)
+
+[![Home Assistant](https://img.shields.io/badge/Home%20Assistant-dashboards%20%26%20automations-18BCF2?style=for-the-badge&logo=homeassistant&logoColor=white)](homeassistant/)
+[![ESPHome](https://img.shields.io/badge/ESPHome-telemetry-000000?style=for-the-badge&logo=esphome&logoColor=white)](firmware/esphome/)
+[![ESP8266](https://img.shields.io/badge/ESP8266-Wemos%20D1%20Mini-E7352C?style=for-the-badge&logo=espressif&logoColor=white)](docs/07-build-telemetry.md)
+[![ATmega328P](https://img.shields.io/badge/ATmega328P-Pro%20Mini%20%40%208%20MHz-4E9A06?style=for-the-badge)](docs/04-build-controller.md)
+[![Arduino](https://img.shields.io/badge/Arduino-framework-00878F?style=for-the-badge&logo=arduino&logoColor=white)](firmware/controller/)
+[![PlatformIO](https://img.shields.io/badge/PlatformIO-build-F5822A?style=for-the-badge&logo=platformio&logoColor=white)](firmware/controller/platformio.ini)
+[![C++](https://img.shields.io/badge/C%2B%2B-11-00599C?style=for-the-badge&logo=cplusplus&logoColor=white)](firmware/controller/src/main.cpp)
+[![KiCad](https://img.shields.io/badge/KiCad-schematic-314CB0?style=for-the-badge&logo=kicad&logoColor=white)](hardware/kicad/)
+[![Solar powered](https://img.shields.io/badge/power-solar%20%2B%201S%20Li--ion-F2A900?style=for-the-badge)](docs/03-build-power.md)
+[![Low-power LEDs](https://img.shields.io/badge/lighting-low--power%20LED%20PWM-FFB000?style=for-the-badge)](docs/05-build-lighting.md)
 
 ![A solar panel, compact control electronics and warm garden light at dusk](docs/images/solar-lights-lite-hero.png)
 
