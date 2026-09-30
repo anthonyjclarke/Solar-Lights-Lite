@@ -21,9 +21,11 @@ FIGURES = {
     '01': [('07-system-overview.svg', 'Sheet 7 – System overview')],
     '03': [('01-power.svg', 'Sheet 1 – Module A: power, charging and battery')],
     '04': [('02-controller.svg', 'Sheet 2 – Modules B–D: controller, light sensor and low-power LEDs'),
-           ('BTE13-010A-pin-map.svg', 'Reference board connection and programming map')],
+           ('BTE13-010A-pin-map.svg', 'Reference board connection and programming map'),
+           ('breadboard-layout.svg', 'Breadboard layout – the whole system on a bench')],
     '07': [('06-telemetry-advanced.svg', 'Sheet 6 – Tier 1 Advanced Telemetry'),
-           ('03-telemetry-production.svg', 'Sheet 3 – Tier 2 Production Telemetry')],
+           ('03-telemetry-production.svg', 'Sheet 3 – Tier 2 Production Telemetry'),
+           ('perfboard-layout.svg', 'Perfboard layout – the whole system on a carrier')],
     '08': [('usbasp-wiring.png', 'USBasp wiring sheet')],
     '10': [('05-staging.svg', 'Sheet 5 – Staged power-up and wired serial monitor'),
            ('04-assembly.svg', 'Sheet 4 – Enclosure and physical assembly')],
@@ -46,7 +48,9 @@ def figure(name, caption):
         svg = path.read_text()
         body = svg[svg.index('<svg'):]
         pdf = 'SolarLights_Lite_Drawings.pdf' if name[0].isdigit() else name.replace('.svg', '.pdf')
-        links = f'<a href="drawings/{name}">Full-size SVG</a> · <a href="drawings/{pdf}">Printable PDF</a>'
+        links = f'<a href="drawings/{name}">Full-size SVG</a>'
+        if (DRAW / pdf).exists():
+            links += f' · <a href="drawings/{pdf}">Printable PDF</a>'
     else:
         body = f'<img src="drawings/{name}" alt="{html.escape(caption)}">'
         links = f'<a href="drawings/{name.replace(".png", ".pdf")}">Printable PDF</a>'

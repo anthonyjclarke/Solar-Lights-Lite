@@ -5,6 +5,25 @@ with [README.md](README.md).
 
 ---
 
+## [Unreleased]
+
+### Added
+
+- `tools/make_layouts.py`: breadboard and perfboard layout drawings of the
+  whole system (`docs/drawings/breadboard-layout.*`, `perfboard-layout.*`),
+  placed to keep hookup wire to a minimum. Both layouts are checked against
+  `docs/netlist.json` when generated; perfboard traces are routed on the
+  0.1 in grid.
+- Both layouts linked from guides 04 and 07 and shown in `docs/ASSEMBLY.html`
+  (breadboard under Module B, perfboard under Module E).
+
+### Changed
+
+- `tools/make_guide.py` shows a figure's "Printable PDF" link only when that
+  PDF exists.
+
+---
+
 ## [0.6.0] 30-09-2026
 
 A restructure from a development record into a build-and-operate package. The

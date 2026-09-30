@@ -1,8 +1,10 @@
 # 07 – Module E: telemetry hardware
 
 **Drawings:** sheet 6 (Tier 1, `drawings/sheet-6.png`) and sheet 3 (Tier 2,
-`drawings/sheet-3.png`). **Wiring:** nets `UART_*`, `ESP_3V3`, `ADC_BATT` and
-`WAKE`. **Software:** [09 – Home Assistant](09-home-assistant.md).
+`drawings/sheet-3.png`). **Layouts:** [breadboard](drawings/breadboard-layout.png)
+and [perfboard](drawings/perfboard-layout.png), both showing JP1 and JP2.
+**Wiring:** nets `UART_*`, `ESP_3V3`, `ADC_BATT` and `WAKE`. **Software:**
+[09 – Home Assistant](09-home-assistant.md).
 
 Telemetry is optional: skip this module for a standalone (Tier 0) build. It is
 strongly recommended while commissioning, because it turns the controller's

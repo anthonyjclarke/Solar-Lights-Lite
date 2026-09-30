@@ -2,7 +2,9 @@
 
 **Drawings:** sheet 2 (`drawings/sheet-2.png`) and the board map
 (`drawings/BTE13-010A-pin-map.png`). **Reference photos:**
-[`reference/`](reference/).
+[`reference/`](reference/). **Layouts:** the whole system on a
+[breadboard](drawings/breadboard-layout.png) (bench build) or a
+[perfboard carrier](drawings/perfboard-layout.png) (final build).
 
 The controller is an ATmega328P Pro Mini-class board, modified to run straight
 from the battery and to sleep at microamp levels. It runs the lights on its

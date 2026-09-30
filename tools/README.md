@@ -11,9 +11,12 @@ regenerate; do not hand-edit the outputs.
 | `make_bench_sheet.py`  | `docs/drawings/controller-bench-sheet.*`      |
 | `make_netlist.py`      | `docs/netlist.json`, `docs/wire-schedule.csv` |
 | `make_guide.py`        | `docs/ASSEMBLY.html` from guides 01–12        |
+| `make_layouts.py`      | Breadboard and perfboard layout SVGs and PNGs |
 
 `make_netlist.py` needs only the Python standard library and also checks the
-wiring rules (for example that B- is never joined to OUT-). `make_guide.py`
+wiring rules (for example that B- is never joined to OUT-). `make_layouts.py`
+also needs only the standard library; it checks both layouts against
+`docs/netlist.json` and writes PNGs when Inkscape is installed. `make_guide.py`
 needs `markdown`; the drawing scripts need `reportlab` and `pypdfium2`. Run
 `make_guide.py` last, after any drawing, CSV or guide change:
 
