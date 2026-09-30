@@ -11,7 +11,15 @@
 .pio/
 .pioenvs/
 .piolibdeps/
-/_archive/pio-cache/
+*.hex
+*.bin
+*.elf
+
+# ESPHome and KiCad local files
+.esphome/
+*.kicad_prl
+*-backups/
+fp-info-cache
 
 # Python tooling
 __pycache__/

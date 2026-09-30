@@ -1,188 +1,113 @@
 # Changelog
 
-All notable project milestones are recorded here. This file is a development
-timeline; for an introduction to the project and its current architecture, start
+Notable changes to Solar Lights Lite. For an introduction to the project, start
 with [README.md](README.md).
 
-## [0.5.5] 30-09-2026
+---
+
+## [0.6.0] 30-09-2026
+
+A restructure from a development record into a build-and-operate package. The
+circuit is unchanged; the controller firmware and both D1 Mini profiles change
+behaviour and must be reflashed together.
+
+### Added
+
+- Numbered documentation set in `docs/`: design overview, parts/tools/safety,
+  one build guide per module (A–E), firmware, Home Assistant, commissioning
+  gates 0–8 with final assembly (module F), operation and maintenance, and
+  going further.
+- Controller one-time fuse procedure for a new board (low `0xE2`, high `0xD9`,
+  extended `0xFD`).
+- `firmware/controller/include/config.h` holding every tuneable value,
+  including a firmware version reported as `fw=` in every telemetry line.
+- Three controller build environments, one per telemetry tier:
+  `standalone`, `production` and `advanced`.
+- `production` build: a compact status line every 8 scheduler seconds, with
+  the serial port powered only while sending and TX held low in between.
+- Tier 2 production telemetry reads that line during each hourly wake, using
+  the same Q2 harness as Tier 1; no rewiring between tiers.
+- `homeassistant/solar_lights_package.yaml`: OTA helper plus battery-low,
+  cut-off and reports-stopped automations.
+- `homeassistant/dashboard-production-telemetry.yaml`.
+- `LICENSE`: the whole project is dedicated to the public domain under
+  CC0 1.0.
+- Host test for the fast-tick rule; UART parsing checked against sample lines.
 
 ### Changed
 
-- R4 in the LDR divider is now 47k (was 100k); no firmware change was needed. At
-  100k the 30% dark threshold needed the LDR above about 233k. The bench stayed
-  around 50% (LDR ~100k) all night, so dusk never confirmed and the lights stayed
-  off. At 47k the thresholds correspond to an LDR above ~110k for dark and below
-  ~31k for light. A fully covered LDR now reads 9.1% (raw 93, about 470k),
-  giving a clear margin under the 30% threshold. Covered and uncovered tests
-  confirmed dusk, the full fade-up, and dawn. Recorded in `HARDWARE.md` that the
-  watchdog clock runs about 12% slow (measured against the serial timestamps). Updated sheet 2, the KiCad schematic/PDF/preview, the parts list,
-  `HARDWARE.md`, `BUILD_GUIDE.md`, `BOARD_AND_PARTS.md`, `CLAUDE.md`, the
-  assembly guide and the `LDR_DARK` comment in `main.cpp` (comment only; the
-  build output is unchanged).
+- Repository flattened: `docs/`, `firmware/`, `hardware/kicad/`,
+  `homeassistant/` and `tools/` at the root.
+- Scheduler simplified to dusk-to-dawn only: states are `DAY`, `NIGHT` and
+  `LVC`; the output cause `ALL_NIGHT` is now `DUSK_TO_DAWN`.
+- Controller: unused analog inputs A0–A5 have their digital buffers disabled;
+  RX has its pull-up enabled; D8 is no longer driven.
+- ESPHome: both profiles use device name `solar-lights` with identical entity
+  names, an OTA password (`ota_password` secret), a new `Arduino Firmware`
+  sensor, and only accept lines that start with `fw=`.
+- Drawings regenerated with module and tier titles; sheet 3 now shows Tier 2
+  on the shared serial harness. Files renamed under `docs/drawings/`.
+- KiCad project renamed to `hardware/kicad/SolarLights_Lite.*`; title block,
+  notes and the D1 Mini supply pin (now `3V3`, previously labelled `5V`)
+  corrected. Connectivity is unchanged.
+- Parts list, wire schedule and netlist regenerated with module and tier notes.
+- `docs/ASSEMBLY.html` is now generated from guides 01–12 by
+  `tools/make_guide.py`: one visual page with every drawing inline beside its
+  module, plus the wire schedule and parts checklist.
 
-## [0.5.4] 30-09-2026
+### Removed
 
-### Changed
+- Superseded designs, review reports, dated addenda, legacy KiCad baseline,
+  archived exports, original v1 files and machine-specific tool captures.
+  All remain available at tag `v0.5.5-history`.
+- Unused firmware paths: panel-voltage sensing, mode jumpers and the
+  evening/pre-dawn schedule.
 
-- Documentation now treats the whole v0.5 circuit as built. The switched LDR
-  (D7 -> LDR -> A1 -> R4 100k -> OUT-) is wired, as shown on sheet 2. Removed
-  the "not yet wired" LDR status from `CLAUDE.md`, `HARDWARE.md`, `ROADMAP.md`,
-  `TESTING.md`, and drawing sheets 2 and 7.
-- Regenerated drawing sheets 1–7, `ASSEMBLY.html`, and the A3 PDF. The footer
-  now reads "v0.5 AS BUILT | 30-SEP-2026", and sheet 7 is titled as-built wiring.
-  LDR threshold calibration, charger qualification and outdoor validation
-  are still listed as outstanding.
-- Recorded the bench power arrangement. **U0 is now an open item:** it is not
-  fitted, and a 5 V bench panel feeds M1 IN directly. U0 will be chosen once the
-  production panel is confirmed; MP1584EN remains the candidate for the 7.6 V
-  panel. **U3 is fitted:** a TPS63802 breakout set to 3.3 V supplies the D1 Mini.
-  Its VIN is on VBAT_SYS. On the bench the always-on D1 runs from its own
-  micro-USB, with U3 OUT disconnected from the D1 3V3 pin so the battery is not
-  drained overnight; never connect both. In production (battery only), U3 OUT is
-  the D1's only supply. The D1's onboard regulator stays fitted, and sheet 3 no
-  longer says to isolate it. Updated `HARDWARE.md`, `ROADMAP.md`,
-  `BUILD_GUIDE.md`, `BOARD_AND_PARTS.md`, the parts list, `README.md`, drawing
-  sheets 1, 3, 4, 6 and 7, the assembly guide, and the U0/U3 values and notes
-  in the `kicad_current` schematic, PDF and preview.
+### Upgrading an existing 0.5 installation
 
-## [0.5.3] 29-09-2026
+No wiring changes are needed and the lighting behaviour is unchanged. Upgrade
+the controller first, then the D1 Mini, so telemetry is never interrupted.
 
-### Changed
+1. **Back up.** Read the controller's current firmware
+   (`avrdude -c usbasp -p m328p -U flash:r:solarlights-v0.5-backup.hex:i`),
+   copy the D1 Mini's YAML out of ESPHome, and export the dashboard's raw
+   configuration.
+2. **Controller.** Build in `firmware/controller` (the old `pro8_debug` is now
+   `advanced`; the old silent `pro8` is now `standalone`) and flash
+   `.pio/build/advanced/firmware.hex` over ISP. Do not write fuses: an already
+   converted board keeps its settings. The 0.5 D1 Mini profile still reads the
+   new lines; `mode` now reports `DAY`/`NIGHT`/`LVC` and the night cause is
+   `DUSK_TO_DAWN`, so update any automation that tests the old values.
+3. **D1 Mini.** Install `solar-lights-advanced-telemetry.yaml` with
+   `name: telemetry` and `friendly: Telemetry` in its substitutions, so the
+   device keeps its network name and Home Assistant keeps its existing
+   `*.telemetry_*` entity IDs. Keep the same `esphome_encryption_key`, and add
+   an `ota_password` secret (the first wireless install still works because
+   the running firmware has no password yet). Renaming an existing device to
+   `solar-lights` is not recommended: the first wireless install would look
+   for `solar-lights.local`, and Home Assistant would keep the old entity IDs
+   while creating new ones, leaving a mix.
+4. **Home Assistant.** The existing dashboard keeps working. To use the new
+   dashboards or package, replace `solar_lights_` with `telemetry_` in them
+   first (but keep `input_boolean.solar_lights_ota` as it is). If that helper
+   already exists under Settings → Helpers, remove the `input_boolean:` block
+   from the package.
+5. **Rollback** at any point: reflash `solarlights-v0.5-backup.hex` and
+   reinstall the saved YAML. The complete 0.5 source is at tag
+   `v0.5.5-history`.
 
-- Renamed the development D1 ESPHome device to `telemetry` / `Telemetry` in
-  `solar-lights-lite-dev-d1.yaml`, matching the deployed bench unit; Home
-  Assistant entity IDs are now `*.telemetry_*`.
-- Added the `debug:` component, a fallback AP (`ap_password` secret) and the
-  local `web_server` to the development D1 profile.
-- Replaced `solar-lights-lite-dev-dashboard.yaml` with the working bench layout:
-  heading sections, mode and battery badges, "no data yet" fallbacks for the
-  gauges, 24-hour history graphs and a D1 receiver panel.
-- Rewrote the ESPHome section of `docs/DEVELOPMENT.md` as a step-by-step
-  procedure: required secrets, validating and flashing, checks, and importing
-  the dashboard. `BUILD_GUIDE.md` now links to it.
+---
 
-### Fixed
+## Pre-release history (0.2 – 0.5.5)
 
-- Diagnostic lines no longer arrive in two parts: the UART debug buffer is now
-  256 bytes with a 500 ms timeout, up from the default 150 bytes / 100 ms.
-- Trailing CR/LF are now stripped, and lines containing non-printable bytes are
-  dropped. Corrupted UART text had made Home Assistant drop the API connection
-  over and over.
+Development between 17-Sep-2026 and 30-Sep-2026 took the design from a
+parts-bin concept to the built v0.5 circuit: an engineering review of the
+original design, conversion of the BTE13-010A to internal 8 MHz with ISP-only
+programming, measurement of the LED string and removal of the MOSFET driver in
+favour of direct pin drive through a 47 Ω resistor, a switched LDR (R4 changed
+from 100 kΩ to 47 kΩ for dark margin), the TPS63802 telemetry supply, and the
+always-on D1 Mini serial telemetry with its Home Assistant dashboard. The full
+record – review findings, dated measurements, superseded drawings and the
+original design – is preserved at tag `v0.5.5-history`.
 
-## [0.5.2] 29-09-2026
-
-### Changed
-
-- Redesigned all seven A3 drawing sheets (`docs/sheet-1.png` to `sheet-7.png`,
-  the matching SVGs and `output/pdf/SolarLights_Rev05_Drawings.pdf`) in a single
-  visual style: shadowed cards with reference badges and icons, colour-coded pin
-  chips, net legends, line hops at crossings, and labelled rule banners. Wording
-  and connections are unchanged.
-- Moved the drawing helpers into one shared block in `docs/tools/make_drawings.py`.
-- Regenerated `docs/ASSEMBLY.html` so its embedded drawings match the new sheets.
-
-### Fixed
-
-- Removed overlapping labels and wires on sheets 2, 3, 5 and 6; the USB-UART
-  wiring on sheet 5 no longer runs through the header pin labels.
-- Marked the switched D7/A1 LDR as "not yet wired" on sheets 2 and 7 to match
-  the bench state.
-- Corrected `CLAUDE.md`: D1/TX feeds the Q2 UART inverter and D8 is open in v0.5.
-- Updated stale drawing-regeneration notes in `BUILD_GUIDE.md` and `VALIDATION.md`.
-
-## [0.5.1] 28-09-2026
-
-### Changed
-
-- Reworked the v0.5 current-build KiCad sheet into six labelled functional
-  blocks on the 2.54 mm grid, using inter-block net labels for a clearer layout.
-
-### Fixed
-
-- Added the intentionally open Pro Mini `D8` pin to the current-build symbol;
-  its single-pin no-connect is now explicit in the exported netlist.
-
-## [0.5.0] - 27-Sep-2026
-
-### Development telemetry
-
-- Reworked telemetry around the existing Wemos D1 Mini; no INA226, temperature
-  probe, ESP32-C3 or other new telemetry module is required.
-- Added an always-on D1 Mini ESPHome profile that captures the Arduino's
-  rate-limited 9600-baud diagnostic lines and publishes parsed controller state
-  to Home Assistant.
-- Reused Q2/R8/R9/R10 as the protected, inverted UART receiver on D6. The
-  parsed `output=` value replaces the separate D8-to-D5 light-status wire while
-  developing.
-- Added a sixth illustrated assembly sheet for the test-only D1 telemetry
-  topology; retained the original D1 Mini deep-sleep configuration as the
-  production reference.
-
-### Documentation
-
-- Promoted active documentation, visual assembly assets and current firmware
-  labels to v0.5.
-- Documented the no-purchase measurement boundary: controller diagnostics,
-  battery voltage and D1 health are visible; panel voltage, current, energy and
-  temperature still need instruments or added hardware.
-
-## [0.4.0] - 27-Sep-2026
-
-### Repository release
-
-- Created the public Git repository and the `v0.4.0` annotated release tag.
-- Added repository hygiene for macOS metadata, PlatformIO caches, local secrets,
-  and common development artefacts.
-- Regenerated the five current Rev 0.4 visual assembly sheets and printable drawing set.
-- Consolidated the current direct-drive design status in the root documentation.
-
-### Documentation
-
-- Reworked the README as a newcomer-oriented project overview.
-- Moved dated project history into this changelog.
-- Added a project hero illustration and a system-architecture diagram.
-
-## [0.4] - 21-Sep-2026
-
-### Controller and programming
-
-- Confirmed the BTE13-010A target as an ATmega328P and configured it for internal
-  8 MHz operation with 2.7 V brownout detection and no bootloader.
-- Wrote and verified the reviewed firmware image through ISP.
-- Documented the reliable system-avrdude and USBasp upload paths after PlatformIO's
-  bundled avrdude showed repeatable verification failures with the ArduinoISP setup.
-- Identified a second board as an ATmega32U4 Pro Micro rather than a drop-in spare
-  for the ATmega328P controller.
-
-### Hardware direction
-
-- Selected the MP1584EN as a candidate solar-input regulator pending bench qualification.
-- Selected the TPS63802/HL802A breakout as the optional telemetry-supply candidate,
-  also pending bench qualification.
-- Created the separate `kicad_current` project to reflect the current direct-drive
-  circuit while preserving the older KiCad design as an audit baseline.
-
-## [0.4] - 20-Sep-2026
-
-### LED measurement and direct-drive revision
-
-- Measured the LED string at a 2.56 V drop with no significant dynamic resistance.
-- Chose a reduced-current direct-drive branch: D9 through R3 = 47 ohm, with an
-  illustrative current of about 15 mA at 3.7 V.
-- Removed Q1, R6, R7, and the LED-branch fuse from the current design because the
-  branch is limited by R3 and the controller pin.
-- Updated the firmware's normal night setting to 100% command duty; in this design
-  duty is brightness control and R3 sets the current limit.
-
-## [0.4] - 19-Sep-2026
-
-### Engineering review baseline
-
-- Started the Rev 0.4 rebuild review around safer panel input conditioning, reduced
-  energy use, direct verification of the controller clock, and staged validation.
-- Recorded the original KiCad sheets and legacy firmware/configuration as audit
-  evidence rather than a fabrication release.
-- Established the core acceptance gates for charger programming, battery protection,
-  LED current, controller power, telemetry load, and real-world solar performance.
-
-[0.4.0]: https://github.com/anthonyjclarke/Solar-Lights-Lite/releases/tag/v0.4.0
+[0.6.0]: https://github.com/anthonyjclarke/Solar-Lights-Lite/compare/v0.5.5-history...v0.6.0

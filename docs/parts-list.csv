@@ -1,0 +1,31 @@
+Module,Ref,Part / value,Qty,Have it?,Notes
+A,PV1,Solar panel ~1-2 W (reference: AS102-0712A 1.2 W),1,,Measure open-circuit voltage (Voc) cold and in full sun to choose Option A or B
+A,U0,5 V buck module (e.g. MP1584EN),1,,Option B panels only (Voc above 6.5 V). Set to 5.00 V and check reverse leakage before connecting M1. Not a linear regulator; not the TPS63802
+A,M1,Protected TP4056-family charger module (TP4056/TC4056 + DW01A + 8205A),1,,Six labelled pads IN+/IN-/B+/B-/OUT+/OUT-. Change PROG for 100-150 mA charge
+A,BT1 / BT2,18650 Li-ion cell,2,,Matched type/age/capacity/state of charge; 1S2P; or one protected 1S2P pack
+A,-,Insulated 2-cell parallel holder,1,,No soldering to bare cell cans
+A,FB1 / FB2,1 A fuse and holder,2,,One per cell positive lead before the parallel junction
+A,F2,1 A fuse and holder,1,,In series after M1 OUT+
+A,S1,SPST service switch,1,,After F2; breaks the protected rail
+B,M2,ATmega328P Pro Mini-class board (reference: BTE13-010A),1,,Remove regulator and power LED; set fuses for internal 8 MHz; flashed over ISP
+B,C3,100 uF electrolytic 10 V,1,,Across M2 VCC/GND
+B,C4,100 nF ceramic,1,,Across M2 VCC/GND
+C,R3,47 ohm 1/4 W resistor,1,,At the controller end of the LED cable; 56 ohm if current exceeds 22 mA at 4.20 V
+C,JLED,Low-power LED string,1,,About 2.5-3 V forward and 20 mA or less in total; driven directly by PWM from D9
+D,LDR1,Light-dependent resistor,1,,Shade it from the LEDs; must see the sky
+D,R4,47 kohm resistor,1,,LDR divider lower resistor (A1 to OUT-)
+D,SW1,Momentary push button (normally open),1,,D2 to OUT-; 60 s test
+E,M3,Wemos D1 Mini (ESP8266),1,,Telemetry tiers 1 and 2
+E,U3,TPS63802 3.3 V buck-boost breakout (e.g. HL802A),1,,VIN from VBAT_SYS; OUT to D1 3V3 in Tier 2 only
+E,C2,470 uF electrolytic 10 V,1,,At U3 input
+E,Q2,2N3904 NPN transistor (or BC547-BC550),1,,Serial inverter and level shifter; check the E-B-C pin order of your part
+E,R8,47 kohm resistor,1,,Controller D1/TX to Q2 base
+E,R9,100 kohm resistor,1,,Q2 base to emitter (OUT-)
+E,R10,10 kohm resistor,1,,Q2 collector to D1 Mini 3V3; collector also to D6
+E,R5,220 kohm resistor,1,,VBAT_SYS to D1 Mini A0
+F,-,Weatherproof enclosure with cable glands,1,,Shaded; cells separated from heat; antenna clear of metal and cells
+F,-,Perfboard or stripboard carrier,1,,Socket every module
+F,-,Female headers and screw terminals,-,,Keep modules replaceable
+Tools,-,USBasp programmer (or Arduino Uno/Nano as ISP),1,,One-time fuses and every firmware update
+Tools,-,Current-limited bench supply,1,,Controller and LED tests without a battery
+Tools,-,Multimeter,1,,Every commissioning gate

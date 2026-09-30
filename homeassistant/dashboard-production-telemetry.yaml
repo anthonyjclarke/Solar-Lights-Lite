@@ -1,0 +1,143 @@
+# Solar Lights Lite – Tier 2 Production Telemetry dashboard.
+#
+# Import through Home Assistant: Settings -> Dashboards -> Add dashboard, open
+# it, then Edit dashboard -> Raw configuration editor, and paste this file.
+# Built-in cards only. Entity IDs assume the ESPHome device name `solar-lights`
+# (firmware/esphome/solar-lights-production-telemetry.yaml) and the helper from
+# homeassistant/solar_lights_package.yaml.
+#
+# The D1 Mini reports once an hour, so values are up to an hour old. Long-term
+# graphs are the useful view: watch for a battery that ends each night lower
+# than the one before.
+
+title: Solar Lights
+views:
+  - title: Solar Lights
+    path: solar-lights
+    icon: mdi:solar-power-variant-outline
+    type: sections
+    max_columns: 3
+    badges:
+      - type: entity
+        entity: binary_sensor.solar_lights_arduino_lights_commanded
+        name: Lights
+        show_name: true
+        show_state: true
+        show_icon: true
+      - type: entity
+        entity: sensor.solar_lights_arduino_mode
+        name: Mode
+        show_name: true
+        show_state: true
+        show_icon: true
+        icon: mdi:state-machine
+      - type: entity
+        entity: sensor.solar_lights_battery_voltage
+        name: Battery
+        show_name: true
+        show_state: true
+        show_icon: true
+    sections:
+      - type: grid
+        cards:
+          - type: heading
+            heading: Now
+            icon: mdi:battery-charging
+          - type: gauge
+            entity: sensor.solar_lights_battery_voltage
+            name: Battery
+            needle: true
+            min: 3.2
+            max: 4.25
+            severity:
+              red: 3.2
+              yellow: 3.5
+              green: 3.7
+            grid_options:
+              columns: 6
+          - type: gauge
+            entity: sensor.solar_lights_arduino_light_duty
+            name: Light output
+            needle: true
+            min: 0
+            max: 100
+            grid_options:
+              columns: 6
+          - type: tile
+            entity: sensor.solar_lights_battery_level
+            name: Battery estimate
+            icon: mdi:battery
+            grid_options:
+              columns: 6
+          - type: tile
+            entity: sensor.solar_lights_arduino_battery_band
+            name: Battery band
+            icon: mdi:battery-heart-variant
+            grid_options:
+              columns: 6
+          - type: tile
+            entity: sensor.solar_lights_arduino_output_cause
+            name: Output cause
+            icon: mdi:lightbulb-auto-outline
+            grid_options:
+              columns: 6
+          - type: tile
+            entity: sensor.solar_lights_arduino_light_sense
+            name: Light sense
+            icon: mdi:theme-light-dark
+            grid_options:
+              columns: 6
+      - type: grid
+        column_span: 2
+        cards:
+          - type: heading
+            heading: Last 7 days
+            icon: mdi:chart-timeline-variant
+          - type: history-graph
+            title: Battery
+            hours_to_show: 168
+            entities:
+              - entity: sensor.solar_lights_battery_voltage
+                name: Battery V
+              - entity: sensor.solar_lights_arduino_vdd
+                name: Controller VDD
+            grid_options:
+              columns: full
+          - type: history-graph
+            title: Lights and daylight
+            hours_to_show: 168
+            entities:
+              - entity: binary_sensor.solar_lights_arduino_lights_commanded
+                name: Lights
+              - entity: sensor.solar_lights_arduino_ldr
+                name: LDR %
+            grid_options:
+              columns: full
+      - type: grid
+        cards:
+          - type: heading
+            heading: Maintenance
+            icon: mdi:tools
+          - type: tile
+            entity: input_boolean.solar_lights_ota
+            name: Stay awake for OTA
+            icon: mdi:cellphone-arrow-down
+            grid_options:
+              columns: 12
+          - type: entities
+            show_header_toggle: false
+            grid_options:
+              columns: 12
+            entities:
+              - entity: sensor.solar_lights_arduino_firmware
+                name: Controller firmware
+                icon: mdi:chip
+              - entity: sensor.solar_lights_d1_wifi_signal
+                name: Wi-Fi signal
+              - entity: binary_sensor.solar_lights_arduino_diagnostics_fresh
+                name: Controller line received at last wake
+          - type: markdown
+            title: Last controller report
+            content: '{{ states(''sensor.solar_lights_arduino_diagnostic_line'') }}'
+            grid_options:
+              columns: 12

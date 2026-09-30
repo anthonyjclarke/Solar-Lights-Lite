@@ -1,0 +1,70 @@
+# Solar Lights Lite – Home Assistant package
+#
+# Adds the OTA helper that the Tier 2 (production) ESPHome profile reads, plus
+# three example automations. Works with either telemetry tier.
+#
+# Install:
+#   1. In configuration.yaml, enable packages (once per Home Assistant install):
+#        homeassistant:
+#          packages: !include_dir_named packages
+#   2. Copy this file to /config/packages/solar_lights_package.yaml.
+#   3. Developer tools -> YAML -> Check configuration, then restart.
+#
+# Entity IDs assume the ESPHome device name `solar-lights`.
+# Notifications use persistent_notification so no phone app is needed; swap in
+# notify.mobile_app_<your_phone> if you prefer push messages.
+
+input_boolean:
+  solar_lights_ota:
+    name: Solar Lights stay awake for OTA
+    icon: mdi:cellphone-arrow-down
+
+automation:
+  - id: solar_lights_battery_low
+    alias: "Solar Lights: battery low"
+    description: Battery below the controller's low-battery dimming threshold.
+    triggers:
+      - trigger: numeric_state
+        entity_id: sensor.solar_lights_battery_voltage
+        below: 3.45
+    actions:
+      - action: persistent_notification.create
+        data:
+          notification_id: solar_lights_battery_low
+          title: Solar Lights battery low
+          message: >-
+            Battery {{ states('sensor.solar_lights_battery_voltage') }} V. The
+            controller halves night brightness below 3.45 V and switches the
+            lights off below 3.30 V. Check the panel for shade or dirt.
+
+  - id: solar_lights_cutoff
+    alias: "Solar Lights: low-voltage cut-off"
+    description: The controller has switched the lights off to protect the battery.
+    triggers:
+      - trigger: state
+        entity_id: sensor.solar_lights_arduino_mode
+        to: "LVC"
+    actions:
+      - action: persistent_notification.create
+        data:
+          notification_id: solar_lights_cutoff
+          title: Solar Lights cut-off
+          message: >-
+            Low-voltage cut-off is active. Lights stay off until the battery
+            recovers above 3.60 V in daylight.
+
+  - id: solar_lights_reports_stopped
+    alias: "Solar Lights: reports stopped"
+    description: No new controller report for three hours (both tiers report far more often).
+    triggers:
+      - trigger: state
+        entity_id: sensor.solar_lights_arduino_diagnostic_line
+        for: "03:00:00"
+    actions:
+      - action: persistent_notification.create
+        data:
+          notification_id: solar_lights_reports_stopped
+          title: Solar Lights reports stopped
+          message: >-
+            No controller report for three hours. Check the D1 Mini power,
+            Wi-Fi, and the Q2 link to the controller.

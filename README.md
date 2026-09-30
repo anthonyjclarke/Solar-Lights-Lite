@@ -1,136 +1,169 @@
 # Solar Lights Lite
 
-![version: v0.5.0](https://img.shields.io/badge/version-v0.5.0-0072B2?style=for-the-badge)
-![platform: ATmega328P](https://img.shields.io/badge/platform-ATmega328P-4E9A06?style=for-the-badge)
-![PlatformIO: 6.x](https://img.shields.io/badge/PlatformIO-6.x-F5822A?style=for-the-badge)
-![status: active bench development](https://img.shields.io/badge/status-active%20bench%20development-008572?style=for-the-badge)
+![version: 0.6.0](https://img.shields.io/badge/version-0.6.0-0072B2?style=for-the-badge)
+![controller: ATmega328P](https://img.shields.io/badge/controller-ATmega328P-4E9A06?style=for-the-badge)
+![telemetry: ESPHome](https://img.shields.io/badge/telemetry-ESPHome-18BCF2?style=for-the-badge)
+![status: field validation](https://img.shields.io/badge/status-field%20validation-008572?style=for-the-badge)
 
-![Solar Lights Lite hero: a solar panel, compact control electronics, and warm garden light at dusk](SolarLights_Lite/docs/images/solar-lights-lite-hero.png)
+![A solar panel, compact control electronics and warm garden light at dusk](docs/images/solar-lights-lite-hero.png)
 
-Solar Lights Lite is a low-power rebuild of a small solar garden-light system. It
-keeps the useful parts of the original setup—a 1.2 W panel, protected
-TP4056-family charger, LED string, and a Pro Mini-sized controller—while replacing
-assumptions with documented wiring, measured limits, staged tests, and a more
-efficient dusk-to-dawn control strategy.
+Solar Lights Lite is a modular, low-power solar lighting system you build
+yourself from common hobby modules. A small panel charges a protected Li-ion
+battery; an ATmega328P controller sleeps most of the time, detects dusk with a
+light sensor, and runs a **low-power LED string** from dusk to dawn. An
+optional Wemos D1 Mini reports everything to Home Assistant.
 
-## Why?
+It is also a learning project. Each module – power, controller, lighting,
+sensor, telemetry – is built and tested on its own, so along the way you
+practise soldering and SMD rework, read datasheets, program an AVR over ISP,
+write low-power embedded C++, parse a serial protocol in ESPHome, and build
+Home Assistant dashboards and automations.
 
-<img src="SolarLights_Lite/docs/images/why-reuse.png" width="480" alt="A solar panel, garden lights, battery cell, microcontroller, and reused electronic parts on a workbench.">
+---
 
-This project is about reuse, repurposing, and seeing what can be made from the
-small mountain of parts already on hand.
+## Low-power lights only
 
-Over the years I have collected solar panels, outdoor light strings, pond pumps,
-electronic components, and a respectable quantity of AliExpress purchases that
-seemed essential at the time. Some projects were started, some are half-finished,
-and some remain proudly theoretical.
+The controller drives the LED string **directly by PWM from pin D9** through a
+47 Ω resistor. There is no driver transistor, so the whole string must run at
+20 mA or less from a 3–4.2 V supply. Small low-power LED strings are ideal;
+mains lights, 12 V garden lights and conventional or legacy fittings cannot be
+used. The resistor sets the current and PWM sets the brightness. Brighter
+lighting needs a driver stage: see [Going further](docs/12-going-further.md).
 
-Rather than buying another ready-made solution, this is an excuse to put useful
-bits back to work, learn along the way, and turn a few neglected components into
-something practical.
-
-There is also a longer-running interest behind it: electronics, embedded systems,
-batteries, low-power devices, programming, and figuring out why things do or do
-not work. I originally qualified in electronics and engineering, and have been
-programming since writing games for the Oric, C16, and C64 in 6502 assembler.
-
-Home Assistant is already part of the household, so there is a natural temptation
-to connect, measure, automate, and possibly overthink things. AI tools such as
-ChatGPT and Claude are part of the process too: useful for learning, checking
-assumptions, troubleshooting, and moving a project along when the manual has
-vanished or was translated from another planet.
-
-Could this be cheaper? Simpler? Less engineered?
-
-Almost certainly.
-
-But I am retired, curious, have the time, and intend to have some fun.
-
-If that sounds reasonable, read on.
-
-### A note on reclaimed vape batteries
-
-Reclaimed vape batteries deserve extra care. They may be usable, but their
-history, condition, chemistry, protection, and suitability are not always known.
-
-I have used reclaimed vape cells with a TP4056-based charger without problems,
-but that is personal experience, not a safety guarantee or a recommendation. Do
-your own research, inspect and test cells appropriately, and make your own safe
-decisions. If there is any doubt, use known, purpose-bought rechargeable batteries
-instead.
-
-This is an open engineering project for careful bench development. It is **not yet
-approved for unattended outdoor use, PCB fabrication, or assembly without the
-qualification steps in the build guide**.
-
-## What it does
-
-- Senses ambient light and turns the LED string on at dusk.
-- Runs the measured LED string directly from the controller through a current-limiting resistor.
-- Protects the battery by dimming at low voltage and shutting the light off at a confirmed low-voltage threshold.
-- Supports a no-purchase D1 Mini development telemetry profile that captures the
-  controller's serial diagnostics in Home Assistant, plus a separate low-power
-  D1 Mini production-reference profile.
-- Uses a staged assembly process so each supply, charging, controller, lighting, and telemetry function can be tested independently.
+---
 
 ## System at a glance
 
 ```mermaid
 flowchart LR
-    PV[Solar panel] --> REG[5 V input regulator - open item]
-    REG --> CHG[Protected TP4056-family charger]
-    CHG --> BAT[1S2P Li-ion battery pack]
-    BAT --> MCU[ATmega328P controller]
-    MCU --> LDR[Switched LDR]
-    MCU --> LED[R3 current limiter + LED string]
-    BAT -. optional .-> TEL[3.3 V supply + D1 Mini telemetry]
-    TEL -. reports .-> HA[Home Assistant]
+    PV[Solar panel] --> CHG[Protected Li-ion charger]
+    CHG --> BAT[1S2P 18650 battery]
+    CHG --> MCU[ATmega328P controller]
+    MCU --> LDR[Light sensor]
+    MCU -- PWM --> LED[Low-power LED string]
+    MCU -. serial .-> D1[D1 Mini telemetry]
+    D1 -. Wi-Fi .-> HA[Home Assistant]
 ```
 
-## Core components
+| Module | What it does                       | Build guide                               |
+| :----- | :--------------------------------- | :---------------------------------------- |
+| A      | Panel, charger, fused 1S2P battery | [Power](docs/03-build-power.md)           |
+| B      | ATmega328P controller at 8 MHz     | [Controller](docs/04-build-controller.md) |
+| C      | Low-power LED string on D9         | [Lighting](docs/05-build-lighting.md)     |
+| D      | Light sensor and test button       | [Sensor](docs/06-build-sensor.md)         |
+| E      | D1 Mini telemetry (optional)       | [Telemetry](docs/07-build-telemetry.md)   |
+| F      | Enclosure and final assembly       | [Commissioning](docs/10-commissioning.md) |
 
-| Area | Current approach | Why it matters |
-|---|---|---|
-| Solar input | Panel plus a 5 V input regulator (U0 is an open item; the bench uses a 5 V panel direct) | The panel's open-circuit voltage must be conditioned before it reaches the charger. |
-| Charging and storage | Protected TP4056-family module and matched 1S2P 18650 pack | Charging current, protection topology, temperature behaviour, and cell condition require verification. |
-| Controller | BTE13-010A / ATmega328P Pro Mini-class board | Runs at verified internal 8 MHz and handles LDR, button, battery monitoring, and LED control. |
-| Lighting | LED string driven from D9 through R3 = 47 ohm | Bench measurement indicated about 15 mA at 3.7 V; the resistor, not PWM alone, sets branch current. |
-| Telemetry | Existing D1 Mini, TPS63802 3.3 V supply from the battery (bench D1 runs on micro-USB), and reused Q2 interface | Always-on development profile captures controller UART diagnostics; a separate profile returns to hourly deep sleep for production measurement. |
+### Telemetry tiers
 
-![Assembly placement proposal](SolarLights_Lite/docs/sheet-4.png)
+| Tier | Name                 | Role                               |
+| :--- | :------------------- | :--------------------------------- |
+| 0    | Standalone           | Lights only, no Wi-Fi              |
+| 1    | Advanced Telemetry   | Always-on commissioning instrument |
+| 2    | Production Telemetry | Hourly battery-powered reporting   |
 
-## Start here
+**Advanced Telemetry is the road to a finished installation.** While you build,
+calibrate and soak-test, it shows every decision the controller makes in Home
+Assistant. When the system passes its acceptance gates, you reflash both boards
+and move the D1 Mini to battery power for low-power production reporting. The
+wiring stays the same.
 
-1. Read the [build guide](SolarLights_Lite/docs/BUILD_GUIDE.md) before wiring anything.
-2. Use the [illustrated assembly guide](SolarLights_Lite/docs/ASSEMBLY.html) for the power, controller, D1 Mini development telemetry, production-reference telemetry, and enclosure drawings.
-3. Follow the [validation report](SolarLights_Lite/docs/VALIDATION.md) and its acceptance gates. It records both what has been demonstrated and what remains open.
-4. Compile, upload and monitor only through the canonical [firmware programming procedure](SolarLights_Lite/firmware/lite_controller/PROGRAMMING.md).
-5. Use the [parts list](SolarLights_Lite/docs/SolarLights_Lite_Parts_List.csv), [wire schedule](SolarLights_Lite/docs/wire-schedule.csv), and [reviewed terminal netlist](SolarLights_Lite/docs/reviewed-netlist.json) at the bench.
+---
 
-For concise current context, use [architecture](SolarLights_Lite/docs/ARCHITECTURE.md),
-[hardware](SolarLights_Lite/docs/HARDWARE.md),
-[design decisions](SolarLights_Lite/docs/DESIGN_DECISIONS.md),
-[development](SolarLights_Lite/docs/DEVELOPMENT.md),
-[testing](SolarLights_Lite/docs/TESTING.md), and
-[roadmap](SolarLights_Lite/docs/ROADMAP.md).
+## What you need
 
-## Repository guide
+- The parts for each module: [parts, tools, skills and safety](docs/02-parts-and-tools.md)
+  and the checklist [`docs/parts-list.csv`](docs/parts-list.csv).
+- A soldering iron, a multimeter and a **current-limited bench supply**.
+- A USBasp programmer (or a spare Arduino Uno/Nano as ISP).
+- A computer with [PlatformIO](https://platformio.org/) and a standalone
+  [avrdude](https://github.com/avrdudes/avrdude) 7.x.
+- For telemetry: Home Assistant with ESPHome.
 
-| Location | Contents |
-|---|---|
-| [`SolarLights_Lite/docs/`](SolarLights_Lite/docs/) | Current assembly, component and validation documentation. |
-| [`SolarLights_Lite/firmware/`](SolarLights_Lite/firmware/) | ATmega328P controller source, canonical programming procedure and optional ESPHome configuration. |
-| [`SolarLights_Lite/kicad_current/`](SolarLights_Lite/kicad_current/) | Current-build KiCad reference for the direct-drive LED branch. |
-| [`SolarLights_Lite/kicad/`](SolarLights_Lite/kicad/) | Frozen Rev 0.3 audit baseline; do not fabricate from it. |
-| [`SolarLights_Lite/validation/`](SolarLights_Lite/validation/) | Test records, measurements, historical baselines, and captured tool output. |
-| [`output/pdf/`](output/pdf/) | Printable A3 drawings and bench-reference sheets. |
-| [`_archive/`](./_archive/) and [`v1_reference/`](./v1_reference/) | Superseded and original source material retained for traceability. |
+---
 
-## Project status
+## Build path
 
-The controller firmware and direct-drive LED approach are documented and have
-recorded programming and measurement evidence. The final hardware still needs the
-specified regulator, charger, battery, thermal, weatherproofing, and multi-day
-energy tests before it can be deployed outdoors.
+The docs are organised by module; build in this order, passing each
+commissioning gate before moving on:
 
-See [CHANGELOG.md](CHANGELOG.md) for dated milestones and release history.
+1. Read the [design overview](docs/01-design-overview.md), including the
+   known limitations.
+2. Prepare the controller, set its fuses and flash the `advanced` firmware:
+   [controller](docs/04-build-controller.md), [firmware](docs/08-firmware.md).
+3. Add the [LED string](docs/05-build-lighting.md) and the
+   [sensor and button](docs/06-build-sensor.md); pass Gates 1, 3 and 4 on a
+   bench supply.
+4. Build and qualify the [power module](docs/03-build-power.md): Gates 2, 5
+   and 6.
+5. Add [telemetry hardware](docs/07-build-telemetry.md) and set up
+   [Home Assistant](docs/09-home-assistant.md) in Tier 1.
+6. Assemble the enclosure and run the 14-day soak (Gate 7), then switch to
+   production (Gate 8): [commissioning](docs/10-commissioning.md).
+7. Live with it: [operation and maintenance](docs/11-operation.md).
+
+For a visual review of everything on one page – every guide with its drawings
+inline, plus the wire schedule and parts checklist – open
+[`docs/ASSEMBLY.html`](docs/ASSEMBLY.html) in a browser (download or clone the
+repository first; GitHub shows HTML as source). Printable A3 drawings for every
+module are in
+[`docs/drawings/SolarLights_Lite_Drawings.pdf`](docs/drawings/SolarLights_Lite_Drawings.pdf).
+
+---
+
+## Repository map
+
+| Path                   | Contents                                      |
+| :--------------------- | :-------------------------------------------- |
+| `docs/`                | Guides 01–12 and the one-page `ASSEMBLY.html` |
+| `docs/drawings/`       | A3 sheets, pin map, USBasp and bench sheets   |
+| `docs/reference/`      | Board photos, datasheet, LED characterisation |
+| `firmware/controller/` | ATmega328P firmware and host tests            |
+| `firmware/esphome/`    | D1 Mini profiles: Advanced and Production     |
+| `homeassistant/`       | HA package and dashboards                     |
+| `hardware/kicad/`      | KiCad schematic of the complete system        |
+| `tools/`               | Drawing and wiring-data generators            |
+
+---
+
+## Status
+
+Version 0.6.0 is a complete build and operate package. The reference system is
+built and running with Advanced Telemetry; the 14-day soak, charger and panel
+qualification, and the Tier 2 switch-over (Gates 5–8) are the remaining steps
+before 1.0. See [`CHANGELOG.md`](CHANGELOG.md).
+
+This is a hobby design, not a certified product. Read the
+[safety notes](docs/02-parts-and-tools.md#safety) and the
+[known limitations](docs/01-design-overview.md#known-limitations) before
+leaving it unattended outdoors.
+
+---
+
+## Why build it?
+
+<img src="docs/images/why-reuse.png" width="420" alt="A solar panel, garden lights, battery cell, microcontroller and reused parts on a workbench.">
+
+This project started with a drawer of solar panels, light strings, charger
+modules and microcontroller boards bought for projects that never quite
+happened. Rather than buy another ready-made solar light, the aim was to put
+those parts back to work, and to understand every part of the result: why a
+charger needs its current set, why a microcontroller should run at 8 MHz on a
+lithium cell, how little current a well-sleeping circuit can draw, and how to
+watch it all from Home Assistant. AI assistants helped along the way as a
+second opinion and a patient explainer.
+
+Could it be cheaper, simpler, or less engineered? Almost certainly. But it is
+a good excuse to learn, and good fun to build.
+
+---
+
+## Licence
+
+Solar Lights Lite is dedicated to the public domain under
+[CC0 1.0](LICENSE): firmware, ESPHome and Home Assistant configuration, tools,
+documentation, drawings and schematics. Copy, modify, build and share it for
+any purpose, without asking and without attribution.
+
+The one exception is the third-party TPS63802 datasheet in `docs/reference/`,
+which remains the property of its publisher and is included for reference.

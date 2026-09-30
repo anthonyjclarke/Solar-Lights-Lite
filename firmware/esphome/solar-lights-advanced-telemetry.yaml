@@ -1,0 +1,327 @@
+# Solar Lights Lite – Tier 1: Advanced Telemetry (always-on Wemos D1 Mini)
+#
+# The commissioning instrument. The D1 Mini stays awake and decodes every
+# diagnostic line from the controller's `advanced` firmware build into Home
+# Assistant, so you can build, calibrate and soak-test the system without a USB
+# cable on the controller. It is deliberately NOT part of the battery budget:
+# in this tier the D1 Mini is powered from its own micro-USB, with U3 OUT
+# disconnected from its 3V3 pin (never connect both).
+#
+# Wiring (same harness as Tier 2): controller D1/TX -> R8 47k -> Q2 2N3904 base;
+# R9 100k base to OUT-; emitter to OUT-; collector -> D1 Mini D6 with R10 10k to
+# 3V3. Q2 inverts and level-shifts the 9600-baud serial, hence `inverted: true`.
+# D1 Mini TX is never connected to the controller. Battery sense: VBAT_SYS ->
+# R5 220k -> A0. Common ground: D1 Mini G to OUT- (never B-).
+#
+# Device name: entity IDs are `*.solar_lights_*` and match
+# homeassistant/dashboard-advanced-telemetry.yaml. Keep the same name and
+# encryption key in the Tier 2 profile so Home Assistant history carries over.
+#
+# Required secrets: wifi_ssid, wifi_password, esphome_encryption_key,
+# ota_password, ap_password. See docs/09-home-assistant.md.
+
+substitutions:
+  name: solar-lights
+  friendly: Solar Lights
+
+esphome:
+  name: ${name}
+  friendly_name: ${friendly}
+  min_version: 2024.11.0
+
+esp8266:
+  board: d1_mini
+
+logger:
+  level: WARN
+
+debug:
+  update_interval: 30s     # feeds the reset-reason and heap sensors
+
+wifi:
+  ssid: !secret wifi_ssid
+  password: !secret wifi_password
+  fast_connect: true
+  power_save_mode: none
+  reboot_timeout: 0s       # keep capturing controller data while Wi-Fi is down
+  ap:
+    ssid: "${name}-fallback"
+    password: !secret ap_password
+
+captive_portal:
+
+web_server:
+  port: 80
+
+api:
+  encryption:
+    key: !secret esphome_encryption_key
+  reboot_timeout: 0s       # keep capturing controller data while Home Assistant is down
+
+ota:
+  - platform: esphome
+    password: !secret ota_password
+
+globals:
+  - id: last_arduino_report_ms
+    type: uint32_t
+    restore_value: no
+    initial_value: '0'
+
+uart:
+  id: arduino_diagnostics
+  # ESP8266 software UART is ample for the controller's rate-limited 9600-baud lines.
+  rx_pin:
+    number: D6
+    inverted: true
+  baud_rate: 9600
+  rx_buffer_size: 512
+  debug:
+    direction: RX
+    dummy_receiver: true
+    after:
+      bytes: 256           # a full advanced line is ~200 characters
+      timeout: 500ms
+      delimiter: "\n"
+    sequence:
+      - lambda: |-
+          // Trim control/idle bytes from both ends (the link idles in a break
+          // state between production lines), then reject anything corrupted:
+          // non-printable text makes Home Assistant drop the API connection.
+          std::string line(bytes.begin(), bytes.end());
+          auto printable = [](unsigned char c) { return c >= 0x20 && c <= 0x7E; };
+          while (!line.empty() && !printable(line.front())) line.erase(0, 1);
+          while (!line.empty() && !printable(line.back())) line.pop_back();
+          if (line.empty()) return;
+          for (unsigned char c : line) {
+            if (!printable(c)) {
+              ESP_LOGW("arduino", "Dropped corrupted UART line (%u bytes)", (unsigned) line.size());
+              return;
+            }
+          }
+          // Every telemetry line starts with fw=; the reset field guide does not.
+          if (line.rfind("fw=", 0) != 0) return;
+          id(last_arduino_report_ms) = millis();
+          id(arduino_diagnostic_line).publish_state(line.c_str());
+
+          auto number_of = [&](const char *key, float *result) -> bool {
+            const std::string needle = " " + std::string(key) + "=";
+            const size_t position = (" " + line).find(needle);
+            if (position == std::string::npos) return false;
+            const char *start = line.c_str() + position + needle.size() - 1;
+            char *end = nullptr;
+            const float value = strtof(start, &end);
+            if (end == start) return false;
+            *result = value;
+            return true;
+          };
+          auto word_of = [&](const char *key) -> std::string {
+            const std::string needle = " " + std::string(key) + "=";
+            const size_t position = (" " + line).find(needle);
+            if (position == std::string::npos) return "";
+            const size_t start = position + needle.size() - 1;
+            const size_t end = line.find(' ', start);
+            return line.substr(start, end == std::string::npos ? std::string::npos : end - start);
+          };
+
+          float value = 0.0f;
+          if (number_of("time", &value)) id(arduino_scheduler_time_s).publish_state(value);
+          if (number_of("vdd", &value)) id(arduino_vdd).publish_state(value);
+          if (number_of("ldr", &value)) id(arduino_ldr_percent).publish_state(value);
+          if (number_of("raw", &value)) id(arduino_ldr_raw).publish_state(value);
+          if (number_of("ldr_v", &value)) id(arduino_ldr_voltage).publish_state(value);
+          if (number_of("output", &value)) id(arduino_light_duty).publish_state(value);
+          if (number_of("lvc", &value)) id(arduino_lvc_elapsed_s).publish_state(value);
+          if (number_of("button", &value)) id(arduino_button_remaining_s).publish_state(value);
+
+          const std::string fw = word_of("fw");
+          const std::string battery = word_of("battery");
+          const std::string sense = word_of("sense");
+          const std::string mode = word_of("mode");
+          const std::string night = word_of("night");
+          const std::string cause = word_of("cause");
+          // confirm= carries a space ("DUSK 40/300s"), so read up to the next key.
+          std::string confirm;
+          const size_t at = line.find(" confirm=");
+          if (at != std::string::npos) {
+            const size_t start = at + 9;
+            const size_t stop = line.find(" lvc=", start);
+            confirm = line.substr(start, stop == std::string::npos ? std::string::npos : stop - start);
+          }
+          if (!fw.empty()) id(arduino_firmware).publish_state(fw.c_str());
+          if (!battery.empty()) id(arduino_battery_band).publish_state(battery.c_str());
+          if (!sense.empty()) id(arduino_light_sense).publish_state(sense.c_str());
+          if (!mode.empty()) id(arduino_mode).publish_state(mode.c_str());
+          if (!night.empty()) id(arduino_night).publish_state(night.c_str());
+          if (!cause.empty()) id(arduino_output_cause).publish_state(cause.c_str());
+          if (!confirm.empty()) id(arduino_transition_confirmation).publish_state(confirm.c_str());
+
+text_sensor:
+  - platform: template
+    id: arduino_diagnostic_line
+    name: "Arduino Diagnostic Line"
+    entity_category: diagnostic
+  - platform: template
+    id: arduino_firmware
+    name: "Arduino Firmware"
+    entity_category: diagnostic
+  - platform: template
+    id: arduino_battery_band
+    name: "Arduino Battery Band"
+  - platform: template
+    id: arduino_light_sense
+    name: "Arduino Light Sense"
+  - platform: template
+    id: arduino_mode
+    name: "Arduino Mode"
+  - platform: template
+    id: arduino_night
+    name: "Arduino Night"
+  - platform: template
+    id: arduino_output_cause
+    name: "Arduino Output Cause"
+  - platform: template
+    id: arduino_transition_confirmation
+    name: "Arduino Transition Confirmation"
+    entity_category: diagnostic
+  - platform: debug
+    reset_reason:
+      name: "D1 Reset Reason"
+      entity_category: diagnostic
+  - platform: version
+    name: "D1 ESPHome Version"
+    entity_category: diagnostic
+  - platform: wifi_info
+    ip_address:
+      name: "D1 IP Address"
+      entity_category: diagnostic
+    ssid:
+      name: "D1 Connected SSID"
+      entity_category: diagnostic
+    bssid:
+      name: "D1 Connected BSSID"
+      entity_category: diagnostic
+
+binary_sensor:
+  - platform: status
+    name: "D1 Status"
+    device_class: connectivity
+    entity_category: diagnostic
+  - platform: template
+    name: "Arduino Diagnostics Fresh"
+    device_class: connectivity
+    entity_category: diagnostic
+    lambda: |-
+      return id(last_arduino_report_ms) != 0 &&
+             (uint32_t) (millis() - id(last_arduino_report_ms)) < 90000U;
+  - platform: template
+    name: "Arduino Lights Commanded"
+    device_class: light
+    lambda: |-
+      return !isnan(id(arduino_light_duty).state) && id(arduino_light_duty).state > 0.0f;
+
+sensor:
+  # VBAT_SYS -> R5 220k -> A0, plus the D1 Mini's onboard 220k/100k divider.
+  # Nominal multiplier 5.4; 5.21 is the reference build's calibrated value.
+  # Calibrate: new multiplier = old multiplier x meter volts / reported volts.
+  - platform: adc
+    id: battery_voltage
+    name: "Battery Voltage"
+    pin: A0
+    update_interval: 10s
+    samples: 16
+    accuracy_decimals: 2
+    unit_of_measurement: "V"
+    device_class: voltage
+    state_class: measurement
+    filters:
+      - multiply: 5.21
+  - platform: copy
+    source_id: battery_voltage
+    name: "Battery Level"
+    unit_of_measurement: "%"
+    device_class: battery
+    state_class: measurement
+    accuracy_decimals: 0
+    filters:
+      # Resting-voltage estimate for a Li-ion cell, not coulomb counting.
+      - lambda: |-
+          const float v[] = {3.30, 3.50, 3.60, 3.70, 3.80, 3.90, 4.00, 4.10, 4.20};
+          const float p[] = {   0,    5,   15,   40,   60,   75,   85,   95,  100};
+          if (x <= v[0]) return 0.0f;
+          for (int i = 1; i < 9; i++)
+            if (x <= v[i]) return p[i-1] + (x - v[i-1]) * (p[i] - p[i-1]) / (v[i] - v[i-1]);
+          return 100.0f;
+
+  - platform: template
+    id: arduino_scheduler_time_s
+    name: "Arduino Scheduler Time"
+    unit_of_measurement: "s"
+    accuracy_decimals: 0
+    entity_category: diagnostic
+  - platform: template
+    id: arduino_vdd
+    name: "Arduino VDD"
+    unit_of_measurement: "V"
+    device_class: voltage
+    state_class: measurement
+    accuracy_decimals: 3
+  - platform: template
+    id: arduino_ldr_percent
+    name: "Arduino LDR"
+    unit_of_measurement: "%"
+    state_class: measurement
+    accuracy_decimals: 1
+  - platform: template
+    id: arduino_ldr_raw
+    name: "Arduino LDR Raw"
+    state_class: measurement
+    accuracy_decimals: 0
+    entity_category: diagnostic
+  - platform: template
+    id: arduino_ldr_voltage
+    name: "Arduino LDR Voltage"
+    unit_of_measurement: "V"
+    device_class: voltage
+    state_class: measurement
+    accuracy_decimals: 3
+    entity_category: diagnostic
+  - platform: template
+    id: arduino_light_duty
+    name: "Arduino Light Duty"
+    unit_of_measurement: "%"
+    state_class: measurement
+    accuracy_decimals: 0
+  - platform: template
+    id: arduino_lvc_elapsed_s
+    name: "Arduino LVC Elapsed"
+    unit_of_measurement: "s"
+    state_class: measurement
+    accuracy_decimals: 0
+    entity_category: diagnostic
+  - platform: template
+    id: arduino_button_remaining_s
+    name: "Arduino Button Test Remaining"
+    unit_of_measurement: "s"
+    state_class: measurement
+    accuracy_decimals: 0
+    entity_category: diagnostic
+  - platform: wifi_signal
+    name: "D1 WiFi Signal"
+    update_interval: 30s
+    entity_category: diagnostic
+  - platform: uptime
+    name: "D1 Uptime"
+    type: seconds
+    update_interval: 30s
+    entity_category: diagnostic
+  - platform: debug
+    free:
+      name: "D1 Heap Free"
+      entity_category: diagnostic
+    block:
+      name: "D1 Heap Largest Block"
+      entity_category: diagnostic
+    fragmentation:
+      name: "D1 Heap Fragmentation"
+      entity_category: diagnostic

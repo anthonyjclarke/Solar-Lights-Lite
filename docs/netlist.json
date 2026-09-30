@@ -1,0 +1,119 @@
+{
+  "revision": "0.6",
+  "scope": "External module terminals only; internal connections must be verified. Not a PCB netlist.",
+  "nets": {
+    "PV_POS": [
+      "PV1.+",
+      "U0.IN+"
+    ],
+    "PV_RETURN": [
+      "PV1.-",
+      "U0.IN-"
+    ],
+    "CHARGE_5V": [
+      "U0.OUT+",
+      "M1.IN+"
+    ],
+    "CHARGE_RETURN": [
+      "U0.OUT-",
+      "M1.IN-"
+    ],
+    "CELL1_POS": [
+      "BT1.+",
+      "FB1.1"
+    ],
+    "CELL2_POS": [
+      "BT2.+",
+      "FB2.1"
+    ],
+    "PACK_POS": [
+      "FB1.2",
+      "FB2.2",
+      "M1.B+"
+    ],
+    "PACK_NEG": [
+      "BT1.-",
+      "BT2.-",
+      "M1.B-"
+    ],
+    "PROTECTED_POS": [
+      "M1.OUT+",
+      "F2.1"
+    ],
+    "FUSED_POS": [
+      "F2.2",
+      "S1.1"
+    ],
+    "VBAT_SYS": [
+      "S1.2",
+      "M2.VCC",
+      "C3.+",
+      "C4.1",
+      "U3.VIN",
+      "C2.+",
+      "R5.1"
+    ],
+    "GND_LOAD": [
+      "M1.OUT-",
+      "M2.GND",
+      "C3.-",
+      "C4.2",
+      "JLED.-",
+      "R4.2",
+      "SW1.2",
+      "U3.GND",
+      "C2.-",
+      "M3.G",
+      "Q2.E",
+      "R9.2"
+    ],
+    "PWM": [
+      "M2.D9",
+      "R3.1"
+    ],
+    "LED_POS": [
+      "R3.2",
+      "JLED.+"
+    ],
+    "LDR_POWER": [
+      "M2.D7",
+      "LDR1.1"
+    ],
+    "LDR_SENSE": [
+      "LDR1.2",
+      "R4.1",
+      "M2.A1"
+    ],
+    "TEST": [
+      "M2.D2",
+      "SW1.1"
+    ],
+    "UART_TX": [
+      "M2.D1/TX",
+      "R8.1"
+    ],
+    "UART_BASE": [
+      "R8.2",
+      "R9.1",
+      "Q2.B"
+    ],
+    "UART_RX_INVERTED": [
+      "Q2.C",
+      "R10.2",
+      "M3.D6"
+    ],
+    "ESP_3V3": [
+      "U3.VOUT",
+      "M3.3V3",
+      "R10.1"
+    ],
+    "ADC_BATT": [
+      "R5.2",
+      "M3.A0"
+    ],
+    "WAKE": [
+      "M3.D0",
+      "M3.RST"
+    ]
+  }
+}

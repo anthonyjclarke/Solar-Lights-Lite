@@ -1,21 +1,22 @@
 # Solar Lights Lite
 
-Solar-charged garden-light controller. The active firmware targets the
-ATmega328P BTE13-010A/Pro Mini path at internal 8 MHz.
+Solar-charged dusk-to-dawn controller for a low-power LED string, with optional
+ESPHome telemetry. See `CLAUDE.md` for the hardware gotchas and rules, and
+`docs/01-design-overview.md` for the design.
 
-- PlatformIO: `atmelavr`, Arduino, `pro8` and `pro8_debug`; firmware lives in
-  `SolarLights_Lite/firmware/lite_controller/`. It uses Arduino plus AVR sleep,
-  watchdog, power, and delay headers; no external PlatformIO libraries are set.
-- Keep the existing small C++/Arduino style: fixed-width types, named pin and
-  threshold constants, comments for electrical constraints, and hardware-free
-  scheduler logic in `include/schedule.h` for host tests.
-- Write human-readable dates as `dd-mmm-yyyy` (for example, `27-Sep-2026`).
-  Preserve formats emitted by tools in captured or generated evidence, such as
-  ERC timestamps and exported netlists.
-- Never touch or commit `secrets.h`, credentials, `.env` files, `.pio/`, or
-  editor/build output. Preserve user changes outside the requested scope.
+- Controller firmware: `firmware/controller/` (PlatformIO, `atmelavr`, Arduino
+  framework, board `pro8MHzatmega328`; environments `standalone`, `production`,
+  `advanced`). It uses Arduino plus AVR sleep, watchdog, power and delay
+  headers; no external libraries.
+- Keep the small C++/Arduino style: fixed-width types, `constexpr` settings in
+  `include/config.h`, comments for electrical constraints, and hardware-free
+  scheduler logic in `include/schedule.h` so `test_host/regression.cpp` can
+  run it.
+- ESPHome profiles in `firmware/esphome/` parse the controller's `key=value`
+  telemetry line; change the firmware and both profiles together.
+- Write human-readable dates as `dd-mmm-yyyy`. Preserve formats emitted by
+  tools in generated files.
+- Never touch or commit `secrets.h`, `secrets.yaml`, credentials, `.env`
+  files, `.pio/`, `.esphome/` or build output. Preserve user changes outside
+  the requested scope.
 - Never commit or push without explicit instruction.
-
-Use [architecture](SolarLights_Lite/docs/ARCHITECTURE.md),
-[hardware](SolarLights_Lite/docs/HARDWARE.md), and
-[design decisions](SolarLights_Lite/docs/DESIGN_DECISIONS.md) for project context.
