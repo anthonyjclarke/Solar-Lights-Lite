@@ -120,7 +120,9 @@ does not change. See [09 – Home Assistant](09-home-assistant.md).
 - **ATmega328P at internal 8 MHz.** A 16 MHz ATmega328P is outside its rated
   operating area below about 3.8 V, which a discharging Li-ion cell reaches
   every night. At 8 MHz it is rated down to 2.7 V. The internal oscillator
-  also removes any dependency on the board's crystal.
+  also removes any dependency on the board's crystal. The common 5 V/16 MHz
+  Pro Mini is therefore fine to buy: its fuses are reset to internal 8 MHz
+  ([04 – Controller](04-build-controller.md#why-the-controller-runs-at-8-mhz)).
 - **No voltage regulator for the controller.** The Pro Mini runs straight from
   the protected battery rail (2.7–4.2 V is within its range), so its regulator
   and power LED are removed to eliminate their standby current.

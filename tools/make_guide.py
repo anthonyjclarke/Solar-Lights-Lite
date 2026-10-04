@@ -65,6 +65,7 @@ def render(path, num):
     # headings one level down, ids prefixed per document so they stay unique
     text = re.sub(r'<(/?)h([1-5])', lambda m: f'<{m.group(1)}h{int(m.group(2)) + 1}', text)
     text = re.sub(r'id="([^"]+)"', lambda m: f'id="d{num}-{m.group(1)}"', text)
+    text = re.sub(r'href="#([^"]+)"', lambda m: f'href="#d{num}-{m.group(1)}"', text)
     # links between the numbered docs become in-page anchors
     text = re.sub(r'href="(\d\d)-[\w-]+\.md(?:#([^"]+))?"',
                   lambda m: f'href="#d{m.group(1)}' + (f'-{m.group(2)}"' if m.group(2) else '"'), text)

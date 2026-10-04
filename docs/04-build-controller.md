@@ -24,6 +24,14 @@ crystal. Whatever the board, the same fuse settings switch it to the
 ATmega328P's internal 8 MHz oscillator, so the crystal or resonator no longer
 matters and can stay fitted.
 
+**Buy the 16 MHz board if that is what you can find.** Most Pro Minis on sale
+are the 5 V/16 MHz version; 3.3 V/8 MHz boards are harder to find and cost
+more. They use the same ATmega328P chip, and the two versions differ only in
+the regulator and the clock part. This build removes the regulator and stops
+using the crystal, so after rework and fuse setting both versions behave the
+same. What you cannot do is leave a 16 MHz board running at 16 MHz from the
+battery; see [Why the controller runs at 8 MHz](#why-the-controller-runs-at-8-mhz).
+
 Check the chip marking says **ATmega328P**. Boards with an ATmega32U4 (Pro
 Micro) or ATmega168 are not compatible.
 
@@ -92,9 +100,52 @@ Follow [08 – Firmware](08-firmware.md):
 | High     | `0xD9` | No bootloader; SPI programming enabled |
 | Extended | `0xFD` | Brown-out detection at 2.7 V           |
 
-Why 8 MHz: the ATmega328P is only rated for 16 MHz above about 3.8 V, and a
-Li-ion cell spends every night below that. At 8 MHz it is rated down to 2.7 V,
-which matches the brown-out setting.
+### Why the controller runs at 8 MHz
+
+A 16 MHz Pro Mini is meant to run from its 5 V regulator. In this build the
+chip runs directly from one Li-ion cell, at 2.7–4.2 V, and 16 MHz is not
+reliable at those voltages.
+
+**The voltage needed rises with clock speed.** The ATmega328P datasheet's
+safe operating area allows 10 MHz from 2.7 V and 20 MHz from 4.5 V, with the
+limit rising in a straight line between them. On that line, 16 MHz needs about
+**3.8 V**:
+
+| Clock  | Minimum rated supply | Li-ion cell (2.7–4.2 V)         |
+| :----- | :------------------- | :------------------------------ |
+| 8 MHz  | 2.4 V                | In spec over the whole range    |
+| 16 MHz | ~3.8 V               | Out of spec for most of a night |
+
+A cell rests at about 3.6–3.7 V and sinks lower overnight while the lights
+draw on it, so a 16 MHz controller would run out of spec for most of every
+night. Below its rated voltage an AVR does not stop cleanly: it can misread
+flash, execute wrong instructions or corrupt registers, and it gets worse in
+the cold. A 16 MHz board often seems fine on a warm bench, then fails at
+random on a cold winter night outdoors, which is very hard to diagnose.
+
+**Brown-out protection cannot fix it at 16 MHz.** The 2.7 V brown-out reset
+(extended fuse `0xFD`) holds the chip in reset before it leaves its rated
+area at 8 MHz. To protect a 16 MHz chip the same way you would need the 4.3 V
+brown-out level, which is above a fully charged cell, so the controller would
+never run.
+
+**8 MHz also uses less power.** While the lights are on, the controller sleeps
+in IDLE mode with its clock running, because Timer1 generates the D9 PWM. The
+current it draws in that state rises roughly in proportion to clock speed. At
+8 MHz there is still plenty of headroom for the firmware, which spends almost
+all of its time asleep.
+
+**Why the internal oscillator and not the crystal.** The 16 MHz crystal could
+be divided down to 8 MHz in firmware, but the internal RC oscillator is
+simpler. It needs no external parts, behaves the same on every board, whether
+it has a crystal or a resonator, and restarts faster when the chip wakes from
+power-down. Its accuracy is good enough for the 9600-baud telemetry link.
+Setting the fuses is therefore the only change needed. It also clears the
+board's bootloader setting; flashing is by ISP only.
+
+The firmware is built for the 8 MHz clock (PlatformIO board
+`pro8MHzatmega328`), so its PWM and serial timing are wrong until the fuses
+are set: garbled serial text is the giveaway.
 
 ---
 

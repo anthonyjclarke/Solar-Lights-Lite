@@ -17,10 +17,18 @@ with [README.md](README.md).
 - Both layouts linked from guides 04 and 07 and shown in `docs/ASSEMBLY.html`
   (breadboard under Module B, perfboard under Module E).
 
+- Guide 04 explains why the controller runs at 8 MHz: the ATmega328P speed
+  versus voltage limit, why brown-out protection cannot cover 16 MHz, IDLE
+  current, and the choice of internal oscillator over crystal. It also states
+  that the widely sold 5 V/16 MHz Pro Mini is a suitable board. Guide 01 links
+  to it.
+
 ### Changed
 
 - `tools/make_guide.py` shows a figure's "Printable PDF" link only when that
   PDF exists.
+- `tools/make_guide.py` now also prefixes links to a heading in the same guide,
+  so they work in `docs/ASSEMBLY.html`.
 
 ---
 
