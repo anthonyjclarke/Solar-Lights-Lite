@@ -3633,7 +3633,8 @@ simpler. It needs no external parts, behaves the same on every board, whether
 it has a crystal or a resonator, and restarts faster when the chip wakes from
 power-down. Its accuracy is good enough for the 9600-baud telemetry link.
 Setting the fuses is therefore the only change needed. It also clears the
-board's bootloader setting; flashing is by ISP only.</p>
+board's bootloader setting; flashing is by ISP only
+(<a href="#d08-why-isp-not-a-usb-serial-upload">why ISP, not a USB-serial upload</a>).</p>
 <p>The firmware is built for the 8 MHz clock (PlatformIO board
 <code>pro8MHzatmega328</code>), so its PWM and serial timing are wrong until the fuses
 are set: garbled serial text is the giveaway.</p>
@@ -7537,12 +7538,12 @@ embedded logic on a desktop computer.</p>
 <tbody>
 <tr>
 <td style="text-align: left;"><code>advanced</code></td>
-<td style="text-align: left;">Field guide, then full diagnostics</td>
+<td style="text-align: left;">Banner, field guide, diagnostics</td>
 <td style="text-align: left;">Tier 1, bench</td>
 </tr>
 <tr>
 <td style="text-align: left;"><code>production</code></td>
-<td style="text-align: left;">One compact status line every ~8 s</td>
+<td style="text-align: left;">Banner, then a compact line ~8 s</td>
 <td style="text-align: left;">Tier 2</td>
 </tr>
 <tr>
@@ -7554,6 +7555,46 @@ embedded logic on a desktop computer.</p>
 </table></div>
 <p>All three run identical lighting logic. Commission with <code>advanced</code>; deploy
 with <code>production</code> (or <code>standalone</code> if you have no telemetry).</p>
+<hr />
+<h3 id="d08-why-isp-not-a-usb-serial-upload">Why ISP, not a USB-serial upload</h3>
+<p>An off-the-shelf Pro Mini is normally programmed through a USB-serial (FTDI)
+adapter and the Arduino bootloader. This build uses an ISP programmer (USBasp,
+or an Uno or Nano acting as one) instead, for these reasons.</p>
+<p><strong>ISP is needed at least once anyway.</strong> Switching the clock to the internal
+8 MHz oscillator means rewriting the fuses
+(<a href="#d04-why-the-controller-runs-at-8-mhz">why 8 MHz</a>). A
+bootloader cannot change fuses: only an ISP programmer (or a high-voltage
+programmer) can. There is no way to prepare a new board with an FTDI adapter
+alone.</p>
+<p><strong>The factory bootloader stops working after the fuse change.</strong> A 16 MHz Pro
+Mini's bootloader is built for its 16 MHz crystal. Once the chip runs at
+8 MHz, the bootloader runs at half speed and talks at the wrong baud rate, so
+uploads fail. Serial uploads would need a new 8 MHz bootloader, and that also
+has to be written over ISP.</p>
+<p><strong>With the programmer already wired, ISP is the simpler route for updates.</strong>
+One tool and one command cover fuses, firmware and verification, and the chip
+has nothing extra installed:</p>
+<ul>
+<li><strong>The firmware starts straight away.</strong> With no bootloader there is no
+  start-up pause listening for an upload after a reset.</li>
+<li><strong>The full 32 KB of flash is available,</strong> and the high fuse <code>0xD9</code> jumps
+  straight to the firmware at reset.</li>
+<li><strong>No auto-reset wiring is needed.</strong> Serial uploads need the adapter's DTR
+  line connected to RST through a 100 nF capacitor. This build has no DTR
+  connection, and D1/TX is already used by the telemetry link (module E).</li>
+<li><strong>There is less risk of back-feeding the battery.</strong> A USB-serial adapter's
+  VCC pin must never be connected while the battery powers the controller.
+  For flashing, the programmer is the only power source, with the battery and
+  everything else disconnected.</li>
+</ul>
+<p><strong>An FTDI adapter is still useful</strong> as a receive-only serial monitor (see
+<a href="#d08-reading-the-diagnostics">Reading the diagnostics</a>): connect controller TX to
+adapter RX, and GND to GND, only.</p>
+<p><strong>Serial uploads are possible, but not supported.</strong> If you want to use them,
+use ISP to write an 8 MHz internal-oscillator bootloader and the high fuse it
+requires, then add the DTR reset circuit. The project's instructions,
+troubleshooting and fuse values all assume no bootloader, so you would be on
+your own.</p>
 <hr />
 <h3 id="d08-install-the-tools">Install the tools</h3>
 <ol>
@@ -7697,10 +7738,25 @@ replacing <code>advanced</code> in both commands. Routine updates never write fu
 </ol>
 <hr />
 <h3 id="d08-reading-the-diagnostics">Reading the diagnostics</h3>
-<p>With the <code>advanced</code> build, the controller prints a one-time field guide at
-reset, then a line whenever something changes, every 10 s while a transition,
-test or cut-off is being timed, and every 60 s otherwise. The <code>production</code>
-build prints a shorter line every 8 scheduler seconds.</p>
+<p>At every reset, the <code>advanced</code> and <code>production</code> builds print a banner with
+the firmware version, the date and time it was built, the telemetry profile
+and the clock setting. Check it after flashing: it confirms the board is
+running the build you just made.</p>
+<pre><code class="language-text">==================================================
+ Solar Lights Lite  -  dusk-to-dawn controller
+ Firmware   v0.6.0   built 05-Oct-2026 13:26
+ Telemetry  advanced: full diagnostics, 9600 baud
+ Clock      internal 8 MHz, brown-out 2.7 V
+==================================================
+</code></pre>
+<p>The <code>advanced</code> build then lists its active settings (LDR thresholds, battery
+levels, night duty) and a field guide to the line keys, ending with
+<code>Live diagnostics</code>. After that it prints a line whenever something changes,
+every 10 s while a transition, test or cut-off is being timed, and every 60 s
+otherwise. The <code>production</code> build prints a shorter line every 8 scheduler
+seconds. None of the reset text starts with <code>fw=</code>, so the ESPHome profiles
+ignore it. The build date comes from the compiler, so it changes every time
+you build.</p>
 <p>Two ways to read it:</p>
 <ul>
 <li><strong>Tier 1 Advanced Telemetry</strong> (recommended): the D1 Mini decodes every line

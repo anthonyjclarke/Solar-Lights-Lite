@@ -27,12 +27,59 @@ embedded logic on a desktop computer.
 
 | Environment  | Telemetry output                   | Use with      |
 | :----------- | :--------------------------------- | :------------ |
-| `advanced`   | Field guide, then full diagnostics | Tier 1, bench |
-| `production` | One compact status line every ~8 s | Tier 2        |
+| `advanced`   | Banner, field guide, diagnostics   | Tier 1, bench |
+| `production` | Banner, then a compact line ~8 s   | Tier 2        |
 | `standalone` | None; serial port powered down     | Tier 0        |
 
 All three run identical lighting logic. Commission with `advanced`; deploy
 with `production` (or `standalone` if you have no telemetry).
+
+---
+
+## Why ISP, not a USB-serial upload
+
+An off-the-shelf Pro Mini is normally programmed through a USB-serial (FTDI)
+adapter and the Arduino bootloader. This build uses an ISP programmer (USBasp,
+or an Uno or Nano acting as one) instead, for these reasons.
+
+**ISP is needed at least once anyway.** Switching the clock to the internal
+8 MHz oscillator means rewriting the fuses
+([why 8 MHz](04-build-controller.md#why-the-controller-runs-at-8-mhz)). A
+bootloader cannot change fuses: only an ISP programmer (or a high-voltage
+programmer) can. There is no way to prepare a new board with an FTDI adapter
+alone.
+
+**The factory bootloader stops working after the fuse change.** A 16 MHz Pro
+Mini's bootloader is built for its 16 MHz crystal. Once the chip runs at
+8 MHz, the bootloader runs at half speed and talks at the wrong baud rate, so
+uploads fail. Serial uploads would need a new 8 MHz bootloader, and that also
+has to be written over ISP.
+
+**With the programmer already wired, ISP is the simpler route for updates.**
+One tool and one command cover fuses, firmware and verification, and the chip
+has nothing extra installed:
+
+- **The firmware starts straight away.** With no bootloader there is no
+  start-up pause listening for an upload after a reset.
+- **The full 32 KB of flash is available,** and the high fuse `0xD9` jumps
+  straight to the firmware at reset.
+- **No auto-reset wiring is needed.** Serial uploads need the adapter's DTR
+  line connected to RST through a 100 nF capacitor. This build has no DTR
+  connection, and D1/TX is already used by the telemetry link (module E).
+- **There is less risk of back-feeding the battery.** A USB-serial adapter's
+  VCC pin must never be connected while the battery powers the controller.
+  For flashing, the programmer is the only power source, with the battery and
+  everything else disconnected.
+
+**An FTDI adapter is still useful** as a receive-only serial monitor (see
+[Reading the diagnostics](#reading-the-diagnostics)): connect controller TX to
+adapter RX, and GND to GND, only.
+
+**Serial uploads are possible, but not supported.** If you want to use them,
+use ISP to write an 8 MHz internal-oscillator bootloader and the high fuse it
+requires, then add the DTR reset circuit. The project's instructions,
+troubleshooting and fuse values all assume no bootloader, so you would be on
+your own.
 
 ---
 
@@ -158,10 +205,28 @@ If you have no USBasp, an Uno or Nano can act as the programmer:
 
 ## Reading the diagnostics
 
-With the `advanced` build, the controller prints a one-time field guide at
-reset, then a line whenever something changes, every 10 s while a transition,
-test or cut-off is being timed, and every 60 s otherwise. The `production`
-build prints a shorter line every 8 scheduler seconds.
+At every reset, the `advanced` and `production` builds print a banner with
+the firmware version, the date and time it was built, the telemetry profile
+and the clock setting. Check it after flashing: it confirms the board is
+running the build you just made.
+
+```text
+==================================================
+ Solar Lights Lite  -  dusk-to-dawn controller
+ Firmware   v0.6.0   built 05-Oct-2026 13:26
+ Telemetry  advanced: full diagnostics, 9600 baud
+ Clock      internal 8 MHz, brown-out 2.7 V
+==================================================
+```
+
+The `advanced` build then lists its active settings (LDR thresholds, battery
+levels, night duty) and a field guide to the line keys, ending with
+`Live diagnostics`. After that it prints a line whenever something changes,
+every 10 s while a transition, test or cut-off is being timed, and every 60 s
+otherwise. The `production` build prints a shorter line every 8 scheduler
+seconds. None of the reset text starts with `fw=`, so the ESPHome profiles
+ignore it. The build date comes from the compiler, so it changes every time
+you build.
 
 Two ways to read it:
 

@@ -22,9 +22,19 @@ with [README.md](README.md).
   current, and the choice of internal oscillator over crystal. It also states
   that the widely sold 5 V/16 MHz Pro Mini is a suitable board. Guide 01 links
   to it.
+- Guide 08 explains why the controller is flashed over ISP rather than through
+  a USB-serial (FTDI) adapter and bootloader. Fuses need ISP, the factory
+  16 MHz bootloader fails at 8 MHz, and ISP avoids a start-up delay, DTR
+  wiring and back-feeding the battery. Guide 04 links to it.
+
+- Controller reset banner (`advanced` and `production` builds): firmware
+  version, build date and time, telemetry profile and clock setting.
 
 ### Changed
 
+- The `advanced` build's reset output is reorganised: banner, active settings,
+  then an aligned field guide, ending with `Live diagnostics`. No reset line
+  starts with `fw=`, so the ESPHome profiles are unaffected.
 - `tools/make_guide.py` shows a figure's "Printable PDF" link only when that
   PDF exists.
 - `tools/make_guide.py` now also prefixes links to a heading in the same guide,

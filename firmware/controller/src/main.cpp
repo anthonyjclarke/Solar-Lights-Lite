@@ -17,8 +17,9 @@
  *
  * Telemetry, selected by the TELEMETRY build flag (one PlatformIO environment each):
  *   0  standalone  no serial output; USART powered down
- *   1  production  one compact line every STATUS_INTERVAL_S; USART on only while sending
- *   2  advanced    field guide at reset, then full diagnostics; USART always on
+ *   1  production  banner at reset, then one compact line every STATUS_INTERVAL_S;
+ *                  USART on only while sending
+ *   2  advanced    banner and field guide at reset, then full diagnostics; USART always on
  * Lines are space-separated key=value pairs at 9600 baud on D1/TX, starting
  * with fw=. The D1 Mini receives them through the Q2 inverter, and both
  * ESPHome profiles parse the same keys: rename a key here, update both YAML files.
@@ -173,24 +174,57 @@ static void printLine(bool full, const Reading& r, uint8_t pct, bool fast) {
 }
 #endif
 
+#if TELEMETRY
+// __DATE__ is "Mmm dd yyyy" with a space-padded day; printed as dd-Mmm-yyyy hh:mm.
+static void printBuildStamp() {
+  const char* d = __DATE__;
+  Serial.print(d[4] == ' ' ? '0' : d[4]); Serial.print(d[5]); Serial.print('-');
+  Serial.write(d, 3); Serial.print('-'); Serial.write(d + 7, 4);
+  Serial.print(' '); Serial.write(__TIME__, 5);
+}
+
+// Reset banner. No line starts with fw=, so both ESPHome profiles ignore it.
+static void printBanner() {
+  Serial.println();
+  Serial.println(F("=================================================="));
+  Serial.println(F(" Solar Lights Lite  -  dusk-to-dawn controller"));
+  Serial.print(F(" Firmware   v")); Serial.print(FW_VERSION);
+  Serial.print(F("   built ")); printBuildStamp(); Serial.println();
+#if TELEMETRY == 2
+  Serial.println(F(" Telemetry  advanced: full diagnostics, 9600 baud"));
+#else
+  Serial.println(F(" Telemetry  production: compact line, 9600 baud"));
+#endif
+  Serial.println(F(" Clock      internal 8 MHz, brown-out 2.7 V"));
+  Serial.println(F("=================================================="));
+}
+#endif
+
 #if TELEMETRY == 2
 static void printFieldGuide() {
-  Serial.print(F("Solar Lights Lite controller fw=")); Serial.print(FW_VERSION);
-  Serial.println(F(" (advanced telemetry)"));
-  Serial.println(F("--- field guide ---"));
-  Serial.println(F("time=scheduler seconds since reset (watchdog clock; not wall-clock time)"));
-  Serial.println(F("vdd=controller supply; battery=OK/MID/LOW/CRITICAL band, not state of charge"));
-  Serial.println(F("ldr=A1 as % of VCC; raw=ADC 0..1023; ldr_v=A1 volts"));
-  Serial.print(F("sense=DARK below ")); Serial.print(LDR_DARK_RATIO * 100.0f, 0);
-  Serial.print(F("%, LIGHT above ")); Serial.print(LDR_LIGHT_RATIO * 100.0f, 0); Serial.println(F("%, MID between"));
-  Serial.println(F("mode=DAY/NIGHT/LVC; night=YES after confirmed dusk; output=D9 PWM duty"));
-  Serial.println(F("cause=why output has its value; confirm=DUSK or DAWN progress, NONE if idle"));
-  Serial.println(F("lvc=seconds below cut-off; button=test seconds left; next_tick=1s active, 8s idle"));
-  Serial.print(F("battery: LOW<")); Serial.print(LOW_BATT_V, 2);
-  Serial.print(F("V halves night duty; LVC<")); Serial.print(LVC_OFF_V, 2);
-  Serial.print(F("V for ")); Serial.print(LVC_HOLD_S);
-  Serial.print(F("s; resume>")); Serial.print(LVC_RESUME_V, 2); Serial.println(F("V in daylight"));
-  Serial.println(F("--- live diagnostics ---"));
+  Serial.println(F("Settings"));
+  Serial.print(F("  LDR        dark <")); Serial.print(LDR_DARK_RATIO * 100.0f, 0);
+  Serial.print(F("%  light >")); Serial.print(LDR_LIGHT_RATIO * 100.0f, 0);
+  Serial.print(F("%  confirm ")); Serial.print(TRANSITION_CONFIRM_S); Serial.println(F(" s"));
+  Serial.print(F("  Battery    low <")); Serial.print(LOW_BATT_V, 2);
+  Serial.println(F(" V halves night duty"));
+  Serial.print(F("             cut-off <")); Serial.print(LVC_OFF_V, 2);
+  Serial.print(F(" V for ")); Serial.print(LVC_HOLD_S);
+  Serial.print(F(" s, resume >")); Serial.print(LVC_RESUME_V, 2); Serial.println(F(" V in daylight"));
+  Serial.print(F("  Duty       night ")); Serial.print(NIGHT_DUTY_PCT);
+  Serial.print(F("%  button test ")); Serial.print(BUTTON_TEST_S); Serial.println(F(" s"));
+  Serial.println(F("Field guide (keys in each line)"));
+  Serial.println(F("  time       scheduler seconds since reset (watchdog clock, not wall-clock)"));
+  Serial.println(F("  vdd        controller supply; battery = OK/MID/LOW/CRITICAL band"));
+  Serial.println(F("  ldr        A1 as % of VCC; raw = ADC 0-1023; ldr_v = A1 volts"));
+  Serial.println(F("  sense      DARK / MID / LIGHT from the LDR thresholds above"));
+  Serial.println(F("  mode       DAY / NIGHT / LVC; night = YES after a confirmed dusk"));
+  Serial.println(F("  output     D9 PWM duty; cause = why output has that value"));
+  Serial.println(F("  confirm    DUSK or DAWN progress, NONE when idle"));
+  Serial.println(F("  lvc        seconds below cut-off; button = test seconds left"));
+  Serial.println(F("  next_tick  1 s while active, 8 s when idle"));
+  Serial.println(F("--------------------------------------------------"));
+  Serial.println(F("Live diagnostics"));
 }
 #endif
 
@@ -253,7 +287,15 @@ static void initPower() {
 static void initTelemetry() {
 #if TELEMETRY == 2
   Serial.begin(9600);
+  printBanner();
   printFieldGuide();
+#elif TELEMETRY == 1
+  Serial.begin(9600);
+  printBanner();
+  Serial.flush();
+  Serial.end();
+  power_usart0_disable();
+  releaseTx();
 #else
   power_usart0_disable();
   releaseTx();

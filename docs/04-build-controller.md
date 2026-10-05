@@ -141,7 +141,8 @@ simpler. It needs no external parts, behaves the same on every board, whether
 it has a crystal or a resonator, and restarts faster when the chip wakes from
 power-down. Its accuracy is good enough for the 9600-baud telemetry link.
 Setting the fuses is therefore the only change needed. It also clears the
-board's bootloader setting; flashing is by ISP only.
+board's bootloader setting; flashing is by ISP only
+([why ISP, not a USB-serial upload](08-firmware.md#why-isp-not-a-usb-serial-upload)).
 
 The firmware is built for the 8 MHz clock (PlatformIO board
 `pro8MHzatmega328`), so its PWM and serial timing are wrong until the fuses
