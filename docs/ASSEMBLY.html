@@ -606,7 +606,7 @@ does not change. See <a href="#d09">09 – Home Assistant</a>.</p>
 <li><strong>Five-minute confirmation and a threshold gap.</strong> Car headlights, shadows
   and dusk flicker cannot toggle the lights.</li>
 <li><strong>Dusk to dawn, no clock.</strong> Without an RTC the watchdog timer is the only
-  time base, and it is uncalibrated (the reference board runs about 12 %
+  time base, and it is uncalibrated (it varies by chip, typically 10–20 %
   slow). Dusk-to-dawn operation never needs wall-clock time.</li>
 <li><strong>Firmware cut-off plus hardware protection.</strong> The firmware protects the
   battery from the lighting load; the charger module's DW01A protection
@@ -1758,6 +1758,13 @@ programming, and why clock speed and supply voltage are linked.</p>
 			<rect x="100" y="400" width="50" height="120" rx="10" ry="0" style="stroke: rgb(71%,79%,83%); stroke-linecap: butt; stroke-width: 1; fill: rgb(20%,26%,32%); fill-rule: evenodd;"/>
 			<text x="45" y="290" style="font-family: Helvetica-Bold; font-size: 18px;fill: rgb(9%,18%,27%); stroke:none;" transform="translate(0,580) scale(1,-1)">Serial header</text>
 			<text x="45" y="264" style="font-family: Helvetica; font-size: 16px;fill: rgb(9%,18%,27%); stroke:none;" transform="translate(0,528) scale(1,-1)">Not the ISP connector</text>
+			<text x="45" y="240" style="font-family: Helvetica-Bold; font-size: 15px;fill: rgb(75%,21%,23%); stroke:none;" transform="translate(0,480) scale(1,-1)">Its VCC = top-row VCC (same rail)</text>
+			<text x="58" y="505" style="font-family: Helvetica-Bold; font-size: 12px;fill: rgb(31%,39%,47%); stroke:none;" transform="translate(0,1010) scale(1,-1)">DTR</text>
+			<text x="58" y="485" style="font-family: Helvetica-Bold; font-size: 12px;fill: rgb(31%,39%,47%); stroke:none;" transform="translate(0,970) scale(1,-1)">TXO</text>
+			<text x="58" y="465" style="font-family: Helvetica-Bold; font-size: 12px;fill: rgb(31%,39%,47%); stroke:none;" transform="translate(0,930) scale(1,-1)">RXI</text>
+			<text x="58" y="445" style="font-family: Helvetica-Bold; font-size: 12px;fill: rgb(75%,21%,23%); stroke:none;" transform="translate(0,890) scale(1,-1)">VCC</text>
+			<text x="58" y="425" style="font-family: Helvetica-Bold; font-size: 12px;fill: rgb(31%,39%,47%); stroke:none;" transform="translate(0,850) scale(1,-1)">GND</text>
+			<text x="58" y="405" style="font-family: Helvetica-Bold; font-size: 12px;fill: rgb(31%,39%,47%); stroke:none;" transform="translate(0,810) scale(1,-1)">GND</text>
 			<rect x="400" y="405" width="220" height="105" rx="10" ry="0" style="stroke: rgb(71%,79%,83%); stroke-linecap: butt; stroke-width: 1; fill: rgb(20%,26%,32%); fill-rule: evenodd;"/>
 			<text x="425" y="468" style="font-family: Helvetica-Bold; font-size: 23px;fill: rgb(100%,100%,100%); stroke:none;" transform="translate(0,936) scale(1,-1)">ATmega328P</text>
 			<text x="425" y="435" style="font-family: Helvetica; font-size: 16px;fill: rgb(100%,100%,100%); stroke:none;" transform="translate(0,870) scale(1,-1)">Read ISP signature</text>
@@ -1841,9 +1848,9 @@ programming, and why clock speed and supply voltage are linked.</p>
 			<path d="M 1123,338 L 1123,326 Z" style="stroke: rgb(0%,52%,44%); stroke-linecap: butt; stroke-width: 2;"/>
 			<rect x="45" y="65" width="630" height="155" rx="10" ry="0" style="stroke: rgb(71%,79%,83%); stroke-linecap: butt; stroke-width: 1; fill: rgb(94%,96%,97%); fill-rule: evenodd;"/>
 			<text x="65" y="189" style="font-family: Helvetica-Bold; font-size: 18px;fill: rgb(0%,52%,44%); stroke:none;" transform="translate(0,378) scale(1,-1)">OPERATING CONNECTIONS</text>
-			<text x="65" y="157" style="font-family: Helvetica; font-size: 16px;fill: rgb(9%,18%,27%); stroke:none;" transform="translate(0,314) scale(1,-1)">VCC = protected battery; GND = OUT-; RAW = unused</text>
-			<text x="65" y="133" style="font-family: Helvetica; font-size: 16px;fill: rgb(9%,18%,27%); stroke:none;" transform="translate(0,266) scale(1,-1)">A1 = LDR sense; 7 = LDR power; 9 = LED PWM</text>
-			<text x="65" y="109" style="font-family: Helvetica; font-size: 16px;fill: rgb(9%,18%,27%); stroke:none;" transform="translate(0,218) scale(1,-1)">TX = telemetry to Q2 2N3904; 2 = test button to GND</text>
+			<text x="65" y="157" style="font-family: Helvetica; font-size: 16px;fill: rgb(9%,18%,27%); stroke:none;" transform="translate(0,314) scale(1,-1)">Power goes into VCC (top row or header); RAW = never</text>
+			<text x="65" y="133" style="font-family: Helvetica; font-size: 16px;fill: rgb(9%,18%,27%); stroke:none;" transform="translate(0,266) scale(1,-1)">VCC = protected battery; GND = OUT-; A1 = LDR sense; 7 = LDR power</text>
+			<text x="65" y="109" style="font-family: Helvetica; font-size: 16px;fill: rgb(9%,18%,27%); stroke:none;" transform="translate(0,218) scale(1,-1)">9 = LED PWM; TX = telemetry to Q2; 2 = test button to GND</text>
 			<text x="65" y="85" style="font-family: Helvetica; font-size: 16px;fill: rgb(9%,18%,27%); stroke:none;" transform="translate(0,170) scale(1,-1)">Regulator / power LED removed only after trace identification.</text>
 			<rect x="700" y="65" width="650" height="155" rx="10" ry="0" style="stroke: rgb(71%,79%,83%); stroke-linecap: butt; stroke-width: 1; fill: rgb(100%,96%,90%); fill-rule: evenodd;"/>
 			<text x="720" y="189" style="font-family: Helvetica-Bold; font-size: 17px;fill: rgb(65%,37%,0%); stroke:none;" transform="translate(0,378) scale(1,-1)">ISP CONNECTIONS / BOARD DISCONNECTED FROM BUILD</text>
@@ -3454,8 +3461,12 @@ the regulator and the clock part. This build removes the regulator and stops
 using the crystal, so after rework and fuse setting both versions behave the
 same. What you cannot do is leave a 16 MHz board running at 16 MHz from the
 battery; see <a href="#d04-why-the-controller-runs-at-8-mhz">Why the controller runs at 8 MHz</a>.</p>
-<p>Check the chip marking says <strong>ATmega328P</strong>. Boards with an ATmega32U4 (Pro
-Micro) or ATmega168 are not compatible.</p>
+<p>Check the chip marking says <strong>ATmega328P</strong> or <strong>ATmega328PB</strong>. Many current
+clones carry the 328PB, sometimes sold as "ATmega328P". It runs the same
+firmware and fuses (this firmware has been run on both chips), and needs only
+avrdude's <code>-p m328pb</code> part name
+(<a href="#d08-one-time-preparation-of-a-new-board">08 – Firmware</a>). Boards
+with an ATmega32U4 (Pro Micro) or ATmega168 are not compatible.</p>
 <hr />
 <h3 id="d04-pin-map">Pin map</h3>
 <div class="scroll"><table>
@@ -3522,37 +3533,92 @@ Micro) or ATmega168 are not compatible.</p>
 <p>D0, D3–D6, D8, D10 and A0, A2–A7 are unused; the firmware drives unused
 digital pins low and disables unused analog input buffers.</p>
 <hr />
+<h3 id="d04-powering-the-board-vcc-raw-and-the-serial-header">Powering the board: VCC, RAW and the serial header</h3>
+<p>A Pro Mini has three pins that look like power inputs:</p>
+<div class="scroll"><table>
+<thead>
+<tr>
+<th style="text-align: left;">Pin</th>
+<th style="text-align: left;">What it is</th>
+<th style="text-align: left;">In this build</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><code>RAW</code></td>
+<td style="text-align: left;">Input to the on-board regulator</td>
+<td style="text-align: left;">Never connected</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>VCC</code> (top row)</td>
+<td style="text-align: left;">The chip's supply rail</td>
+<td style="text-align: left;">The supply goes in here</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>VCC</code> on the serial header</td>
+<td style="text-align: left;">Same rail as the top-row <code>VCC</code></td>
+<td style="text-align: left;">Step 3 check only</td>
+</tr>
+</tbody>
+</table></div>
+<p>You may read that "VCC is an output". That is true only when the board is
+fed through RAW: the regulator then produces VCC, and the pin can supply
+other parts. Feeding VCC directly bypasses the regulator. That is a normal
+way to power a Pro Mini, and it is how this build runs, from the protected
+battery rail. Once the regulator is removed, VCC is the only way in.</p>
+<p>On the reference board, and on standard Pro Mini designs, the top-row <code>VCC</code>
+pin and the serial header's <code>VCC</code> are the same copper. Check yours once with
+the board unpowered, in continuity mode: top-row <code>VCC</code> to header <code>VCC</code> should
+beep, and after rework <code>RAW</code> to <code>VCC</code> should not.</p>
+<p>Only one power source at a time, and never 5 V:</p>
+<div class="scroll"><table>
+<thead>
+<tr>
+<th style="text-align: left;">Stage</th>
+<th style="text-align: left;">Power source</th>
+<th style="text-align: left;">Into</th>
+<th style="text-align: left;">Regulator</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">Step 2 – fuses and flash</td>
+<td style="text-align: left;">USBasp set to 3.3 V</td>
+<td style="text-align: left;"><code>VCC</code> (ISP)</td>
+<td style="text-align: left;">Fitted is fine</td>
+</tr>
+<tr>
+<td style="text-align: left;">Step 3 – first power-up check</td>
+<td style="text-align: left;">USB-UART adapter set to 3.3 V</td>
+<td style="text-align: left;">Header <code>VCC</code></td>
+<td style="text-align: left;">Fitted is fine</td>
+</tr>
+<tr>
+<td style="text-align: left;">Gate 1 – bench</td>
+<td style="text-align: left;">Bench supply 3.80 V, 200 mA</td>
+<td style="text-align: left;"><code>VCC</code></td>
+<td style="text-align: left;">Removed</td>
+</tr>
+<tr>
+<td style="text-align: left;">Gate 2 onwards</td>
+<td style="text-align: left;">Battery via M1 OUT+ (VBAT_SYS)</td>
+<td style="text-align: left;"><code>VCC</code></td>
+<td style="text-align: left;">Removed</td>
+</tr>
+</tbody>
+</table></div>
+<hr />
 <h3 id="d04-build-steps">Build steps</h3>
-<h4 id="d04-1-identify-the-regulator-and-power-led">1. Identify the regulator and power LED</h4>
-<ol>
-<li>Photograph the board. With no power applied, use continuity mode to trace
-   RAW to the regulator's input and VCC to its output. The regulator is
-   usually a SOT-23-5 or SOT-89 part near RAW.</li>
-<li>Find the power LED: the LED and series resistor connected permanently
-   across VCC and GND. The LED on D13 is a different one; leave it.</li>
-</ol>
-<h4 id="d04-2-remove-them">2. Remove them</h4>
-<ol>
-<li>Remove the regulator with hot air, or with plenty of flux and a wide iron
-   tip heating all pins together. Removing the power LED (or just its series
-   resistor) is enough for the LED branch.</li>
-<li>Do not remove decoupling capacitors next to the regulator.</li>
-<li>Check for shorts between VCC and GND afterwards.</li>
-</ol>
-<p>Why: the regulator and power LED together can draw milliamps continuously,
-which is hundreds of times the controller's sleep current. With a 2.7–4.2 V
-Li-ion rail the ATmega328P needs no regulator at 8 MHz.</p>
-<h4 id="d04-3-fit-headers-and-decoupling">3. Fit headers and decoupling</h4>
-<ol>
-<li>Fit headers (or plan direct wiring) for VCC, GND, D1/TX, D2, D7, D9, A1 and
-   the six ISP pins (VCC, GND, RST, 11, 12, 13).</li>
-<li>On the carrier, fit C3 (100 µF, 10 V) and C4 (100 nF) across VCC and GND,
-   close to the board.</li>
-</ol>
-<h4 id="d04-4-set-the-fuses-and-flash-the-firmware">4. Set the fuses and flash the firmware</h4>
+<p>Prove the chip, fuses and firmware first, then do the rework, then decoupling.
+Gate 0 confirms the rework before anything goes onto the bench supply.</p>
+<h4 id="d04-1-fit-headers">1. Fit headers</h4>
+<p>Fit headers (or plan direct wiring) for VCC, GND, D1/TX, D2, D7, D9, A1 and
+the six ISP pins (VCC, GND, RST, 11, 12, 13).</p>
+<h4 id="d04-2-set-the-fuses-and-flash-the-firmware">2. Set the fuses and flash the firmware</h4>
 <p>Follow <a href="#d08">08 – Firmware</a>:</p>
 <ol>
-<li>Read the chip signature (<code>0x1e950f</code>).</li>
+<li>Read the chip signature: <code>1E 95 0F</code> (ATmega328P) or <code>1E 95 16</code>
+   (ATmega328PB, use <code>-p m328pb</code>).</li>
 <li>Set the fuses once: low <code>0xE2</code>, high <code>0xD9</code>, extended <code>0xFD</code>.</li>
 <li>Build and flash the <code>advanced</code> firmware for commissioning.</li>
 </ol>
@@ -3582,7 +3648,76 @@ Li-ion rail the ATmega328P needs no regulator at 8 MHz.</p>
 </tr>
 </tbody>
 </table></div>
-<h4 id="d04-why-the-controller-runs-at-8-mhz">Why the controller runs at 8 MHz</h4>
+<h4 id="d04-3-first-power-up-check">3. First power-up check</h4>
+<p>This proves the board before you solder on it.</p>
+<ol>
+<li>Disconnect the USBasp.</li>
+<li>Set a USB-UART adapter to <strong>3.3 V</strong>. Connect adapter GND to GND, adapter
+   VCC to the serial header's <code>VCC</code>, and controller TX to adapter RX. Leave
+   the adapter's TX, DTR and CTS open.</li>
+<li>Run <code>pio device monitor --baud 9600</code> from <code>firmware/controller</code> and press
+   the board's reset button. The banner should show the firmware version and
+   the time you built it, followed by <code>fw=</code> lines.</li>
+<li>Meter DC volts across the top-row <code>VCC</code> and <code>GND</code> pins and compare with
+   <code>vdd=</code>.</li>
+</ol>
+<div class="scroll"><table>
+<thead>
+<tr>
+<th style="text-align: left;">Check</th>
+<th style="text-align: left;">Expect</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">Banner</td>
+<td style="text-align: left;"><code>Firmware v0.6.0 built &lt;date and time of your build&gt;</code></td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>vdd=</code> vs meter</td>
+<td style="text-align: left;">Within 0.05 V (calibrate in Gate 1 if not)</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>battery=</code></td>
+<td style="text-align: left;"><code>LOW</code>: correct on 3.3 V, below the 3.45 V level</td>
+</tr>
+<tr>
+<td style="text-align: left;">First lines</td>
+<td style="text-align: left;"><code>cause=STARTUP_TEST</code>, then <code>DAY_OFF</code> or <code>DUSK_TO_DAWN</code></td>
+</tr>
+</tbody>
+</table></div>
+<p>3.3 V is close to the 3.30 V cut-off, so leave the lighting tests for Gate 1.
+<code>vdd=</code> around 5 V means the adapter is set to 5 V: disconnect it at once.
+When you have finished, disconnect the adapter's VCC. From here on the
+adapter is a monitor only (TX → RX and GND).</p>
+<h4 id="d04-4-identify-the-regulator-and-power-led">4. Identify the regulator and power LED</h4>
+<ol>
+<li>Photograph the board. With no power applied, use continuity mode to trace
+   RAW to the regulator's input and VCC to its output. The regulator is
+   usually a SOT-23-5 or SOT-89 part near RAW.</li>
+<li>Find the power LED: the LED and series resistor connected permanently
+   across VCC and GND. The LED on D13 is a different one; leave it.</li>
+</ol>
+<h4 id="d04-5-remove-them">5. Remove them</h4>
+<ol>
+<li>Remove the regulator with hot air, or with plenty of flux and a wide iron
+   tip heating all pins together. Removing the power LED (or just its series
+   resistor) is enough for the LED branch.</li>
+<li>Do not remove decoupling capacitors next to the regulator.</li>
+<li>Check for shorts between VCC and GND, and that RAW no longer connects to
+   VCC.</li>
+<li>Repeat the step 3 check. The same banner shows the rework did no harm.</li>
+</ol>
+<p>Why: the regulator and power LED together can draw milliamps continuously,
+which is hundreds of times the controller's sleep current. With a 2.7–4.2 V
+Li-ion rail the ATmega328P needs no regulator at 8 MHz. The rework must be
+done before Gate 0, which checks for it, and Gate 1.</p>
+<h4 id="d04-6-fit-decoupling">6. Fit decoupling</h4>
+<p>On the carrier, fit C3 (100 µF, 10 V) and C4 (100 nF) across VCC and GND,
+close to the board.</p>
+<hr />
+<h3 id="d04-why-the-controller-runs-at-8-mhz">Why the controller runs at 8 MHz</h3>
 <p>A 16 MHz Pro Mini is meant to run from its 5 V regulator. In this build the
 chip runs directly from one Li-ion cell, at 2.7–4.2 V, and 16 MHz is not
 reliable at those voltages.</p>
@@ -3661,6 +3796,10 @@ on the protected battery in <strong>Gate 2</strong>
 <tr>
 <td style="text-align: left;">Signature <code>0x000000</code> or <code>0xffffff</code></td>
 <td style="text-align: left;">No target power, or MISO/MOSI swapped</td>
+</tr>
+<tr>
+<td style="text-align: left;">Signature <code>1E 95 16</code></td>
+<td style="text-align: left;">ATmega328PB: use <code>-p m328pb</code></td>
 </tr>
 <tr>
 <td style="text-align: left;">Serial text is garbage</td>
@@ -3845,7 +3984,10 @@ makes the sensor call "dark" later (it needs a darker sky).</p>
 <li>Wire D7 → LDR1 → A1, and A1 → R4 (47 kΩ) → GND_LOAD.</li>
 <li>Mount the LDR where it sees the sky but <strong>not the LED string</strong>: the lights
    must never be able to convince the sensor it is daytime. A short tube or
-   hood around the LDR helps.</li>
+   hood around the LDR helps. Check it at night: with the lights on, <code>ldr=</code>
+   should rise by only a few percent and stay well below the light threshold
+   (Gate 3, step 6). On the bench, a string near the LDR raised it by about
+   4.5 %.</li>
 <li>Wire SW1 between D2 and GND_LOAD. The firmware enables D2's internal
    pull-up and a pin-change interrupt, so a press wakes the controller
    immediately.</li>
@@ -7668,10 +7810,46 @@ and the <a href="drawings/BTE13-010A-pin-map.pdf">board map</a>.</p>
 <p><strong>1. Read the signature</strong> (writes nothing):</p>
 <pre><code class="language-bash">avrdude -c usbasp -p m328p -v
 </code></pre>
-<p>The device signature must be <code>0x1e950f</code>. Stop if it differs or reads all
-<code>00</code> or all <code>ff</code>.</p>
+<p>The signature tells you which chip is on the board, and that decides the
+<code>-p</code> part name for <strong>every</strong> avrdude command that follows:</p>
+<div class="scroll"><table>
+<thead>
+<tr>
+<th style="text-align: left;">Signature</th>
+<th style="text-align: left;">Chip</th>
+<th style="text-align: left;">Use in every command</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><code>1E 95 0F</code></td>
+<td style="text-align: left;">ATmega328P</td>
+<td style="text-align: left;"><code>-p m328p</code> (as shown)</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>1E 95 16</code></td>
+<td style="text-align: left;">ATmega328PB</td>
+<td style="text-align: left;"><code>-p m328pb</code></td>
+</tr>
+</tbody>
+</table></div>
+<p>Stop if it reads anything else, or all <code>00</code> or all <code>ff</code> (see
+<a href="#d08-troubleshooting">Troubleshooting</a>).</p>
+<p>Many recent Pro Mini clones, including some sold as "ATmega328P", carry the
+newer <strong>ATmega328PB</strong>. With <code>-p m328p</code>, avrdude reports
+<code>Device signature = 1E 95 16 (ATmega328PB)</code> and refuses to continue. This
+does not mean the board is faulty. Repeat the command with <code>-p m328pb</code>, and
+use that in every later command. Do not use <code>-F</code> to force past the check:
+it switches off avrdude's check that it is talking to the chip you expect,
+for this command and any you copy it into.</p>
+<p>The 328PB is designed as a drop-in replacement for the 328P and runs the same
+firmware. The PlatformIO build (board <code>pro8MHzatmega328</code>) is unchanged, and so
+are the fuse values below. The 328PB's extra peripherals and its extra
+clock-failure fuse bit stay unused: the extended fuse <code>0xFD</code> leaves that bit
+unprogrammed, so the feature is off.</p>
 <p><strong>2. Save the existing fuses</strong>, in case you ever want the board back as it
-was:</p>
+was. A new 16 MHz Pro Mini normally reads low <code>0xFF</code>, high <code>0xDA</code>, extended
+<code>0xFD</code>; write down what yours shows.</p>
 <pre><code class="language-bash">avrdude -c usbasp -p m328p -U lfuse:r:-:h -U hfuse:r:-:h -U efuse:r:-:h
 </code></pre>
 <p><strong>3. Write the Solar Lights fuses:</strong></p>
@@ -7719,8 +7897,9 @@ bootloader. The board will no longer accept serial uploads; that is expected.</p
 Then flash it:</p>
 <pre><code class="language-bash">avrdude -c usbasp -p m328p -v -U flash:w:.pio/build/advanced/firmware.hex:i
 </code></pre>
-<p>Success needs both the write and the verify to pass. Unplug the programmer and
-remove all six ISP wires before reconnecting normal power.</p>
+<p>(On an ATmega328PB, <code>-p m328pb</code>.) Success needs both the write and the verify to pass. Unplug the programmer and
+remove all six ISP wires before reconnecting normal power. Next, do the first
+power-up check (<a href="#d04-3-first-power-up-check">04 – Controller, step 3</a>).</p>
 <p>For deployment, build and flash <code>production</code> (or <code>standalone</code>) the same way,
 replacing <code>advanced</code> in both commands. Routine updates never write fuses.</p>
 <h4 id="d08-arduino-as-isp-fallback">Arduino as ISP (fallback)</h4>
@@ -7765,6 +7944,12 @@ you build.</p>
   GND → adapter GND; leave the adapter's VCC, TX, DTR and CTS open (sheet 5).
   Then run <code>pio device monitor --baud 9600</code> from <code>firmware/controller</code>.</li>
 </ul>
+<p>The one exception is the first power-up check straight after flashing
+(<a href="#d04-3-first-power-up-check">04 – Controller, step 3</a>).
+There, the adapter's 3.3 V VCC powers the bare board through the serial
+header, with the programmer and everything else disconnected. Never use the
+adapter's 5 V setting, and never connect its VCC while any other source
+powers the controller.</p>
 <h4 id="d08-line-format">Line format</h4>
 <p>Every line is space-separated <code>key=value</code> pairs starting with <code>fw=</code>. Both
 ESPHome profiles parse these keys; if you rename one, update both YAML files.</p>
@@ -8000,8 +8185,16 @@ wiring: that is what commissioning is for.</p>
 <td style="text-align: left;">Pin 1, MOSI/MISO, RST, VCC, slow SCK</td>
 </tr>
 <tr>
-<td style="text-align: left;">Signature not <code>0x1e950f</code></td>
+<td style="text-align: left;">Signature <code>1E 95 16 (ATmega328PB)</code></td>
+<td style="text-align: left;">328PB chip: use <code>-p m328pb</code>, not <code>-F</code></td>
+</tr>
+<tr>
+<td style="text-align: left;">Any other signature</td>
 <td style="text-align: left;">Wrong chip or wiring: stop</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>vdd=</code> about 5 V on the bench</td>
+<td style="text-align: left;">Fed from a 5 V pin or jumper: use 3.3 V</td>
 </tr>
 <tr>
 <td style="text-align: left;">Verification mismatch</td>
@@ -8326,9 +8519,9 @@ calibration, and how to decide from evidence that something is ready.</p>
 <p>Record your results as you go (a template is at the end). Sheet 5
 (<code>drawings/sheet-5.png</code>) shows gates 1–7 as a ribbon, and the printable
 <a href="drawings/controller-bench-sheet.pdf">controller bench sheet</a> covers Gate 1.</p>
-<p>A note on time: the controller's clock is its watchdog oscillator, which on
-the reference board runs about 12 % slow. A "300 s" confirmation therefore
-takes about 5.5 real minutes. That is normal.</p>
+<p>A note on time: the controller's clock is its watchdog oscillator, which is
+uncalibrated and varies by chip, typically 10–20 % slow. A "300 s"
+confirmation therefore takes about 5.5–6 real minutes. That is normal.</p>
 <figure><div class="drawing"><svg width="1440" height="900" preserveAspectRatio="xMinYMin meet" viewBox="0 0 1440 900" xmlns="http://www.w3.org/2000/svg" version="1.0" fill-rule="evenodd" xmlns:xlink="http://www.w3.org/1999/xlink">
 	<title>...</title>
 	<desc>...</desc>
@@ -9337,9 +9530,11 @@ takes about 5.5 real minutes. That is normal.</p>
 disconnected.</p>
 <hr />
 <h3 id="d10-gate-1-–-controller-on-a-bench-supply">Gate 1 – Controller on a bench supply</h3>
-<p>Set up: controller fuses set and <code>advanced</code> build flashed
-(<a href="#d08">08 – Firmware</a>). Current-limited bench supply (200 mA limit)
-at 3.80 V to VCC/GND. LED string on R3. Button and LDR fitted. Diagnostics via
+<p>Set up: controller fuses set, <code>advanced</code> build flashed and the first
+power-up check passed (<a href="#d04-build-steps">04 – Controller</a>).
+Regulator and power LED removed (Gate 0). Current-limited bench supply (200 mA
+limit) at 3.80 V to VCC/GND, the only power source; any USB-UART adapter is
+connected TX → RX and GND only. LED string on R3. Button and LDR fitted. Diagnostics via
 Tier 1 or a USB-UART adapter.</p>
 <div class="scroll"><table>
 <thead>
@@ -9351,7 +9546,7 @@ Tier 1 or a USB-UART adapter.</p>
 <tbody>
 <tr>
 <td style="text-align: left;">Reset</td>
-<td style="text-align: left;">Field guide, then lines starting <code>fw=</code></td>
+<td style="text-align: left;">Banner (version, build date), then <code>fw=</code></td>
 </tr>
 <tr>
 <td style="text-align: left;"><code>vdd</code> vs meter</td>
@@ -9403,8 +9598,17 @@ meter; the D2 test works; no unexplained current or heat.</p>
    second to the night level.</li>
 <li>Uncover for 300 s: <code>mode=DAY</code>, output fades to 0.</li>
 <li>Brief shadows or a torch flash must not cause a transition.</li>
+<li>At night with the lights on, note <code>ldr=</code>, then switch the string off (or
+   cover it) and note it again. The lights' own contribution should be a few
+   percent at most, and the lit reading must stay well below the light
+   threshold (60 %). Otherwise the lights can end their own night: shade the
+   LDR from the string (guide 06).</li>
 </ol>
-<p><strong>Pass:</strong> clean transitions, no flicker around the thresholds. Final threshold
+<p>An indoor bench sees room lights: a lamp switched on near the LDR can end the
+night early or delay dusk. Treat dusk and dawn times as meaningful only
+outdoors, in the final position.</p>
+<p><strong>Pass:</strong> clean transitions, no flicker around the thresholds; the lit
+reading stays well below the light threshold. Final threshold
 calibration happens in the real location during Gate 7.</p>
 <hr />
 <h3 id="d10-gate-4-–-low-voltage-behaviour-bench-supply">Gate 4 – Low-voltage behaviour (bench supply)</h3>

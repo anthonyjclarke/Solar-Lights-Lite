@@ -107,7 +107,8 @@ txt('JP3, "slow SCK": fit it if the chip will not answer. Old clone firmware ign
 y -= 3
 txt('Plug in the USBasp (Windows needs a libusb driver; macOS and Linux do not). Test first, this writes nothing:', col=INK)
 txt('avrdude -c usbasp -p m328p -v', size=8.8, bold=True)
-txt('Expect: Device signature = 0x1e950f. Stop if it differs, or reads all 00 / all ff.', size=8.8, col=GREEN)
+txt('Expect: Device signature = 1E 95 0F (ATmega328P). Stop on all 00 / all ff or anything else, except:', size=8.8, col=GREEN)
+txt('1E 95 16 (ATmega328PB): same firmware and fuses; use -p m328pb in every command. Never use -F.', size=8.8, col=GREEN)
 y -= 3
 txt('From firmware/controller, compile the advanced build with:', col=INK)
 txt('pio run -e advanced', size=8.8, bold=True)
@@ -123,6 +124,7 @@ c.setStrokeColor(LINE); c.line(L, y + 9, R, y + 9)
 for a, b in [('could not find USB device 0x16c0/0x5dc', 'USBasp not enumerated: cable, hub, or a dead clone'),
              ('device signature = 0x000000', 'No power at the target, or a loose wire. Check VCC on the board'),
              ('signature reads as 0xffffff', 'MISO not connected, or MOSI and MISO swapped'),
+             ('signature 1E 95 16 (ATmega328PB)', 'Not a fault: use -p m328pb instead of -p m328p'),
              ('initialization failed, rc=-1', 'SCK too fast: fit JP3, or try -B 8'),
              ('warning: cannot set sck period', 'Harmless on old clone firmware. Use JP3 instead')]:
     row([a, b], [250, 230], size=8.6)

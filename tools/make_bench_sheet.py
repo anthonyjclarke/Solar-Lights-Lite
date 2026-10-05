@@ -63,6 +63,7 @@ rule()
 
 box(['Before you start',
      'No cells connected for any of this. Use a current-limited bench supply, 200 mA limit, for VCC.',
+     'Step 2 needs the regulator and power LED removed (Gate 0) and the bench supply as the only power source.',
      'Do not connect the panel or the charger. R3 sits at the board end, not out at the string.',
      'Duty does not limit current: only R3 and the pin do. Verify at 4.20 V and 100% duty.'])
 
@@ -74,12 +75,15 @@ y -= 2
 row(['Action', 'Command / pass result'], [152, 300], bold=True, col=MUTED, size=8.5)
 c.setStrokeColor(LINE); c.line(L, y + 9, R, y + 9)
 row(['Open firmware folder', 'cd firmware/controller'], [152, 300], size=8.6)
-row(['Check the target', 'avrdude -c usbasp -p m328p -v   -> signature 0x1e950f'], [152, 300], size=8.6)
+row(['Check the target', 'avrdude -c usbasp -p m328p -v   -> signature 1E 95 0F'], [152, 300], size=8.6)
+row(['', '1E 95 16 = ATmega328PB: use -p m328pb, never -F'], [152, 300], size=8.6)
 row(['Compile advanced build', 'pio run -e advanced   -> SUCCESS'], [152, 300], size=8.6)
 row(['Upload and verify', 'standalone current avrdude; never pio -t upload'], [152, 300], size=8.6)
 y -= 2
-txt('Disconnect all ISP wires before normal power returns. USB-UART is monitoring-only: target TX -> adapter RX,', size=8.6)
-txt('OUT-/GND -> adapter GND; leave adapter VO/VCC, TX, DTR and CTS open. Monitor at 9600 baud.', size=8.6)
+row(['First power-up check', 'USB-UART at 3.3 V into serial-header VCC -> banner; vdd within 0.05 V of meter'], [152, 300], size=8.2)
+y -= 2
+txt('Disconnect all ISP wires first. Then remove the regulator and power LED (guide 04 step 5) and repeat the check.', size=8.6)
+txt('After that, USB-UART is monitoring-only: target TX -> adapter RX, GND -> GND; adapter VCC, TX, DTR, CTS open.', size=8.6)
 y -= 3
 txt('Tool setup, fuses, Arduino-as-ISP fallback and troubleshooting: docs/08-firmware.md', bold=True)
 rule()
@@ -90,7 +94,7 @@ txt('Read the diagnostics through Tier 1 telemetry or a USB-UART adapter (RX and
 y -= 2
 row(['Check', 'Expect'], [190, 250], bold=True, col=MUTED, size=8.5)
 c.setStrokeColor(LINE); c.line(L, y + 9, R, y + 9)
-row(['Startup after reset', 'One-time field guide, then rate-limited named diagnostic fields'], [190, 250])
+row(['Startup after reset', 'Banner with version and build date, field guide, then diagnostics'], [190, 250])
 row(['VCC at 3.80 V', 'vdd within 0.05 V of the meter (config.h BANDGAP_V = 1.10 x Vmeter / Vreported)'], [190, 250], size=8.2)
 row(['D9 PWM frequency', '1.9 to 2.0 kHz, confirming the 8 MHz clock'], [190, 250])
 row(['Pull D2 to GND', 'cause=BUTTON_TEST, output=100%, button timer counts down'], [190, 250], size=8.4)

@@ -27,6 +27,10 @@ Docs in `docs/` are the source of truth (numbered 01–12).
 
 ## Hardware gotchas
 
+- Clones may carry an ATmega328PB (signature 1E 95 16): same build and fuses,
+  avrdude `-p m328pb`; never `-F`.
+- Supply always enters VCC (top-row or serial-header VCC, same rail), never RAW.
+  Regulator and power LED are removed after the first power-up check, before Gate 0.
 - Pins: D9 LED PWM, D7 LDR supply, A1 LDR sense (R4 47k to OUT-), D2 button,
   D1/TX -> R8 47k -> Q2 2N3904 -> D1 Mini D6 (inverted, 9600 baud, receive-only).
   D8, D10, D11, A0 unused.
@@ -35,8 +39,8 @@ Docs in `docs/` are the source of truth (numbered 01–12).
   lambdas trim non-printable bytes from both ends of each line.
 - D1 Mini power: Tier 1 = its own micro-USB with U3 OUT disconnected; Tier 2 =
   U3 (TPS63802, 3.3 V) OUT to the 3V3 pin. Never both. D1 G to OUT-, never B-.
-- Watchdog clock runs ~12% slow on the reference board: 300 s confirmation is
-  ~5.5 real minutes; do not rely on `time=` for wall-clock durations.
+- Watchdog clock runs 10–20% slow, varying by chip (12% and 16% measured):
+  300 s confirmation is ~5.5–6 real minutes; never use `time=` as wall-clock.
 - Solar input: Option A (panel Voc <= 6.5 V) direct to M1; Option B via U0 5 V
   buck. The reference 7.6 V Voc panel is Option B.
 - TP4056 module has no cell-temperature inhibit (documented known limitation).

@@ -211,9 +211,11 @@ binary_sensor:
     name: "Arduino Diagnostics Fresh"
     device_class: connectivity
     entity_category: diagnostic
+    # The idle heartbeat is 60 scheduler seconds (~70 real s on a slow watchdog
+    # clock). 180 s tolerates one lost line; two in a row still show the link down.
     lambda: |-
       return id(last_arduino_report_ms) != 0 &&
-             (uint32_t) (millis() - id(last_arduino_report_ms)) < 90000U;
+             (uint32_t) (millis() - id(last_arduino_report_ms)) < 180000U;
   - platform: template
     name: "Arduino Lights Commanded"
     device_class: light
@@ -229,13 +231,18 @@ sensor:
     name: "Battery Voltage"
     pin: A0
     update_interval: 10s
-    samples: 16
+    # 16 samples blocked the loop ~66 ms ("took a long time" warning);
+    # take 4 per read and smooth over the last minute instead.
+    samples: 4
     accuracy_decimals: 2
     unit_of_measurement: "V"
     device_class: voltage
     state_class: measurement
     filters:
       - multiply: 5.21
+      - sliding_window_moving_average:
+          window_size: 6
+          send_every: 1
   - platform: copy
     source_id: battery_voltage
     name: "Battery Level"

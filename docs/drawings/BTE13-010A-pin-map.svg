@@ -19,6 +19,13 @@
 			<rect x="100" y="400" width="50" height="120" rx="10" ry="0" style="stroke: rgb(71%,79%,83%); stroke-linecap: butt; stroke-width: 1; fill: rgb(20%,26%,32%); fill-rule: evenodd;"/>
 			<text x="45" y="290" style="font-family: Helvetica-Bold; font-size: 18px;fill: rgb(9%,18%,27%); stroke:none;" transform="translate(0,580) scale(1,-1)">Serial header</text>
 			<text x="45" y="264" style="font-family: Helvetica; font-size: 16px;fill: rgb(9%,18%,27%); stroke:none;" transform="translate(0,528) scale(1,-1)">Not the ISP connector</text>
+			<text x="45" y="240" style="font-family: Helvetica-Bold; font-size: 15px;fill: rgb(75%,21%,23%); stroke:none;" transform="translate(0,480) scale(1,-1)">Its VCC = top-row VCC (same rail)</text>
+			<text x="58" y="505" style="font-family: Helvetica-Bold; font-size: 12px;fill: rgb(31%,39%,47%); stroke:none;" transform="translate(0,1010) scale(1,-1)">DTR</text>
+			<text x="58" y="485" style="font-family: Helvetica-Bold; font-size: 12px;fill: rgb(31%,39%,47%); stroke:none;" transform="translate(0,970) scale(1,-1)">TXO</text>
+			<text x="58" y="465" style="font-family: Helvetica-Bold; font-size: 12px;fill: rgb(31%,39%,47%); stroke:none;" transform="translate(0,930) scale(1,-1)">RXI</text>
+			<text x="58" y="445" style="font-family: Helvetica-Bold; font-size: 12px;fill: rgb(75%,21%,23%); stroke:none;" transform="translate(0,890) scale(1,-1)">VCC</text>
+			<text x="58" y="425" style="font-family: Helvetica-Bold; font-size: 12px;fill: rgb(31%,39%,47%); stroke:none;" transform="translate(0,850) scale(1,-1)">GND</text>
+			<text x="58" y="405" style="font-family: Helvetica-Bold; font-size: 12px;fill: rgb(31%,39%,47%); stroke:none;" transform="translate(0,810) scale(1,-1)">GND</text>
 			<rect x="400" y="405" width="220" height="105" rx="10" ry="0" style="stroke: rgb(71%,79%,83%); stroke-linecap: butt; stroke-width: 1; fill: rgb(20%,26%,32%); fill-rule: evenodd;"/>
 			<text x="425" y="468" style="font-family: Helvetica-Bold; font-size: 23px;fill: rgb(100%,100%,100%); stroke:none;" transform="translate(0,936) scale(1,-1)">ATmega328P</text>
 			<text x="425" y="435" style="font-family: Helvetica; font-size: 16px;fill: rgb(100%,100%,100%); stroke:none;" transform="translate(0,870) scale(1,-1)">Read ISP signature</text>
@@ -102,9 +109,9 @@
 			<path d="M 1123,338 L 1123,326 Z" style="stroke: rgb(0%,52%,44%); stroke-linecap: butt; stroke-width: 2;"/>
 			<rect x="45" y="65" width="630" height="155" rx="10" ry="0" style="stroke: rgb(71%,79%,83%); stroke-linecap: butt; stroke-width: 1; fill: rgb(94%,96%,97%); fill-rule: evenodd;"/>
 			<text x="65" y="189" style="font-family: Helvetica-Bold; font-size: 18px;fill: rgb(0%,52%,44%); stroke:none;" transform="translate(0,378) scale(1,-1)">OPERATING CONNECTIONS</text>
-			<text x="65" y="157" style="font-family: Helvetica; font-size: 16px;fill: rgb(9%,18%,27%); stroke:none;" transform="translate(0,314) scale(1,-1)">VCC = protected battery; GND = OUT-; RAW = unused</text>
-			<text x="65" y="133" style="font-family: Helvetica; font-size: 16px;fill: rgb(9%,18%,27%); stroke:none;" transform="translate(0,266) scale(1,-1)">A1 = LDR sense; 7 = LDR power; 9 = LED PWM</text>
-			<text x="65" y="109" style="font-family: Helvetica; font-size: 16px;fill: rgb(9%,18%,27%); stroke:none;" transform="translate(0,218) scale(1,-1)">TX = telemetry to Q2 2N3904; 2 = test button to GND</text>
+			<text x="65" y="157" style="font-family: Helvetica; font-size: 16px;fill: rgb(9%,18%,27%); stroke:none;" transform="translate(0,314) scale(1,-1)">Power goes into VCC (top row or header); RAW = never</text>
+			<text x="65" y="133" style="font-family: Helvetica; font-size: 16px;fill: rgb(9%,18%,27%); stroke:none;" transform="translate(0,266) scale(1,-1)">VCC = protected battery; GND = OUT-; A1 = LDR sense; 7 = LDR power</text>
+			<text x="65" y="109" style="font-family: Helvetica; font-size: 16px;fill: rgb(9%,18%,27%); stroke:none;" transform="translate(0,218) scale(1,-1)">9 = LED PWM; TX = telemetry to Q2; 2 = test button to GND</text>
 			<text x="65" y="85" style="font-family: Helvetica; font-size: 16px;fill: rgb(9%,18%,27%); stroke:none;" transform="translate(0,170) scale(1,-1)">Regulator / power LED removed only after trace identification.</text>
 			<rect x="700" y="65" width="650" height="155" rx="10" ry="0" style="stroke: rgb(71%,79%,83%); stroke-linecap: butt; stroke-width: 1; fill: rgb(100%,96%,90%); fill-rule: evenodd;"/>
 			<text x="720" y="189" style="font-family: Helvetica-Bold; font-size: 17px;fill: rgb(65%,37%,0%); stroke:none;" transform="translate(0,378) scale(1,-1)">ISP CONNECTIONS / BOARD DISCONNECTED FROM BUILD</text>

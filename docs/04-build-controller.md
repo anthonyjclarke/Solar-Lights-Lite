@@ -32,8 +32,12 @@ using the crystal, so after rework and fuse setting both versions behave the
 same. What you cannot do is leave a 16 MHz board running at 16 MHz from the
 battery; see [Why the controller runs at 8 MHz](#why-the-controller-runs-at-8-mhz).
 
-Check the chip marking says **ATmega328P**. Boards with an ATmega32U4 (Pro
-Micro) or ATmega168 are not compatible.
+Check the chip marking says **ATmega328P** or **ATmega328PB**. Many current
+clones carry the 328PB, sometimes sold as "ATmega328P". It runs the same
+firmware and fuses (this firmware has been run on both chips), and needs only
+avrdude's `-p m328pb` part name
+([08 – Firmware](08-firmware.md#one-time-preparation-of-a-new-board)). Boards
+with an ATmega32U4 (Pro Micro) or ATmega168 are not compatible.
 
 ---
 
@@ -57,40 +61,54 @@ digital pins low and disables unused analog input buffers.
 
 ---
 
+## Powering the board: VCC, RAW and the serial header
+
+A Pro Mini has three pins that look like power inputs:
+
+| Pin                        | What it is                      | In this build           |
+| :------------------------- | :------------------------------ | :---------------------- |
+| `RAW`                      | Input to the on-board regulator | Never connected         |
+| `VCC` (top row)            | The chip's supply rail          | The supply goes in here |
+| `VCC` on the serial header | Same rail as the top-row `VCC`  | Step 3 check only       |
+
+You may read that "VCC is an output". That is true only when the board is
+fed through RAW: the regulator then produces VCC, and the pin can supply
+other parts. Feeding VCC directly bypasses the regulator. That is a normal
+way to power a Pro Mini, and it is how this build runs, from the protected
+battery rail. Once the regulator is removed, VCC is the only way in.
+
+On the reference board, and on standard Pro Mini designs, the top-row `VCC`
+pin and the serial header's `VCC` are the same copper. Check yours once with
+the board unpowered, in continuity mode: top-row `VCC` to header `VCC` should
+beep, and after rework `RAW` to `VCC` should not.
+
+Only one power source at a time, and never 5 V:
+
+| Stage                         | Power source                   | Into         | Regulator      |
+| :---------------------------- | :----------------------------- | :----------- | :------------- |
+| Step 2 – fuses and flash      | USBasp set to 3.3 V            | `VCC` (ISP)  | Fitted is fine |
+| Step 3 – first power-up check | USB-UART adapter set to 3.3 V  | Header `VCC` | Fitted is fine |
+| Gate 1 – bench                | Bench supply 3.80 V, 200 mA    | `VCC`        | Removed        |
+| Gate 2 onwards                | Battery via M1 OUT+ (VBAT_SYS) | `VCC`        | Removed        |
+
+---
+
 ## Build steps
 
-### 1. Identify the regulator and power LED
+Prove the chip, fuses and firmware first, then do the rework, then decoupling.
+Gate 0 confirms the rework before anything goes onto the bench supply.
 
-1. Photograph the board. With no power applied, use continuity mode to trace
-   RAW to the regulator's input and VCC to its output. The regulator is
-   usually a SOT-23-5 or SOT-89 part near RAW.
-2. Find the power LED: the LED and series resistor connected permanently
-   across VCC and GND. The LED on D13 is a different one; leave it.
+### 1. Fit headers
 
-### 2. Remove them
+Fit headers (or plan direct wiring) for VCC, GND, D1/TX, D2, D7, D9, A1 and
+the six ISP pins (VCC, GND, RST, 11, 12, 13).
 
-1. Remove the regulator with hot air, or with plenty of flux and a wide iron
-   tip heating all pins together. Removing the power LED (or just its series
-   resistor) is enough for the LED branch.
-2. Do not remove decoupling capacitors next to the regulator.
-3. Check for shorts between VCC and GND afterwards.
-
-Why: the regulator and power LED together can draw milliamps continuously,
-which is hundreds of times the controller's sleep current. With a 2.7–4.2 V
-Li-ion rail the ATmega328P needs no regulator at 8 MHz.
-
-### 3. Fit headers and decoupling
-
-1. Fit headers (or plan direct wiring) for VCC, GND, D1/TX, D2, D7, D9, A1 and
-   the six ISP pins (VCC, GND, RST, 11, 12, 13).
-2. On the carrier, fit C3 (100 µF, 10 V) and C4 (100 nF) across VCC and GND,
-   close to the board.
-
-### 4. Set the fuses and flash the firmware
+### 2. Set the fuses and flash the firmware
 
 Follow [08 – Firmware](08-firmware.md):
 
-1. Read the chip signature (`0x1e950f`).
+1. Read the chip signature: `1E 95 0F` (ATmega328P) or `1E 95 16`
+   (ATmega328PB, use `-p m328pb`).
 2. Set the fuses once: low `0xE2`, high `0xD9`, extended `0xFD`.
 3. Build and flash the `advanced` firmware for commissioning.
 
@@ -100,7 +118,63 @@ Follow [08 – Firmware](08-firmware.md):
 | High     | `0xD9` | No bootloader; SPI programming enabled |
 | Extended | `0xFD` | Brown-out detection at 2.7 V           |
 
-### Why the controller runs at 8 MHz
+### 3. First power-up check
+
+This proves the board before you solder on it.
+
+1. Disconnect the USBasp.
+2. Set a USB-UART adapter to **3.3 V**. Connect adapter GND to GND, adapter
+   VCC to the serial header's `VCC`, and controller TX to adapter RX. Leave
+   the adapter's TX, DTR and CTS open.
+3. Run `pio device monitor --baud 9600` from `firmware/controller` and press
+   the board's reset button. The banner should show the firmware version and
+   the time you built it, followed by `fw=` lines.
+4. Meter DC volts across the top-row `VCC` and `GND` pins and compare with
+   `vdd=`.
+
+| Check           | Expect                                                 |
+| :-------------- | :----------------------------------------------------- |
+| Banner          | `Firmware v0.6.0 built <date and time of your build>`  |
+| `vdd=` vs meter | Within 0.05 V (calibrate in Gate 1 if not)             |
+| `battery=`      | `LOW`: correct on 3.3 V, below the 3.45 V level        |
+| First lines     | `cause=STARTUP_TEST`, then `DAY_OFF` or `DUSK_TO_DAWN` |
+
+3.3 V is close to the 3.30 V cut-off, so leave the lighting tests for Gate 1.
+`vdd=` around 5 V means the adapter is set to 5 V: disconnect it at once.
+When you have finished, disconnect the adapter's VCC. From here on the
+adapter is a monitor only (TX → RX and GND).
+
+### 4. Identify the regulator and power LED
+
+1. Photograph the board. With no power applied, use continuity mode to trace
+   RAW to the regulator's input and VCC to its output. The regulator is
+   usually a SOT-23-5 or SOT-89 part near RAW.
+2. Find the power LED: the LED and series resistor connected permanently
+   across VCC and GND. The LED on D13 is a different one; leave it.
+
+### 5. Remove them
+
+1. Remove the regulator with hot air, or with plenty of flux and a wide iron
+   tip heating all pins together. Removing the power LED (or just its series
+   resistor) is enough for the LED branch.
+2. Do not remove decoupling capacitors next to the regulator.
+3. Check for shorts between VCC and GND, and that RAW no longer connects to
+   VCC.
+4. Repeat the step 3 check. The same banner shows the rework did no harm.
+
+Why: the regulator and power LED together can draw milliamps continuously,
+which is hundreds of times the controller's sleep current. With a 2.7–4.2 V
+Li-ion rail the ATmega328P needs no regulator at 8 MHz. The rework must be
+done before Gate 0, which checks for it, and Gate 1.
+
+### 6. Fit decoupling
+
+On the carrier, fit C3 (100 µF, 10 V) and C4 (100 nF) across VCC and GND,
+close to the board.
+
+---
+
+## Why the controller runs at 8 MHz
 
 A 16 MHz Pro Mini is meant to run from its 5 V regulator. In this build the
 chip runs directly from one Li-ion cell, at 2.7–4.2 V, and 16 MHz is not
@@ -165,6 +239,7 @@ on the protected battery in **Gate 2**
 | :--------------------------------- | :------------------------------------ |
 | Programmer cannot see the chip     | Wiring, pin 1 orientation, or no VCC  |
 | Signature `0x000000` or `0xffffff` | No target power, or MISO/MOSI swapped |
+| Signature `1E 95 16`               | ATmega328PB: use `-p m328pb`          |
 | Serial text is garbage             | Fuses not set: still on 16 MHz clock  |
 | High sleep current                 | Regulator or power LED still fitted   |
 | D9 PWM not ~1.96 kHz               | Wrong clock (check the fuses)         |

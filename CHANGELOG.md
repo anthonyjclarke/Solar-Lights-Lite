@@ -30,8 +30,41 @@ with [README.md](README.md).
 - Controller reset banner (`advanced` and `production` builds): firmware
   version, build date and time, telemetry profile and clock setting.
 
+- ATmega328PB support documented after a bench dry run on a new board. That
+  board read signature `1E 95 16`, and the firmware ran unchanged. Guides 08
+  and 04, the USBasp sheet and the controller bench sheet now accept either
+  signature, use `-p m328pb` for the 328PB, and warn against `-F`.
+- Guide 08 lists typical factory fuses for a 16 MHz Pro Mini (`0xFF`/`0xDA`/
+  `0xFD`) and a troubleshooting row for `vdd=` reading about 5 V (supply
+  set to 5 V). It also covers powering the bare controller from a USB-UART
+  adapter's 3.3 V VCC pin for a quick check after flashing.
+- Guide 04 has a new "Powering the board" section covering VCC, RAW and the
+  serial header, with a table of the power source at each stage. Its build
+  steps are reordered: headers, then fuses and flash, then a new first
+  power-up check (3.3 V adapter into the header VCC; banner and `vdd` against
+  a meter), then the regulator and power LED rework (checked again
+  afterwards), then decoupling. The rework is now consistently required
+  before Gate 0 and Gate 1. Guides 08 and 10, the controller bench sheet and
+  the board map (serial-header pins, header VCC on the same rail) match.
+
 ### Changed
 
+- Advanced ESPHome profile: "Arduino Diagnostics Fresh" now allows 180 s
+  without a report, up from 90 s. An overnight v0.6 run lost 6 of 897 lines,
+  each leaving a gap of about 140 s, and every lost line briefly showed the
+  link as down. One lost line is now tolerated; two in a row still show it.
+- Watchdog drift documented as chip-dependent, typically 10–20 % slow (12 %
+  and 16 % measured), in `config.h` and guides 01 and 10.
+- Gate 3 adds a lit-LDR check: with the lights on at night the LDR may rise
+  only a few percent and must stay well below the light threshold. Guide 06
+  adds the same check, and Gate 3 notes that an indoor bench sees room
+  lights.
+- Advanced ESPHome profile: the battery ADC takes 4 samples per 10 s read
+  and averages the last six readings (one minute), replacing 16 samples per
+  read. The 16-sample read blocked the ESPHome loop for about 66 ms and
+  triggered "took a long time" warnings. The production profile is unchanged:
+  it reads once per hourly wake, so a moving average would not survive deep
+  sleep.
 - The `advanced` build's reset output is reorganised: banner, active settings,
   then an aligned field guide, ending with `Live diagnostics`. No reset line
   starts with `fw=`, so the ESPHome profiles are unaffected.

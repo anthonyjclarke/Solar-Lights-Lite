@@ -133,11 +133,34 @@ Run these from any folder. None of them are needed again for routine updates.
 avrdude -c usbasp -p m328p -v
 ```
 
-The device signature must be `0x1e950f`. Stop if it differs or reads all
-`00` or all `ff`.
+The signature tells you which chip is on the board, and that decides the
+`-p` part name for **every** avrdude command that follows:
+
+| Signature  | Chip        | Use in every command  |
+| :--------- | :---------- | :-------------------- |
+| `1E 95 0F` | ATmega328P  | `-p m328p` (as shown) |
+| `1E 95 16` | ATmega328PB | `-p m328pb`           |
+
+Stop if it reads anything else, or all `00` or all `ff` (see
+[Troubleshooting](#troubleshooting)).
+
+Many recent Pro Mini clones, including some sold as "ATmega328P", carry the
+newer **ATmega328PB**. With `-p m328p`, avrdude reports
+`Device signature = 1E 95 16 (ATmega328PB)` and refuses to continue. This
+does not mean the board is faulty. Repeat the command with `-p m328pb`, and
+use that in every later command. Do not use `-F` to force past the check:
+it switches off avrdude's check that it is talking to the chip you expect,
+for this command and any you copy it into.
+
+The 328PB is designed as a drop-in replacement for the 328P and runs the same
+firmware. The PlatformIO build (board `pro8MHzatmega328`) is unchanged, and so
+are the fuse values below. The 328PB's extra peripherals and its extra
+clock-failure fuse bit stay unused: the extended fuse `0xFD` leaves that bit
+unprogrammed, so the feature is off.
 
 **2. Save the existing fuses**, in case you ever want the board back as it
-was:
+was. A new 16 MHz Pro Mini normally reads low `0xFF`, high `0xDA`, extended
+`0xFD`; write down what yours shows.
 
 ```bash
 avrdude -c usbasp -p m328p -U lfuse:r:-:h -U hfuse:r:-:h -U efuse:r:-:h
@@ -181,8 +204,9 @@ Then flash it:
 avrdude -c usbasp -p m328p -v -U flash:w:.pio/build/advanced/firmware.hex:i
 ```
 
-Success needs both the write and the verify to pass. Unplug the programmer and
-remove all six ISP wires before reconnecting normal power.
+(On an ATmega328PB, `-p m328pb`.) Success needs both the write and the verify to pass. Unplug the programmer and
+remove all six ISP wires before reconnecting normal power. Next, do the first
+power-up check ([04 – Controller, step 3](04-build-controller.md#3-first-power-up-check)).
 
 For deployment, build and flash `production` (or `standalone`) the same way,
 replacing `advanced` in both commands. Routine updates never write fuses.
@@ -235,6 +259,13 @@ Two ways to read it:
 - **A 3.3 V USB-UART adapter**: connect only controller TX → adapter RX and
   GND → adapter GND; leave the adapter's VCC, TX, DTR and CTS open (sheet 5).
   Then run `pio device monitor --baud 9600` from `firmware/controller`.
+
+The one exception is the first power-up check straight after flashing
+([04 – Controller, step 3](04-build-controller.md#3-first-power-up-check)).
+There, the adapter's 3.3 V VCC powers the bare board through the serial
+header, with the programmer and everything else disconnected. Never use the
+adapter's 5 V setting, and never connect its VCC while any other source
+powers the controller.
 
 ### Line format
 
@@ -320,7 +351,9 @@ wiring: that is what commissioning is for.
 | avrdude path contains `.platformio`    | Wrong avrdude: use the standalone one    |
 | `cannot set sck period`                | Old USBasp firmware: fit slow-SCK jumper |
 | `target does not answer`               | Pin 1, MOSI/MISO, RST, VCC, slow SCK     |
-| Signature not `0x1e950f`               | Wrong chip or wiring: stop               |
+| Signature `1E 95 16 (ATmega328PB)`     | 328PB chip: use `-p m328pb`, not `-F`    |
+| Any other signature                    | Wrong chip or wiring: stop               |
+| `vdd=` about 5 V on the bench          | Fed from a 5 V pin or jumper: use 3.3 V  |
 | Verification mismatch                  | Check avrdude version, retry once        |
 | Serial text unreadable                 | Fuses not set (still 16 MHz)             |
 | No serial output at all                | `standalone` build, or TX/GND wiring     |

@@ -133,7 +133,7 @@ does not change. See [09 – Home Assistant](09-home-assistant.md).
 - **Five-minute confirmation and a threshold gap.** Car headlights, shadows
   and dusk flicker cannot toggle the lights.
 - **Dusk to dawn, no clock.** Without an RTC the watchdog timer is the only
-  time base, and it is uncalibrated (the reference board runs about 12 %
+  time base, and it is uncalibrated (it varies by chip, typically 10–20 %
   slow). Dusk-to-dawn operation never needs wall-clock time.
 - **Firmware cut-off plus hardware protection.** The firmware protects the
   battery from the lighting load; the charger module's DW01A protection

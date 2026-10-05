@@ -11,9 +11,9 @@ Record your results as you go (a template is at the end). Sheet 5
 (`drawings/sheet-5.png`) shows gates 1–7 as a ribbon, and the printable
 [controller bench sheet](drawings/controller-bench-sheet.pdf) covers Gate 1.
 
-A note on time: the controller's clock is its watchdog oscillator, which on
-the reference board runs about 12 % slow. A "300 s" confirmation therefore
-takes about 5.5 real minutes. That is normal.
+A note on time: the controller's clock is its watchdog oscillator, which is
+uncalibrated and varies by chip, typically 10–20 % slow. A "300 s"
+confirmation therefore takes about 5.5–6 real minutes. That is normal.
 
 ---
 
@@ -31,14 +31,16 @@ disconnected.
 
 ## Gate 1 – Controller on a bench supply
 
-Set up: controller fuses set and `advanced` build flashed
-([08 – Firmware](08-firmware.md)). Current-limited bench supply (200 mA limit)
-at 3.80 V to VCC/GND. LED string on R3. Button and LDR fitted. Diagnostics via
+Set up: controller fuses set, `advanced` build flashed and the first
+power-up check passed ([04 – Controller](04-build-controller.md#build-steps)).
+Regulator and power LED removed (Gate 0). Current-limited bench supply (200 mA
+limit) at 3.80 V to VCC/GND, the only power source; any USB-UART adapter is
+connected TX → RX and GND only. LED string on R3. Button and LDR fitted. Diagnostics via
 Tier 1 or a USB-UART adapter.
 
 | Check                        | Expect                                      |
 | :--------------------------- | :------------------------------------------ |
-| Reset                        | Field guide, then lines starting `fw=`      |
+| Reset                        | Banner (version, build date), then `fw=`    |
 | `vdd` vs meter               | Within 0.05 V after `BANDGAP_V` calibration |
 | D9 PWM frequency             | 1.9–2.0 kHz (confirms 8 MHz clock)          |
 | Press D2                     | `cause=BUTTON_TEST output=100%`             |
@@ -74,8 +76,18 @@ meter; the D2 test works; no unexplained current or heat.
    second to the night level.
 4. Uncover for 300 s: `mode=DAY`, output fades to 0.
 5. Brief shadows or a torch flash must not cause a transition.
+6. At night with the lights on, note `ldr=`, then switch the string off (or
+   cover it) and note it again. The lights' own contribution should be a few
+   percent at most, and the lit reading must stay well below the light
+   threshold (60 %). Otherwise the lights can end their own night: shade the
+   LDR from the string (guide 06).
 
-**Pass:** clean transitions, no flicker around the thresholds. Final threshold
+An indoor bench sees room lights: a lamp switched on near the LDR can end the
+night early or delay dusk. Treat dusk and dawn times as meaningful only
+outdoors, in the final position.
+
+**Pass:** clean transitions, no flicker around the thresholds; the lit
+reading stays well below the light threshold. Final threshold
 calibration happens in the real location during Gate 7.
 
 ---

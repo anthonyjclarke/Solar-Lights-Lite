@@ -47,9 +47,9 @@ constexpr float    LVC_RESUME_V = 3.60f;  // cut-off clears above this, in confi
 constexpr float BANDGAP_V = 1.10f;
 
 // ------------------------------------------------------------ timing
-// The watchdog oscillator is uncalibrated; on the reference board a scheduler
-// "second" is about 12% longer than a real one. Dusk-to-dawn operation does
-// not depend on wall-clock time.
+// The watchdog oscillator is uncalibrated and varies by chip: a scheduler
+// "second" is typically 10-20% longer than a real one (12% and 16% measured).
+// Dusk-to-dawn operation does not depend on wall-clock time.
 constexpr uint16_t TIME_SCALE = 1;  // bench only: 60 makes each real second count as a minute
 
 // Telemetry cadence, in scheduler seconds.

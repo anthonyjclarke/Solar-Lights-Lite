@@ -1,7 +1,7 @@
 /*
  * Solar Lights Lite – dusk-to-dawn controller for a low-power LED string
  * ---------------------------------------------------------------------
- * Target: ATmega328P Pro Mini-class board on its internal 8 MHz oscillator
+ * Target: ATmega328P (or drop-in ATmega328PB) Pro Mini-class board on its internal 8 MHz oscillator
  * (fuses L 0xE2, H 0xD9, E 0xFD: no bootloader, 2.7 V brown-out), powered
  * directly from the protected 1S Li-ion rail with the board regulator removed.
  * Firmware is flashed over ISP; see docs/08-firmware.md.
