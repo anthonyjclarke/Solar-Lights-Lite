@@ -5,7 +5,10 @@ with [README.md](README.md).
 
 ---
 
-## [Unreleased]
+## [0.6.0] 06-10-2026
+
+Bench-tested on a second controller board (ATmega328PB) through a full
+dusk-to-dawn night. Changes since the release candidate:
 
 ### Added
 
@@ -82,7 +85,7 @@ with [README.md](README.md).
 
 ---
 
-## [0.6.0] 30-09-2026
+## [0.6.0-rc1] 30-09-2026
 
 A restructure from a development record into a build-and-operate package. The
 circuit is unchanged; the controller firmware and both D1 Mini profiles change
@@ -187,4 +190,5 @@ always-on D1 Mini serial telemetry with its Home Assistant dashboard. The full
 record – review findings, dated measurements, superseded drawings and the
 original design – is preserved at tag `v0.5.5-history`.
 
-[0.6.0]: https://github.com/anthonyjclarke/Solar-Lights-Lite/compare/v0.5.5-history...v0.6.0
+[0.6.0]: https://github.com/anthonyjclarke/Solar-Lights-Lite/compare/v0.6.0-rc1...v0.6.0
+[0.6.0-rc1]: https://github.com/anthonyjclarke/Solar-Lights-Lite/compare/v0.5.5-history...v0.6.0-rc1

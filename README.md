@@ -139,9 +139,11 @@ module are in
 ## Status
 
 Version 0.6.0 is a complete build and operate package. The reference system is
-built and running with Advanced Telemetry; the 14-day soak, charger and panel
-qualification, and the Tier 2 switch-over (Gates 5–8) are the remaining steps
-before 1.0. See [`CHANGELOG.md`](CHANGELOG.md).
+built and running with Advanced Telemetry. The remaining steps before 1.0
+are: removing the regulator and power LED from the bench controller board
+([guide 04, step 5](docs/04-build-controller.md#5-remove-them)), which is
+deferred to the production build; the 14-day soak; charger and panel
+qualification; and the Tier 2 switch-over (Gates 5–8). See [`CHANGELOG.md`](CHANGELOG.md).
 
 This is a hobby design, not a certified product. Read the
 [safety notes](docs/02-parts-and-tools.md#safety) and the
