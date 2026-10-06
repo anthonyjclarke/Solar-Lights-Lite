@@ -47,6 +47,13 @@ with [README.md](README.md).
   before Gate 0 and Gate 1. Guides 08 and 10, the controller bench sheet and
   the board map (serial-header pins, header VCC on the same rail) match.
 
+- `docs/reference/ProMini-328PB-front.jpeg`: photo of the second tested
+  board, a blue ATmega328PB Pro Mini clone. Guide 04 describes it and adds
+  a test to tell its two LEDs apart (the power LED is the one that stays lit
+  while the firmware runs). On this board the power LED is the red one beside
+  the regulator, drawing about 1.8 mA (about 43 mAh a day). Guide 04 also
+  estimates the power LED's daily drain in general.
+
 ### Changed
 
 - Advanced ESPHome profile: "Arduino Diagnostics Fresh" now allows 180 s

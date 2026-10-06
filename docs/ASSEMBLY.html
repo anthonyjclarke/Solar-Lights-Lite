@@ -3467,6 +3467,14 @@ firmware and fuses (this firmware has been run on both chips), and needs only
 avrdude's <code>-p m328pb</code> part name
 (<a href="#d08-one-time-preparation-of-a-new-board">08 – Firmware</a>). Boards
 with an ATmega32U4 (Pro Micro) or ATmega168 are not compatible.</p>
+<p><strong>A second tested board</strong> is a common blue "Pro mini" clone with an
+ATmega328PB and a 16 MHz crystal
+(<a href="reference/ProMini-328PB-front.jpeg">photo</a>). Its pins match the reference
+board; only the parts around them differ. It carries two LEDs, each with a
+1 kΩ resistor (marked <code>102</code>). The red LED beside the 5-pin regulator (marked
+<code>LBM3</code>) is the power LED, drawing about 1.8 mA. The LED near pins 7–9, beside
+an <code>L</code> silkscreen mark, is on D13. Step 4 shows how to tell them apart on
+any board.</p>
 <hr />
 <h3 id="d04-pin-map">Pin map</h3>
 <div class="scroll"><table>
@@ -3697,7 +3705,10 @@ adapter is a monitor only (TX → RX and GND).</p>
    RAW to the regulator's input and VCC to its output. The regulator is
    usually a SOT-23-5 or SOT-89 part near RAW.</li>
 <li>Find the power LED: the LED and series resistor connected permanently
-   across VCC and GND. The LED on D13 is a different one; leave it.</li>
+   across VCC and GND. The LED on D13 is a different one; leave it.
+   The easiest test: with this firmware running (step 3), the controller
+   holds D13 low, so the D13 LED stays dark. <strong>The LED that stays lit is the
+   power LED.</strong> (Both flicker during ISP flashing, because D13 is also SCK.)</li>
 </ol>
 <h4 id="d04-5-remove-them">5. Remove them</h4>
 <ol>
@@ -3710,7 +3721,10 @@ adapter is a monitor only (TX → RX and GND).</p>
 <li>Repeat the step 3 check. The same banner shows the rework did no harm.</li>
 </ol>
 <p>Why: the regulator and power LED together can draw milliamps continuously,
-which is hundreds of times the controller's sleep current. With a 2.7–4.2 V
+which is hundreds of times the controller's sleep current. A power LED with
+a 1 kΩ (<code>102</code>) resistor draws about (3.7 V − LED voltage) / 1 kΩ: roughly
+0.8–1.8 mA depending on its colour, or 20–45 mAh a day. After a low-voltage
+cut-off it would keep draining the cell until the pack protection trips. With a 2.7–4.2 V
 Li-ion rail the ATmega328P needs no regulator at 8 MHz. The rework must be
 done before Gate 0, which checks for it, and Gate 1.</p>
 <h4 id="d04-6-fit-decoupling">6. Fit decoupling</h4>

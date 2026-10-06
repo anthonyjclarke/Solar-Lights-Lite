@@ -39,6 +39,15 @@ avrdude's `-p m328pb` part name
 ([08 – Firmware](08-firmware.md#one-time-preparation-of-a-new-board)). Boards
 with an ATmega32U4 (Pro Micro) or ATmega168 are not compatible.
 
+**A second tested board** is a common blue "Pro mini" clone with an
+ATmega328PB and a 16 MHz crystal
+([photo](reference/ProMini-328PB-front.jpeg)). Its pins match the reference
+board; only the parts around them differ. It carries two LEDs, each with a
+1 kΩ resistor (marked `102`). The red LED beside the 5-pin regulator (marked
+`LBM3`) is the power LED, drawing about 1.8 mA. The LED near pins 7–9, beside
+an `L` silkscreen mark, is on D13. Step 4 shows how to tell them apart on
+any board.
+
 ---
 
 ## Pin map
@@ -151,6 +160,9 @@ adapter is a monitor only (TX → RX and GND).
    usually a SOT-23-5 or SOT-89 part near RAW.
 2. Find the power LED: the LED and series resistor connected permanently
    across VCC and GND. The LED on D13 is a different one; leave it.
+   The easiest test: with this firmware running (step 3), the controller
+   holds D13 low, so the D13 LED stays dark. **The LED that stays lit is the
+   power LED.** (Both flicker during ISP flashing, because D13 is also SCK.)
 
 ### 5. Remove them
 
@@ -163,7 +175,10 @@ adapter is a monitor only (TX → RX and GND).
 4. Repeat the step 3 check. The same banner shows the rework did no harm.
 
 Why: the regulator and power LED together can draw milliamps continuously,
-which is hundreds of times the controller's sleep current. With a 2.7–4.2 V
+which is hundreds of times the controller's sleep current. A power LED with
+a 1 kΩ (`102`) resistor draws about (3.7 V − LED voltage) / 1 kΩ: roughly
+0.8–1.8 mA depending on its colour, or 20–45 mAh a day. After a low-voltage
+cut-off it would keep draining the cell until the pack protection trips. With a 2.7–4.2 V
 Li-ion rail the ATmega328P needs no regulator at 8 MHz. The rework must be
 done before Gate 0, which checks for it, and Gate 1.
 
