@@ -145,8 +145,11 @@ def k_promini():
         s.rect(5.35, 1.55, 0.8, 0.4, fill='#e3dfd3')
         s.rect(5.35, 4.05, 0.8, 0.4, fill='#e3dfd3')
         pads(s, pins)
+    # serial header, top to bottom: its VCC is the same rail as top-row VCC
+    head = ['DTR', 'TXO', 'RXI', 'VCC', 'GND', 'GND']
     labels = [(t, i, 0.95, 0.36, '#ffffff') for i, t in enumerate(silk_t)] + \
-             [(t, i, 5.35, 0.36, '#ffffff') for i, t in enumerate(silk_b)]
+             [(t, i, 5.35, 0.36, '#ffffff') for i, t in enumerate(silk_b)] + \
+             [(t, -2.35, k + 0.28, 0.3, RED if t == 'VCC' else MUTED) for k, t in enumerate(head)]
     return dict(pins=pins, body=(-1.25, -0.5, 11.5, 6.5), keep=[(-3.3, 0.3, -1.25, 5.7)], draw=draw, labels=labels)
 
 
@@ -683,7 +686,7 @@ RAIL_COLS = [c for c in range(2, 61) if (c - 2) % 6 != 5]
 
 
 def breadboard():
-    W, H, P = 1800, 1290, 22
+    W, H, P = 1800, 1334, 22
     bb = Board('bb', P, 128, 596)
     free = Board('free', P, 0, 0)
 
@@ -691,7 +694,7 @@ def breadboard():
     bb.add('M3', 'd1mini', 4, 10, 270, label='M3  Wemos D1 Mini', lab=(7.5, -0.9, 'middle'))
     bb.add('U3', 'hl802', 18, 4, 90, label='U3 3.3 V', lab=(19.0, 5.85, 'start'))
     bb.add('C2', 'elec', 16, 2, 0, rad=1.25, pitch=2, label='C2 470u', lab=(19.4, 2.35, 'start'))
-    bb.add('M2', 'promini', 26, 2, 0, label='M2  Pro Mini\nBTE13-010A', lab=(39.3, 4.2, 'start'))
+    bb.add('M2', 'promini', 26, 2, 0, label='M2  Pro Mini\n328P or 328PB', lab=(39.3, 4.2, 'start'))
     bb.add('Q2', 'to92', 22, 8, 180, label='Q2 2N3904', lab=(21, 7.15, 'middle'))
     bb.add('R8', 'res', 26, 10, 180, span=5, ohms=47000, label='R8 47k', lab=(23.5, 12.35, 'middle'))
     bb.add('R9', 'res', 21, 11, 90, span=3, ohms=100000, label='R9 100k', lab=(20.4, 13.4, 'end'))
@@ -887,12 +890,15 @@ def breadboard():
         'Tier 1: remove the JP1 shunt and power the D1 Mini from its USB. Remove JP2 to flash it over USB.',
         'Rails: outer red = VBAT_SYS, inner blue = GND_LOAD, linked top to bottom at columns 59 and 60.',
         'Q2 flat face toward the channel (E-B-C = columns 22-21-20). Check the pin order of your part.',
-        'M1 B- stays behind the protection: never join it to OUT- or a breadboard rail.'])
+        'M1 B- stays behind the protection: never join it to OUT- or a breadboard rail.',
+        'Power enters M2 top-row VCC from the rail; RAW stays empty. Regulator and power LED off first (Gate 0).',
+        'Shade LDR1 from the LED string: with the lights on, ldr= may rise only a few percent (Gate 3).'])
     notes(s, 912, 1092, 846, 'Why it is laid out this way', [
         'Every module pin has one free hole beside it, so parts plug straight into the pin columns:',
         'R5 A0 to rail, R9 base to rail, R4 A1 to rail, SW1 D2 to rail, C4 across the M2 pins.',
         'U3 straddles the channel so its input and output pads never share a column.',
         'D1 Mini antenna overhangs the left end; its USB faces U3, which is low enough for the plug.',
+        'Nothing sits by the M2 serial header, so a USB-UART can clip on to monitor TXO (TX to RX, GND).',
         'The whole drawing is checked against docs/netlist.json when it is generated.'],
         GREEN, '#f3faf7', '#a9d8c6')
     return s
@@ -1030,11 +1036,11 @@ def ascii_map(used):
 
 
 def perfboard():
-    W, H, P = 1800, 1400, 28
+    W, H, P = 1800, 1444, 28
     pb = Board('pb', P, 380, 196)
     add = pb.add
     add('M3', 'd1mini', 10, 1, 90, label='M3  Wemos D1 Mini', lab=(6.6, 12.35, 'middle'))
-    add('M2', 'promini', 33, 1, 90, label='M2  Pro Mini', lab=(30, 13.6, 'middle'))
+    add('M2', 'promini', 33, 1, 90, label='M2  Pro Mini\n328P or 328PB', lab=(30, 13.6, 'middle'))
     add('C4', 'cer', 34, 4, 270, label='C4', lab=(34.5, 1.35, 'middle'))
     add('R4', 'res', 35, 7, 270, ohms=47000, label='R4 47k', lab=(36.2, 5.6, 'start'))
     add('C3', 'elec', 37, 2, 180, rad=1.0, label='C3 100u', lab=(37.2, -0.9, 'middle'))
@@ -1195,12 +1201,15 @@ def perfboard():
         'M2 and M3 plug into female headers. M1, U0 and U3 stand on header pins: their pads are not all on',
         '0.1 in pitch, so bend the pins to suit and follow the pad labels, not these positions.',
         'Tier 1: pull the JP1 shunt and power M3 from USB. Pull JP2 to flash M3 over USB.',
-        'Cable entries: J1 panel, J2 cells, J3 to F2 and S1, J4 LED string, J5 LDR.'])
+        'Cable entries: J1 panel, J2 cells, J3 to F2 and S1, J4 LED string, J5 LDR.',
+        'Flash, check and rework M2 off the carrier (guides 04, 08). Power enters its VCC; RAW is never wired.',
+        'Mount LDR1 where it sees the sky but not the LED string: ldr= may rise only a few percent (Gate 3).'])
     notes(s, 912, 1188, 846, 'Why it is laid out this way', [
         'M3 USB overhangs the left edge; its antenna end faces only small, low parts, away from the cells.',
         'M2 stands on end so TX, D2, D7 and D9 face the parts they drive; A1 and VCC face the right edge.',
         'Traces run under the modules between their pin rows, which is where most of the wiring hides.',
         'M1 B- only reaches J2: it never joins OUT- or any GND_LOAD trace.',
+        'M2 serial header overhangs the top edge, free for a USB-UART monitor (TXO to RX, GND to GND).',
         'The whole drawing is checked against docs/netlist.json when it is generated.'],
         GREEN, '#f3faf7', '#a9d8c6')
     return s

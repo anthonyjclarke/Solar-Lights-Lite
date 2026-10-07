@@ -1,12 +1,12 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1800" height="1400" viewBox="0 0 1800 1400" font-family="Helvetica, Arial, sans-serif">
-<rect x="0" y="0" width="1800" height="1400" fill="#ffffff"/>
+<svg xmlns="http://www.w3.org/2000/svg" width="1800" height="1444" viewBox="0 0 1800 1444" font-family="Helvetica, Arial, sans-serif">
+<rect x="0" y="0" width="1800" height="1444" fill="#ffffff"/>
 <text x="42" y="44" font-size="15" fill="#008572" text-anchor="start" font-weight="bold">SOLAR LIGHTS LITE / BUILD LAYOUTS</text>
 <text x="42" y="84" font-size="30" fill="#173047" text-anchor="start" font-weight="bold">Perfboard layout: the whole system</text>
 <text x="42" y="112" font-size="15" fill="#516578" text-anchor="start">Tier 2 jumpers fitted. Modules sit in sockets or on header pins; coloured lines are the solder traces on the underside, seen through the board.</text>
 <line x1="42" y1="130" x2="1758" y2="130" stroke="#d5e0e6" stroke-width="1"/>
-<line x1="42" y1="1356" x2="1758" y2="1356" stroke="#d5e0e6" stroke-width="1"/>
-<text x="42" y="1380" font-size="12.5" fill="#008572" text-anchor="start" font-weight="bold">REV 0.6  |  READ MODULE PAD LABELS, NOT BOARD POSITIONS</text>
-<text x="1758" y="1380" font-size="12.5" fill="#516578" text-anchor="end">PERFBOARD LAYOUT</text>
+<line x1="42" y1="1400" x2="1758" y2="1400" stroke="#d5e0e6" stroke-width="1"/>
+<text x="42" y="1424" font-size="12.5" fill="#008572" text-anchor="start" font-weight="bold">REV 0.6  |  READ MODULE PAD LABELS, NOT BOARD POSITIONS</text>
+<text x="1758" y="1424" font-size="12.5" fill="#516578" text-anchor="end">PERFBOARD LAYOUT</text>
 <rect x="34" y="606" width="180" height="190" fill="#dfe4e8" rx="10"/>
 <rect x="30" y="600" width="180" height="190" fill="#26282c" stroke="#101113" stroke-width="1.5" rx="10"/>
 <rect x="48" y="618" width="60" height="154" fill="#3f9d5a" stroke="#29663a" stroke-width="1.2" rx="26"/>
@@ -2233,6 +2233,12 @@
 <text x="1154.2" y="478.52" font-size="10.08" fill="#ffffff" text-anchor="middle" font-weight="bold">7</text>
 <text x="1154.2" y="506.52" font-size="10.08" fill="#ffffff" text-anchor="middle" font-weight="bold">8</text>
 <text x="1154.2" y="534.52" font-size="10.08" fill="#ffffff" text-anchor="middle" font-weight="bold">9</text>
+<text x="1296.16" y="160.3" font-size="8.4" fill="#516578" text-anchor="middle" font-weight="bold">DTR</text>
+<text x="1268.16" y="160.3" font-size="8.4" fill="#516578" text-anchor="middle" font-weight="bold">TXO</text>
+<text x="1240.16" y="160.3" font-size="8.4" fill="#516578" text-anchor="middle" font-weight="bold">RXI</text>
+<text x="1212.16" y="160.3" font-size="8.4" fill="#c1363d" text-anchor="middle" font-weight="bold">VCC</text>
+<text x="1184.16" y="160.3" font-size="8.4" fill="#516578" text-anchor="middle" font-weight="bold">GND</text>
+<text x="1156.16" y="160.3" font-size="8.4" fill="#516578" text-anchor="middle" font-weight="bold">GND</text>
 <g transform="translate(1332,308) rotate(270) scale(28)">
 <line x1="0" y1="0" x2="2" y2="0" stroke="#a7abb0" stroke-width="0.1"/>
 <ellipse cx="1" cy="0" rx="0.75" ry="0.48" fill="#e3992f" stroke="#b3721a" stroke-width="0.05"/>
@@ -2799,6 +2805,8 @@
 <text x="564.8" y="541.8" font-size="12" fill="#173047" text-anchor="middle" font-weight="bold">M3  Wemos D1 Mini</text>
 <rect x="1180.082" y="565.8" width="79.836" height="16" fill="#ffffff" opacity="0.88" rx="3"/>
 <text x="1220" y="576.8" font-size="12" fill="#173047" text-anchor="middle" font-weight="bold">M2  Pro Mini</text>
+<rect x="1175.36" y="579.8" width="89.28" height="16" fill="#ffffff" opacity="0.88" rx="3"/>
+<text x="1220" y="590.8" font-size="12" fill="#516578" text-anchor="middle">328P or 328PB</text>
 <rect x="1335.377" y="222.8" width="21.246" height="16" fill="#ffffff" opacity="0.88" rx="3"/>
 <text x="1346" y="233.8" font-size="12" fill="#173047" text-anchor="middle" font-weight="bold">C4</text>
 <rect x="1390.6" y="341.8" width="45.564" height="16" fill="#ffffff" opacity="0.88" rx="3"/>
@@ -2896,18 +2904,21 @@
 <path d="M894.625 1164 H 924.625" fill="none" stroke="#12a37f" stroke-width="5.5" stroke-linecap="round"/>
 <path d="M894.625 1164 H 924.625" fill="none" stroke="#7dccb9" stroke-width="1.21" stroke-linecap="round" transform="translate(0,-0.99)" opacity="0.55"/>
 <text x="934.625" y="1168.5" font-size="12.5" fill="#173047" text-anchor="start">Logic / sensor</text>
-<rect x="42" y="1188" width="850" height="149" fill="#fffaf0" stroke="#e5c58f" stroke-width="1.2" rx="12"/>
+<rect x="42" y="1188" width="850" height="191" fill="#fffaf0" stroke="#e5c58f" stroke-width="1.2" rx="12"/>
 <text x="60" y="1215" font-size="15" fill="#ad6200" text-anchor="start" font-weight="bold">Build notes</text>
 <text x="60" y="1239" font-size="13" fill="#173047" text-anchor="start">One top-side wire (VBAT_SYS, red, beside M2). Everything else is solder bridge or tinned wire underneath, about 75 cm.</text>
 <text x="60" y="1260" font-size="13" fill="#173047" text-anchor="start">M2 and M3 plug into female headers. M1, U0 and U3 stand on header pins: their pads are not all on</text>
 <text x="60" y="1281" font-size="13" fill="#173047" text-anchor="start">0.1 in pitch, so bend the pins to suit and follow the pad labels, not these positions.</text>
 <text x="60" y="1302" font-size="13" fill="#173047" text-anchor="start">Tier 1: pull the JP1 shunt and power M3 from USB. Pull JP2 to flash M3 over USB.</text>
 <text x="60" y="1323" font-size="13" fill="#173047" text-anchor="start">Cable entries: J1 panel, J2 cells, J3 to F2 and S1, J4 LED string, J5 LDR.</text>
-<rect x="912" y="1188" width="846" height="149" fill="#f3faf7" stroke="#a9d8c6" stroke-width="1.2" rx="12"/>
+<text x="60" y="1344" font-size="13" fill="#173047" text-anchor="start">Flash, check and rework M2 off the carrier (guides 04, 08). Power enters its VCC; RAW is never wired.</text>
+<text x="60" y="1365" font-size="13" fill="#173047" text-anchor="start">Mount LDR1 where it sees the sky but not the LED string: ldr= may rise only a few percent (Gate 3).</text>
+<rect x="912" y="1188" width="846" height="170" fill="#f3faf7" stroke="#a9d8c6" stroke-width="1.2" rx="12"/>
 <text x="930" y="1215" font-size="15" fill="#008572" text-anchor="start" font-weight="bold">Why it is laid out this way</text>
 <text x="930" y="1239" font-size="13" fill="#173047" text-anchor="start">M3 USB overhangs the left edge; its antenna end faces only small, low parts, away from the cells.</text>
 <text x="930" y="1260" font-size="13" fill="#173047" text-anchor="start">M2 stands on end so TX, D2, D7 and D9 face the parts they drive; A1 and VCC face the right edge.</text>
 <text x="930" y="1281" font-size="13" fill="#173047" text-anchor="start">Traces run under the modules between their pin rows, which is where most of the wiring hides.</text>
 <text x="930" y="1302" font-size="13" fill="#173047" text-anchor="start">M1 B- only reaches J2: it never joins OUT- or any GND_LOAD trace.</text>
-<text x="930" y="1323" font-size="13" fill="#173047" text-anchor="start">The whole drawing is checked against docs/netlist.json when it is generated.</text>
+<text x="930" y="1323" font-size="13" fill="#173047" text-anchor="start">M2 serial header overhangs the top edge, free for a USB-UART monitor (TXO to RX, GND to GND).</text>
+<text x="930" y="1344" font-size="13" fill="#173047" text-anchor="start">The whole drawing is checked against docs/netlist.json when it is generated.</text>
 </svg>
