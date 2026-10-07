@@ -145,7 +145,7 @@ button.
 | Arduino Diagnostics Fresh             | ✓      | ✓      | Tier 2: line this wake   |
 | Arduino LDR Raw / LDR Voltage         | ✓      |        | Advanced detail          |
 | Arduino Transition Confirmation       | ✓      |        | Dusk/dawn progress       |
-| Arduino LVC Elapsed / Button Test     | ✓      |        | Timers                   |
+| Arduino LVC Elapsed / Button Test     | ✓      |        | Timers (see guide 11)    |
 | D1 WiFi Signal                        | ✓      | ✓      |                          |
 | D1 Status, IP, SSID, uptime, heap     | ✓      |        | Receiver health          |
 

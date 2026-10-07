@@ -1862,15 +1862,15 @@ programming, and why clock speed and supply voltage are linked.</p>
 		</g>
 	</g>
 </svg>
-</div><figcaption><b>Reference board connection and programming map</b> · <a href="drawings/BTE13-010A-pin-map.svg">Full-size SVG</a> · <a href="drawings/BTE13-010A-pin-map.pdf">Printable PDF</a></figcaption></figure><figure><div class="drawing"><svg xmlns="http://www.w3.org/2000/svg" width="1800" height="1290" viewBox="0 0 1800 1290" font-family="Helvetica, Arial, sans-serif">
-<rect x="0" y="0" width="1800" height="1290" fill="#ffffff"/>
+</div><figcaption><b>Reference board connection and programming map</b> · <a href="drawings/BTE13-010A-pin-map.svg">Full-size SVG</a> · <a href="drawings/BTE13-010A-pin-map.pdf">Printable PDF</a></figcaption></figure><figure><div class="drawing"><svg xmlns="http://www.w3.org/2000/svg" width="1800" height="1334" viewBox="0 0 1800 1334" font-family="Helvetica, Arial, sans-serif">
+<rect x="0" y="0" width="1800" height="1334" fill="#ffffff"/>
 <text x="42" y="44" font-size="15" fill="#008572" text-anchor="start" font-weight="bold">SOLAR LIGHTS LITE / BUILD LAYOUTS</text>
 <text x="42" y="84" font-size="30" fill="#173047" text-anchor="start" font-weight="bold">Breadboard layout: the whole system</text>
 <text x="42" y="112" font-size="15" fill="#516578" text-anchor="start">Tier 2 jumpers fitted. The panel, charger, cells, fuses and service switch stay on soldered leads; only the protected VBAT_SYS and OUT- reach the breadboard.</text>
 <line x1="42" y1="130" x2="1758" y2="130" stroke="#d5e0e6" stroke-width="1"/>
-<line x1="42" y1="1246" x2="1758" y2="1246" stroke="#d5e0e6" stroke-width="1"/>
-<text x="42" y="1270" font-size="12.5" fill="#008572" text-anchor="start" font-weight="bold">REV 0.6  |  READ MODULE PAD LABELS, NOT BOARD POSITIONS</text>
-<text x="1758" y="1270" font-size="12.5" fill="#516578" text-anchor="end">BREADBOARD LAYOUT</text>
+<line x1="42" y1="1290" x2="1758" y2="1290" stroke="#d5e0e6" stroke-width="1"/>
+<text x="42" y="1314" font-size="12.5" fill="#008572" text-anchor="start" font-weight="bold">REV 0.6  |  READ MODULE PAD LABELS, NOT BOARD POSITIONS</text>
+<text x="1758" y="1314" font-size="12.5" fill="#516578" text-anchor="end">BREADBOARD LAYOUT</text>
 <rect x="154" y="174" width="180" height="190" fill="#dfe4e8" rx="10"/>
 <rect x="150" y="168" width="180" height="190" fill="#26282c" stroke="#101113" stroke-width="1.5" rx="10"/>
 <rect x="168" y="186" width="60" height="154" fill="#3f9d5a" stroke="#29663a" stroke-width="1.2" rx="26"/>
@@ -3087,6 +3087,12 @@ programming, and why clock speed and supply voltage are linked.</p>
 <text x="898" y="759.68" font-size="7.92" fill="#ffffff" text-anchor="middle" font-weight="bold">7</text>
 <text x="920" y="759.68" font-size="7.92" fill="#ffffff" text-anchor="middle" font-weight="bold">8</text>
 <text x="942" y="759.68" font-size="7.92" fill="#ffffff" text-anchor="middle" font-weight="bold">9</text>
+<text x="648.3" y="647.81" font-size="6.6" fill="#516578" text-anchor="middle" font-weight="bold">DTR</text>
+<text x="648.3" y="669.81" font-size="6.6" fill="#516578" text-anchor="middle" font-weight="bold">TXO</text>
+<text x="648.3" y="691.81" font-size="6.6" fill="#516578" text-anchor="middle" font-weight="bold">RXI</text>
+<text x="648.3" y="713.81" font-size="6.6" fill="#c1363d" text-anchor="middle" font-weight="bold">VCC</text>
+<text x="648.3" y="735.81" font-size="6.6" fill="#516578" text-anchor="middle" font-weight="bold">GND</text>
+<text x="648.3" y="757.81" font-size="6.6" fill="#516578" text-anchor="middle" font-weight="bold">GND</text>
 <g transform="translate(612,772) rotate(180) scale(22)">
 <path d="M-0.1 0.45 H 2.1 A 1.1 1.4 0 0 0 -0.1 0.45 Z" fill="#1d1f22" stroke="#000000" stroke-width="0.05"/>
 </g>
@@ -3350,8 +3356,8 @@ programming, and why clock speed and supply voltage are linked.</p>
 <text x="554.8" y="647.7" font-size="12" fill="#173047" text-anchor="start" font-weight="bold">C2 470u</text>
 <rect x="989.6" y="677.4" width="79.836" height="16" fill="#ffffff" opacity="0.88" rx="3"/>
 <text x="992.6" y="688.4" font-size="12" fill="#173047" text-anchor="start" font-weight="bold">M2  Pro Mini</text>
-<rect x="989.6" y="691.4" width="77.28" height="16" fill="#ffffff" opacity="0.88" rx="3"/>
-<text x="992.6" y="702.4" font-size="12" fill="#516578" text-anchor="start">BTE13-010A</text>
+<rect x="989.6" y="691.4" width="89.28" height="16" fill="#ffffff" opacity="0.88" rx="3"/>
+<text x="992.6" y="702.4" font-size="12" fill="#516578" text-anchor="start">328P or 328PB</text>
 <rect x="556.13" y="742.3" width="67.74" height="16" fill="#ffffff" opacity="0.88" rx="3"/>
 <text x="590" y="753.3" font-size="12" fill="#173047" text-anchor="middle" font-weight="bold">Q2 2N3904</text>
 <rect x="622.218" y="856.7" width="45.564" height="16" fill="#ffffff" opacity="0.88" rx="3"/>
@@ -3432,20 +3438,23 @@ programming, and why clock speed and supply voltage are linked.</p>
 <path d="M1058.625 1068 H 1088.625" fill="none" stroke="#12a37f" stroke-width="5.5" stroke-linecap="round"/>
 <path d="M1058.625 1068 H 1088.625" fill="none" stroke="#7dccb9" stroke-width="1.21" stroke-linecap="round" transform="translate(0,-0.99)" opacity="0.55"/>
 <text x="1098.625" y="1072.5" font-size="12.5" fill="#173047" text-anchor="start">Logic / sensor</text>
-<rect x="42" y="1092" width="850" height="149" fill="#fffaf0" stroke="#e5c58f" stroke-width="1.2" rx="12"/>
+<rect x="42" y="1092" width="850" height="191" fill="#fffaf0" stroke="#e5c58f" stroke-width="1.2" rx="12"/>
 <text x="60" y="1119" font-size="15" fill="#ad6200" text-anchor="start" font-weight="bold">Build notes</text>
 <text x="60" y="1143" font-size="13" fill="#173047" text-anchor="start">10 jumper wires on the board (JP2 is the yellow D0-RST link), 2 rail links, one JP1 header.</text>
 <text x="60" y="1164" font-size="13" fill="#173047" text-anchor="start">Tier 1: remove the JP1 shunt and power the D1 Mini from its USB. Remove JP2 to flash it over USB.</text>
 <text x="60" y="1185" font-size="13" fill="#173047" text-anchor="start">Rails: outer red = VBAT_SYS, inner blue = GND_LOAD, linked top to bottom at columns 59 and 60.</text>
 <text x="60" y="1206" font-size="13" fill="#173047" text-anchor="start">Q2 flat face toward the channel (E-B-C = columns 22-21-20). Check the pin order of your part.</text>
 <text x="60" y="1227" font-size="13" fill="#173047" text-anchor="start">M1 B- stays behind the protection: never join it to OUT- or a breadboard rail.</text>
-<rect x="912" y="1092" width="846" height="149" fill="#f3faf7" stroke="#a9d8c6" stroke-width="1.2" rx="12"/>
+<text x="60" y="1248" font-size="13" fill="#173047" text-anchor="start">Power enters M2 top-row VCC from the rail; RAW stays empty. Regulator and power LED off first (Gate 0).</text>
+<text x="60" y="1269" font-size="13" fill="#173047" text-anchor="start">Shade LDR1 from the LED string: with the lights on, ldr= may rise only a few percent (Gate 3).</text>
+<rect x="912" y="1092" width="846" height="170" fill="#f3faf7" stroke="#a9d8c6" stroke-width="1.2" rx="12"/>
 <text x="930" y="1119" font-size="15" fill="#008572" text-anchor="start" font-weight="bold">Why it is laid out this way</text>
 <text x="930" y="1143" font-size="13" fill="#173047" text-anchor="start">Every module pin has one free hole beside it, so parts plug straight into the pin columns:</text>
 <text x="930" y="1164" font-size="13" fill="#173047" text-anchor="start">R5 A0 to rail, R9 base to rail, R4 A1 to rail, SW1 D2 to rail, C4 across the M2 pins.</text>
 <text x="930" y="1185" font-size="13" fill="#173047" text-anchor="start">U3 straddles the channel so its input and output pads never share a column.</text>
 <text x="930" y="1206" font-size="13" fill="#173047" text-anchor="start">D1 Mini antenna overhangs the left end; its USB faces U3, which is low enough for the plug.</text>
-<text x="930" y="1227" font-size="13" fill="#173047" text-anchor="start">The whole drawing is checked against docs/netlist.json when it is generated.</text>
+<text x="930" y="1227" font-size="13" fill="#173047" text-anchor="start">Nothing sits by the M2 serial header, so a USB-UART can clip on to monitor TXO (TX to RX, GND).</text>
+<text x="930" y="1248" font-size="13" fill="#173047" text-anchor="start">The whole drawing is checked against docs/netlist.json when it is generated.</text>
 </svg>
 </div><figcaption><b>Breadboard layout – the whole system on a bench</b> · <a href="drawings/breadboard-layout.svg">Full-size SVG</a></figcaption></figure><hr />
 <h3 id="d04-choosing-a-board">Choosing a board</h3>
@@ -4572,15 +4581,15 @@ ESP8266 deep sleep and wake-on-reset, and keeping two power domains apart.</p>
 		</g>
 	</g>
 </svg>
-</div><figcaption><b>Sheet 3 – Tier 2 Production Telemetry</b> · <a href="drawings/03-telemetry-production.svg">Full-size SVG</a> · <a href="drawings/SolarLights_Lite_Drawings.pdf">Printable PDF</a></figcaption></figure><figure><div class="drawing"><svg xmlns="http://www.w3.org/2000/svg" width="1800" height="1400" viewBox="0 0 1800 1400" font-family="Helvetica, Arial, sans-serif">
-<rect x="0" y="0" width="1800" height="1400" fill="#ffffff"/>
+</div><figcaption><b>Sheet 3 – Tier 2 Production Telemetry</b> · <a href="drawings/03-telemetry-production.svg">Full-size SVG</a> · <a href="drawings/SolarLights_Lite_Drawings.pdf">Printable PDF</a></figcaption></figure><figure><div class="drawing"><svg xmlns="http://www.w3.org/2000/svg" width="1800" height="1444" viewBox="0 0 1800 1444" font-family="Helvetica, Arial, sans-serif">
+<rect x="0" y="0" width="1800" height="1444" fill="#ffffff"/>
 <text x="42" y="44" font-size="15" fill="#008572" text-anchor="start" font-weight="bold">SOLAR LIGHTS LITE / BUILD LAYOUTS</text>
 <text x="42" y="84" font-size="30" fill="#173047" text-anchor="start" font-weight="bold">Perfboard layout: the whole system</text>
 <text x="42" y="112" font-size="15" fill="#516578" text-anchor="start">Tier 2 jumpers fitted. Modules sit in sockets or on header pins; coloured lines are the solder traces on the underside, seen through the board.</text>
 <line x1="42" y1="130" x2="1758" y2="130" stroke="#d5e0e6" stroke-width="1"/>
-<line x1="42" y1="1356" x2="1758" y2="1356" stroke="#d5e0e6" stroke-width="1"/>
-<text x="42" y="1380" font-size="12.5" fill="#008572" text-anchor="start" font-weight="bold">REV 0.6  |  READ MODULE PAD LABELS, NOT BOARD POSITIONS</text>
-<text x="1758" y="1380" font-size="12.5" fill="#516578" text-anchor="end">PERFBOARD LAYOUT</text>
+<line x1="42" y1="1400" x2="1758" y2="1400" stroke="#d5e0e6" stroke-width="1"/>
+<text x="42" y="1424" font-size="12.5" fill="#008572" text-anchor="start" font-weight="bold">REV 0.6  |  READ MODULE PAD LABELS, NOT BOARD POSITIONS</text>
+<text x="1758" y="1424" font-size="12.5" fill="#516578" text-anchor="end">PERFBOARD LAYOUT</text>
 <rect x="34" y="606" width="180" height="190" fill="#dfe4e8" rx="10"/>
 <rect x="30" y="600" width="180" height="190" fill="#26282c" stroke="#101113" stroke-width="1.5" rx="10"/>
 <rect x="48" y="618" width="60" height="154" fill="#3f9d5a" stroke="#29663a" stroke-width="1.2" rx="26"/>
@@ -6807,6 +6816,12 @@ ESP8266 deep sleep and wake-on-reset, and keeping two power domains apart.</p>
 <text x="1154.2" y="478.52" font-size="10.08" fill="#ffffff" text-anchor="middle" font-weight="bold">7</text>
 <text x="1154.2" y="506.52" font-size="10.08" fill="#ffffff" text-anchor="middle" font-weight="bold">8</text>
 <text x="1154.2" y="534.52" font-size="10.08" fill="#ffffff" text-anchor="middle" font-weight="bold">9</text>
+<text x="1296.16" y="160.3" font-size="8.4" fill="#516578" text-anchor="middle" font-weight="bold">DTR</text>
+<text x="1268.16" y="160.3" font-size="8.4" fill="#516578" text-anchor="middle" font-weight="bold">TXO</text>
+<text x="1240.16" y="160.3" font-size="8.4" fill="#516578" text-anchor="middle" font-weight="bold">RXI</text>
+<text x="1212.16" y="160.3" font-size="8.4" fill="#c1363d" text-anchor="middle" font-weight="bold">VCC</text>
+<text x="1184.16" y="160.3" font-size="8.4" fill="#516578" text-anchor="middle" font-weight="bold">GND</text>
+<text x="1156.16" y="160.3" font-size="8.4" fill="#516578" text-anchor="middle" font-weight="bold">GND</text>
 <g transform="translate(1332,308) rotate(270) scale(28)">
 <line x1="0" y1="0" x2="2" y2="0" stroke="#a7abb0" stroke-width="0.1"/>
 <ellipse cx="1" cy="0" rx="0.75" ry="0.48" fill="#e3992f" stroke="#b3721a" stroke-width="0.05"/>
@@ -7373,6 +7388,8 @@ ESP8266 deep sleep and wake-on-reset, and keeping two power domains apart.</p>
 <text x="564.8" y="541.8" font-size="12" fill="#173047" text-anchor="middle" font-weight="bold">M3  Wemos D1 Mini</text>
 <rect x="1180.082" y="565.8" width="79.836" height="16" fill="#ffffff" opacity="0.88" rx="3"/>
 <text x="1220" y="576.8" font-size="12" fill="#173047" text-anchor="middle" font-weight="bold">M2  Pro Mini</text>
+<rect x="1175.36" y="579.8" width="89.28" height="16" fill="#ffffff" opacity="0.88" rx="3"/>
+<text x="1220" y="590.8" font-size="12" fill="#516578" text-anchor="middle">328P or 328PB</text>
 <rect x="1335.377" y="222.8" width="21.246" height="16" fill="#ffffff" opacity="0.88" rx="3"/>
 <text x="1346" y="233.8" font-size="12" fill="#173047" text-anchor="middle" font-weight="bold">C4</text>
 <rect x="1390.6" y="341.8" width="45.564" height="16" fill="#ffffff" opacity="0.88" rx="3"/>
@@ -7470,20 +7487,23 @@ ESP8266 deep sleep and wake-on-reset, and keeping two power domains apart.</p>
 <path d="M894.625 1164 H 924.625" fill="none" stroke="#12a37f" stroke-width="5.5" stroke-linecap="round"/>
 <path d="M894.625 1164 H 924.625" fill="none" stroke="#7dccb9" stroke-width="1.21" stroke-linecap="round" transform="translate(0,-0.99)" opacity="0.55"/>
 <text x="934.625" y="1168.5" font-size="12.5" fill="#173047" text-anchor="start">Logic / sensor</text>
-<rect x="42" y="1188" width="850" height="149" fill="#fffaf0" stroke="#e5c58f" stroke-width="1.2" rx="12"/>
+<rect x="42" y="1188" width="850" height="191" fill="#fffaf0" stroke="#e5c58f" stroke-width="1.2" rx="12"/>
 <text x="60" y="1215" font-size="15" fill="#ad6200" text-anchor="start" font-weight="bold">Build notes</text>
 <text x="60" y="1239" font-size="13" fill="#173047" text-anchor="start">One top-side wire (VBAT_SYS, red, beside M2). Everything else is solder bridge or tinned wire underneath, about 75 cm.</text>
 <text x="60" y="1260" font-size="13" fill="#173047" text-anchor="start">M2 and M3 plug into female headers. M1, U0 and U3 stand on header pins: their pads are not all on</text>
 <text x="60" y="1281" font-size="13" fill="#173047" text-anchor="start">0.1 in pitch, so bend the pins to suit and follow the pad labels, not these positions.</text>
 <text x="60" y="1302" font-size="13" fill="#173047" text-anchor="start">Tier 1: pull the JP1 shunt and power M3 from USB. Pull JP2 to flash M3 over USB.</text>
 <text x="60" y="1323" font-size="13" fill="#173047" text-anchor="start">Cable entries: J1 panel, J2 cells, J3 to F2 and S1, J4 LED string, J5 LDR.</text>
-<rect x="912" y="1188" width="846" height="149" fill="#f3faf7" stroke="#a9d8c6" stroke-width="1.2" rx="12"/>
+<text x="60" y="1344" font-size="13" fill="#173047" text-anchor="start">Flash, check and rework M2 off the carrier (guides 04, 08). Power enters its VCC; RAW is never wired.</text>
+<text x="60" y="1365" font-size="13" fill="#173047" text-anchor="start">Mount LDR1 where it sees the sky but not the LED string: ldr= may rise only a few percent (Gate 3).</text>
+<rect x="912" y="1188" width="846" height="170" fill="#f3faf7" stroke="#a9d8c6" stroke-width="1.2" rx="12"/>
 <text x="930" y="1215" font-size="15" fill="#008572" text-anchor="start" font-weight="bold">Why it is laid out this way</text>
 <text x="930" y="1239" font-size="13" fill="#173047" text-anchor="start">M3 USB overhangs the left edge; its antenna end faces only small, low parts, away from the cells.</text>
 <text x="930" y="1260" font-size="13" fill="#173047" text-anchor="start">M2 stands on end so TX, D2, D7 and D9 face the parts they drive; A1 and VCC face the right edge.</text>
 <text x="930" y="1281" font-size="13" fill="#173047" text-anchor="start">Traces run under the modules between their pin rows, which is where most of the wiring hides.</text>
 <text x="930" y="1302" font-size="13" fill="#173047" text-anchor="start">M1 B- only reaches J2: it never joins OUT- or any GND_LOAD trace.</text>
-<text x="930" y="1323" font-size="13" fill="#173047" text-anchor="start">The whole drawing is checked against docs/netlist.json when it is generated.</text>
+<text x="930" y="1323" font-size="13" fill="#173047" text-anchor="start">M2 serial header overhangs the top edge, free for a USB-UART monitor (TXO to RX, GND to GND).</text>
+<text x="930" y="1344" font-size="13" fill="#173047" text-anchor="start">The whole drawing is checked against docs/netlist.json when it is generated.</text>
 </svg>
 </div><figcaption><b>Perfboard layout – the whole system on a carrier</b> · <a href="drawings/perfboard-layout.svg">Full-size SVG</a></figcaption></figure><hr />
 <h3 id="d07-one-harness-two-tiers">One harness, two tiers</h3>
@@ -8044,7 +8064,7 @@ ESPHome profiles parse these keys; if you rename one, update both YAML files.</p
 <tr>
 <td style="text-align: left;"><code>lvc</code></td>
 <td style="text-align: left;"><code>0/30s</code></td>
-<td style="text-align: left;">Time below cut-off (advanced only)</td>
+<td style="text-align: left;">Cut-off timer, guide 11 (advanced)</td>
 </tr>
 <tr>
 <td style="text-align: left;"><code>button</code></td>
@@ -8461,7 +8481,7 @@ button.</p>
 <td style="text-align: left;">Arduino LVC Elapsed / Button Test</td>
 <td style="text-align: center;">✓</td>
 <td style="text-align: center;"></td>
-<td style="text-align: left;">Timers</td>
+<td style="text-align: left;">Timers (see guide 11)</td>
 </tr>
 <tr>
 <td style="text-align: left;">D1 WiFi Signal</td>
@@ -9843,7 +9863,7 @@ care, and how to diagnose problems.</p>
 </tr>
 <tr>
 <td style="text-align: left;">Dusk</td>
-<td style="text-align: left;">~5.5 min of darkness, then a slow fade up</td>
+<td style="text-align: left;">~6 min of darkness, then a slow fade up</td>
 </tr>
 <tr>
 <td style="text-align: left;">Night</td>
@@ -9855,10 +9875,10 @@ care, and how to diagnose problems.</p>
 </tr>
 <tr>
 <td style="text-align: left;">Dawn</td>
-<td style="text-align: left;">~5.5 min of light, then a slow fade off</td>
+<td style="text-align: left;">~6 min of light, then a slow fade off</td>
 </tr>
 <tr>
-<td style="text-align: left;">Battery below 3.30 V</td>
+<td style="text-align: left;">Battery &lt; 3.30 V, 30 s</td>
 <td style="text-align: left;">Lights off until daylight and &gt; 3.60 V</td>
 </tr>
 </tbody>
@@ -9901,6 +9921,74 @@ signal: if a press gives no light, the battery is too low.</p>
 <p>The most useful single view is <strong>battery voltage at dawn over a week or
 more</strong>. A steady or rising trend means the panel is keeping up; a falling one
 means the system is in deficit (see Seasonal care).</p>
+<h4 id="d11-the-low-voltage-cut-off-and-lvc-elapsed">The low-voltage cut-off and "LVC elapsed"</h4>
+<p>The cut-off stops the lights from running the cell flat. Its timer is
+published as <strong>Arduino LVC Elapsed</strong> (<code>lvc=</code> in the diagnostic line,
+<code>advanced</code> build only):</p>
+<div class="scroll"><table>
+<thead>
+<tr>
+<th style="text-align: left;">Setting</th>
+<th style="text-align: left;">Value</th>
+<th style="text-align: left;">Role</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><code>LVC_OFF_V</code></td>
+<td style="text-align: left;">3.30 V</td>
+<td style="text-align: left;">Below this, the timer counts up</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>LVC_HOLD_S</code></td>
+<td style="text-align: left;">30 s</td>
+<td style="text-align: left;">Timer reaches this: lights off, <code>mode=LVC</code></td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>LVC_RESUME_V</code></td>
+<td style="text-align: left;">3.60 V</td>
+<td style="text-align: left;">Cut-off clears above this, in confirmed daylight</td>
+</tr>
+</tbody>
+</table></div>
+<p>The timer counts scheduler seconds of <strong>continuous</strong> supply below 3.30 V. A
+single reading at or above 3.30 V resets it to 0. The 30 s hold means a brief
+dip, such as the string switching on, a noisy reading or a cold cell, never
+latches the lights off for the night; only a genuinely flat cell does. Once
+tripped, the lights go off at once without a fade. The gap between 3.30 V and
+3.60 V stops the cell's rebound, once the load is off, from switching them
+straight back on.</p>
+<p>How to read it:</p>
+<div class="scroll"><table>
+<thead>
+<tr>
+<th style="text-align: left;">LVC elapsed</th>
+<th style="text-align: left;">Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">0</td>
+<td style="text-align: left;">Supply at or above 3.30 V: normal</td>
+</tr>
+<tr>
+<td style="text-align: left;">1–29 s, then back to 0</td>
+<td style="text-align: left;">Near miss: an early warning of a struggling battery</td>
+</tr>
+<tr>
+<td style="text-align: left;">Above 30 s</td>
+<td style="text-align: left;">Cut-off has happened and the cell is still low</td>
+</tr>
+</tbody>
+</table></div>
+<p>A non-zero value also makes the <code>advanced</code> build report every 10 s instead
+of every 60 s, so any approach to the cut-off is logged in detail.</p>
+<p>After a cut-off the cell usually rebounds above 3.30 V within seconds, so the
+timer returns to 0 while the cut-off stays active. To see whether a cut-off is
+in force, check <strong>Arduino Mode</strong> (<code>LVC</code>) and <strong>Output Cause</strong> (<code>LVC_OFF</code>); the
+Home Assistant package's cut-off notification triggers on Mode for this
+reason. The advanced dashboard's <strong>Low-voltage cut-off (7 days)</strong> graph plots
+this timer against the supply voltage, so near misses stand out.</p>
 <hr />
 <h3 id="d11-routine-care">Routine care</h3>
 <div class="scroll"><table>

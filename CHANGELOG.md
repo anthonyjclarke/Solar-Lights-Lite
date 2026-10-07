@@ -5,6 +5,37 @@ with [README.md](README.md).
 
 ---
 
+## [Unreleased]
+
+### Changed
+
+- Breadboard and perfboard layouts follow the 0.6.0 controller guidance: the
+  M2 serial header pins are labelled (its VCC is the top-row VCC rail), M2 is
+  shown as a 328P or 328PB board, and the notes say power enters VCC never
+  RAW, the regulator and power LED come off before Gate 0, the serial header
+  stays clear for a USB-UART monitor and LDR1 must be shaded from the LEDs.
+
+---
+
+## [Unreleased]
+
+### Added
+
+- Advanced dashboard: a "Low-voltage cut-off (7 days)" history graph of
+  Arduino VDD, LVC elapsed and Mode, so near misses below 3.30 V stand out.
+- Guide 11: a section explaining the low-voltage cut-off and the
+  "Arduino LVC Elapsed" sensor: what the timer counts, why there is a 30 s
+  hold and a 3.60 V resume level, how to read 0, a near miss and a cut-off,
+  and why Mode, not the timer, shows that a cut-off is in force. Guides 08
+  and 09 link to it.
+
+### Changed
+
+- Guide 11's normal-day table: dusk and dawn take about 6 minutes, and the
+  cut-off needs 30 s below 3.30 V.
+
+---
+
 ## [0.6.0] 06-10-2026
 
 Bench-tested on a second controller board (ATmega328PB) through a full

@@ -256,6 +256,19 @@ views:
             grid_options:
               columns: 12
           - type: history-graph
+            title: Low-voltage cut-off (7 days)
+            hours_to_show: 168
+            refresh_interval: 300
+            entities:
+              - entity: sensor.solar_lights_arduino_vdd
+                name: Arduino VDD
+              - entity: sensor.solar_lights_arduino_lvc_elapsed
+                name: Time below 3.30 V
+              - entity: sensor.solar_lights_arduino_mode
+                name: Mode
+            grid_options:
+              columns: 12
+          - type: history-graph
             title: Ambient light
             hours_to_show: 24
             refresh_interval: 60

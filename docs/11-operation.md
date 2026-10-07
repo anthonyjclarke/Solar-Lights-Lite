@@ -12,11 +12,11 @@ care, and how to diagnose problems.
 | :------------------- | :---------------------------------------- |
 | Power-on or reset    | 10 s flash (self-test)                    |
 | Daytime              | Lights off; controller wakes every 8 s    |
-| Dusk                 | ~5.5 min of darkness, then a slow fade up |
+| Dusk                 | ~6 min of darkness, then a slow fade up   |
 | Night                | Lights on at the night level              |
 | Battery below 3.45 V | Night level halves                        |
-| Dawn                 | ~5.5 min of light, then a slow fade off   |
-| Battery below 3.30 V | Lights off until daylight and > 3.60 V    |
+| Dawn                 | ~6 min of light, then a slow fade off     |
+| Battery < 3.30 V, 30 s | Lights off until daylight and > 3.60 V  |
 
 Brightness falls gently through a long night as the battery voltage drops. This
 is by design: the LED string is driven directly, so its current follows the
@@ -40,6 +40,44 @@ signal: if a press gives no light, the battery is too low.
 The most useful single view is **battery voltage at dawn over a week or
 more**. A steady or rising trend means the panel is keeping up; a falling one
 means the system is in deficit (see Seasonal care).
+
+### The low-voltage cut-off and "LVC elapsed"
+
+The cut-off stops the lights from running the cell flat. Its timer is
+published as **Arduino LVC Elapsed** (`lvc=` in the diagnostic line,
+`advanced` build only):
+
+| Setting        | Value  | Role                                             |
+| :------------- | :----- | :----------------------------------------------- |
+| `LVC_OFF_V`    | 3.30 V | Below this, the timer counts up                  |
+| `LVC_HOLD_S`   | 30 s   | Timer reaches this: lights off, `mode=LVC`       |
+| `LVC_RESUME_V` | 3.60 V | Cut-off clears above this, in confirmed daylight |
+
+The timer counts scheduler seconds of **continuous** supply below 3.30 V. A
+single reading at or above 3.30 V resets it to 0. The 30 s hold means a brief
+dip, such as the string switching on, a noisy reading or a cold cell, never
+latches the lights off for the night; only a genuinely flat cell does. Once
+tripped, the lights go off at once without a fade. The gap between 3.30 V and
+3.60 V stops the cell's rebound, once the load is off, from switching them
+straight back on.
+
+How to read it:
+
+| LVC elapsed            | Meaning                                            |
+| :--------------------- | :------------------------------------------------- |
+| 0                      | Supply at or above 3.30 V: normal                  |
+| 1–29 s, then back to 0 | Near miss: an early warning of a struggling battery |
+| Above 30 s             | Cut-off has happened and the cell is still low     |
+
+A non-zero value also makes the `advanced` build report every 10 s instead
+of every 60 s, so any approach to the cut-off is logged in detail.
+
+After a cut-off the cell usually rebounds above 3.30 V within seconds, so the
+timer returns to 0 while the cut-off stays active. To see whether a cut-off is
+in force, check **Arduino Mode** (`LVC`) and **Output Cause** (`LVC_OFF`); the
+Home Assistant package's cut-off notification triggers on Mode for this
+reason. The advanced dashboard's **Low-voltage cut-off (7 days)** graph plots
+this timer against the supply voltage, so near misses stand out.
 
 ---
 

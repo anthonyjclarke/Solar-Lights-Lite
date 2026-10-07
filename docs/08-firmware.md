@@ -287,7 +287,7 @@ ESPHome profiles parse these keys; if you rename one, update both YAML files.
 | `raw`       | `127`          | A1 ADC count (advanced only)           |
 | `ldr_v`     | `0.485V`       | A1 volts (advanced only)               |
 | `confirm`   | `DUSK 40/300s` | Transition progress (advanced only)    |
-| `lvc`       | `0/30s`        | Time below cut-off (advanced only)     |
+| `lvc`       | `0/30s`        | Cut-off timer, guide 11 (advanced)     |
 | `button`    | `59s`          | Test time left (advanced only)         |
 | `next_tick` | `1s`           | Next watchdog interval (advanced only) |
 
