@@ -8,14 +8,15 @@ care, and how to diagnose problems.
 
 ## A normal day
 
-| When                 | What happens                              |
-| :------------------- | :---------------------------------------- |
-| Power-on or reset    | 10 s flash (self-test)                    |
-| Daytime              | Lights off; controller wakes every 8 s    |
-| Dusk                 | ~6 min of darkness, then a slow fade up   |
-| Night                | Lights on at the night level              |
-| Battery below 3.45 V | Night level halves                        |
-| Dawn                 | ~6 min of light, then a slow fade off     |
+| When                   | What happens                            |
+| :--------------------- | :-------------------------------------- |
+| Power-on or reset      | 10 s flash (self-test)                  |
+| Daytime                | Lights off; controller wakes every 8 s  |
+| Dusk                   | ~6 min of darkness, then a slow fade up |
+| Evening (first ~4.5 h) | Lights on at the night level (100 %)    |
+| Rest of the night      | Slow fade to 30 % until dawn            |
+| Battery below 3.45 V   | Night level halves                      |
+| Dawn                   | ~6 min of light, then a slow fade off   |
 | Battery < 3.30 V, 30 s | Lights off until daylight and > 3.60 V  |
 
 Brightness falls gently through a long night as the battery voltage drops. This
@@ -98,8 +99,9 @@ harvests less while the lights use more. If the dawn battery voltage trends
 down:
 
 1. Clean and re-aim the panel (steeper tilt for winter).
-2. Lower `NIGHT_DUTY_PCT` in `firmware/controller/include/config.h` (for
-   example to 60) and reflash.
+2. In `firmware/controller/include/config.h`, shorten the evening
+   (`EVENING_FULL_S`), lower the overnight level (`OVERNIGHT_DUTY_PCT`, for
+   example to 15) or lower `NIGHT_DUTY_PCT` (for example to 60), and reflash.
 3. Consider a larger panel (check its Voc against Option A/B in
    [03 – Power](03-build-power.md)).
 

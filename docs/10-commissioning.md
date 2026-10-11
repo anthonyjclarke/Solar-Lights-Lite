@@ -76,6 +76,10 @@ meter; the D2 test works; no unexplained current or heat.
    second to the night level.
 4. Uncover for 300 s: `mode=DAY`, output fades to 0.
 5. Brief shadows or a torch flash must not cause a transition.
+   On the first real night, check that about 4.5 h after dusk the output fades
+   to 30 % and `cause=OVERNIGHT_DIM`. To see it on the bench, build with
+   `TIME_SCALE = 60`: the evening then lasts about 4 minutes. Set it back to 1
+   before deployment.
 6. At night with the lights on, note `ldr=`, then switch the string off (or
    cover it) and note it again. The lights' own contribution should be a few
    percent at most, and the lit reading must stay well below the light

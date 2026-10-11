@@ -297,7 +297,8 @@ ESPHome profiles parse these keys; if you rename one, update both YAML files.
 | `BUTTON_TEST`     | 60 s test after a D2 press         |
 | `DAY_OFF`         | Daylight, lights off               |
 | `FADE_TO_DAY_OFF` | Dawn confirmed, fading out         |
-| `DUSK_TO_DAWN`    | Night, full night level            |
+| `DUSK_TO_DAWN`    | Night, evening at the night level  |
+| `OVERNIGHT_DIM`   | Night, after the evening: dimmed   |
 | `LOW_BATT_NIGHT`  | Night, below 3.45 V: level halved  |
 | `LOW_VOLT_BLOCK`  | Test refused: supply below cut-off |
 | `LVC_OFF`         | Low-voltage cut-off active         |
@@ -308,16 +309,18 @@ ESPHome profiles parse these keys; if you rename one, update both YAML files.
 
 All settings are in `include/config.h`. The ones you are most likely to change:
 
-| Setting           | Default | Effect                              |
-| :---------------- | :------ | :---------------------------------- |
-| `NIGHT_DUTY_PCT`  | 100     | Night brightness and energy use     |
-| `LDR_DARK_RATIO`  | 0.30    | Dusk threshold (A1 fraction)        |
-| `LDR_LIGHT_RATIO` | 0.60    | Dawn threshold (A1 fraction)        |
-| `LOW_BATT_V`      | 3.45    | Below this, night level halves      |
-| `LVC_OFF_V`       | 3.30    | Cut-off voltage (after 30 s)        |
-| `LVC_RESUME_V`    | 3.60    | Recovery voltage (in daylight)      |
-| `BANDGAP_V`       | 1.10    | Supply measurement calibration      |
-| `TIME_SCALE`      | 1       | Bench only: 60 runs time 60× faster |
+| Setting              | Default | Effect                               |
+| :------------------- | :------ | :----------------------------------- |
+| `NIGHT_DUTY_PCT`     | 100     | Evening brightness                   |
+| `EVENING_FULL_S`     | 14400   | Evening length after dusk (4 h)      |
+| `OVERNIGHT_DUTY_PCT` | 30      | Brightness for the rest of the night |
+| `LDR_DARK_RATIO`     | 0.30    | Dusk threshold (A1 fraction)         |
+| `LDR_LIGHT_RATIO`    | 0.60    | Dawn threshold (A1 fraction)         |
+| `LOW_BATT_V`         | 3.45    | Below this, night level halves       |
+| `LVC_OFF_V`          | 3.30    | Cut-off voltage (after 30 s)         |
+| `LVC_RESUME_V`       | 3.60    | Recovery voltage (in daylight)       |
+| `BANDGAP_V`          | 1.10    | Supply measurement calibration       |
+| `TIME_SCALE`         | 1       | Bench only: 60 runs time 60× faster  |
 
 **Calibrate the supply reading** once per board, in Gate 1: power the
 controller from a bench supply at about 3.8 V, compare `vdd` with a meter, set
@@ -336,7 +339,7 @@ c++ -std=c++17 -Wall -Wextra -Werror -I../include regression.cpp -o regression &
 ```
 
 It must print `PASS`. The tests cover dusk/dawn confirmation, a 14-hour night,
-test-level caps, cut-off and recovery, low-battery dimming, slow ticks and the
+overnight dimming and its restart at a fresh dusk, test-level caps, cut-off and recovery, low-battery dimming, slow ticks and the
 shipped defaults. They do not test registers, ADC settling, sleep current or
 wiring: that is what commissioning is for.
 

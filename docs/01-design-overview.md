@@ -81,7 +81,8 @@ Each wake the controller:
 | :-------------------------- | :------------------------------------- |
 | Day, lights off             | Power-down sleep, wakes every 8 s      |
 | Dark for 300 s              | Dusk confirmed, fades up at 2 % per s  |
-| Night                       | Lights at `NIGHT_DUTY_PCT` (100 %)     |
+| Evening, first 4 h of night | Lights at `NIGHT_DUTY_PCT` (100 %)     |
+| Rest of the night           | Fades to `OVERNIGHT_DUTY_PCT` (30 %)   |
 | Battery below 3.45 V        | Night duty halved                      |
 | Light for 300 s             | Dawn confirmed, fades off              |
 | Below 3.30 V for 30 s       | Cut-off: lights off, button locked out |
@@ -123,6 +124,12 @@ does not change. See [09 – Home Assistant](09-home-assistant.md).
   also removes any dependency on the board's crystal. The common 5 V/16 MHz
   Pro Mini is therefore fine to buy: its fuses are reset to internal 8 MHz
   ([04 – Controller](04-build-controller.md#why-the-controller-runs-at-8-mhz)).
+- **Full evening, dim overnight.** Most of the night's energy goes in the
+  small hours, when few people need the lights. Counting from the confirmed
+  dusk needs no clock, and leaves dusk and dawn detection unchanged. Making
+  brightness follow the LDR during twilight was rejected: it saves little,
+  switches the lights on earlier, and would show sensor noise and the
+  string's own light as visible flicker.
 - **No voltage regulator for the controller.** The Pro Mini runs straight from
   the protected battery rail (2.7–4.2 V is within its range), so its regulator
   and power LED are removed to eliminate their standby current.
@@ -170,9 +177,12 @@ assumed 2.5 equivalent full-sun hours with 20 % derating gives about
 200 mAh/day; at 150 mA, about 300 mAh/day. Winter, shade and panel angle
 change this dramatically. Two practical conclusions:
 
-- Full brightness all night is marginal with a 1.2 W panel in winter. If the
-  soak test shows the battery ending each night lower than the last, reduce
-  `NIGHT_DUTY_PCT` or fit a larger panel.
+- Full brightness all night is marginal with a 1.2 W panel in winter, which is
+  why the lights drop to 30 % after the first four hours: on a 10-hour night
+  that uses about 40 % less than 100 % all night. If the soak test still shows
+  the battery ending each night lower than the last, reduce
+  `OVERNIGHT_DUTY_PCT`, `EVENING_FULL_S` or `NIGHT_DUTY_PCT`, or fit a larger
+  panel.
 - A bigger battery buys autonomy through cloudy spells; it cannot fix a
   persistent daily deficit.
 

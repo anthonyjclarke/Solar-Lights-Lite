@@ -8,7 +8,7 @@
 #include <stdint.h>
 
 // Printed as fw= in every telemetry line and shown in Home Assistant.
-constexpr char FW_VERSION[] = "0.6.0";
+constexpr char FW_VERSION[] = "0.7.0";
 
 // ------------------------------------------------------------ pins
 constexpr uint8_t PIN_LED_PWM = 9;  // D9 / OC1A -> R3 47 ohm -> low-power LED string +
@@ -26,6 +26,13 @@ constexpr uint16_t STARTUP_TEST_S   = 10;
 constexpr uint8_t  BUTTON_TEST_PCT  = 100;  // D2 press; capped at night duty
 constexpr uint16_t BUTTON_TEST_S    = 60;
 constexpr uint8_t  FADE_STEP_PCT    = 2;    // % per second at dusk and dawn
+
+// Overnight dimming: NIGHT_DUTY_PCT for EVENING_FULL_S after a confirmed dusk,
+// then OVERNIGHT_DUTY_PCT until dawn. Counted on the watchdog clock (10-20%
+// slow), so 4 h is about 4.5 real hours. A reset restarts the count at the next
+// dusk. Set OVERNIGHT_DUTY_PCT = NIGHT_DUTY_PCT to keep one level all night.
+constexpr uint32_t EVENING_FULL_S     = 4UL * 3600;
+constexpr uint8_t  OVERNIGHT_DUTY_PCT = 30;
 
 // ------------------------------------------------------------ light sensor
 // A1 as a fraction of VCC with R4 = 47k. Dark below ~0.30 means the LDR is

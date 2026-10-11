@@ -519,8 +519,12 @@ budget; see <a href="#d12">12 – Going further</a>.</p>
 <td style="text-align: left;">Dusk confirmed, fades up at 2 % per s</td>
 </tr>
 <tr>
-<td style="text-align: left;">Night</td>
+<td style="text-align: left;">Evening, first 4 h of night</td>
 <td style="text-align: left;">Lights at <code>NIGHT_DUTY_PCT</code> (100 %)</td>
+</tr>
+<tr>
+<td style="text-align: left;">Rest of the night</td>
+<td style="text-align: left;">Fades to <code>OVERNIGHT_DUTY_PCT</code> (30 %)</td>
 </tr>
 <tr>
 <td style="text-align: left;">Battery below 3.45 V</td>
@@ -596,6 +600,12 @@ does not change. See <a href="#d09">09 – Home Assistant</a>.</p>
   also removes any dependency on the board's crystal. The common 5 V/16 MHz
   Pro Mini is therefore fine to buy: its fuses are reset to internal 8 MHz
   (<a href="#d04-why-the-controller-runs-at-8-mhz">04 – Controller</a>).</li>
+<li><strong>Full evening, dim overnight.</strong> Most of the night's energy goes in the
+  small hours, when few people need the lights. Counting from the confirmed
+  dusk needs no clock, and leaves dusk and dawn detection unchanged. Making
+  brightness follow the LDR during twilight was rejected: it saves little,
+  switches the lights on earlier, and would show sensor noise and the
+  string's own light as visible flicker.</li>
 <li><strong>No voltage regulator for the controller.</strong> The Pro Mini runs straight from
   the protected battery rail (2.7–4.2 V is within its range), so its regulator
   and power LED are removed to eliminate their standby current.</li>
@@ -676,9 +686,12 @@ assumed 2.5 equivalent full-sun hours with 20 % derating gives about
 200 mAh/day; at 150 mA, about 300 mAh/day. Winter, shade and panel angle
 change this dramatically. Two practical conclusions:</p>
 <ul>
-<li>Full brightness all night is marginal with a 1.2 W panel in winter. If the
-  soak test shows the battery ending each night lower than the last, reduce
-  <code>NIGHT_DUTY_PCT</code> or fit a larger panel.</li>
+<li>Full brightness all night is marginal with a 1.2 W panel in winter, which is
+  why the lights drop to 30 % after the first four hours: on a 10-hour night
+  that uses about 40 % less than 100 % all night. If the soak test still shows
+  the battery ending each night lower than the last, reduce
+  <code>OVERNIGHT_DUTY_PCT</code>, <code>EVENING_FULL_S</code> or <code>NIGHT_DUTY_PCT</code>, or fit a larger
+  panel.</li>
 <li>A bigger battery buys autonomy through cloudy spells; it cannot fix a
   persistent daily deficit.</li>
 </ul>
@@ -8104,7 +8117,11 @@ ESPHome profiles parse these keys; if you rename one, update both YAML files.</p
 </tr>
 <tr>
 <td style="text-align: left;"><code>DUSK_TO_DAWN</code></td>
-<td style="text-align: left;">Night, full night level</td>
+<td style="text-align: left;">Night, evening at the night level</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>OVERNIGHT_DIM</code></td>
+<td style="text-align: left;">Night, after the evening: dimmed</td>
 </tr>
 <tr>
 <td style="text-align: left;"><code>LOW_BATT_NIGHT</code></td>
@@ -8135,7 +8152,17 @@ ESPHome profiles parse these keys; if you rename one, update both YAML files.</p
 <tr>
 <td style="text-align: left;"><code>NIGHT_DUTY_PCT</code></td>
 <td style="text-align: left;">100</td>
-<td style="text-align: left;">Night brightness and energy use</td>
+<td style="text-align: left;">Evening brightness</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>EVENING_FULL_S</code></td>
+<td style="text-align: left;">14400</td>
+<td style="text-align: left;">Evening length after dusk (4 h)</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>OVERNIGHT_DUTY_PCT</code></td>
+<td style="text-align: left;">30</td>
+<td style="text-align: left;">Brightness for the rest of the night</td>
 </tr>
 <tr>
 <td style="text-align: left;"><code>LDR_DARK_RATIO</code></td>
@@ -8185,7 +8212,7 @@ computer with a C++17 compiler. From <code>firmware/controller/test_host</code>:
 <pre><code class="language-bash">c++ -std=c++17 -Wall -Wextra -Werror -I../include regression.cpp -o regression &amp;&amp; ./regression
 </code></pre>
 <p>It must print <code>PASS</code>. The tests cover dusk/dawn confirmation, a 14-hour night,
-test-level caps, cut-off and recovery, low-battery dimming, slow ticks and the
+overnight dimming and its restart at a fresh dusk, test-level caps, cut-off and recovery, low-battery dimming, slow ticks and the
 shipped defaults. They do not test registers, ADC settling, sleep current or
 wiring: that is what commissioning is for.</p>
 <hr />
@@ -9631,7 +9658,11 @@ meter; the D2 test works; no unexplained current or heat.</p>
 <li>After 300 scheduler seconds: <code>mode=NIGHT</code>, output fades up at 2 % per
    second to the night level.</li>
 <li>Uncover for 300 s: <code>mode=DAY</code>, output fades to 0.</li>
-<li>Brief shadows or a torch flash must not cause a transition.</li>
+<li>Brief shadows or a torch flash must not cause a transition.
+   On the first real night, check that about 4.5 h after dusk the output fades
+   to 30 % and <code>cause=OVERNIGHT_DIM</code>. To see it on the bench, build with
+   <code>TIME_SCALE = 60</code>: the evening then lasts about 4 minutes. Set it back to 1
+   before deployment.</li>
 <li>At night with the lights on, note <code>ldr=</code>, then switch the string off (or
    cover it) and note it again. The lights' own contribution should be a few
    percent at most, and the lit reading must stay well below the light
@@ -9866,8 +9897,12 @@ care, and how to diagnose problems.</p>
 <td style="text-align: left;">~6 min of darkness, then a slow fade up</td>
 </tr>
 <tr>
-<td style="text-align: left;">Night</td>
-<td style="text-align: left;">Lights on at the night level</td>
+<td style="text-align: left;">Evening (first ~4.5 h)</td>
+<td style="text-align: left;">Lights on at the night level (100 %)</td>
+</tr>
+<tr>
+<td style="text-align: left;">Rest of the night</td>
+<td style="text-align: left;">Slow fade to 30 % until dawn</td>
 </tr>
 <tr>
 <td style="text-align: left;">Battery below 3.45 V</td>
@@ -10027,8 +10062,9 @@ harvests less while the lights use more. If the dawn battery voltage trends
 down:</p>
 <ol>
 <li>Clean and re-aim the panel (steeper tilt for winter).</li>
-<li>Lower <code>NIGHT_DUTY_PCT</code> in <code>firmware/controller/include/config.h</code> (for
-   example to 60) and reflash.</li>
+<li>In <code>firmware/controller/include/config.h</code>, shorten the evening
+   (<code>EVENING_FULL_S</code>), lower the overnight level (<code>OVERNIGHT_DUTY_PCT</code>, for
+   example to 15) or lower <code>NIGHT_DUTY_PCT</code> (for example to 60), and reflash.</li>
 <li>Consider a larger panel (check its Voc against Option A/B in
    <a href="#d03">03 – Power</a>).</li>
 </ol>

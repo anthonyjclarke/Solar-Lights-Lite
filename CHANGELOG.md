@@ -7,19 +7,17 @@ with [README.md](README.md).
 
 ## [Unreleased]
 
-### Changed
-
-- Breadboard and perfboard layouts follow the 0.6.0 controller guidance: the
-  M2 serial header pins are labelled (its VCC is the top-row VCC rail), M2 is
-  shown as a 328P or 328PB board, and the notes say power enters VCC never
-  RAW, the regulator and power LED come off before Gate 0, the serial header
-  stays clear for a USB-UART monitor and LDR1 must be shaded from the LEDs.
-
----
-
-## [Unreleased]
-
 ### Added
+
+- Overnight dimming (firmware 0.7.0): the lights run at `NIGHT_DUTY_PCT` for
+  `EVENING_FULL_S` (4 h) after a confirmed dusk, then fade at the usual
+  2 %/s to `OVERNIGHT_DUTY_PCT` (30 %) until dawn. On a 10-hour night that
+  uses about 40 % less than 100 % all night. It is counted from dusk on the
+  watchdog clock, so no RTC is needed; a fresh dusk, after a false dawn or a
+  reset, restarts the evening. Low-battery halving, the button test and the
+  cut-off work as before. New cause `OVERNIGHT_DIM`; the telemetry keys are
+  unchanged, so neither ESPHome profile needs updating. The field guide lists
+  the dim stage, and two new host-test groups cover it.
 
 - Advanced dashboard: a "Low-voltage cut-off (7 days)" history graph of
   Arduino VDD, LVC elapsed and Mode, so near misses below 3.30 V stand out.
@@ -33,6 +31,11 @@ with [README.md](README.md).
 
 - Guide 11's normal-day table: dusk and dawn take about 6 minutes, and the
   cut-off needs 30 s below 3.30 V.
+- Breadboard and perfboard layouts follow the 0.6.0 controller guidance: the
+  M2 serial header pins are labelled (its VCC is the top-row VCC rail), M2 is
+  shown as a 328P or 328PB board, and the notes say power enters VCC never
+  RAW, the regulator and power LED come off before Gate 0, the serial header
+  stays clear for a USB-UART monitor and LDR1 must be shaded from the LEDs.
 
 ---
 

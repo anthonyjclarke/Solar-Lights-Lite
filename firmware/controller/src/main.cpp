@@ -140,7 +140,8 @@ static const __FlashStringHelper* outputCause(float vdd, uint8_t pct) {
   if (startup) return F("STARTUP_TEST");
   if (button) return F("BUTTON_TEST");
   if (sched.state == lite::DAY) return pct ? F("FADE_TO_DAY_OFF") : F("DAY_OFF");
-  return vdd < sched.cfg.lowBattV ? F("LOW_BATT_NIGHT") : F("DUSK_TO_DAWN");
+  if (vdd < sched.cfg.lowBattV) return F("LOW_BATT_NIGHT");
+  return sched.overnight() ? F("OVERNIGHT_DIM") : F("DUSK_TO_DAWN");
 }
 
 // One telemetry line. Production sends the core keys; advanced adds progress detail.
@@ -212,6 +213,8 @@ static void printFieldGuide() {
   Serial.print(F(" V for ")); Serial.print(LVC_HOLD_S);
   Serial.print(F(" s, resume >")); Serial.print(LVC_RESUME_V, 2); Serial.println(F(" V in daylight"));
   Serial.print(F("  Duty       night ")); Serial.print(NIGHT_DUTY_PCT);
+  Serial.print(F("% for ")); Serial.print(EVENING_FULL_S / 3600.0f, 1);
+  Serial.print(F(" h, then ")); Serial.print(OVERNIGHT_DUTY_PCT);
   Serial.print(F("%  button test ")); Serial.print(BUTTON_TEST_S); Serial.println(F(" s"));
   Serial.println(F("Field guide (keys in each line)"));
   Serial.println(F("  time       scheduler seconds since reset (watchdog clock, not wall-clock)"));

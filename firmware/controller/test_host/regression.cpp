@@ -60,13 +60,35 @@ int main() {
     s.step(8, 3.8f, false, true); assert(!s.needFastTick());
     s.step(1, 3.8f, true, false); assert(s.needFastTick());
   }
+  { // overnight dimming: full for the evening, then the overnight level until dawn
+    auto s = base(); s.cfg.nightPct = 100; s.cfg.overnightPct = 30; s.cfg.eveningS = 100;
+    run(s, 5, 3.8f, true, false); assert(s.night && s.nightT == 0);
+    run(s, 90, 3.8f, true, false); assert(s.pct == 100 && !s.overnight());
+    run(s, 10, 3.8f, true, false); assert(s.overnight());
+    run(s, 40, 3.8f, true, false); assert(s.pct == 30);           // 2 %/s fade, not a step
+    run(s, 20, 3.4f, true, false); assert(s.pct == 15);           // low battery still halves
+    run(s, 20, 3.8f, true, false); s.button();
+    assert(s.step(1, 3.8f, true, false) == 100);                  // button test overrides
+    run(s, 61, 3.8f, true, false); run(s, 40, 3.8f, true, false); assert(s.pct == 30);
+    run(s, 5, 3.8f, false, true); run(s, 20, 3.8f, false, true); assert(!s.night && s.pct == 0);
+  }
+  { // a fresh dusk (after a false dawn or a reset) restarts the evening at full level
+    auto s = base(); s.cfg.nightPct = 100; s.cfg.overnightPct = 30; s.cfg.eveningS = 100;
+    run(s, 5, 3.8f, true, false); run(s, 200, 3.8f, true, false); assert(s.pct == 30);
+    run(s, 5, 3.8f, false, true); assert(!s.night);
+    run(s, 5, 3.8f, true, false); run(s, 40, 3.8f, true, false);
+    assert(s.night && !s.overnight() && s.pct == 100);
+  }
   { // shipped defaults from config.h
     Scheduler s; s.cfg.selfTestS = 0;
     assert(s.cfg.confirmS == 300 && s.cfg.nightPct == 100);
+    assert(s.cfg.eveningS == 4UL * 3600 && s.cfg.overnightPct == 30);
     run(s, 300, 3.8f, true, false); assert(s.night);
     run(s, 60, 3.8f, true, false); assert(s.pct == 100);
     run(s, 60, 3.4f, true, false); assert(s.pct == 50);
+    run(s, 4 * 3600, 3.8f, true, false); assert(s.overnight() && s.pct == 30);
   }
-  puts("PASS: 9 scheduler groups (confirmation, 14 h night, test caps, cut-off and recovery, "
-       "low-voltage startup, low-battery dimming, slow ticks, tick rate, shipped defaults)");
+  puts("PASS: 11 scheduler groups (confirmation, 14 h night, test caps, cut-off and recovery, "
+       "low-voltage startup, low-battery dimming, slow ticks, tick rate, overnight dimming, "
+       "fresh dusk, shipped defaults)");
 }

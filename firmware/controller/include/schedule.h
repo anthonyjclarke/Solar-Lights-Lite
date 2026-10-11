@@ -1,9 +1,10 @@
 /*
  * Solar Lights Lite – hardware-independent scheduler
  * --------------------------------------------------
- * Dusk-to-dawn lighting with confirmed transitions, low-battery dimming,
- * low-voltage cut-off, a startup self-test and a timed button test. No Arduino
- * or AVR headers, so the host regression tests in test_host/ run this exact code.
+ * Dusk-to-dawn lighting with confirmed transitions, overnight dimming,
+ * low-battery dimming, low-voltage cut-off, a startup self-test and a timed
+ * button test. No Arduino or AVR headers, so the host regression tests in
+ * test_host/ run this exact code.
  *
  * Call step() after every wake with the scheduler seconds elapsed since the last call.
  */
@@ -25,6 +26,8 @@ struct Config {
   uint16_t lvcHoldS    = LVC_HOLD_S;
   float    lvcResumeV  = LVC_RESUME_V;
   uint8_t  fadeStepPct = FADE_STEP_PCT;
+  uint32_t eveningS     = EVENING_FULL_S;
+  uint8_t  overnightPct = OVERNIGHT_DUTY_PCT;
 };
 
 enum State : uint8_t { DAY = 0, NIGHT = 1, LVC = 2 };
@@ -39,9 +42,11 @@ public:
   uint32_t confirm = 0;      // seconds the opposite light level has persisted
   uint32_t lvcCount = 0;     // seconds below the cut-off voltage
   uint32_t buttonUntil = 0;
+  uint32_t nightT = 0;       // seconds since the last confirmed dusk
 
   void button() { buttonUntil = t + cfg.buttonS; }
   bool buttonActive() const { return buttonUntil && t <= buttonUntil; }
+  bool overnight() const { return state == NIGHT && nightT >= cfg.eveningS; }
 
   // dark / light: the sensor is clearly dark / clearly light (both false in between)
   uint8_t step(uint32_t dt, float vdd, bool dark, bool light) {
@@ -49,7 +54,8 @@ public:
     // ---- dusk/dawn only after the new light level persists
     bool candidate = night ? light : dark;
     confirm = candidate ? confirm + dt : 0;
-    if (confirm >= cfg.confirmS) { confirm = 0; night = !night; }
+    if (confirm >= cfg.confirmS) { confirm = 0; night = !night; nightT = 0; }
+    else if (night) nightT += dt;
     // ---- low-voltage cut-off: latches until daylight and recovery voltage
     lvcCount = (vdd < cfg.lvcOffV) ? lvcCount + dt : 0;
     if (state != LVC && lvcCount >= cfg.lvcHoldS) state = LVC;
@@ -76,7 +82,8 @@ private:
     if (t < cfg.selfTestS) return vdd >= cfg.lvcOffV ? cfg.selfTestPct : 0;
     if (buttonActive() && vdd >= cfg.lvcOffV) return cfg.buttonPct;
     if (state == DAY) return 0;
-    return vdd < cfg.lowBattV ? cfg.nightPct / 2 : cfg.nightPct;
+    uint8_t level = overnight() ? cfg.overnightPct : cfg.nightPct;
+    return vdd < cfg.lowBattV ? level / 2 : level;
   }
 };
 
