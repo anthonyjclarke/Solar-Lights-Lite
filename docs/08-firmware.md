@@ -260,6 +260,14 @@ Two ways to read it:
   GND → adapter GND; leave the adapter's VCC, TX, DTR and CTS open (sheet 5).
   Then run `pio device monitor --baud 9600` from `firmware/controller`.
 
+**Never leave a USB-UART adapter wired up but unpowered.** Unplugged from
+USB, its RX pin feeds the controller's TX into the adapter's own supply
+through its protection diodes. That loads the TX line that also drives Q2, so
+the D1 Mini receives garbled characters: Tier 1 telemetry goes stale, the
+dashboard empties and the D1 Mini can restart repeatedly. The lighting itself
+is unaffected. Disconnect the adapter's wires before you unplug its USB, and
+reconnect USB before you connect the wires.
+
 The one exception is the first power-up check straight after flashing
 ([04 – Controller, step 3](04-build-controller.md#3-first-power-up-check)).
 There, the adapter's 3.3 V VCC powers the bare board through the serial
@@ -276,7 +284,7 @@ ESPHome profiles parse these keys; if you rename one, update both YAML files.
 | :---------- | :------------- | :------------------------------------- |
 | `fw`        | `0.6.0`        | Firmware version (`config.h`)          |
 | `time`      | `1234s`        | Scheduler seconds since reset          |
-| `vdd`       | `3.912V`       | Controller supply (= battery rail)     |
+| `vdd`       | `3.912V`       | Supply, averaged (= battery rail)      |
 | `battery`   | `OK`           | Band: OK, MID, LOW, CRITICAL           |
 | `ldr`       | `12.4%`        | A1 as a percentage of VCC              |
 | `sense`     | `DARK`         | DARK, MID or LIGHT                     |
@@ -315,10 +323,12 @@ All settings are in `include/config.h`. The ones you are most likely to change:
 | `EVENING_FULL_S`     | 14400   | Evening length after dusk (4 h)      |
 | `OVERNIGHT_DUTY_PCT` | 30      | Brightness for the rest of the night |
 | `LDR_DARK_RATIO`     | 0.30    | Dusk threshold (A1 fraction)         |
+| `LDR_HYSTERESIS`     | 0.03    | Band around each LDR threshold       |
 | `LDR_LIGHT_RATIO`    | 0.60    | Dawn threshold (A1 fraction)         |
 | `LOW_BATT_V`         | 3.45    | Below this, night level halves       |
 | `LVC_OFF_V`          | 3.30    | Cut-off voltage (after 30 s)         |
 | `LVC_RESUME_V`       | 3.60    | Recovery voltage (in daylight)       |
+| `VDD_AVG_READINGS`   | 8       | Supply averaging (readings)          |
 | `BANDGAP_V`          | 1.10    | Supply measurement calibration       |
 | `TIME_SCALE`         | 1       | Bench only: 60 runs time 60× faster  |
 
@@ -339,7 +349,8 @@ c++ -std=c++17 -Wall -Wextra -Werror -I../include regression.cpp -o regression &
 ```
 
 It must print `PASS`. The tests cover dusk/dawn confirmation, a 14-hour night,
-overnight dimming and its restart at a fresh dusk, test-level caps, cut-off and recovery, low-battery dimming, slow ticks and the
+overnight dimming and its restart at a fresh dusk, LDR hysteresis, supply
+averaging, test-level caps, cut-off and recovery, low-battery dimming, slow ticks and the
 shipped defaults. They do not test registers, ADC settling, sleep current or
 wiring: that is what commissioning is for.
 
@@ -357,6 +368,7 @@ wiring: that is what commissioning is for.
 | Signature `1E 95 16 (ATmega328PB)`     | 328PB chip: use `-p m328pb`, not `-F`    |
 | Any other signature                    | Wrong chip or wiring: stop               |
 | `vdd=` about 5 V on the bench          | Fed from a 5 V pin or jumper: use 3.3 V  |
+| Garbled lines, D1 Mini restarting      | USB-UART wired but unplugged: unwire it  |
 | Verification mismatch                  | Check avrdude version, retry once        |
 | Serial text unreadable                 | Fuses not set (still 16 MHz)             |
 | No serial output at all                | `standalone` build, or TX/GND wiring     |

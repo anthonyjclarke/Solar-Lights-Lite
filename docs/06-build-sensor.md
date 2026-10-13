@@ -71,6 +71,14 @@ is well above 30 %, the lights will come on later than you want: raise
 `LDR_DARK_RATIO` in `config.h` (keeping `LDR_LIGHT_RATIO` about 0.3 above it),
 or fit a smaller R4. If the lights come on too early, do the opposite.
 
+Each threshold has a 3 % hysteresis band (`LDR_HYSTERESIS`): once the reading
+is DARK it stays DARK until it rises above 33 %, and once LIGHT it stays LIGHT
+until it falls below 57 %. Noise near a threshold therefore cannot restart the
+300 s confirmation. Even so, the night-time reading should sit clearly below
+the dark threshold. A reading that hovers just under it, as indoor room light
+can cause, delays dusk; widen the margin rather than relying on the
+hysteresis.
+
 ---
 
 ## What can go wrong

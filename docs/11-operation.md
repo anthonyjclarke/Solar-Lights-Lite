@@ -116,6 +116,7 @@ Remember the charger cannot sense cell temperature: in freezing weather see
 | :-------------------------------- | :------------------------------------- |
 | Lights never come on              | S1, fuses, cut-off; LDR seeing a light |
 | Lights come on too late or early  | Recalibrate LDR thresholds (doc 06)    |
+| Lights go off at night (indoors)  | Room light seen as dawn: shade the LDR |
 | Lights on during the day          | LDR shaded, covered or dirty           |
 | Lights flicker at dusk            | LDR too close to the LED string        |
 | Very dim all night                | Battery low: check dawn voltage trend  |

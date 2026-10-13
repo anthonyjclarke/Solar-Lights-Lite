@@ -84,6 +84,7 @@ row(['First power-up check', 'USB-UART at 3.3 V into serial-header VCC -> banner
 y -= 2
 txt('Disconnect all ISP wires first. Then remove the regulator and power LED (guide 04 step 5) and repeat the check.', size=8.6)
 txt('After that, USB-UART is monitoring-only: target TX -> adapter RX, GND -> GND; adapter VCC, TX, DTR, CTS open.', size=8.6)
+txt('Keep the adapter on USB while it is wired: unplugged, it loads TX and garbles the telemetry. Unwire it first.', size=8.6, col=RED, bold=True)
 y -= 3
 txt('Tool setup, fuses, Arduino-as-ISP fallback and troubleshooting: docs/08-firmware.md', bold=True)
 rule()

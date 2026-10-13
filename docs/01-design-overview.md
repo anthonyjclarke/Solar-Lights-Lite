@@ -137,8 +137,12 @@ does not change. See [09 – Home Assistant](09-home-assistant.md).
   loading and can back-feed an unpowered controller. A light-dependent
   resistor powered only while sampled needs no RTC, clock or network, and
   draws nothing between reads.
-- **Five-minute confirmation and a threshold gap.** Car headlights, shadows
-  and dusk flicker cannot toggle the lights.
+- **Five-minute confirmation, a threshold gap and hysteresis.** Car
+  headlights, shadows and dusk flicker cannot toggle the lights, and sensor
+  noise at a threshold cannot keep restarting the confirmation.
+- **Averaged supply reading.** The supply reading jitters by tens of mV while
+  the LEDs pulse, so the battery band, low-battery dimming and cut-off use a
+  moving average rather than single readings.
 - **Dusk to dawn, no clock.** Without an RTC the watchdog timer is the only
   time base, and it is uncalibrated (it varies by chip, typically 10–20 %
   slow). Dusk-to-dawn operation never needs wall-clock time.

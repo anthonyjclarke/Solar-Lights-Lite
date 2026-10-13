@@ -3,8 +3,9 @@
  * --------------------------------------------------
  * Dusk-to-dawn lighting with confirmed transitions, overnight dimming,
  * low-battery dimming, low-voltage cut-off, a startup self-test and a timed
- * button test. No Arduino or AVR headers, so the host regression tests in
- * test_host/ run this exact code.
+ * button test, plus the light-sensor hysteresis and supply averaging that feed
+ * it. No Arduino or AVR headers, so the host regression tests in test_host/ run
+ * this exact code.
  *
  * Call step() after every wake with the scheduler seconds elapsed since the last call.
  */
@@ -31,6 +32,25 @@ struct Config {
 };
 
 enum State : uint8_t { DAY = 0, NIGHT = 1, LVC = 2 };
+
+// LDR ratio -> clearly dark / clearly light, with hysteresis at each threshold.
+struct LightSense {
+  bool dark = false, light = false;
+  void update(float ratio) {
+    dark  = ratio < (dark  ? LDR_DARK_RATIO + LDR_HYSTERESIS : LDR_DARK_RATIO);
+    light = ratio > (light ? LDR_LIGHT_RATIO - LDR_HYSTERESIS : LDR_LIGHT_RATIO);
+  }
+};
+
+// Exponential moving average of the supply; the first valid reading seeds it.
+struct VddAverage {
+  float value = 0;
+  float update(float v) {
+    if (v <= 0) return value;                // failed reading: keep the average
+    value = (value <= 0) ? v : value + (v - value) / VDD_AVG_READINGS;
+    return value;
+  }
+};
 
 class Scheduler {
 public:

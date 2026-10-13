@@ -613,8 +613,12 @@ does not change. See <a href="#d09">09 – Home Assistant</a>.</p>
   loading and can back-feed an unpowered controller. A light-dependent
   resistor powered only while sampled needs no RTC, clock or network, and
   draws nothing between reads.</li>
-<li><strong>Five-minute confirmation and a threshold gap.</strong> Car headlights, shadows
-  and dusk flicker cannot toggle the lights.</li>
+<li><strong>Five-minute confirmation, a threshold gap and hysteresis.</strong> Car
+  headlights, shadows and dusk flicker cannot toggle the lights, and sensor
+  noise at a threshold cannot keep restarting the confirmation.</li>
+<li><strong>Averaged supply reading.</strong> The supply reading jitters by tens of mV while
+  the LEDs pulse, so the battery band, low-battery dimming and cut-off use a
+  moving average rather than single readings.</li>
 <li><strong>Dusk to dawn, no clock.</strong> Without an RTC the watchdog timer is the only
   time base, and it is uncalibrated (it varies by chip, typically 10–20 %
   slow). Dusk-to-dawn operation never needs wall-clock time.</li>
@@ -3720,7 +3724,9 @@ the six ISP pins (VCC, GND, RST, 11, 12, 13).</p>
 <p>3.3 V is close to the 3.30 V cut-off, so leave the lighting tests for Gate 1.
 <code>vdd=</code> around 5 V means the adapter is set to 5 V: disconnect it at once.
 When you have finished, disconnect the adapter's VCC. From here on the
-adapter is a monitor only (TX → RX and GND).</p>
+adapter is a monitor only (TX → RX and GND). Keep it plugged into USB for as
+long as its wires are connected: an unplugged adapter loads the TX line and
+garbles the telemetry (<a href="#d08-reading-the-diagnostics">08 – Firmware</a>).</p>
 <h4 id="d04-4-identify-the-regulator-and-power-led">4. Identify the regulator and power LED</h4>
 <ol>
 <li>Photograph the board. With no power applied, use continuity mode to trace
@@ -4038,6 +4044,13 @@ a loose cap can still let through enough light to read about 20 %.</p>
 is well above 30 %, the lights will come on later than you want: raise
 <code>LDR_DARK_RATIO</code> in <code>config.h</code> (keeping <code>LDR_LIGHT_RATIO</code> about 0.3 above it),
 or fit a smaller R4. If the lights come on too early, do the opposite.</p>
+<p>Each threshold has a 3 % hysteresis band (<code>LDR_HYSTERESIS</code>): once the reading
+is DARK it stays DARK until it rises above 33 %, and once LIGHT it stays LIGHT
+until it falls below 57 %. Noise near a threshold therefore cannot restart the
+300 s confirmation. Even so, the night-time reading should sit clearly below
+the dark threshold. A reading that hovers just under it, as indoor room light
+can cause, delays dusk; widen the margin rather than relying on the
+hysteresis.</p>
 <hr />
 <h3 id="d06-what-can-go-wrong">What can go wrong</h3>
 <div class="scroll"><table>
@@ -7991,6 +8004,13 @@ you build.</p>
   GND → adapter GND; leave the adapter's VCC, TX, DTR and CTS open (sheet 5).
   Then run <code>pio device monitor --baud 9600</code> from <code>firmware/controller</code>.</li>
 </ul>
+<p><strong>Never leave a USB-UART adapter wired up but unpowered.</strong> Unplugged from
+USB, its RX pin feeds the controller's TX into the adapter's own supply
+through its protection diodes. That loads the TX line that also drives Q2, so
+the D1 Mini receives garbled characters: Tier 1 telemetry goes stale, the
+dashboard empties and the D1 Mini can restart repeatedly. The lighting itself
+is unaffected. Disconnect the adapter's wires before you unplug its USB, and
+reconnect USB before you connect the wires.</p>
 <p>The one exception is the first power-up check straight after flashing
 (<a href="#d04-3-first-power-up-check">04 – Controller, step 3</a>).
 There, the adapter's 3.3 V VCC powers the bare board through the serial
@@ -8022,7 +8042,7 @@ ESPHome profiles parse these keys; if you rename one, update both YAML files.</p
 <tr>
 <td style="text-align: left;"><code>vdd</code></td>
 <td style="text-align: left;"><code>3.912V</code></td>
-<td style="text-align: left;">Controller supply (= battery rail)</td>
+<td style="text-align: left;">Supply, averaged (= battery rail)</td>
 </tr>
 <tr>
 <td style="text-align: left;"><code>battery</code></td>
@@ -8170,6 +8190,11 @@ ESPHome profiles parse these keys; if you rename one, update both YAML files.</p
 <td style="text-align: left;">Dusk threshold (A1 fraction)</td>
 </tr>
 <tr>
+<td style="text-align: left;"><code>LDR_HYSTERESIS</code></td>
+<td style="text-align: left;">0.03</td>
+<td style="text-align: left;">Band around each LDR threshold</td>
+</tr>
+<tr>
 <td style="text-align: left;"><code>LDR_LIGHT_RATIO</code></td>
 <td style="text-align: left;">0.60</td>
 <td style="text-align: left;">Dawn threshold (A1 fraction)</td>
@@ -8188,6 +8213,11 @@ ESPHome profiles parse these keys; if you rename one, update both YAML files.</p
 <td style="text-align: left;"><code>LVC_RESUME_V</code></td>
 <td style="text-align: left;">3.60</td>
 <td style="text-align: left;">Recovery voltage (in daylight)</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>VDD_AVG_READINGS</code></td>
+<td style="text-align: left;">8</td>
+<td style="text-align: left;">Supply averaging (readings)</td>
 </tr>
 <tr>
 <td style="text-align: left;"><code>BANDGAP_V</code></td>
@@ -8212,7 +8242,8 @@ computer with a C++17 compiler. From <code>firmware/controller/test_host</code>:
 <pre><code class="language-bash">c++ -std=c++17 -Wall -Wextra -Werror -I../include regression.cpp -o regression &amp;&amp; ./regression
 </code></pre>
 <p>It must print <code>PASS</code>. The tests cover dusk/dawn confirmation, a 14-hour night,
-overnight dimming and its restart at a fresh dusk, test-level caps, cut-off and recovery, low-battery dimming, slow ticks and the
+overnight dimming and its restart at a fresh dusk, LDR hysteresis, supply
+averaging, test-level caps, cut-off and recovery, low-battery dimming, slow ticks and the
 shipped defaults. They do not test registers, ADC settling, sleep current or
 wiring: that is what commissioning is for.</p>
 <hr />
@@ -8256,6 +8287,10 @@ wiring: that is what commissioning is for.</p>
 <tr>
 <td style="text-align: left;"><code>vdd=</code> about 5 V on the bench</td>
 <td style="text-align: left;">Fed from a 5 V pin or jumper: use 3.3 V</td>
+</tr>
+<tr>
+<td style="text-align: left;">Garbled lines, D1 Mini restarting</td>
+<td style="text-align: left;">USB-UART wired but unplugged: unwire it</td>
 </tr>
 <tr>
 <td style="text-align: left;">Verification mismatch</td>
@@ -8552,7 +8587,11 @@ cross-check, since it measures the same rail independently.</p>
 </tr>
 <tr>
 <td style="text-align: left;"><code>Dropped corrupted UART line</code> warnings</td>
-<td style="text-align: left;">Q2 pin order, shared GND_LOAD</td>
+<td style="text-align: left;">USB-UART wired but unplugged; Q2, GND</td>
+</tr>
+<tr>
+<td style="text-align: left;">D1 Mini restarts (Hardware Watchdog)</td>
+<td style="text-align: left;">Garbled UART input: same checks</td>
 </tr>
 <tr>
 <td style="text-align: left;">Home Assistant asks for the key again</td>
@@ -10087,6 +10126,10 @@ down:</p>
 <tr>
 <td style="text-align: left;">Lights come on too late or early</td>
 <td style="text-align: left;">Recalibrate LDR thresholds (doc 06)</td>
+</tr>
+<tr>
+<td style="text-align: left;">Lights go off at night (indoors)</td>
+<td style="text-align: left;">Room light seen as dawn: shade the LDR</td>
 </tr>
 <tr>
 <td style="text-align: left;">Lights on during the day</td>

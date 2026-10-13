@@ -151,7 +151,9 @@ This proves the board before you solder on it.
 3.3 V is close to the 3.30 V cut-off, so leave the lighting tests for Gate 1.
 `vdd=` around 5 V means the adapter is set to 5 V: disconnect it at once.
 When you have finished, disconnect the adapter's VCC. From here on the
-adapter is a monitor only (TX → RX and GND).
+adapter is a monitor only (TX → RX and GND). Keep it plugged into USB for as
+long as its wires are connected: an unplugged adapter loads the TX line and
+garbles the telemetry ([08 – Firmware](08-firmware.md#reading-the-diagnostics)).
 
 ### 4. Identify the regulator and power LED
 

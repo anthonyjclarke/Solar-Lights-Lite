@@ -175,7 +175,8 @@ cross-check, since it measures the same rail independently.
 | Symptom                                | Check                                   |
 | :------------------------------------- | :-------------------------------------- |
 | Diagnostics Fresh stays off            | Controller build, Q2 wiring, grounds    |
-| `Dropped corrupted UART line` warnings | Q2 pin order, shared GND_LOAD           |
+| `Dropped corrupted UART line` warnings | USB-UART wired but unplugged; Q2, GND   |
+| D1 Mini restarts (Hardware Watchdog)   | Garbled UART input: same checks         |
 | Home Assistant asks for the key again  | Encryption key changed between profiles |
 | Tier 2 device never reports            | D0 → RST link, U3 jumper, Wi-Fi reach   |
 | Tier 2 stays awake                     | OTA helper still on                     |

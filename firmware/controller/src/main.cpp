@@ -44,6 +44,8 @@ struct Reading {
 };
 
 lite::Scheduler sched;
+lite::LightSense ldrSense;
+lite::VddAverage vddAvg;
 volatile bool wdtFired = false, btnPressed = false;
 ISR(WDT_vect) { wdtFired = true; }
 ISR(PCINT2_vect) { if (!digitalRead(PIN_BUTTON)) btnPressed = true; }
@@ -76,14 +78,15 @@ static float readVcc() { uint16_t r = adcRaw(0x0E); return r ? BANDGAP_V * 1023.
 static Reading measure() {
   Reading r;
   power_adc_enable(); ADCSRA |= _BV(ADEN);
-  r.vdd = readVcc();
+  r.vdd = vddAvg.update(readVcc());          // averaged: PWM makes single readings jitter
   digitalWrite(PIN_LDR_PWR, HIGH); _delay_ms(5);   // LDR divider draws current only now
   r.ldrRaw = adcRaw(ADC_LDR);
   digitalWrite(PIN_LDR_PWR, LOW);
   ADCSRA &= ~_BV(ADEN); power_adc_disable();
   r.ldrRatio = r.ldrRaw / 1023.0f;
-  r.dark = r.ldrRatio < LDR_DARK_RATIO;
-  r.light = r.ldrRatio > LDR_LIGHT_RATIO;
+  ldrSense.update(r.ldrRatio);               // hysteresis at both thresholds
+  r.dark = ldrSense.dark;
+  r.light = ldrSense.light;
   return r;
 }
 
@@ -206,6 +209,7 @@ static void printFieldGuide() {
   Serial.println(F("Settings"));
   Serial.print(F("  LDR        dark <")); Serial.print(LDR_DARK_RATIO * 100.0f, 0);
   Serial.print(F("%  light >")); Serial.print(LDR_LIGHT_RATIO * 100.0f, 0);
+  Serial.print(F("%  hysteresis ")); Serial.print(LDR_HYSTERESIS * 100.0f, 0);
   Serial.print(F("%  confirm ")); Serial.print(TRANSITION_CONFIRM_S); Serial.println(F(" s"));
   Serial.print(F("  Battery    low <")); Serial.print(LOW_BATT_V, 2);
   Serial.println(F(" V halves night duty"));
@@ -218,7 +222,7 @@ static void printFieldGuide() {
   Serial.print(F("%  button test ")); Serial.print(BUTTON_TEST_S); Serial.println(F(" s"));
   Serial.println(F("Field guide (keys in each line)"));
   Serial.println(F("  time       scheduler seconds since reset (watchdog clock, not wall-clock)"));
-  Serial.println(F("  vdd        controller supply; battery = OK/MID/LOW/CRITICAL band"));
+  Serial.println(F("  vdd        controller supply (averaged); battery = OK/MID/LOW/CRITICAL band"));
   Serial.println(F("  ldr        A1 as % of VCC; raw = ADC 0-1023; ldr_v = A1 volts"));
   Serial.println(F("  sense      DARK / MID / LIGHT from the LDR thresholds above"));
   Serial.println(F("  mode       DAY / NIGHT / LVC; night = YES after a confirmed dusk"));

@@ -18,7 +18,6 @@ with [README.md](README.md).
   cut-off work as before. New cause `OVERNIGHT_DIM`; the telemetry keys are
   unchanged, so neither ESPHome profile needs updating. The field guide lists
   the dim stage, and two new host-test groups cover it.
-
 - Advanced dashboard: a "Low-voltage cut-off (7 days)" history graph of
   Arduino VDD, LVC elapsed and Mode, so near misses below 3.30 V stand out.
 - Guide 11: a section explaining the low-voltage cut-off and the
@@ -36,6 +35,55 @@ with [README.md](README.md).
   shown as a 328P or 328PB board, and the notes say power enters VCC never
   RAW, the regulator and power LED come off before Gate 0, the serial header
   stays clear for a USB-UART monitor and LDR1 must be shaded from the LEDs.
+
+### Fixed
+
+Found from the bench telemetry, Home Assistant log and serial capture of
+13–14 Oct 2026 (firmware 0.7.0 before these fixes):
+
+- **Dusk delayed by sensor noise at the dark threshold (firmware).** Any
+  single reading at or above `LDR_DARK_RATIO` restarted the 300 s dusk
+  confirmation. On 13 Oct the LDR fell below 30 % at 19:10, then hovered at
+  27–30.2 %, so dusk was not confirmed until 19:48. At 02:55 the same
+  hovering stopped dusk confirming at all. Light sensing now has hysteresis
+  (`LDR_HYSTERESIS` = 0.03 in `config.h`): once DARK, the reading must rise
+  above 33 % to leave DARK, and once LIGHT it must fall below 57 % to leave
+  LIGHT. A new `LightSense` helper in `schedule.h` implements this. The
+  field guide prints the hysteresis, and guide 06 explains it and still asks
+  for a clear margin between the night reading and the threshold.
+- **Battery band flapping and report storms from a noisy supply reading
+  (firmware).** While the LEDs pulse, single `vdd` readings jitter by tens of
+  mV: 3.55–3.62 V from one second to the next on the night of 12 Oct. Near
+  3.60 V the battery band flipped between OK and MID every second or two.
+  Each flip is a telemetry event, so the `advanced` build sent about 800
+  lines an hour instead of about 50. The same jitter could flicker the
+  3.45 V low-battery halving and kept resetting the cut-off timer. The
+  supply is now an exponential moving average (`VDD_AVG_READINGS` = 8,
+  `VddAverage` in `schedule.h`), used for `vdd=`, the battery band,
+  low-battery dimming and the cut-off. A sustained drop still trips the
+  cut-off: about 11 s to average below 3.30 V, then the usual 30 s hold.
+  Two new host-test groups (13 in total) cover the hysteresis and the
+  averaging, including a noisy dusk that previously never confirmed.
+- **Telemetry lost and D1 Mini restarts from an unpowered USB-UART adapter
+  (documentation).** With the FT232 unplugged from USB but still wired to the
+  controller's TX and GND, it drew power through its RX pin and loaded the
+  TX line that drives Q2. From 09:01 to about 21:15 on 13 Oct the D1 Mini
+  received about 13 lines an hour, almost all with single-bit errors (for
+  example `battery=MHD`, `night<YES`), instead of about 50 clean ones.
+  "UART data" showed disconnected, and the D1 Mini restarted on its hardware
+  watchdog five times between 20:05 and 21:02. Everything was clean once the
+  adapter was back on USB. The lighting was unaffected throughout. The
+  warning lost in the 0.6 restructure is restored: never leave an adapter
+  wired but unpowered, and disconnect its wires before unplugging USB. It is
+  in guide 08 (diagnostics and troubleshooting), guide 04 step 3, guide 09
+  troubleshooting and the controller bench sheet.
+- Guide 11 troubleshooting: lights switching off at night on an indoor bench
+  are room light being taken for dawn (seen at 21:16 and about 02:30 on
+  13–14 Oct); shade the LDR.
+
+Not yet resolved: a further D1 Mini hardware-watchdog restart at 23:28 on
+13 Oct with a clean link (and one on 5 Oct). If restarts continue, moving the
+D1 Mini to its hardware UART is the next step.
 
 ---
 

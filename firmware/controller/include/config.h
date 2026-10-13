@@ -41,12 +41,20 @@ constexpr uint8_t  OVERNIGHT_DUTY_PCT = 30;
 constexpr float    LDR_DARK_RATIO       = 0.30f;
 constexpr float    LDR_LIGHT_RATIO      = 0.60f;
 constexpr uint16_t TRANSITION_CONFIRM_S = 300;  // dark or light must persist this long
+// Hysteresis: once DARK, the reading must rise above LDR_DARK_RATIO + this to
+// stop being dark (and once LIGHT, fall below LDR_LIGHT_RATIO - this). Noise at
+// a threshold then cannot flip the state and restart the confirmation.
+constexpr float    LDR_HYSTERESIS       = 0.03f;
 
 // ------------------------------------------------------------ battery protection
 constexpr float    LOW_BATT_V   = 3.45f;  // below: night duty is halved
 constexpr float    LVC_OFF_V    = 3.30f;  // below for LVC_HOLD_S: lights off (low-voltage cut-off)
 constexpr uint16_t LVC_HOLD_S   = 30;
 constexpr float    LVC_RESUME_V = 3.60f;  // cut-off clears above this, in confirmed daylight
+// The supply reading jitters by tens of mV while the LEDs pulse. Battery band,
+// low-battery dimming and cut-off all use a moving average with weight
+// 1/VDD_AVG_READINGS (about the last 8 readings).
+constexpr uint8_t  VDD_AVG_READINGS = 8;
 
 // ------------------------------------------------------------ calibration
 // Internal bandgap used to measure VCC. Calibrate once against a meter:
