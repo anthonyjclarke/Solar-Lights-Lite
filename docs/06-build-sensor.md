@@ -50,9 +50,9 @@ makes the sensor call "dark" later (it needs a darker sky).
 2. Mount the LDR where it sees the sky but **not the LED string**: the lights
    must never be able to convince the sensor it is daytime. A short tube or
    hood around the LDR helps. Check it at night: with the lights on, `ldr=`
-   should rise by only a few percent and stay well below the light threshold
-   (Gate 3, step 6). On the bench, a string near the LDR raised it by about
-   4.5 %.
+   should rise by only a few points and stay well below the light threshold
+   (Gate 3, step 6). On the bench, the string raised it by 4.5, 8 and 16
+   points in three different positions.
 3. Wire SW1 between D2 and GND_LOAD. The firmware enables D2's internal
    pull-up and a pin-change interrupt, so a press wakes the controller
    immediately.

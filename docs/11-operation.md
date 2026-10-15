@@ -8,16 +8,16 @@ care, and how to diagnose problems.
 
 ## A normal day
 
-| When                   | What happens                            |
-| :--------------------- | :-------------------------------------- |
-| Power-on or reset      | 10 s flash (self-test)                  |
-| Daytime                | Lights off; controller wakes every 8 s  |
-| Dusk                   | ~6 min of darkness, then a slow fade up |
-| Evening (first ~4.5 h) | Lights on at the night level (100 %)    |
-| Rest of the night      | Slow fade to 30 % until dawn            |
-| Battery below 3.45 V   | Night level halves                      |
-| Dawn                   | ~6 min of light, then a slow fade off   |
-| Battery < 3.30 V, 30 s | Lights off until daylight and > 3.60 V  |
+| When                       | What happens                            |
+| :------------------------- | :-------------------------------------- |
+| Power-on or reset          | 10 s flash (self-test)                  |
+| Daytime                    | Lights off; controller wakes every 8 s  |
+| Dusk                       | ~6 min of darkness, then a slow fade up |
+| Evening (first ~4.4–4.8 h) | Lights on at the night level (100 %)    |
+| Rest of the night          | Slow fade to 30 % until dawn            |
+| Battery below 3.45 V       | Night level halves                      |
+| Dawn                       | ~6 min of light, then a slow fade off   |
+| Battery < 3.30 V, 30 s     | Lights off until daylight and > 3.60 V  |
 
 Brightness falls gently through a long night as the battery voltage drops. This
 is by design: the LED string is driven directly, so its current follows the

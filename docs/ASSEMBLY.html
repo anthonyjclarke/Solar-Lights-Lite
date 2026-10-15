@@ -4027,9 +4027,9 @@ makes the sensor call "dark" later (it needs a darker sky).</p>
 <li>Mount the LDR where it sees the sky but <strong>not the LED string</strong>: the lights
    must never be able to convince the sensor it is daytime. A short tube or
    hood around the LDR helps. Check it at night: with the lights on, <code>ldr=</code>
-   should rise by only a few percent and stay well below the light threshold
-   (Gate 3, step 6). On the bench, a string near the LDR raised it by about
-   4.5 %.</li>
+   should rise by only a few points and stay well below the light threshold
+   (Gate 3, step 6). On the bench, the string raised it by 4.5, 8 and 16
+   points in three different positions.</li>
 <li>Wire SW1 between D2 and GND_LOAD. The firmware enables D2's internal
    pull-up and a pin-change interrupt, so a press wakes the controller
    immediately.</li>
@@ -8594,6 +8594,10 @@ cross-check, since it measures the same rail independently.</p>
 <td style="text-align: left;">Garbled UART input: same checks</td>
 </tr>
 <tr>
+<td style="text-align: left;">Data stops or D1 restarts when you touch the bench</td>
+<td style="text-align: left;">Breadboard wires: reseat D6, Q2, R10, GND; solder the permanent build</td>
+</tr>
+<tr>
 <td style="text-align: left;">Home Assistant asks for the key again</td>
 <td style="text-align: left;">Encryption key changed between profiles</td>
 </tr>
@@ -9693,20 +9697,24 @@ meter; the D2 test works; no unexplained current or heat.</p>
 <ol>
 <li>In daylight or room light, confirm <code>sense=LIGHT</code> and <code>next_tick=8s</code>.</li>
 <li>Cover the LDR with a light-tight cover. <code>sense=DARK</code>, ticks change to 1 s,
-   <code>confirm=DUSK n/300s</code> counts up.</li>
+   <code>confirm=DUSK n/300s</code> counts up. Keep it covered for at least 7 minutes:
+   300 scheduler seconds is about 5.8 real minutes, and uncovering early
+   (for example at <code>281/300s</code>) just cancels the count. The 60 s button test
+   also ends by itself while the count is still running.</li>
 <li>After 300 scheduler seconds: <code>mode=NIGHT</code>, output fades up at 2 % per
    second to the night level.</li>
 <li>Uncover for 300 s: <code>mode=DAY</code>, output fades to 0.</li>
 <li>Brief shadows or a torch flash must not cause a transition.
-   On the first real night, check that about 4.5 h after dusk the output fades
-   to 30 % and <code>cause=OVERNIGHT_DIM</code>. To see it on the bench, build with
+   On the first real night, check that about 4.4–4.8 h after dusk (4 h 38 min
+   on the bench chip) the output fades to 30 % and <code>cause=OVERNIGHT_DIM</code>. To see it on the bench, build with
    <code>TIME_SCALE = 60</code>: the evening then lasts about 4 minutes. Set it back to 1
    before deployment.</li>
 <li>At night with the lights on, note <code>ldr=</code>, then switch the string off (or
-   cover it) and note it again. The lights' own contribution should be a few
-   percent at most, and the lit reading must stay well below the light
-   threshold (60 %). Otherwise the lights can end their own night: shade the
-   LDR from the string (guide 06).</li>
+   cover it) and note it again. The lights' own contribution should be small,
+   and the lit reading must stay well below the light threshold (60 %).
+   Otherwise the lights can end their own night: shade the LDR from the
+   string (guide 06). Bench readings rose by 4.5, 8 and 16 points in three
+   different positions, so the position matters more than any setting.</li>
 </ol>
 <p>An indoor bench sees room lights: a lamp switched on near the LDR can end the
 night early or delay dusk. Treat dusk and dawn times as meaningful only
@@ -9841,6 +9849,9 @@ unaffected.</p>
 <li class="check">Cold-weather charging risk addressed for your climate
       (<a href="#d01-known-limitations">Known limitations</a>)</li>
 <li class="check">Production firmware and profile installed; tier jumpers correct</li>
+<li class="check">Permanent (soldered) unit: D1 Mini telemetry stays up, with no restarts
+      or data gaps, while the unit is handled and moved. On the breadboard
+      bench, loose wires caused dropouts and D1 Mini watchdog restarts.</li>
 </ul>
 <hr />
 <h3 id="d10-results-template">Results template</h3>
@@ -9936,7 +9947,7 @@ care, and how to diagnose problems.</p>
 <td style="text-align: left;">~6 min of darkness, then a slow fade up</td>
 </tr>
 <tr>
-<td style="text-align: left;">Evening (first ~4.5 h)</td>
+<td style="text-align: left;">Evening (first ~4.4–4.8 h)</td>
 <td style="text-align: left;">Lights on at the night level (100 %)</td>
 </tr>
 <tr>

@@ -29,8 +29,8 @@ constexpr uint8_t  FADE_STEP_PCT    = 2;    // % per second at dusk and dawn
 
 // Overnight dimming: NIGHT_DUTY_PCT for EVENING_FULL_S after a confirmed dusk,
 // then OVERNIGHT_DUTY_PCT until dawn. Counted on the watchdog clock (10-20%
-// slow), so 4 h is about 4.5 real hours. A reset restarts the count at the next
-// dusk. Set OVERNIGHT_DUTY_PCT = NIGHT_DUTY_PCT to keep one level all night.
+// slow), so 4 h is about 4.4-4.8 real hours (4 h 38 min measured). A reset
+// restarts the count at the next dusk. Set OVERNIGHT_DUTY_PCT = NIGHT_DUTY_PCT to keep one level all night.
 constexpr uint32_t EVENING_FULL_S     = 4UL * 3600;
 constexpr uint8_t  OVERNIGHT_DUTY_PCT = 30;
 

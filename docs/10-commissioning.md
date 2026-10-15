@@ -71,20 +71,24 @@ meter; the D2 test works; no unexplained current or heat.
 
 1. In daylight or room light, confirm `sense=LIGHT` and `next_tick=8s`.
 2. Cover the LDR with a light-tight cover. `sense=DARK`, ticks change to 1 s,
-   `confirm=DUSK n/300s` counts up.
+   `confirm=DUSK n/300s` counts up. Keep it covered for at least 7 minutes:
+   300 scheduler seconds is about 5.8 real minutes, and uncovering early
+   (for example at `281/300s`) just cancels the count. The 60 s button test
+   also ends by itself while the count is still running.
 3. After 300 scheduler seconds: `mode=NIGHT`, output fades up at 2 % per
    second to the night level.
 4. Uncover for 300 s: `mode=DAY`, output fades to 0.
 5. Brief shadows or a torch flash must not cause a transition.
-   On the first real night, check that about 4.5 h after dusk the output fades
-   to 30 % and `cause=OVERNIGHT_DIM`. To see it on the bench, build with
+   On the first real night, check that about 4.4–4.8 h after dusk (4 h 38 min
+   on the bench chip) the output fades to 30 % and `cause=OVERNIGHT_DIM`. To see it on the bench, build with
    `TIME_SCALE = 60`: the evening then lasts about 4 minutes. Set it back to 1
    before deployment.
 6. At night with the lights on, note `ldr=`, then switch the string off (or
-   cover it) and note it again. The lights' own contribution should be a few
-   percent at most, and the lit reading must stay well below the light
-   threshold (60 %). Otherwise the lights can end their own night: shade the
-   LDR from the string (guide 06).
+   cover it) and note it again. The lights' own contribution should be small,
+   and the lit reading must stay well below the light threshold (60 %).
+   Otherwise the lights can end their own night: shade the LDR from the
+   string (guide 06). Bench readings rose by 4.5, 8 and 16 points in three
+   different positions, so the position matters more than any setting.
 
 An indoor bench sees room lights: a lamp switched on near the LDR can end the
 night early or delay dusk. Treat dusk and dawn times as meaningful only
@@ -218,6 +222,9 @@ unaffected.
 - [ ] Cold-weather charging risk addressed for your climate
       ([Known limitations](01-design-overview.md#known-limitations))
 - [ ] Production firmware and profile installed; tier jumpers correct
+- [ ] Permanent (soldered) unit: D1 Mini telemetry stays up, with no restarts
+      or data gaps, while the unit is handled and moved. On the breadboard
+      bench, loose wires caused dropouts and D1 Mini watchdog restarts.
 
 ---
 

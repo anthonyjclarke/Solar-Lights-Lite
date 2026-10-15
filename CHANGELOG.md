@@ -36,6 +36,42 @@ with [README.md](README.md).
   RAW, the regulator and power LED come off before Gate 0, the serial header
   stays clear for a USB-UART monitor and LDR1 must be shaded from the LEDs.
 
+### Verified
+
+Bench results with the fixes in place (firmware 0.7.0, ATmega328PB board,
+regulator and power LED still fitted; on the charger 14–15 Oct, battery only
+15–16 Oct):
+
+- No corrupted lines in 24 h, against about 170 in 12 h before the fixes. The
+  D1 Mini ran 34 h without a restart on a clean link, and "UART data" never
+  dropped. Roughly one heartbeat in 250 is lost silently (garbled but
+  printable lines are discarded without a warning); the 180 s timeout hides it.
+- Dusk was confirmed after 300 scheduler seconds with no reset from noise, and
+  the 4 h evening ended 4 h 38 min after dusk on both nights, as expected for a
+  watchdog clock 16 % slow. Overnight dimming faded to 30 % with cause
+  `OVERNIGHT_DIM` and held to dawn. Short room-light readings during the night
+  (01:20, 03:23, 04:54) caused no false dawn.
+- Report rate stayed at about 50 lines an hour while idle, with no bursts.
+- On battery alone the averaged `vdd` varied by about 7 mV at full brightness
+  and about 29 mV while dimmed. On the charger it moved by about 125 mV, and
+  on 12 Oct (battery only, before the fixes) by about 70 mV while dimmed. The
+  3.60 V band boundary has not been exercised yet.
+- Calibration: meter 4.127 V against `vdd` 4.154 V (+27 mV) and D1 4.103 V,
+  and meter 4.078 V against `vdd` 4.088 V (+10 mV). All within 0.05 V, so
+  `BANDGAP_V` stays 1.10 and the D1 multiplier stays 5.21.
+- Overnight battery change, unloaded: 4.155 V to 4.106 V (`vdd`) over a night
+  with 4 h 38 min at full brightness and 5 h 18 min at 30 %.
+- With the lights at full brightness the LDR reading rose from 25.5 % to
+  33.8 % (+8 points); `sense` showed MID until the dim stage, with no effect
+  on operation.
+
+Known limitation, to be retested on the permanent unit: on the breadboard
+bench, handling the wiring on 15 Oct (and likely earlier) interrupted the Q2
+to D6 link and the D1 Mini restarted on its hardware watchdog five times, while
+the controller kept sending clean lines (confirmed by the FT232 capture). The
+cause is believed to be cable seating, not firmware. Retest on the soldered
+unit; see the production readiness checklist in guide 10.
+
 ### Fixed
 
 Found from the bench telemetry, Home Assistant log and serial capture of
@@ -77,6 +113,13 @@ Found from the bench telemetry, Home Assistant log and serial capture of
   wired but unpowered, and disconnect its wires before unplugging USB. It is
   in guide 08 (diagnostics and troubleshooting), guide 04 step 3, guide 09
   troubleshooting and the controller bench sheet.
+- Guide 10 Gate 3: cover the LDR for at least 7 minutes (300 scheduler seconds
+  is about 5.8 real minutes; uncovering at `281/300s` just cancels the count).
+  The evening length is given as 4.4–4.8 h (4 h 38 min on the bench chip) in
+  `config.h` and guides 10 and 11; the lit-LDR rise is quoted as measured
+  (4.5, 8 and 16 points in three positions) in guides 06 and 10. Guide 09
+  troubleshooting and the guide 10 readiness checklist cover the breadboard
+  seating issue.
 - Guide 11 troubleshooting: lights switching off at night on an indoor bench
   are room light being taken for dawn (seen at 21:16 and about 02:30 on
   13–14 Oct); shade the LDR.
