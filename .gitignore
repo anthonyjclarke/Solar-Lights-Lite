@@ -40,4 +40,4 @@ credentials.*
 *.log
 
 # Third-party 3D models with redistribution limits (see hardware/pcb-rev-b/3dmodels/README.md)
-hardware/pcb-rev-b/3dmodels/snapeda/
+hardware/pcb-rev-*/3dmodels/snapeda/

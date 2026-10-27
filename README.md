@@ -135,7 +135,8 @@ module are in
 | `firmware/esphome/`    | D1 Mini profiles: Advanced and Production     |
 | `homeassistant/`       | HA package and dashboards                     |
 | `hardware/kicad/`      | KiCad schematic of the complete system        |
-| `hardware/pcb-rev-b/`  | PCB carrier: KiCad project, Gerbers, review   |
+| `hardware/pcb-rev-c/`  | PCB carrier Rev C: draft, in progress         |
+| `hardware/pcb-rev-b/`  | PCB carrier Rev B: as ordered, Gerbers        |
 | `hardware/pcb-rev-a/`  | Earlier, larger carrier (reference only)      |
 | `tools/`               | Drawing and wiring-data generators            |
 

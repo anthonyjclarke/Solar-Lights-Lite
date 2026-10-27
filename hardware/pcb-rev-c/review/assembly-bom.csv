@@ -1,0 +1,28 @@
+Reference,Value,Footprint,Fit in tiers,Assembly note
+M1,TP4056 module,Carrier:TP4056_Module_6pad_Overlay,all,"Protected TP4056 charger (TP4056/TC4056+DW01A+8205A), USB-C end up. Lower PROG to 100-150 mA BEFORE fitting. Pads IN+ IN- OUT+ OUT- B+ B-."
+JPV1,PV IN + / -,Carrier:SolderPads_1x02_P2.54mm,all,U0 5.00 V output (external) or Option A panel (Voc <= 6.5 V). Never a raw >6.5 V panel.
+JCELL1,CELL B+ / B-,Carrier:SolderPads_1x02_P2.54mm,all,"1S2P pack joined in parallel at the holder, matched cells. B- is NOT ground; no fuses."
+JS1,S1 OUT+ / SYS,Carrier:SolderPads_1x02_P2.54mm,all,Service switch S1 (or 2-pin header + shunt). Open it before connecting a programmer that supplies target power.
+C3,100u / 10V,Carrier:CP_Radial_D6.3mm_P2.50mm,all,
+C4,100n,Carrier:C_Disc_D5.0mm_W2.5mm_P5.00mm,all,Fits under M2.
+R3,47R / 0.25W,Carrier:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal,all,Direct GPIO drive; qualify peak current at 4.20 V. 56R option; no cable-short protection. Fits under M2.
+JLED1,LED + / -,Carrier:SolderPads_1x02_P2.54mm,all,Low-power LED string only; no connection to VBAT_SYS.
+JLDR1,LDR D7 / A1,Carrier:SolderPads_1x02_P2.54mm,all,"Remote LDR between these two pads, no ground lead."
+R4,47k,Carrier:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal,all,Fits under M2.
+JBUTTON1,SW1 D2 / -,Carrier:SolderPads_1x02_P2.54mm,all,Normally-open remote pushbutton.
+R5,220k,Carrier:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal,1/2,Fits under M3.
+R10,10k,Carrier:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal,1/2,Fits under M3.
+Q2,2N3904 / EBC,Carrier:TO-92_Inline_Wide,1/2,Specified onsemi TO-92 E=1 B=2 C=3. BC547 is not a drop-in replacement. Fits under M3.
+R8,47k,Carrier:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal,1/2,Fits under M3.
+R9,100k,Carrier:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal,1/2,Fits under M3.
+JU3IN1,U3 VIN + / -,Carrier:SolderPads_1x02_P2.54mm,2,External TPS63802 input. Short twisted pair; C2 local; verify regulator input capacitors on module.
+JU3OUT1,U3 VOUT + / -,Carrier:SolderPads_1x02_P2.54mm,2,External TPS63802 output measured 3.3 V before joining JP1. Never USB 5V here.
+C2,470u / 10V,Carrier:CP_Radial_D10.0mm_P5.00mm,2,
+JP3,ADC link,Carrier:SolderPads_1x02_P2.54mm,1/2,Fit a 2-pin header + shunt. Open when M3 is absent or unpowered; closed for battery measurement.
+JP2,D0 wake link,Carrier:SolderPads_1x02_P2.54mm,2,Header + shunt. Open for USB flashing; closed for production deep-sleep wake.
+JP1,BAT power link,Carrier:SolderPads_1x02_P2.54mm,2,"Header + shunt. Tier 1 OPEN, Tier 2 CLOSED. No automatic USB/battery interlock."
+JM2L1,M2 LEFT / serial end top,Carrier:PinSocket_1x12_P2.54mm_Vertical,all,Top to bottom: TX RX RST GND D2 D3 D4 D5 D6 D7 D8 D9.
+JM2R1,M2 RIGHT / serial end top,Carrier:PinSocket_1x12_P2.54mm_Vertical,all,Top to bottom: RAW GND RST VCC A3 A2 A1 A0 D13 D12 D11 D10. Rows 15.24 mm apart; verify clone.
+JISP1,ISP,Carrier:Pads_2x03_P2.54mm,all,"Standard AVR ISP, in-circuit with M2 fitted. Open S1 if the programmer supplies VCC."
+JM3L1,M3 LEFT / antenna end top,Carrier:PinSocket_1x08_P2.54mm_Vertical,1/2,Top to bottom: RST A0 D0 D5 D6 D7 D8 3V3. Antenna end overhangs the board edge.
+JM3R1,M3 RIGHT / antenna end top,Carrier:PinSocket_1x08_P2.54mm_Vertical,1/2,Top to bottom: TX RX D1 D2 D3 D4 G 5V. Rows 22.86 mm apart; 5V unconnected.

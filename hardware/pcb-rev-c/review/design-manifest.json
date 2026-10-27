@@ -1,0 +1,658 @@
+{
+  "parts": {
+    "M1": {
+      "value": "TP4056 module",
+      "symbol": "Connector_Generic:Conn_01x06",
+      "footprint": "Carrier:TP4056_Module_6pad_Overlay",
+      "xy": [
+        68.60000000000001,
+        2.5
+      ],
+      "angle": 0,
+      "nets": {
+        "1": "CHARGE_5V",
+        "2": "CHARGE_RETURN",
+        "3": "PROTECTED_POS",
+        "4": "GND_LOAD",
+        "5": "PACK_POS",
+        "6": "PACK_NEG"
+      },
+      "sch": [
+        60,
+        32
+      ],
+      "tier": "all",
+      "note": "Protected TP4056 charger (TP4056/TC4056+DW01A+8205A), USB-C end up. Lower PROG to 100-150 mA BEFORE fitting. Pads IN+ IN- OUT+ OUT- B+ B-.",
+      "uuid": "e2f55022-36a9-54c9-9e36-a425f2209c51",
+      "local_fp": "Carrier:TP4056_Module_6pad_Overlay"
+    },
+    "JPV1": {
+      "value": "PV IN + / -",
+      "symbol": "Connector_Generic:Conn_01x02",
+      "footprint": "Carrier:SolderPads_1x02_P2.54mm",
+      "xy": [
+        65,
+        47.5
+      ],
+      "angle": 0,
+      "nets": {
+        "1": "CHARGE_5V",
+        "2": "CHARGE_RETURN"
+      },
+      "sch": [
+        110,
+        32
+      ],
+      "tier": "all",
+      "note": "U0 5.00 V output (external) or Option A panel (Voc <= 6.5 V). Never a raw >6.5 V panel.",
+      "uuid": "13cda6e1-c8af-53c7-ae20-d19d9af53b5f",
+      "local_fp": "Carrier:SolderPads_1x02_P2.54mm"
+    },
+    "JCELL1": {
+      "value": "CELL B+ / B-",
+      "symbol": "Connector_Generic:Conn_01x02",
+      "footprint": "Carrier:SolderPads_1x02_P2.54mm",
+      "xy": [
+        57,
+        47.5
+      ],
+      "angle": 0,
+      "nets": {
+        "1": "PACK_POS",
+        "2": "PACK_NEG"
+      },
+      "sch": [
+        160,
+        32
+      ],
+      "tier": "all",
+      "note": "1S2P pack joined in parallel at the holder, matched cells. B- is NOT ground; no fuses.",
+      "uuid": "e2552773-a98a-523e-a4ed-0f7ccd3d761d",
+      "local_fp": "Carrier:SolderPads_1x02_P2.54mm"
+    },
+    "JS1": {
+      "value": "S1 OUT+ / SYS",
+      "symbol": "Connector_Generic:Conn_01x02",
+      "footprint": "Carrier:SolderPads_1x02_P2.54mm",
+      "xy": [
+        49,
+        47.5
+      ],
+      "angle": 0,
+      "nets": {
+        "1": "PROTECTED_POS",
+        "2": "VBAT_SYS"
+      },
+      "sch": [
+        210,
+        32
+      ],
+      "tier": "all",
+      "note": "Service switch S1 (or 2-pin header + shunt). Open it before connecting a programmer that supplies target power.",
+      "uuid": "d6a07324-3d7b-5c6a-bdd4-b47291236d54",
+      "local_fp": "Carrier:SolderPads_1x02_P2.54mm"
+    },
+    "C3": {
+      "value": "100u / 10V",
+      "symbol": "Device:C_Polarized",
+      "footprint": "Capacitor_THT:CP_Radial_D6.3mm_P2.50mm",
+      "xy": [
+        21.0,
+        38.8
+      ],
+      "angle": 0,
+      "nets": {
+        "1": "VBAT_SYS",
+        "2": "GND_LOAD"
+      },
+      "sch": [
+        30,
+        140
+      ],
+      "tier": "all",
+      "note": "",
+      "uuid": "788be8e3-d4d5-59d0-92e2-fff516922ac6",
+      "local_fp": "Carrier:CP_Radial_D6.3mm_P2.50mm"
+    },
+    "C4": {
+      "value": "100n",
+      "symbol": "Device:C",
+      "footprint": "Capacitor_THT:C_Disc_D5.0mm_W2.5mm_P5.00mm",
+      "xy": [
+        8.6,
+        20.2
+      ],
+      "angle": 90,
+      "nets": {
+        "1": "VBAT_SYS",
+        "2": "GND_LOAD"
+      },
+      "sch": [
+        66,
+        140
+      ],
+      "tier": "all",
+      "note": "Fits under M2.",
+      "uuid": "8a11bea6-c040-55a0-a4fb-b6cfe779048e",
+      "local_fp": "Carrier:C_Disc_D5.0mm_W2.5mm_P5.00mm"
+    },
+    "R3": {
+      "value": "47R / 0.25W",
+      "symbol": "Device:R",
+      "footprint": "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal",
+      "xy": [
+        8.6,
+        22.8
+      ],
+      "angle": 270,
+      "nets": {
+        "1": "PWM",
+        "2": "LED_POS"
+      },
+      "sch": [
+        30,
+        187
+      ],
+      "tier": "all",
+      "note": "Direct GPIO drive; qualify peak current at 4.20 V. 56R option; no cable-short protection. Fits under M2.",
+      "uuid": "9743936d-dc32-58f1-a215-a799b105bd99",
+      "local_fp": "Carrier:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal"
+    },
+    "JLED1": {
+      "value": "LED + / -",
+      "symbol": "Connector_Generic:Conn_01x02",
+      "footprint": "Carrier:SolderPads_1x02_P2.54mm",
+      "xy": [
+        9,
+        47.5
+      ],
+      "angle": 0,
+      "nets": {
+        "1": "LED_POS",
+        "2": "GND_LOAD"
+      },
+      "sch": [
+        70,
+        187
+      ],
+      "tier": "all",
+      "note": "Low-power LED string only; no connection to VBAT_SYS.",
+      "uuid": "84dba823-93e3-5e91-a45a-061d77dcb56a",
+      "local_fp": "Carrier:SolderPads_1x02_P2.54mm"
+    },
+    "JLDR1": {
+      "value": "LDR D7 / A1",
+      "symbol": "Connector_Generic:Conn_01x02",
+      "footprint": "Carrier:SolderPads_1x02_P2.54mm",
+      "xy": [
+        17,
+        47.5
+      ],
+      "angle": 0,
+      "nets": {
+        "1": "LDR_POWER",
+        "2": "LDR_SENSE"
+      },
+      "sch": [
+        109,
+        187
+      ],
+      "tier": "all",
+      "note": "Remote LDR between these two pads, no ground lead.",
+      "uuid": "b4eaab09-bc2b-50c5-8d4b-a1236f5903d5",
+      "local_fp": "Carrier:SolderPads_1x02_P2.54mm"
+    },
+    "R4": {
+      "value": "47k",
+      "symbol": "Device:R",
+      "footprint": "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal",
+      "xy": [
+        12.2,
+        26.0
+      ],
+      "angle": 90,
+      "nets": {
+        "1": "LDR_SENSE",
+        "2": "GND_LOAD"
+      },
+      "sch": [
+        143,
+        187
+      ],
+      "tier": "all",
+      "note": "Fits under M2.",
+      "uuid": "767f21cc-fa31-5713-b787-5e4e10d44735",
+      "local_fp": "Carrier:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal"
+    },
+    "JBUTTON1": {
+      "value": "SW1 D2 / -",
+      "symbol": "Connector_Generic:Conn_01x02",
+      "footprint": "Carrier:SolderPads_1x02_P2.54mm",
+      "xy": [
+        25,
+        47.5
+      ],
+      "angle": 0,
+      "nets": {
+        "1": "TEST",
+        "2": "GND_LOAD"
+      },
+      "sch": [
+        143,
+        227
+      ],
+      "tier": "all",
+      "note": "Normally-open remote pushbutton.",
+      "uuid": "1661be22-4e38-5f54-b1f5-0ebbb8018167",
+      "local_fp": "Carrier:SolderPads_1x02_P2.54mm"
+    },
+    "R5": {
+      "value": "220k",
+      "symbol": "Device:R",
+      "footprint": "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal",
+      "xy": [
+        38.06,
+        5.8
+      ],
+      "angle": 180,
+      "nets": {
+        "1": "SENSE_FEED",
+        "2": "ADC_BATT"
+      },
+      "sch": [
+        184,
+        185
+      ],
+      "tier": "1/2",
+      "note": "Fits under M3.",
+      "uuid": "b19711e7-8871-5211-a8d5-1b0c367a322a",
+      "local_fp": "Carrier:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal"
+    },
+    "R10": {
+      "value": "10k",
+      "symbol": "Device:R",
+      "footprint": "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal",
+      "xy": [
+        38.06,
+        9.8
+      ],
+      "angle": 180,
+      "nets": {
+        "1": "ESP_3V3",
+        "2": "UART_RX_INVERTED"
+      },
+      "sch": [
+        294,
+        144
+      ],
+      "tier": "1/2",
+      "note": "Fits under M3.",
+      "uuid": "434938a8-2964-5c8a-b2b4-c9c9d63f05f4",
+      "local_fp": "Carrier:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal"
+    },
+    "Q2": {
+      "value": "2N3904 / EBC",
+      "symbol": "Transistor_BJT:Q_NPN_EBC",
+      "footprint": "Package_TO_SOT_THT:TO-92_Inline_Wide",
+      "xy": [
+        31.5,
+        14.4
+      ],
+      "angle": 0,
+      "nets": {
+        "1": "GND_LOAD",
+        "2": "UART_BASE",
+        "3": "UART_RX_INVERTED"
+      },
+      "sch": [
+        257,
+        144
+      ],
+      "tier": "1/2",
+      "note": "Specified onsemi TO-92 E=1 B=2 C=3. BC547 is not a drop-in replacement. Fits under M3.",
+      "uuid": "d0b9c39a-d0e5-5b47-9efc-9eb55d86b1b2",
+      "local_fp": "Carrier:TO-92_Inline_Wide"
+    },
+    "R8": {
+      "value": "47k",
+      "symbol": "Device:R",
+      "footprint": "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal",
+      "xy": [
+        30.44,
+        18.6
+      ],
+      "angle": 0,
+      "nets": {
+        "1": "UART_TX",
+        "2": "UART_BASE"
+      },
+      "sch": [
+        184,
+        144
+      ],
+      "tier": "1/2",
+      "note": "Fits under M3.",
+      "uuid": "47d18f91-dea3-5d7d-899d-a0ee3002c10f",
+      "local_fp": "Carrier:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal"
+    },
+    "R9": {
+      "value": "100k",
+      "symbol": "Device:R",
+      "footprint": "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal",
+      "xy": [
+        38.06,
+        22.4
+      ],
+      "angle": 180,
+      "nets": {
+        "1": "UART_BASE",
+        "2": "GND_LOAD"
+      },
+      "sch": [
+        220,
+        144
+      ],
+      "tier": "1/2",
+      "note": "Fits under M3.",
+      "uuid": "b50cdf7c-8e10-5f10-87bf-75f5ee839a8a",
+      "local_fp": "Carrier:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal"
+    },
+    "JU3IN1": {
+      "value": "U3 VIN + / -",
+      "symbol": "Connector_Generic:Conn_01x02",
+      "footprint": "Carrier:SolderPads_1x02_P2.54mm",
+      "xy": [
+        33,
+        47.5
+      ],
+      "angle": 0,
+      "nets": {
+        "1": "VBAT_SYS",
+        "2": "GND_LOAD"
+      },
+      "sch": [
+        184,
+        227
+      ],
+      "tier": "2",
+      "note": "External TPS63802 input. Short twisted pair; C2 local; verify regulator input capacitors on module.",
+      "uuid": "05c9db7a-a565-53e8-8cd6-6857ee623617",
+      "local_fp": "Carrier:SolderPads_1x02_P2.54mm"
+    },
+    "JU3OUT1": {
+      "value": "U3 VOUT + / -",
+      "symbol": "Connector_Generic:Conn_01x02",
+      "footprint": "Carrier:SolderPads_1x02_P2.54mm",
+      "xy": [
+        41,
+        47.5
+      ],
+      "angle": 0,
+      "nets": {
+        "1": "REG_3V3",
+        "2": "GND_LOAD"
+      },
+      "sch": [
+        226,
+        227
+      ],
+      "tier": "2",
+      "note": "External TPS63802 output measured 3.3 V before joining JP1. Never USB 5V here.",
+      "uuid": "dc83762a-f539-5c33-b702-c3416b1bf29f",
+      "local_fp": "Carrier:SolderPads_1x02_P2.54mm"
+    },
+    "C2": {
+      "value": "470u / 10V",
+      "symbol": "Device:C_Polarized",
+      "footprint": "Capacitor_THT:CP_Radial_D10.0mm_P5.00mm",
+      "xy": [
+        58.0,
+        36.0
+      ],
+      "angle": 0,
+      "nets": {
+        "1": "VBAT_SYS",
+        "2": "GND_LOAD"
+      },
+      "sch": [
+        266,
+        227
+      ],
+      "tier": "2",
+      "note": "",
+      "uuid": "13e02a4d-da26-562b-8b49-0598c7d89b78",
+      "local_fp": "Carrier:CP_Radial_D10.0mm_P5.00mm"
+    },
+    "JP3": {
+      "value": "ADC link",
+      "symbol": "Connector_Generic:Conn_01x02",
+      "footprint": "Carrier:SolderPads_1x02_P2.54mm",
+      "xy": [
+        30.0,
+        33.0
+      ],
+      "angle": 0,
+      "nets": {
+        "1": "VBAT_SYS",
+        "2": "SENSE_FEED"
+      },
+      "sch": [
+        220,
+        185
+      ],
+      "tier": "1/2",
+      "note": "Fit a 2-pin header + shunt. Open when M3 is absent or unpowered; closed for battery measurement.",
+      "uuid": "85b629fd-f5aa-5661-a28e-c1aa81732a7e",
+      "local_fp": "Carrier:SolderPads_1x02_P2.54mm"
+    },
+    "JP2": {
+      "value": "D0 wake link",
+      "symbol": "Connector_Generic:Conn_01x02",
+      "footprint": "Carrier:SolderPads_1x02_P2.54mm",
+      "xy": [
+        38.0,
+        33.0
+      ],
+      "angle": 0,
+      "nets": {
+        "1": "ESP_D0",
+        "2": "ESP_RESET"
+      },
+      "sch": [
+        267,
+        185
+      ],
+      "tier": "2",
+      "note": "Header + shunt. Open for USB flashing; closed for production deep-sleep wake.",
+      "uuid": "26481205-c500-575f-a8ed-6a57d4e7d7b2",
+      "local_fp": "Carrier:SolderPads_1x02_P2.54mm"
+    },
+    "JP1": {
+      "value": "BAT power link",
+      "symbol": "Connector_Generic:Conn_01x02",
+      "footprint": "Carrier:SolderPads_1x02_P2.54mm",
+      "xy": [
+        46.0,
+        33.0
+      ],
+      "angle": 0,
+      "nets": {
+        "1": "REG_3V3",
+        "2": "ESP_3V3"
+      },
+      "sch": [
+        305,
+        227
+      ],
+      "tier": "2",
+      "note": "Header + shunt. Tier 1 OPEN, Tier 2 CLOSED. No automatic USB/battery interlock.",
+      "uuid": "cf5ae586-1766-5b48-ab6d-255086df2dae",
+      "local_fp": "Carrier:SolderPads_1x02_P2.54mm"
+    },
+    "JM2L1": {
+      "value": "M2 LEFT / serial end top",
+      "symbol": "Connector_Generic:Conn_01x12",
+      "footprint": "Connector_PinSocket_2.54mm:PinSocket_1x12_P2.54mm_Vertical",
+      "xy": [
+        3.38,
+        6.0
+      ],
+      "angle": 0,
+      "nets": {
+        "1": "UART_TX",
+        "2": null,
+        "3": "AVR_RESET",
+        "4": "GND_LOAD",
+        "5": "TEST",
+        "6": null,
+        "7": null,
+        "8": null,
+        "9": null,
+        "10": "LDR_POWER",
+        "11": null,
+        "12": "PWM"
+      },
+      "sch": [
+        42,
+        94
+      ],
+      "tier": "all",
+      "note": "Top to bottom: TX RX RST GND D2 D3 D4 D5 D6 D7 D8 D9.",
+      "uuid": "955e9f72-21f1-57ca-ace1-0c2270406eeb",
+      "local_fp": "Carrier:PinSocket_1x12_P2.54mm_Vertical"
+    },
+    "JM2R1": {
+      "value": "M2 RIGHT / serial end top",
+      "symbol": "Connector_Generic:Conn_01x12",
+      "footprint": "Connector_PinSocket_2.54mm:PinSocket_1x12_P2.54mm_Vertical",
+      "xy": [
+        18.62,
+        6.0
+      ],
+      "angle": 0,
+      "nets": {
+        "1": null,
+        "2": "GND_LOAD",
+        "3": "AVR_RESET",
+        "4": "VBAT_SYS",
+        "5": null,
+        "6": null,
+        "7": "LDR_SENSE",
+        "8": null,
+        "9": "ISP_SCK",
+        "10": "ISP_MISO",
+        "11": "ISP_MOSI",
+        "12": null
+      },
+      "sch": [
+        93,
+        94
+      ],
+      "tier": "all",
+      "note": "Top to bottom: RAW GND RST VCC A3 A2 A1 A0 D13 D12 D11 D10. Rows 15.24 mm apart; verify clone.",
+      "uuid": "da30cccf-ab04-5319-9035-3fa17102d00f",
+      "local_fp": "Carrier:PinSocket_1x12_P2.54mm_Vertical"
+    },
+    "JISP1": {
+      "value": "ISP",
+      "symbol": "Connector_Generic:Conn_02x03_Odd_Even",
+      "footprint": "Carrier:Pads_2x03_P2.54mm",
+      "xy": [
+        7.0,
+        36.6
+      ],
+      "angle": 0,
+      "nets": {
+        "1": "ISP_MISO",
+        "2": "VBAT_SYS",
+        "3": "ISP_SCK",
+        "4": "ISP_MOSI",
+        "5": "AVR_RESET",
+        "6": "GND_LOAD"
+      },
+      "sch": [
+        124,
+        94
+      ],
+      "tier": "all",
+      "note": "Standard AVR ISP, in-circuit with M2 fitted. Open S1 if the programmer supplies VCC.",
+      "uuid": "3a4eb82a-a299-590f-be14-055206a30801",
+      "local_fp": "Carrier:Pads_2x03_P2.54mm"
+    },
+    "JM3L1": {
+      "value": "M3 LEFT / antenna end top",
+      "symbol": "Connector_Generic:Conn_01x08",
+      "footprint": "Connector_PinSocket_2.54mm:PinSocket_1x08_P2.54mm_Vertical",
+      "xy": [
+        24.37,
+        1.7
+      ],
+      "angle": 0,
+      "nets": {
+        "1": "ESP_RESET",
+        "2": "ADC_BATT",
+        "3": "ESP_D0",
+        "4": null,
+        "5": "UART_RX_INVERTED",
+        "6": null,
+        "7": null,
+        "8": "ESP_3V3"
+      },
+      "sch": [
+        218,
+        94
+      ],
+      "tier": "1/2",
+      "note": "Top to bottom: RST A0 D0 D5 D6 D7 D8 3V3. Antenna end overhangs the board edge.",
+      "uuid": "180ac1dc-3309-549c-9cfe-7fc82454908b",
+      "local_fp": "Carrier:PinSocket_1x08_P2.54mm_Vertical"
+    },
+    "JM3R1": {
+      "value": "M3 RIGHT / antenna end top",
+      "symbol": "Connector_Generic:Conn_01x08",
+      "footprint": "Connector_PinSocket_2.54mm:PinSocket_1x08_P2.54mm_Vertical",
+      "xy": [
+        47.23,
+        1.7
+      ],
+      "angle": 0,
+      "nets": {
+        "1": null,
+        "2": null,
+        "3": null,
+        "4": null,
+        "5": null,
+        "6": null,
+        "7": "GND_LOAD",
+        "8": null
+      },
+      "sch": [
+        276,
+        94
+      ],
+      "tier": "1/2",
+      "note": "Top to bottom: TX RX D1 D2 D3 D4 G 5V. Rows 22.86 mm apart; 5V unconnected.",
+      "uuid": "810f051d-1825-5525-affc-8e3e4a3c76c6",
+      "local_fp": "Carrier:PinSocket_1x08_P2.54mm_Vertical"
+    }
+  },
+  "holes_mm": [
+    [
+      3.5,
+      47.5
+    ],
+    [
+      71.3,
+      48.0
+    ],
+    [
+      52.8,
+      31.5
+    ]
+  ],
+  "board_mm": [
+    74,
+    51.5
+  ],
+  "vias": 14
+}

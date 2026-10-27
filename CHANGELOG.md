@@ -9,6 +9,10 @@ with [README.md](README.md).
 
 ### Added
 
+- PCB carrier Rev C draft (`hardware/pcb-rev-c/`), started from the Rev B
+  layout that was ordered. Rev C renders go to its own `review/renders/`, so
+  guide 13 keeps showing Rev B. The SnapEDA model ignore rule now covers every
+  revision folder.
 - PCB carrier Rev B (`hardware/pcb-rev-b/`, review prototype, not yet fabricated):
   74 x 51.5 mm, all through-hole. The TP4056 charger M1 mounts on the board, every
   external connection is a 2.54 mm solder point, there are no fuses, and the
