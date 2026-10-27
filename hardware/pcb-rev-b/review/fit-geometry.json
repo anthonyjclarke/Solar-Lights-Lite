@@ -1,0 +1,1622 @@
+{
+  "pads": [
+    {
+      "ref": "C2",
+      "pin": "1",
+      "x": 58.0,
+      "y": 36.0,
+      "width": 2.0,
+      "height": 2.0,
+      "angle": 0.0,
+      "drill": 1.0,
+      "rect": false,
+      "net": "/VBAT_SYS"
+    },
+    {
+      "ref": "C2",
+      "pin": "2",
+      "x": 63.0,
+      "y": 36.0,
+      "width": 2.0,
+      "height": 2.0,
+      "angle": 0.0,
+      "drill": 1.0,
+      "rect": false,
+      "net": "/GND_LOAD"
+    },
+    {
+      "ref": "C4",
+      "pin": "1",
+      "x": 8.600000000000001,
+      "y": 20.200000000000003,
+      "width": 1.6,
+      "height": 1.6,
+      "angle": 90.0,
+      "drill": 0.8,
+      "rect": false,
+      "net": "/VBAT_SYS"
+    },
+    {
+      "ref": "C4",
+      "pin": "2",
+      "x": 8.600000000000001,
+      "y": 15.200000000000003,
+      "width": 1.6,
+      "height": 1.6,
+      "angle": 90.0,
+      "drill": 0.8,
+      "rect": false,
+      "net": "/GND_LOAD"
+    },
+    {
+      "ref": "H1",
+      "pin": "",
+      "x": 3.5,
+      "y": 47.5,
+      "width": 3.2,
+      "height": 3.2,
+      "angle": 0.0,
+      "drill": 3.2,
+      "rect": false,
+      "net": ""
+    },
+    {
+      "ref": "JM2R1",
+      "pin": "1",
+      "x": 18.620000000000005,
+      "y": 6.0,
+      "width": 1.7,
+      "height": 1.7,
+      "angle": 0.0,
+      "drill": 1.0,
+      "rect": true,
+      "net": "unconnected-(JM2R1-Pin_1-Pad1)"
+    },
+    {
+      "ref": "JM2R1",
+      "pin": "2",
+      "x": 18.620000000000005,
+      "y": 8.54,
+      "width": 1.7,
+      "height": 1.7,
+      "angle": 0.0,
+      "drill": 1.0,
+      "rect": false,
+      "net": "/GND_LOAD"
+    },
+    {
+      "ref": "JM2R1",
+      "pin": "3",
+      "x": 18.620000000000005,
+      "y": 11.079999999999998,
+      "width": 1.7,
+      "height": 1.7,
+      "angle": 0.0,
+      "drill": 1.0,
+      "rect": false,
+      "net": "/AVR_RESET"
+    },
+    {
+      "ref": "JM2R1",
+      "pin": "4",
+      "x": 18.620000000000005,
+      "y": 13.619999999999997,
+      "width": 1.7,
+      "height": 1.7,
+      "angle": 0.0,
+      "drill": 1.0,
+      "rect": false,
+      "net": "/VBAT_SYS"
+    },
+    {
+      "ref": "JM2R1",
+      "pin": "5",
+      "x": 18.620000000000005,
+      "y": 16.159999999999997,
+      "width": 1.7,
+      "height": 1.7,
+      "angle": 0.0,
+      "drill": 1.0,
+      "rect": false,
+      "net": "unconnected-(JM2R1-Pin_5-Pad5)"
+    },
+    {
+      "ref": "JM2R1",
+      "pin": "6",
+      "x": 18.620000000000005,
+      "y": 18.700000000000003,
+      "width": 1.7,
+      "height": 1.7,
+      "angle": 0.0,
+      "drill": 1.0,
+      "rect": false,
+      "net": "unconnected-(JM2R1-Pin_6-Pad6)"
+    },
+    {
+      "ref": "JM2R1",
+      "pin": "7",
+      "x": 18.620000000000005,
+      "y": 21.239999999999995,
+      "width": 1.7,
+      "height": 1.7,
+      "angle": 0.0,
+      "drill": 1.0,
+      "rect": false,
+      "net": "/LDR_SENSE"
+    },
+    {
+      "ref": "JM2R1",
+      "pin": "8",
+      "x": 18.620000000000005,
+      "y": 23.78,
+      "width": 1.7,
+      "height": 1.7,
+      "angle": 0.0,
+      "drill": 1.0,
+      "rect": false,
+      "net": "unconnected-(JM2R1-Pin_8-Pad8)"
+    },
+    {
+      "ref": "JM2R1",
+      "pin": "9",
+      "x": 18.620000000000005,
+      "y": 26.319999999999993,
+      "width": 1.7,
+      "height": 1.7,
+      "angle": 0.0,
+      "drill": 1.0,
+      "rect": false,
+      "net": "/ISP_SCK"
+    },
+    {
+      "ref": "JM2R1",
+      "pin": "10",
+      "x": 18.620000000000005,
+      "y": 28.86,
+      "width": 1.7,
+      "height": 1.7,
+      "angle": 0.0,
+      "drill": 1.0,
+      "rect": false,
+      "net": "/ISP_MISO"
+    },
+    {
+      "ref": "JM2R1",
+      "pin": "11",
+      "x": 18.620000000000005,
+      "y": 31.400000000000006,
+      "width": 1.7,
+      "height": 1.7,
+      "angle": 0.0,
+      "drill": 1.0,
+      "rect": false,
+      "net": "/ISP_MOSI"
+    },
+    {
+      "ref": "JM2R1",
+      "pin": "12",
+      "x": 18.620000000000005,
+      "y": 33.94,
+      "width": 1.7,
+      "height": 1.7,
+      "angle": 0.0,
+      "drill": 1.0,
+      "rect": false,
+      "net": "unconnected-(JM2R1-Pin_12-Pad12)"
+    },
+    {
+      "ref": "JP2",
+      "pin": "1",
+      "x": 38.0,
+      "y": 33.0,
+      "width": 1.8,
+      "height": 1.8,
+      "angle": 0.0,
+      "drill": 1.0,
+      "rect": true,
+      "net": "/ESP_D0"
+    },
+    {
+      "ref": "JP2",
+      "pin": "2",
+      "x": 40.540000000000006,
+      "y": 33.0,
+      "width": 1.8,
+      "height": 1.8,
+      "angle": 0.0,
+      "drill": 1.0,
+      "rect": false,
+      "net": "/ESP_RESET"
+    },
+    {
+      "ref": "JPV1",
+      "pin": "1",
+      "x": 65.0,
+      "y": 47.5,
+      "width": 1.8,
+      "height": 1.8,
+      "angle": 0.0,
+      "drill": 1.0,
+      "rect": true,
+      "net": "/CHARGE_5V"
+    },
+    {
+      "ref": "JPV1",
+      "pin": "2",
+      "x": 67.54,
+      "y": 47.5,
+      "width": 1.8,
+      "height": 1.8,
+      "angle": 0.0,
+      "drill": 1.0,
+      "rect": false,
+      "net": "/CHARGE_RETURN"
+    },
+    {
+      "ref": "JCELL1",
+      "pin": "1",
+      "x": 57.0,
+      "y": 47.5,
+      "width": 1.8,
+      "height": 1.8,
+      "angle": 0.0,
+      "drill": 1.0,
+      "rect": true,
+      "net": "/PACK_POS"
+    },
+    {
+      "ref": "JCELL1",
+      "pin": "2",
+      "x": 59.540000000000006,
+      "y": 47.5,
+      "width": 1.8,
+      "height": 1.8,
+      "angle": 0.0,
+      "drill": 1.0,
+      "rect": false,
+      "net": "/PACK_NEG"
+    },
+    {
+      "ref": "JM3L1",
+      "pin": "1",
+      "x": 24.370000000000005,
+      "y": 1.7000000000000028,
+      "width": 1.7,
+      "height": 1.7,
+      "angle": 0.0,
+      "drill": 1.0,
+      "rect": true,
+      "net": "/ESP_RESET"
+    },
+    {
+      "ref": "JM3L1",
+      "pin": "2",
+      "x": 24.370000000000005,
+      "y": 4.240000000000002,
+      "width": 1.7,
+      "height": 1.7,
+      "angle": 0.0,
+      "drill": 1.0,
+      "rect": false,
+      "net": "/ADC_BATT"
+    },
+    {
+      "ref": "JM3L1",
+      "pin": "3",
+      "x": 24.370000000000005,
+      "y": 6.780000000000001,
+      "width": 1.7,
+      "height": 1.7,
+      "angle": 0.0,
+      "drill": 1.0,
+      "rect": false,
+      "net": "/ESP_D0"
+    },
+    {
+      "ref": "JM3L1",
+      "pin": "4",
+      "x": 24.370000000000005,
+      "y": 9.32,
+      "width": 1.7,
+      "height": 1.7,
+      "angle": 0.0,
+      "drill": 1.0,
+      "rect": false,
+      "net": "unconnected-(JM3L1-Pin_4-Pad4)"
+    },
+    {
+      "ref": "JM3L1",
+      "pin": "5",
+      "x": 24.370000000000005,
+      "y": 11.86,
+      "width": 1.7,
+      "height": 1.7,
+      "angle": 0.0,
+      "drill": 1.0,
+      "rect": false,
+      "net": "/UART_RX_INVERTED"
+    },
+    {
+      "ref": "JM3L1",
+      "pin": "6",
+      "x": 24.370000000000005,
+      "y": 14.400000000000006,
+      "width": 1.7,
+      "height": 1.7,
+      "angle": 0.0,
+      "drill": 1.0,
+      "rect": false,
+      "net": "unconnected-(JM3L1-Pin_6-Pad6)"
+    },
+    {
+      "ref": "JM3L1",
+      "pin": "7",
+      "x": 24.370000000000005,
+      "y": 16.939999999999998,
+      "width": 1.7,
+      "height": 1.7,
+      "angle": 0.0,
+      "drill": 1.0,
+      "rect": false,
+      "net": "unconnected-(JM3L1-Pin_7-Pad7)"
+    },
+    {
+      "ref": "JM3L1",
+      "pin": "8",
+      "x": 24.370000000000005,
+      "y": 19.480000000000004,
+      "width": 1.7,
+      "height": 1.7,
+      "angle": 0.0,
+      "drill": 1.0,
+      "rect": false,
+      "net": "/ESP_3V3"
+    },
+    {
+      "ref": "JU3IN1",
+      "pin": "1",
+      "x": 33.0,
+      "y": 47.5,
+      "width": 1.8,
+      "height": 1.8,
+      "angle": 0.0,
+      "drill": 1.0,
+      "rect": true,
+      "net": "/VBAT_SYS"
+    },
+    {
+      "ref": "JU3IN1",
+      "pin": "2",
+      "x": 35.540000000000006,
+      "y": 47.5,
+      "width": 1.8,
+      "height": 1.8,
+      "angle": 0.0,
+      "drill": 1.0,
+      "rect": false,
+      "net": "/GND_LOAD"
+    },
+    {
+      "ref": "C3",
+      "pin": "1",
+      "x": 21.0,
+      "y": 38.8,
+      "width": 1.6,
+      "height": 1.6,
+      "angle": 0.0,
+      "drill": 0.8,
+      "rect": false,
+      "net": "/VBAT_SYS"
+    },
+    {
+      "ref": "C3",
+      "pin": "2",
+      "x": 23.5,
+      "y": 38.8,
+      "width": 1.6,
+      "height": 1.6,
+      "angle": 0.0,
+      "drill": 0.8,
+      "rect": false,
+      "net": "/GND_LOAD"
+    },
+    {
+      "ref": "H2",
+      "pin": "",
+      "x": 71.3,
+      "y": 48.0,
+      "width": 3.2,
+      "height": 3.2,
+      "angle": 0.0,
+      "drill": 3.2,
+      "rect": false,
+      "net": ""
+    },
+    {
+      "ref": "Q2",
+      "pin": "1",
+      "x": 31.5,
+      "y": 14.400000000000006,
+      "width": 1.5,
+      "height": 1.5,
+      "angle": 0.0,
+      "drill": 0.8,
+      "rect": true,
+      "net": "/GND_LOAD"
+    },
+    {
+      "ref": "Q2",
+      "pin": "2",
+      "x": 34.040000000000006,
+      "y": 14.400000000000006,
+      "width": 1.5,
+      "height": 1.5,
+      "angle": 0.0,
+      "drill": 0.8,
+      "rect": false,
+      "net": "/UART_BASE"
+    },
+    {
+      "ref": "Q2",
+      "pin": "3",
+      "x": 36.58,
+      "y": 14.400000000000006,
+      "width": 1.5,
+      "height": 1.5,
+      "angle": 0.0,
+      "drill": 0.8,
+      "rect": false,
+      "net": "/UART_RX_INVERTED"
+    },
+    {
+      "ref": "JS1",
+      "pin": "1",
+      "x": 49.0,
+      "y": 47.5,
+      "width": 1.8,
+      "height": 1.8,
+      "angle": 0.0,
+      "drill": 1.0,
+      "rect": true,
+      "net": "/PROTECTED_POS"
+    },
+    {
+      "ref": "JS1",
+      "pin": "2",
+      "x": 51.540000000000006,
+      "y": 47.5,
+      "width": 1.8,
+      "height": 1.8,
+      "angle": 0.0,
+      "drill": 1.0,
+      "rect": false,
+      "net": "/VBAT_SYS"
+    },
+    {
+      "ref": "R9",
+      "pin": "1",
+      "x": 38.06,
+      "y": 22.400000000000006,
+      "width": 1.6,
+      "height": 1.6,
+      "angle": 180.0,
+      "drill": 0.8,
+      "rect": false,
+      "net": "/UART_BASE"
+    },
+    {
+      "ref": "R9",
+      "pin": "2",
+      "x": 30.439999999999998,
+      "y": 22.400000000000006,
+      "width": 1.6,
+      "height": 1.6,
+      "angle": 180.0,
+      "drill": 0.8,
+      "rect": false,
+      "net": "/GND_LOAD"
+    },
+    {
+      "ref": "H3",
+      "pin": "",
+      "x": 52.8,
+      "y": 31.5,
+      "width": 3.2,
+      "height": 3.2,
+      "angle": 0.0,
+      "drill": 3.2,
+      "rect": false,
+      "net": ""
+    },
+    {
+      "ref": "JLED1",
+      "pin": "1",
+      "x": 9.0,
+      "y": 47.5,
+      "width": 1.8,
+      "height": 1.8,
+      "angle": 0.0,
+      "drill": 1.0,
+      "rect": true,
+      "net": "/LED_POS"
+    },
+    {
+      "ref": "JLED1",
+      "pin": "2",
+      "x": 11.54,
+      "y": 47.5,
+      "width": 1.8,
+      "height": 1.8,
+      "angle": 0.0,
+      "drill": 1.0,
+      "rect": false,
+      "net": "/GND_LOAD"
+    },
+    {
+      "ref": "R8",
+      "pin": "1",
+      "x": 30.439999999999998,
+      "y": 18.599999999999994,
+      "width": 1.6,
+      "height": 1.6,
+      "angle": 0.0,
+      "drill": 0.8,
+      "rect": false,
+      "net": "/UART_TX"
+    },
+    {
+      "ref": "R8",
+      "pin": "2",
+      "x": 38.06,
+      "y": 18.599999999999994,
+      "width": 1.6,
+      "height": 1.6,
+      "angle": 0.0,
+      "drill": 0.8,
+      "rect": false,
+      "net": "/UART_BASE"
+    },
+    {
+      "ref": "JM2L1",
+      "pin": "1",
+      "x": 3.3800000000000026,
+      "y": 6.0,
+      "width": 1.7,
+      "height": 1.7,
+      "angle": 0.0,
+      "drill": 1.0,
+      "rect": true,
+      "net": "/UART_TX"
+    },
+    {
+      "ref": "JM2L1",
+      "pin": "2",
+      "x": 3.3800000000000026,
+      "y": 8.54,
+      "width": 1.7,
+      "height": 1.7,
+      "angle": 0.0,
+      "drill": 1.0,
+      "rect": false,
+      "net": "unconnected-(JM2L1-Pin_2-Pad2)"
+    },
+    {
+      "ref": "JM2L1",
+      "pin": "3",
+      "x": 3.3800000000000026,
+      "y": 11.079999999999998,
+      "width": 1.7,
+      "height": 1.7,
+      "angle": 0.0,
+      "drill": 1.0,
+      "rect": false,
+      "net": "/AVR_RESET"
+    },
+    {
+      "ref": "JM2L1",
+      "pin": "4",
+      "x": 3.3800000000000026,
+      "y": 13.619999999999997,
+      "width": 1.7,
+      "height": 1.7,
+      "angle": 0.0,
+      "drill": 1.0,
+      "rect": false,
+      "net": "/GND_LOAD"
+    },
+    {
+      "ref": "JM2L1",
+      "pin": "5",
+      "x": 3.3800000000000026,
+      "y": 16.159999999999997,
+      "width": 1.7,
+      "height": 1.7,
+      "angle": 0.0,
+      "drill": 1.0,
+      "rect": false,
+      "net": "/TEST"
+    },
+    {
+      "ref": "JM2L1",
+      "pin": "6",
+      "x": 3.3800000000000026,
+      "y": 18.700000000000003,
+      "width": 1.7,
+      "height": 1.7,
+      "angle": 0.0,
+      "drill": 1.0,
+      "rect": false,
+      "net": "unconnected-(JM2L1-Pin_6-Pad6)"
+    },
+    {
+      "ref": "JM2L1",
+      "pin": "7",
+      "x": 3.3800000000000026,
+      "y": 21.239999999999995,
+      "width": 1.7,
+      "height": 1.7,
+      "angle": 0.0,
+      "drill": 1.0,
+      "rect": false,
+      "net": "unconnected-(JM2L1-Pin_7-Pad7)"
+    },
+    {
+      "ref": "JM2L1",
+      "pin": "8",
+      "x": 3.3800000000000026,
+      "y": 23.78,
+      "width": 1.7,
+      "height": 1.7,
+      "angle": 0.0,
+      "drill": 1.0,
+      "rect": false,
+      "net": "unconnected-(JM2L1-Pin_8-Pad8)"
+    },
+    {
+      "ref": "JM2L1",
+      "pin": "9",
+      "x": 3.3800000000000026,
+      "y": 26.319999999999993,
+      "width": 1.7,
+      "height": 1.7,
+      "angle": 0.0,
+      "drill": 1.0,
+      "rect": false,
+      "net": "unconnected-(JM2L1-Pin_9-Pad9)"
+    },
+    {
+      "ref": "JM2L1",
+      "pin": "10",
+      "x": 3.3800000000000026,
+      "y": 28.86,
+      "width": 1.7,
+      "height": 1.7,
+      "angle": 0.0,
+      "drill": 1.0,
+      "rect": false,
+      "net": "/LDR_POWER"
+    },
+    {
+      "ref": "JM2L1",
+      "pin": "11",
+      "x": 3.3800000000000026,
+      "y": 31.400000000000006,
+      "width": 1.7,
+      "height": 1.7,
+      "angle": 0.0,
+      "drill": 1.0,
+      "rect": false,
+      "net": "unconnected-(JM2L1-Pin_11-Pad11)"
+    },
+    {
+      "ref": "JM2L1",
+      "pin": "12",
+      "x": 3.3800000000000026,
+      "y": 33.94,
+      "width": 1.7,
+      "height": 1.7,
+      "angle": 0.0,
+      "drill": 1.0,
+      "rect": false,
+      "net": "/PWM"
+    },
+    {
+      "ref": "JM3R1",
+      "pin": "1",
+      "x": 47.22999900000001,
+      "y": 1.7000000000000028,
+      "width": 1.7,
+      "height": 1.7,
+      "angle": 0.0,
+      "drill": 1.0,
+      "rect": true,
+      "net": "unconnected-(JM3R1-Pin_1-Pad1)"
+    },
+    {
+      "ref": "JM3R1",
+      "pin": "2",
+      "x": 47.22999900000001,
+      "y": 4.240000000000002,
+      "width": 1.7,
+      "height": 1.7,
+      "angle": 0.0,
+      "drill": 1.0,
+      "rect": false,
+      "net": "unconnected-(JM3R1-Pin_2-Pad2)"
+    },
+    {
+      "ref": "JM3R1",
+      "pin": "3",
+      "x": 47.22999900000001,
+      "y": 6.780000000000001,
+      "width": 1.7,
+      "height": 1.7,
+      "angle": 0.0,
+      "drill": 1.0,
+      "rect": false,
+      "net": "unconnected-(JM3R1-Pin_3-Pad3)"
+    },
+    {
+      "ref": "JM3R1",
+      "pin": "4",
+      "x": 47.22999900000001,
+      "y": 9.32,
+      "width": 1.7,
+      "height": 1.7,
+      "angle": 0.0,
+      "drill": 1.0,
+      "rect": false,
+      "net": "unconnected-(JM3R1-Pin_4-Pad4)"
+    },
+    {
+      "ref": "JM3R1",
+      "pin": "5",
+      "x": 47.22999900000001,
+      "y": 11.86,
+      "width": 1.7,
+      "height": 1.7,
+      "angle": 0.0,
+      "drill": 1.0,
+      "rect": false,
+      "net": "unconnected-(JM3R1-Pin_5-Pad5)"
+    },
+    {
+      "ref": "JM3R1",
+      "pin": "6",
+      "x": 47.22999900000001,
+      "y": 14.400000000000006,
+      "width": 1.7,
+      "height": 1.7,
+      "angle": 0.0,
+      "drill": 1.0,
+      "rect": false,
+      "net": "unconnected-(JM3R1-Pin_6-Pad6)"
+    },
+    {
+      "ref": "JM3R1",
+      "pin": "7",
+      "x": 47.22999900000001,
+      "y": 16.939999999999998,
+      "width": 1.7,
+      "height": 1.7,
+      "angle": 0.0,
+      "drill": 1.0,
+      "rect": false,
+      "net": "/GND_LOAD"
+    },
+    {
+      "ref": "JM3R1",
+      "pin": "8",
+      "x": 47.22999900000001,
+      "y": 19.480000000000004,
+      "width": 1.7,
+      "height": 1.7,
+      "angle": 0.0,
+      "drill": 1.0,
+      "rect": false,
+      "net": "unconnected-(JM3R1-Pin_8-Pad8)"
+    },
+    {
+      "ref": "JP1",
+      "pin": "1",
+      "x": 46.0,
+      "y": 33.0,
+      "width": 1.8,
+      "height": 1.8,
+      "angle": 0.0,
+      "drill": 1.0,
+      "rect": true,
+      "net": "/REG_3V3"
+    },
+    {
+      "ref": "JP1",
+      "pin": "2",
+      "x": 48.540000000000006,
+      "y": 33.0,
+      "width": 1.8,
+      "height": 1.8,
+      "angle": 0.0,
+      "drill": 1.0,
+      "rect": false,
+      "net": "/ESP_3V3"
+    },
+    {
+      "ref": "JU3OUT1",
+      "pin": "1",
+      "x": 41.0,
+      "y": 47.5,
+      "width": 1.8,
+      "height": 1.8,
+      "angle": 0.0,
+      "drill": 1.0,
+      "rect": true,
+      "net": "/REG_3V3"
+    },
+    {
+      "ref": "JU3OUT1",
+      "pin": "2",
+      "x": 43.540000000000006,
+      "y": 47.5,
+      "width": 1.8,
+      "height": 1.8,
+      "angle": 0.0,
+      "drill": 1.0,
+      "rect": false,
+      "net": "/GND_LOAD"
+    },
+    {
+      "ref": "JLDR1",
+      "pin": "1",
+      "x": 17.0,
+      "y": 47.5,
+      "width": 1.8,
+      "height": 1.8,
+      "angle": 0.0,
+      "drill": 1.0,
+      "rect": true,
+      "net": "/LDR_POWER"
+    },
+    {
+      "ref": "JLDR1",
+      "pin": "2",
+      "x": 19.540000000000006,
+      "y": 47.5,
+      "width": 1.8,
+      "height": 1.8,
+      "angle": 0.0,
+      "drill": 1.0,
+      "rect": false,
+      "net": "/LDR_SENSE"
+    },
+    {
+      "ref": "JISP1",
+      "pin": "1",
+      "x": 7.0,
+      "y": 36.599999999999994,
+      "width": 1.8,
+      "height": 1.8,
+      "angle": 0.0,
+      "drill": 1.0,
+      "rect": true,
+      "net": "/ISP_MISO"
+    },
+    {
+      "ref": "JISP1",
+      "pin": "2",
+      "x": 9.54,
+      "y": 36.599999999999994,
+      "width": 1.8,
+      "height": 1.8,
+      "angle": 0.0,
+      "drill": 1.0,
+      "rect": false,
+      "net": "/VBAT_SYS"
+    },
+    {
+      "ref": "JISP1",
+      "pin": "3",
+      "x": 7.0,
+      "y": 39.14,
+      "width": 1.8,
+      "height": 1.8,
+      "angle": 0.0,
+      "drill": 1.0,
+      "rect": false,
+      "net": "/ISP_SCK"
+    },
+    {
+      "ref": "JISP1",
+      "pin": "4",
+      "x": 9.54,
+      "y": 39.14,
+      "width": 1.8,
+      "height": 1.8,
+      "angle": 0.0,
+      "drill": 1.0,
+      "rect": false,
+      "net": "/ISP_MOSI"
+    },
+    {
+      "ref": "JISP1",
+      "pin": "5",
+      "x": 7.0,
+      "y": 41.68000000000001,
+      "width": 1.8,
+      "height": 1.8,
+      "angle": 0.0,
+      "drill": 1.0,
+      "rect": false,
+      "net": "/AVR_RESET"
+    },
+    {
+      "ref": "JISP1",
+      "pin": "6",
+      "x": 9.54,
+      "y": 41.68000000000001,
+      "width": 1.8,
+      "height": 1.8,
+      "angle": 0.0,
+      "drill": 1.0,
+      "rect": false,
+      "net": "/GND_LOAD"
+    },
+    {
+      "ref": "R5",
+      "pin": "1",
+      "x": 38.06,
+      "y": 5.799999999999997,
+      "width": 1.6,
+      "height": 1.6,
+      "angle": 180.0,
+      "drill": 0.8,
+      "rect": false,
+      "net": "/SENSE_FEED"
+    },
+    {
+      "ref": "R5",
+      "pin": "2",
+      "x": 30.439999999999998,
+      "y": 5.799999999999997,
+      "width": 1.6,
+      "height": 1.6,
+      "angle": 180.0,
+      "drill": 0.8,
+      "rect": false,
+      "net": "/ADC_BATT"
+    },
+    {
+      "ref": "R3",
+      "pin": "1",
+      "x": 8.600000000000001,
+      "y": 22.799999999999997,
+      "width": 1.6,
+      "height": 1.6,
+      "angle": 270.0,
+      "drill": 0.8,
+      "rect": false,
+      "net": "/PWM"
+    },
+    {
+      "ref": "R3",
+      "pin": "2",
+      "x": 8.600000000000001,
+      "y": 30.42,
+      "width": 1.6,
+      "height": 1.6,
+      "angle": 270.0,
+      "drill": 0.8,
+      "rect": false,
+      "net": "/LED_POS"
+    },
+    {
+      "ref": "JBUTTON1",
+      "pin": "1",
+      "x": 25.0,
+      "y": 47.5,
+      "width": 1.8,
+      "height": 1.8,
+      "angle": 0.0,
+      "drill": 1.0,
+      "rect": true,
+      "net": "/TEST"
+    },
+    {
+      "ref": "JBUTTON1",
+      "pin": "2",
+      "x": 27.540000000000006,
+      "y": 47.5,
+      "width": 1.8,
+      "height": 1.8,
+      "angle": 0.0,
+      "drill": 1.0,
+      "rect": false,
+      "net": "/GND_LOAD"
+    },
+    {
+      "ref": "R10",
+      "pin": "1",
+      "x": 38.06,
+      "y": 9.799999999999997,
+      "width": 1.6,
+      "height": 1.6,
+      "angle": 180.0,
+      "drill": 0.8,
+      "rect": false,
+      "net": "/ESP_3V3"
+    },
+    {
+      "ref": "R10",
+      "pin": "2",
+      "x": 30.439999999999998,
+      "y": 9.799999999999997,
+      "width": 1.6,
+      "height": 1.6,
+      "angle": 180.0,
+      "drill": 0.8,
+      "rect": false,
+      "net": "/UART_RX_INVERTED"
+    },
+    {
+      "ref": "R4",
+      "pin": "1",
+      "x": 12.200000000000003,
+      "y": 26.0,
+      "width": 1.6,
+      "height": 1.6,
+      "angle": 90.0,
+      "drill": 0.8,
+      "rect": false,
+      "net": "/LDR_SENSE"
+    },
+    {
+      "ref": "R4",
+      "pin": "2",
+      "x": 12.200000000000003,
+      "y": 18.379999999999995,
+      "width": 1.6,
+      "height": 1.6,
+      "angle": 90.0,
+      "drill": 0.8,
+      "rect": false,
+      "net": "/GND_LOAD"
+    },
+    {
+      "ref": "JP3",
+      "pin": "1",
+      "x": 30.0,
+      "y": 33.0,
+      "width": 1.8,
+      "height": 1.8,
+      "angle": 0.0,
+      "drill": 1.0,
+      "rect": true,
+      "net": "/VBAT_SYS"
+    },
+    {
+      "ref": "JP3",
+      "pin": "2",
+      "x": 32.540000000000006,
+      "y": 33.0,
+      "width": 1.8,
+      "height": 1.8,
+      "angle": 0.0,
+      "drill": 1.0,
+      "rect": false,
+      "net": "/SENSE_FEED"
+    },
+    {
+      "ref": "M1",
+      "pin": "1",
+      "x": 68.6,
+      "y": 2.5,
+      "width": 2.2,
+      "height": 2.2,
+      "angle": 0.0,
+      "drill": 1.2,
+      "rect": true,
+      "net": "/CHARGE_5V"
+    },
+    {
+      "ref": "M1",
+      "pin": "2",
+      "x": 54.599999999999994,
+      "y": 2.5,
+      "width": 2.2,
+      "height": 2.2,
+      "angle": 0.0,
+      "drill": 1.2,
+      "rect": false,
+      "net": "/CHARGE_RETURN"
+    },
+    {
+      "ref": "M1",
+      "pin": "3",
+      "x": 68.6,
+      "y": 24.5,
+      "width": 2.2,
+      "height": 2.2,
+      "angle": 0.0,
+      "drill": 1.2,
+      "rect": false,
+      "net": "/PROTECTED_POS"
+    },
+    {
+      "ref": "M1",
+      "pin": "4",
+      "x": 54.599999999999994,
+      "y": 24.5,
+      "width": 2.2,
+      "height": 2.2,
+      "angle": 0.0,
+      "drill": 1.2,
+      "rect": false,
+      "net": "/GND_LOAD"
+    },
+    {
+      "ref": "M1",
+      "pin": "5",
+      "x": 65.5,
+      "y": 24.5,
+      "width": 2.2,
+      "height": 2.2,
+      "angle": 0.0,
+      "drill": 1.2,
+      "rect": false,
+      "net": "/PACK_POS"
+    },
+    {
+      "ref": "M1",
+      "pin": "6",
+      "x": 58.05,
+      "y": 24.5,
+      "width": 2.2,
+      "height": 2.2,
+      "angle": 0.0,
+      "drill": 1.2,
+      "rect": false,
+      "net": "/PACK_NEG"
+    }
+  ],
+  "labels": [
+    {
+      "text": "TX",
+      "x": 4.979999999999997,
+      "y": 6.0
+    },
+    {
+      "text": "RX",
+      "x": 4.979999999999997,
+      "y": 8.54
+    },
+    {
+      "text": "RST",
+      "x": 4.979999999999997,
+      "y": 11.079999999999998
+    },
+    {
+      "text": "GND",
+      "x": 4.979999999999997,
+      "y": 13.619999999999997
+    },
+    {
+      "text": "D2",
+      "x": 4.979999999999997,
+      "y": 16.159999999999997
+    },
+    {
+      "text": "D3",
+      "x": 4.979999999999997,
+      "y": 18.700000000000003
+    },
+    {
+      "text": "D4",
+      "x": 4.979999999999997,
+      "y": 21.239999999999995
+    },
+    {
+      "text": "D5",
+      "x": 4.979999999999997,
+      "y": 23.78
+    },
+    {
+      "text": "D6",
+      "x": 4.979999999999997,
+      "y": 26.319999999999993
+    },
+    {
+      "text": "D7",
+      "x": 4.979999999999997,
+      "y": 28.86
+    },
+    {
+      "text": "D8",
+      "x": 4.979999999999997,
+      "y": 31.400000000000006
+    },
+    {
+      "text": "D9",
+      "x": 4.979999999999997,
+      "y": 33.94
+    },
+    {
+      "text": "VCC",
+      "x": 10.939999999999998,
+      "y": 36.599999999999994
+    },
+    {
+      "text": "MOSI",
+      "x": 10.939999999999998,
+      "y": 39.14
+    },
+    {
+      "text": "GND",
+      "x": 10.939999999999998,
+      "y": 41.68000000000001
+    },
+    {
+      "text": "RST",
+      "x": 25.97,
+      "y": 1.7000000000000028
+    },
+    {
+      "text": "A0",
+      "x": 25.97,
+      "y": 4.240000000000002
+    },
+    {
+      "text": "D0",
+      "x": 25.97,
+      "y": 6.780000000000001
+    },
+    {
+      "text": "D5",
+      "x": 25.97,
+      "y": 9.32
+    },
+    {
+      "text": "D6",
+      "x": 25.97,
+      "y": 11.86
+    },
+    {
+      "text": "D7",
+      "x": 25.97,
+      "y": 14.400000000000006
+    },
+    {
+      "text": "D8",
+      "x": 25.97,
+      "y": 16.939999999999998
+    },
+    {
+      "text": "3V3",
+      "x": 25.97,
+      "y": 19.480000000000004
+    },
+    {
+      "text": "SOLAR LIGHTS LITE / B",
+      "x": 27.0,
+      "y": 39.5
+    },
+    {
+      "text": "IN-",
+      "x": 53.7,
+      "y": 4.799999999999997
+    },
+    {
+      "text": "OUT-",
+      "x": 53.7,
+      "y": 21.200000000000003
+    },
+    {
+      "text": "B-",
+      "x": 53.7,
+      "y": 22.5
+    },
+    {
+      "text": "+",
+      "x": 9.0,
+      "y": 45.5
+    },
+    {
+      "text": "LED",
+      "x": 10.269998999999999,
+      "y": 43.8
+    },
+    {
+      "text": "SERIAL END",
+      "x": 11.0,
+      "y": 3.3999999999999986
+    },
+    {
+      "text": "-",
+      "x": 11.54,
+      "y": 49.7
+    },
+    {
+      "text": "ISP",
+      "x": 16.400000000000006,
+      "y": 36.3
+    },
+    {
+      "text": "D7",
+      "x": 17.0,
+      "y": 45.5
+    },
+    {
+      "text": "LDR",
+      "x": 18.269999999999996,
+      "y": 43.8
+    },
+    {
+      "text": "A1",
+      "x": 19.539998999999995,
+      "y": 49.7
+    },
+    {
+      "text": "D2",
+      "x": 25.0,
+      "y": 45.5
+    },
+    {
+      "text": "BUTTON",
+      "x": 26.269999999999996,
+      "y": 43.8
+    },
+    {
+      "text": "-",
+      "x": 27.539998999999995,
+      "y": 49.7
+    },
+    {
+      "text": "JP3 ADC",
+      "x": 31.269999999999996,
+      "y": 31.0
+    },
+    {
+      "text": "+",
+      "x": 33.0,
+      "y": 45.5
+    },
+    {
+      "text": "U3 IN",
+      "x": 34.269999999999996,
+      "y": 43.8
+    },
+    {
+      "text": "-",
+      "x": 35.539998999999995,
+      "y": 49.7
+    },
+    {
+      "text": "ANTENNA END",
+      "x": 35.8,
+      "y": 1.7000000000000028
+    },
+    {
+      "text": "D1 MINI",
+      "x": 35.8,
+      "y": 3.5
+    },
+    {
+      "text": "USB",
+      "x": 35.8,
+      "y": 25.700000000000003
+    },
+    {
+      "text": "JP2 WAKE",
+      "x": 39.269999999999996,
+      "y": 31.0
+    },
+    {
+      "text": "+",
+      "x": 41.0,
+      "y": 45.5
+    },
+    {
+      "text": "U3 OUT",
+      "x": 42.269999999999996,
+      "y": 43.8
+    },
+    {
+      "text": "-",
+      "x": 43.539998999999995,
+      "y": 49.7
+    },
+    {
+      "text": "JP1 BAT",
+      "x": 47.269999999999996,
+      "y": 31.0
+    },
+    {
+      "text": "OPEN FOR USB",
+      "x": 47.269999999999996,
+      "y": 35.2
+    },
+    {
+      "text": "OUT+",
+      "x": 49.0,
+      "y": 45.5
+    },
+    {
+      "text": "S1",
+      "x": 50.269999999999996,
+      "y": 43.8
+    },
+    {
+      "text": "SYS",
+      "x": 51.539998999999995,
+      "y": 49.7
+    },
+    {
+      "text": "B+",
+      "x": 57.0,
+      "y": 45.5
+    },
+    {
+      "text": "CELL",
+      "x": 58.269999999999996,
+      "y": 43.8
+    },
+    {
+      "text": "B-",
+      "x": 59.539998999999995,
+      "y": 49.7
+    },
+    {
+      "text": "USB-C",
+      "x": 61.5,
+      "y": 3.0
+    },
+    {
+      "text": "TP4056",
+      "x": 61.5,
+      "y": 13.5
+    },
+    {
+      "text": "+",
+      "x": 65.0,
+      "y": 45.5
+    },
+    {
+      "text": "PV<=6.5V",
+      "x": 66.27,
+      "y": 43.8
+    },
+    {
+      "text": "-",
+      "x": 67.54,
+      "y": 49.7
+    },
+    {
+      "text": "MISO",
+      "x": 5.600000000000001,
+      "y": 36.599999999999994
+    },
+    {
+      "text": "SCK",
+      "x": 5.600000000000001,
+      "y": 39.14
+    },
+    {
+      "text": "RST",
+      "x": 5.600000000000001,
+      "y": 41.68000000000001
+    },
+    {
+      "text": "RAW",
+      "x": 17.019999,
+      "y": 6.0
+    },
+    {
+      "text": "GND",
+      "x": 17.019999,
+      "y": 8.54
+    },
+    {
+      "text": "RST",
+      "x": 17.019999,
+      "y": 11.079999999999998
+    },
+    {
+      "text": "VCC",
+      "x": 17.019999,
+      "y": 13.619999999999997
+    },
+    {
+      "text": "A3",
+      "x": 17.019999,
+      "y": 16.159999999999997
+    },
+    {
+      "text": "A2",
+      "x": 17.019999,
+      "y": 18.700000000000003
+    },
+    {
+      "text": "A1",
+      "x": 17.019999,
+      "y": 21.239999999999995
+    },
+    {
+      "text": "A0",
+      "x": 17.019999,
+      "y": 23.78
+    },
+    {
+      "text": "D13",
+      "x": 17.019999,
+      "y": 26.319999999999993
+    },
+    {
+      "text": "D12",
+      "x": 17.019999,
+      "y": 28.86
+    },
+    {
+      "text": "D11",
+      "x": 17.019999,
+      "y": 31.400000000000006
+    },
+    {
+      "text": "D10",
+      "x": 17.019999,
+      "y": 33.94
+    },
+    {
+      "text": "TX",
+      "x": 45.629999999999995,
+      "y": 1.7000000000000028
+    },
+    {
+      "text": "RX",
+      "x": 45.629999999999995,
+      "y": 4.240000000000002
+    },
+    {
+      "text": "D1",
+      "x": 45.629999999999995,
+      "y": 6.780000000000001
+    },
+    {
+      "text": "D2",
+      "x": 45.629999999999995,
+      "y": 9.32
+    },
+    {
+      "text": "D3",
+      "x": 45.629999999999995,
+      "y": 11.86
+    },
+    {
+      "text": "D4",
+      "x": 45.629999999999995,
+      "y": 14.400000000000006
+    },
+    {
+      "text": "G",
+      "x": 45.629999999999995,
+      "y": 16.939999999999998
+    },
+    {
+      "text": "5V",
+      "x": 45.629999999999995,
+      "y": 19.480000000000004
+    },
+    {
+      "text": "IN+",
+      "x": 69.5,
+      "y": 4.799999999999997
+    },
+    {
+      "text": "OUT+",
+      "x": 69.5,
+      "y": 21.200000000000003
+    },
+    {
+      "text": "B+",
+      "x": 69.5,
+      "y": 22.5
+    }
+  ]
+}

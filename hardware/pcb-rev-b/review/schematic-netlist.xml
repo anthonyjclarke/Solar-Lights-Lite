@@ -1,0 +1,1095 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<export version="E">
+  <design>
+    <source>/Users/anthonyjclarke/PlatformIO/Projects/SolarLights_2026_Lite/hardware/pcb-rev-b/SolarLights_Carrier_RevB.kicad_sch</source>
+    <date>2026-10-27T13:42:24</date>
+    <tool>Eeschema 10.0.6</tool>
+    <sheet number="1" name="/" tstamps="/">
+      <title_block>
+        <title>Solar Lights Lite - carrier with charger</title>
+        <company>No fuses; U0, U3 external</company>
+        <rev>B / REVIEW</rev>
+        <date>27-Oct-2026</date>
+        <source>SolarLights_Carrier_RevB.kicad_sch</source>
+        <comment number="1" value=""/>
+        <comment number="2" value=""/>
+        <comment number="3" value=""/>
+        <comment number="4" value=""/>
+        <comment number="5" value=""/>
+        <comment number="6" value=""/>
+        <comment number="7" value=""/>
+        <comment number="8" value=""/>
+        <comment number="9" value=""/>
+      </title_block>
+    </sheet>
+  </design>
+  <components>
+    <comp ref="C2">
+      <value>470u / 10V</value>
+      <footprint>Carrier:CP_Radial_D10.0mm_P5.00mm</footprint>
+      <fields>
+        <field name="Footprint">Carrier:CP_Radial_D10.0mm_P5.00mm</field>
+        <field name="Datasheet"/>
+        <field name="Description"/>
+      </fields>
+      <libsource lib="Device" part="C_Polarized" description="Polarized capacitor"/>
+      <property name="Sheetname" value="SolarLights_Carrier_RevB"/>
+      <property name="Sheetfile" value="SolarLights_Carrier_RevB.kicad_sch"/>
+      <property name="ki_keywords" value="cap capacitor"/>
+      <property name="ki_fp_filters" value="CP_*"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>adce8ee9-c06b-575c-a01a-e59c4892d5a1</tstamps>
+      <units>
+        <unit name="A">
+          <pins>
+            <pin num="1"/>
+            <pin num="2"/>
+          </pins>
+        </unit>
+      </units>
+    </comp>
+    <comp ref="C3">
+      <value>100u / 10V</value>
+      <footprint>Carrier:CP_Radial_D6.3mm_P2.50mm</footprint>
+      <fields>
+        <field name="Footprint">Carrier:CP_Radial_D6.3mm_P2.50mm</field>
+        <field name="Datasheet"/>
+        <field name="Description"/>
+      </fields>
+      <libsource lib="Device" part="C_Polarized" description="Polarized capacitor"/>
+      <property name="Sheetname" value="SolarLights_Carrier_RevB"/>
+      <property name="Sheetfile" value="SolarLights_Carrier_RevB.kicad_sch"/>
+      <property name="ki_keywords" value="cap capacitor"/>
+      <property name="ki_fp_filters" value="CP_*"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>4cdfe70d-6e8d-55cd-847f-c349bacb5239</tstamps>
+      <units>
+        <unit name="A">
+          <pins>
+            <pin num="1"/>
+            <pin num="2"/>
+          </pins>
+        </unit>
+      </units>
+    </comp>
+    <comp ref="C4">
+      <value>100n</value>
+      <footprint>Carrier:C_Disc_D5.0mm_W2.5mm_P5.00mm</footprint>
+      <fields>
+        <field name="Footprint">Carrier:C_Disc_D5.0mm_W2.5mm_P5.00mm</field>
+        <field name="Datasheet"/>
+        <field name="Description"/>
+      </fields>
+      <libsource lib="Device" part="C" description="Unpolarized capacitor"/>
+      <property name="Sheetname" value="SolarLights_Carrier_RevB"/>
+      <property name="Sheetfile" value="SolarLights_Carrier_RevB.kicad_sch"/>
+      <property name="ki_keywords" value="cap capacitor"/>
+      <property name="ki_fp_filters" value="C_*"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>91f7a866-1037-51d4-8f23-b4ae7e2bbddb</tstamps>
+      <units>
+        <unit name="A">
+          <pins>
+            <pin num="1"/>
+            <pin num="2"/>
+          </pins>
+        </unit>
+      </units>
+    </comp>
+    <comp ref="JBUTTON1">
+      <value>SW1 D2 / -</value>
+      <footprint>Carrier:SolderPads_1x02_P2.54mm</footprint>
+      <fields>
+        <field name="Footprint">Carrier:SolderPads_1x02_P2.54mm</field>
+        <field name="Datasheet"/>
+        <field name="Description"/>
+      </fields>
+      <libsource lib="Connector_Generic" part="Conn_01x02" description="Generic connector, single row, 01x02, script generated (kicad-library-utils/schlib/autogen/connector/)"/>
+      <property name="Sheetname" value="SolarLights_Carrier_RevB"/>
+      <property name="Sheetfile" value="SolarLights_Carrier_RevB.kicad_sch"/>
+      <property name="ki_keywords" value="connector"/>
+      <property name="ki_fp_filters" value="Connector*:*_1x??_*"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>5ead70d6-c845-5788-841d-391988e13bfd</tstamps>
+      <units>
+        <unit name="A">
+          <pins>
+            <pin num="1"/>
+            <pin num="2"/>
+          </pins>
+        </unit>
+      </units>
+    </comp>
+    <comp ref="JCELL1">
+      <value>CELL B+ / B-</value>
+      <footprint>Carrier:SolderPads_1x02_P2.54mm</footprint>
+      <fields>
+        <field name="Footprint">Carrier:SolderPads_1x02_P2.54mm</field>
+        <field name="Datasheet"/>
+        <field name="Description"/>
+      </fields>
+      <libsource lib="Connector_Generic" part="Conn_01x02" description="Generic connector, single row, 01x02, script generated (kicad-library-utils/schlib/autogen/connector/)"/>
+      <property name="Sheetname" value="SolarLights_Carrier_RevB"/>
+      <property name="Sheetfile" value="SolarLights_Carrier_RevB.kicad_sch"/>
+      <property name="ki_keywords" value="connector"/>
+      <property name="ki_fp_filters" value="Connector*:*_1x??_*"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>428337a8-981f-5116-b690-a896c202edc8</tstamps>
+      <units>
+        <unit name="A">
+          <pins>
+            <pin num="1"/>
+            <pin num="2"/>
+          </pins>
+        </unit>
+      </units>
+    </comp>
+    <comp ref="JISP1">
+      <value>ISP</value>
+      <footprint>Carrier:Pads_2x03_P2.54mm</footprint>
+      <fields>
+        <field name="Footprint">Carrier:Pads_2x03_P2.54mm</field>
+        <field name="Datasheet"/>
+        <field name="Description"/>
+      </fields>
+      <libsource lib="Connector_Generic" part="Conn_02x03_Odd_Even" description="Generic connector, double row, 02x03, odd/even pin numbering scheme (row 1 odd numbers, row 2 even numbers), script generated (kicad-library-utils/schlib/autogen/connector/)"/>
+      <property name="Sheetname" value="SolarLights_Carrier_RevB"/>
+      <property name="Sheetfile" value="SolarLights_Carrier_RevB.kicad_sch"/>
+      <property name="ki_keywords" value="connector"/>
+      <property name="ki_fp_filters" value="Connector*:*_2x??_*"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>95089255-a98d-5568-90b6-412ee5ba70c6</tstamps>
+      <units>
+        <unit name="A">
+          <pins>
+            <pin num="1"/>
+            <pin num="3"/>
+            <pin num="5"/>
+            <pin num="2"/>
+            <pin num="4"/>
+            <pin num="6"/>
+          </pins>
+        </unit>
+      </units>
+    </comp>
+    <comp ref="JLDR1">
+      <value>LDR D7 / A1</value>
+      <footprint>Carrier:SolderPads_1x02_P2.54mm</footprint>
+      <fields>
+        <field name="Footprint">Carrier:SolderPads_1x02_P2.54mm</field>
+        <field name="Datasheet"/>
+        <field name="Description"/>
+      </fields>
+      <libsource lib="Connector_Generic" part="Conn_01x02" description="Generic connector, single row, 01x02, script generated (kicad-library-utils/schlib/autogen/connector/)"/>
+      <property name="Sheetname" value="SolarLights_Carrier_RevB"/>
+      <property name="Sheetfile" value="SolarLights_Carrier_RevB.kicad_sch"/>
+      <property name="ki_keywords" value="connector"/>
+      <property name="ki_fp_filters" value="Connector*:*_1x??_*"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>0a78074c-a642-51b2-b16e-fd8bd8519c36</tstamps>
+      <units>
+        <unit name="A">
+          <pins>
+            <pin num="1"/>
+            <pin num="2"/>
+          </pins>
+        </unit>
+      </units>
+    </comp>
+    <comp ref="JLED1">
+      <value>LED + / -</value>
+      <footprint>Carrier:SolderPads_1x02_P2.54mm</footprint>
+      <fields>
+        <field name="Footprint">Carrier:SolderPads_1x02_P2.54mm</field>
+        <field name="Datasheet"/>
+        <field name="Description"/>
+      </fields>
+      <libsource lib="Connector_Generic" part="Conn_01x02" description="Generic connector, single row, 01x02, script generated (kicad-library-utils/schlib/autogen/connector/)"/>
+      <property name="Sheetname" value="SolarLights_Carrier_RevB"/>
+      <property name="Sheetfile" value="SolarLights_Carrier_RevB.kicad_sch"/>
+      <property name="ki_keywords" value="connector"/>
+      <property name="ki_fp_filters" value="Connector*:*_1x??_*"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>5286db43-9f7e-5af4-83f1-0e206a3dacdc</tstamps>
+      <units>
+        <unit name="A">
+          <pins>
+            <pin num="1"/>
+            <pin num="2"/>
+          </pins>
+        </unit>
+      </units>
+    </comp>
+    <comp ref="JM2L1">
+      <value>M2 LEFT / serial end top</value>
+      <footprint>Carrier:PinSocket_1x12_P2.54mm_Vertical</footprint>
+      <fields>
+        <field name="Footprint">Carrier:PinSocket_1x12_P2.54mm_Vertical</field>
+        <field name="Datasheet"/>
+        <field name="Description"/>
+      </fields>
+      <libsource lib="Connector_Generic" part="Conn_01x12" description="Generic connector, single row, 01x12, script generated (kicad-library-utils/schlib/autogen/connector/)"/>
+      <property name="Sheetname" value="SolarLights_Carrier_RevB"/>
+      <property name="Sheetfile" value="SolarLights_Carrier_RevB.kicad_sch"/>
+      <property name="ki_keywords" value="connector"/>
+      <property name="ki_fp_filters" value="Connector*:*_1x??_*"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>58d2ddff-37a9-5d98-b43b-5b52ddb1e539</tstamps>
+      <units>
+        <unit name="A">
+          <pins>
+            <pin num="1"/>
+            <pin num="2"/>
+            <pin num="3"/>
+            <pin num="4"/>
+            <pin num="5"/>
+            <pin num="6"/>
+            <pin num="7"/>
+            <pin num="8"/>
+            <pin num="9"/>
+            <pin num="10"/>
+            <pin num="11"/>
+            <pin num="12"/>
+          </pins>
+        </unit>
+      </units>
+    </comp>
+    <comp ref="JM2R1">
+      <value>M2 RIGHT / serial end top</value>
+      <footprint>Carrier:PinSocket_1x12_P2.54mm_Vertical</footprint>
+      <fields>
+        <field name="Footprint">Carrier:PinSocket_1x12_P2.54mm_Vertical</field>
+        <field name="Datasheet"/>
+        <field name="Description"/>
+      </fields>
+      <libsource lib="Connector_Generic" part="Conn_01x12" description="Generic connector, single row, 01x12, script generated (kicad-library-utils/schlib/autogen/connector/)"/>
+      <property name="Sheetname" value="SolarLights_Carrier_RevB"/>
+      <property name="Sheetfile" value="SolarLights_Carrier_RevB.kicad_sch"/>
+      <property name="ki_keywords" value="connector"/>
+      <property name="ki_fp_filters" value="Connector*:*_1x??_*"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>8da5f2ba-5567-5217-8ca0-145e6630154c</tstamps>
+      <units>
+        <unit name="A">
+          <pins>
+            <pin num="1"/>
+            <pin num="2"/>
+            <pin num="3"/>
+            <pin num="4"/>
+            <pin num="5"/>
+            <pin num="6"/>
+            <pin num="7"/>
+            <pin num="8"/>
+            <pin num="9"/>
+            <pin num="10"/>
+            <pin num="11"/>
+            <pin num="12"/>
+          </pins>
+        </unit>
+      </units>
+    </comp>
+    <comp ref="JM3L1">
+      <value>M3 LEFT / antenna end top</value>
+      <footprint>Carrier:PinSocket_1x08_P2.54mm_Vertical</footprint>
+      <fields>
+        <field name="Footprint">Carrier:PinSocket_1x08_P2.54mm_Vertical</field>
+        <field name="Datasheet"/>
+        <field name="Description"/>
+      </fields>
+      <libsource lib="Connector_Generic" part="Conn_01x08" description="Generic connector, single row, 01x08, script generated (kicad-library-utils/schlib/autogen/connector/)"/>
+      <property name="Sheetname" value="SolarLights_Carrier_RevB"/>
+      <property name="Sheetfile" value="SolarLights_Carrier_RevB.kicad_sch"/>
+      <property name="ki_keywords" value="connector"/>
+      <property name="ki_fp_filters" value="Connector*:*_1x??_*"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>e0e0f62c-735c-54ec-8b8c-47e255a847ab</tstamps>
+      <units>
+        <unit name="A">
+          <pins>
+            <pin num="1"/>
+            <pin num="2"/>
+            <pin num="3"/>
+            <pin num="4"/>
+            <pin num="5"/>
+            <pin num="6"/>
+            <pin num="7"/>
+            <pin num="8"/>
+          </pins>
+        </unit>
+      </units>
+    </comp>
+    <comp ref="JM3R1">
+      <value>M3 RIGHT / antenna end top</value>
+      <footprint>Carrier:PinSocket_1x08_P2.54mm_Vertical</footprint>
+      <fields>
+        <field name="Footprint">Carrier:PinSocket_1x08_P2.54mm_Vertical</field>
+        <field name="Datasheet"/>
+        <field name="Description"/>
+      </fields>
+      <libsource lib="Connector_Generic" part="Conn_01x08" description="Generic connector, single row, 01x08, script generated (kicad-library-utils/schlib/autogen/connector/)"/>
+      <property name="Sheetname" value="SolarLights_Carrier_RevB"/>
+      <property name="Sheetfile" value="SolarLights_Carrier_RevB.kicad_sch"/>
+      <property name="ki_keywords" value="connector"/>
+      <property name="ki_fp_filters" value="Connector*:*_1x??_*"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>06f9d77e-ab67-54f9-8521-e969423f6ce6</tstamps>
+      <units>
+        <unit name="A">
+          <pins>
+            <pin num="1"/>
+            <pin num="2"/>
+            <pin num="3"/>
+            <pin num="4"/>
+            <pin num="5"/>
+            <pin num="6"/>
+            <pin num="7"/>
+            <pin num="8"/>
+          </pins>
+        </unit>
+      </units>
+    </comp>
+    <comp ref="JP1">
+      <value>BAT power link</value>
+      <footprint>Carrier:SolderPads_1x02_P2.54mm</footprint>
+      <fields>
+        <field name="Footprint">Carrier:SolderPads_1x02_P2.54mm</field>
+        <field name="Datasheet"/>
+        <field name="Description"/>
+      </fields>
+      <libsource lib="Connector_Generic" part="Conn_01x02" description="Generic connector, single row, 01x02, script generated (kicad-library-utils/schlib/autogen/connector/)"/>
+      <property name="Sheetname" value="SolarLights_Carrier_RevB"/>
+      <property name="Sheetfile" value="SolarLights_Carrier_RevB.kicad_sch"/>
+      <property name="ki_keywords" value="connector"/>
+      <property name="ki_fp_filters" value="Connector*:*_1x??_*"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>3100a9e0-2dc7-5fd2-97bc-4ddb664f4635</tstamps>
+      <units>
+        <unit name="A">
+          <pins>
+            <pin num="1"/>
+            <pin num="2"/>
+          </pins>
+        </unit>
+      </units>
+    </comp>
+    <comp ref="JP2">
+      <value>D0 wake link</value>
+      <footprint>Carrier:SolderPads_1x02_P2.54mm</footprint>
+      <fields>
+        <field name="Footprint">Carrier:SolderPads_1x02_P2.54mm</field>
+        <field name="Datasheet"/>
+        <field name="Description"/>
+      </fields>
+      <libsource lib="Connector_Generic" part="Conn_01x02" description="Generic connector, single row, 01x02, script generated (kicad-library-utils/schlib/autogen/connector/)"/>
+      <property name="Sheetname" value="SolarLights_Carrier_RevB"/>
+      <property name="Sheetfile" value="SolarLights_Carrier_RevB.kicad_sch"/>
+      <property name="ki_keywords" value="connector"/>
+      <property name="ki_fp_filters" value="Connector*:*_1x??_*"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>2dcbc44d-4f54-5f31-b2d7-361c2ed134bb</tstamps>
+      <units>
+        <unit name="A">
+          <pins>
+            <pin num="1"/>
+            <pin num="2"/>
+          </pins>
+        </unit>
+      </units>
+    </comp>
+    <comp ref="JP3">
+      <value>ADC link</value>
+      <footprint>Carrier:SolderPads_1x02_P2.54mm</footprint>
+      <fields>
+        <field name="Footprint">Carrier:SolderPads_1x02_P2.54mm</field>
+        <field name="Datasheet"/>
+        <field name="Description"/>
+      </fields>
+      <libsource lib="Connector_Generic" part="Conn_01x02" description="Generic connector, single row, 01x02, script generated (kicad-library-utils/schlib/autogen/connector/)"/>
+      <property name="Sheetname" value="SolarLights_Carrier_RevB"/>
+      <property name="Sheetfile" value="SolarLights_Carrier_RevB.kicad_sch"/>
+      <property name="ki_keywords" value="connector"/>
+      <property name="ki_fp_filters" value="Connector*:*_1x??_*"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>580ac242-1bc8-5777-9167-6704fdc866cd</tstamps>
+      <units>
+        <unit name="A">
+          <pins>
+            <pin num="1"/>
+            <pin num="2"/>
+          </pins>
+        </unit>
+      </units>
+    </comp>
+    <comp ref="JPV1">
+      <value>PV IN + / -</value>
+      <footprint>Carrier:SolderPads_1x02_P2.54mm</footprint>
+      <fields>
+        <field name="Footprint">Carrier:SolderPads_1x02_P2.54mm</field>
+        <field name="Datasheet"/>
+        <field name="Description"/>
+      </fields>
+      <libsource lib="Connector_Generic" part="Conn_01x02" description="Generic connector, single row, 01x02, script generated (kicad-library-utils/schlib/autogen/connector/)"/>
+      <property name="Sheetname" value="SolarLights_Carrier_RevB"/>
+      <property name="Sheetfile" value="SolarLights_Carrier_RevB.kicad_sch"/>
+      <property name="ki_keywords" value="connector"/>
+      <property name="ki_fp_filters" value="Connector*:*_1x??_*"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>43534086-2329-5cb6-a4a7-6cbe8d678a21</tstamps>
+      <units>
+        <unit name="A">
+          <pins>
+            <pin num="1"/>
+            <pin num="2"/>
+          </pins>
+        </unit>
+      </units>
+    </comp>
+    <comp ref="JS1">
+      <value>S1 OUT+ / SYS</value>
+      <footprint>Carrier:SolderPads_1x02_P2.54mm</footprint>
+      <fields>
+        <field name="Footprint">Carrier:SolderPads_1x02_P2.54mm</field>
+        <field name="Datasheet"/>
+        <field name="Description"/>
+      </fields>
+      <libsource lib="Connector_Generic" part="Conn_01x02" description="Generic connector, single row, 01x02, script generated (kicad-library-utils/schlib/autogen/connector/)"/>
+      <property name="Sheetname" value="SolarLights_Carrier_RevB"/>
+      <property name="Sheetfile" value="SolarLights_Carrier_RevB.kicad_sch"/>
+      <property name="ki_keywords" value="connector"/>
+      <property name="ki_fp_filters" value="Connector*:*_1x??_*"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>03a53643-4acb-5c56-b8c0-2d693cac424a</tstamps>
+      <units>
+        <unit name="A">
+          <pins>
+            <pin num="1"/>
+            <pin num="2"/>
+          </pins>
+        </unit>
+      </units>
+    </comp>
+    <comp ref="JU3IN1">
+      <value>U3 VIN + / -</value>
+      <footprint>Carrier:SolderPads_1x02_P2.54mm</footprint>
+      <fields>
+        <field name="Footprint">Carrier:SolderPads_1x02_P2.54mm</field>
+        <field name="Datasheet"/>
+        <field name="Description"/>
+      </fields>
+      <libsource lib="Connector_Generic" part="Conn_01x02" description="Generic connector, single row, 01x02, script generated (kicad-library-utils/schlib/autogen/connector/)"/>
+      <property name="Sheetname" value="SolarLights_Carrier_RevB"/>
+      <property name="Sheetfile" value="SolarLights_Carrier_RevB.kicad_sch"/>
+      <property name="ki_keywords" value="connector"/>
+      <property name="ki_fp_filters" value="Connector*:*_1x??_*"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>5ae8da10-2121-5343-b8a0-84280f622a95</tstamps>
+      <units>
+        <unit name="A">
+          <pins>
+            <pin num="1"/>
+            <pin num="2"/>
+          </pins>
+        </unit>
+      </units>
+    </comp>
+    <comp ref="JU3OUT1">
+      <value>U3 VOUT + / -</value>
+      <footprint>Carrier:SolderPads_1x02_P2.54mm</footprint>
+      <fields>
+        <field name="Footprint">Carrier:SolderPads_1x02_P2.54mm</field>
+        <field name="Datasheet"/>
+        <field name="Description"/>
+      </fields>
+      <libsource lib="Connector_Generic" part="Conn_01x02" description="Generic connector, single row, 01x02, script generated (kicad-library-utils/schlib/autogen/connector/)"/>
+      <property name="Sheetname" value="SolarLights_Carrier_RevB"/>
+      <property name="Sheetfile" value="SolarLights_Carrier_RevB.kicad_sch"/>
+      <property name="ki_keywords" value="connector"/>
+      <property name="ki_fp_filters" value="Connector*:*_1x??_*"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>62390133-e3bb-5723-b166-83699124d8e4</tstamps>
+      <units>
+        <unit name="A">
+          <pins>
+            <pin num="1"/>
+            <pin num="2"/>
+          </pins>
+        </unit>
+      </units>
+    </comp>
+    <comp ref="M1">
+      <value>TP4056 module</value>
+      <footprint>Carrier:TP4056_Module_6pad_Overlay</footprint>
+      <fields>
+        <field name="Footprint">Carrier:TP4056_Module_6pad_Overlay</field>
+        <field name="Datasheet"/>
+        <field name="Description"/>
+      </fields>
+      <libsource lib="Connector_Generic" part="Conn_01x06" description="Generic connector, single row, 01x06, script generated (kicad-library-utils/schlib/autogen/connector/)"/>
+      <property name="Sheetname" value="SolarLights_Carrier_RevB"/>
+      <property name="Sheetfile" value="SolarLights_Carrier_RevB.kicad_sch"/>
+      <property name="ki_keywords" value="connector"/>
+      <property name="ki_fp_filters" value="Connector*:*_1x??_*"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>a565bc4e-ed24-5347-9ed3-0156166b3f3f</tstamps>
+      <units>
+        <unit name="A">
+          <pins>
+            <pin num="1"/>
+            <pin num="2"/>
+            <pin num="3"/>
+            <pin num="4"/>
+            <pin num="5"/>
+            <pin num="6"/>
+          </pins>
+        </unit>
+      </units>
+    </comp>
+    <comp ref="Q2">
+      <value>2N3904 / EBC</value>
+      <footprint>Carrier:TO-92_Inline_Wide</footprint>
+      <fields>
+        <field name="Footprint">Carrier:TO-92_Inline_Wide</field>
+        <field name="Datasheet"/>
+        <field name="Description"/>
+      </fields>
+      <libsource lib="Transistor_BJT" part="Q_NPN_EBC" description="NPN transistor, emitter/base/collector"/>
+      <property name="Sheetname" value="SolarLights_Carrier_RevB"/>
+      <property name="Sheetfile" value="SolarLights_Carrier_RevB.kicad_sch"/>
+      <property name="ki_keywords" value="BJT"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>8a5a8395-80b7-501e-aa4f-11bc3f59a802</tstamps>
+      <units>
+        <unit name="A">
+          <pins>
+            <pin num="2"/>
+            <pin num="3"/>
+            <pin num="1"/>
+          </pins>
+        </unit>
+      </units>
+    </comp>
+    <comp ref="R3">
+      <value>47R / 0.25W</value>
+      <footprint>Carrier:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal</footprint>
+      <fields>
+        <field name="Footprint">Carrier:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal</field>
+        <field name="Datasheet"/>
+        <field name="Description"/>
+      </fields>
+      <libsource lib="Device" part="R" description="Resistor"/>
+      <property name="Sheetname" value="SolarLights_Carrier_RevB"/>
+      <property name="Sheetfile" value="SolarLights_Carrier_RevB.kicad_sch"/>
+      <property name="ki_keywords" value="R res resistor"/>
+      <property name="ki_fp_filters" value="R_*"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>a05aa7be-2d3c-5bdf-bdf9-a431fb5a206f</tstamps>
+      <units>
+        <unit name="A">
+          <pins>
+            <pin num="1"/>
+            <pin num="2"/>
+          </pins>
+        </unit>
+      </units>
+    </comp>
+    <comp ref="R4">
+      <value>47k</value>
+      <footprint>Carrier:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal</footprint>
+      <fields>
+        <field name="Footprint">Carrier:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal</field>
+        <field name="Datasheet"/>
+        <field name="Description"/>
+      </fields>
+      <libsource lib="Device" part="R" description="Resistor"/>
+      <property name="Sheetname" value="SolarLights_Carrier_RevB"/>
+      <property name="Sheetfile" value="SolarLights_Carrier_RevB.kicad_sch"/>
+      <property name="ki_keywords" value="R res resistor"/>
+      <property name="ki_fp_filters" value="R_*"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>b20b69e3-af59-5e37-9c6a-4020a8d0ba4d</tstamps>
+      <units>
+        <unit name="A">
+          <pins>
+            <pin num="1"/>
+            <pin num="2"/>
+          </pins>
+        </unit>
+      </units>
+    </comp>
+    <comp ref="R5">
+      <value>220k</value>
+      <footprint>Carrier:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal</footprint>
+      <fields>
+        <field name="Footprint">Carrier:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal</field>
+        <field name="Datasheet"/>
+        <field name="Description"/>
+      </fields>
+      <libsource lib="Device" part="R" description="Resistor"/>
+      <property name="Sheetname" value="SolarLights_Carrier_RevB"/>
+      <property name="Sheetfile" value="SolarLights_Carrier_RevB.kicad_sch"/>
+      <property name="ki_keywords" value="R res resistor"/>
+      <property name="ki_fp_filters" value="R_*"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>ad8e2b66-05a4-5b41-9cf7-ae8e25291c1f</tstamps>
+      <units>
+        <unit name="A">
+          <pins>
+            <pin num="1"/>
+            <pin num="2"/>
+          </pins>
+        </unit>
+      </units>
+    </comp>
+    <comp ref="R8">
+      <value>47k</value>
+      <footprint>Carrier:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal</footprint>
+      <fields>
+        <field name="Footprint">Carrier:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal</field>
+        <field name="Datasheet"/>
+        <field name="Description"/>
+      </fields>
+      <libsource lib="Device" part="R" description="Resistor"/>
+      <property name="Sheetname" value="SolarLights_Carrier_RevB"/>
+      <property name="Sheetfile" value="SolarLights_Carrier_RevB.kicad_sch"/>
+      <property name="ki_keywords" value="R res resistor"/>
+      <property name="ki_fp_filters" value="R_*"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>9a53bc7f-7bf2-5939-b367-a2ee10b268fb</tstamps>
+      <units>
+        <unit name="A">
+          <pins>
+            <pin num="1"/>
+            <pin num="2"/>
+          </pins>
+        </unit>
+      </units>
+    </comp>
+    <comp ref="R9">
+      <value>100k</value>
+      <footprint>Carrier:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal</footprint>
+      <fields>
+        <field name="Footprint">Carrier:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal</field>
+        <field name="Datasheet"/>
+        <field name="Description"/>
+      </fields>
+      <libsource lib="Device" part="R" description="Resistor"/>
+      <property name="Sheetname" value="SolarLights_Carrier_RevB"/>
+      <property name="Sheetfile" value="SolarLights_Carrier_RevB.kicad_sch"/>
+      <property name="ki_keywords" value="R res resistor"/>
+      <property name="ki_fp_filters" value="R_*"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>58eb56a2-da5d-57eb-b5e3-72249c9f2e87</tstamps>
+      <units>
+        <unit name="A">
+          <pins>
+            <pin num="1"/>
+            <pin num="2"/>
+          </pins>
+        </unit>
+      </units>
+    </comp>
+    <comp ref="R10">
+      <value>10k</value>
+      <footprint>Carrier:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal</footprint>
+      <fields>
+        <field name="Footprint">Carrier:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal</field>
+        <field name="Datasheet"/>
+        <field name="Description"/>
+      </fields>
+      <libsource lib="Device" part="R" description="Resistor"/>
+      <property name="Sheetname" value="SolarLights_Carrier_RevB"/>
+      <property name="Sheetfile" value="SolarLights_Carrier_RevB.kicad_sch"/>
+      <property name="ki_keywords" value="R res resistor"/>
+      <property name="ki_fp_filters" value="R_*"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>bf9592e4-c6e5-53f6-bd51-c3135c103ae3</tstamps>
+      <units>
+        <unit name="A">
+          <pins>
+            <pin num="1"/>
+            <pin num="2"/>
+          </pins>
+        </unit>
+      </units>
+    </comp>
+  </components>
+  <libparts>
+    <libpart lib="Connector_Generic" part="Conn_01x02">
+      <description>Generic connector, single row, 01x02, script generated (kicad-library-utils/schlib/autogen/connector/)</description>
+      <footprints>
+        <fp>Connector*:*_1x??_*</fp>
+      </footprints>
+      <fields>
+        <field name="Reference">J</field>
+        <field name="Value">Conn_01x02</field>
+        <field name="Footprint"/>
+        <field name="Datasheet"/>
+        <field name="Description">Generic connector, single row, 01x02, script generated (kicad-library-utils/schlib/autogen/connector/)</field>
+      </fields>
+      <pins>
+        <pin num="1" name="Pin_1" type="passive"/>
+        <pin num="2" name="Pin_2" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="Connector_Generic" part="Conn_01x06">
+      <description>Generic connector, single row, 01x06, script generated (kicad-library-utils/schlib/autogen/connector/)</description>
+      <footprints>
+        <fp>Connector*:*_1x??_*</fp>
+      </footprints>
+      <fields>
+        <field name="Reference">J</field>
+        <field name="Value">Conn_01x06</field>
+        <field name="Footprint"/>
+        <field name="Datasheet"/>
+        <field name="Description">Generic connector, single row, 01x06, script generated (kicad-library-utils/schlib/autogen/connector/)</field>
+      </fields>
+      <pins>
+        <pin num="1" name="Pin_1" type="passive"/>
+        <pin num="2" name="Pin_2" type="passive"/>
+        <pin num="3" name="Pin_3" type="passive"/>
+        <pin num="4" name="Pin_4" type="passive"/>
+        <pin num="5" name="Pin_5" type="passive"/>
+        <pin num="6" name="Pin_6" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="Connector_Generic" part="Conn_01x08">
+      <description>Generic connector, single row, 01x08, script generated (kicad-library-utils/schlib/autogen/connector/)</description>
+      <footprints>
+        <fp>Connector*:*_1x??_*</fp>
+      </footprints>
+      <fields>
+        <field name="Reference">J</field>
+        <field name="Value">Conn_01x08</field>
+        <field name="Footprint"/>
+        <field name="Datasheet"/>
+        <field name="Description">Generic connector, single row, 01x08, script generated (kicad-library-utils/schlib/autogen/connector/)</field>
+      </fields>
+      <pins>
+        <pin num="1" name="Pin_1" type="passive"/>
+        <pin num="2" name="Pin_2" type="passive"/>
+        <pin num="3" name="Pin_3" type="passive"/>
+        <pin num="4" name="Pin_4" type="passive"/>
+        <pin num="5" name="Pin_5" type="passive"/>
+        <pin num="6" name="Pin_6" type="passive"/>
+        <pin num="7" name="Pin_7" type="passive"/>
+        <pin num="8" name="Pin_8" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="Connector_Generic" part="Conn_01x12">
+      <description>Generic connector, single row, 01x12, script generated (kicad-library-utils/schlib/autogen/connector/)</description>
+      <footprints>
+        <fp>Connector*:*_1x??_*</fp>
+      </footprints>
+      <fields>
+        <field name="Reference">J</field>
+        <field name="Value">Conn_01x12</field>
+        <field name="Footprint"/>
+        <field name="Datasheet"/>
+        <field name="Description">Generic connector, single row, 01x12, script generated (kicad-library-utils/schlib/autogen/connector/)</field>
+      </fields>
+      <pins>
+        <pin num="1" name="Pin_1" type="passive"/>
+        <pin num="2" name="Pin_2" type="passive"/>
+        <pin num="3" name="Pin_3" type="passive"/>
+        <pin num="4" name="Pin_4" type="passive"/>
+        <pin num="5" name="Pin_5" type="passive"/>
+        <pin num="6" name="Pin_6" type="passive"/>
+        <pin num="7" name="Pin_7" type="passive"/>
+        <pin num="8" name="Pin_8" type="passive"/>
+        <pin num="9" name="Pin_9" type="passive"/>
+        <pin num="10" name="Pin_10" type="passive"/>
+        <pin num="11" name="Pin_11" type="passive"/>
+        <pin num="12" name="Pin_12" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="Connector_Generic" part="Conn_02x03_Odd_Even">
+      <description>Generic connector, double row, 02x03, odd/even pin numbering scheme (row 1 odd numbers, row 2 even numbers), script generated (kicad-library-utils/schlib/autogen/connector/)</description>
+      <footprints>
+        <fp>Connector*:*_2x??_*</fp>
+      </footprints>
+      <fields>
+        <field name="Reference">J</field>
+        <field name="Value">Conn_02x03_Odd_Even</field>
+        <field name="Footprint"/>
+        <field name="Datasheet"/>
+        <field name="Description">Generic connector, double row, 02x03, odd/even pin numbering scheme (row 1 odd numbers, row 2 even numbers), script generated (kicad-library-utils/schlib/autogen/connector/)</field>
+      </fields>
+      <pins>
+        <pin num="1" name="Pin_1" type="passive"/>
+        <pin num="2" name="Pin_2" type="passive"/>
+        <pin num="3" name="Pin_3" type="passive"/>
+        <pin num="4" name="Pin_4" type="passive"/>
+        <pin num="5" name="Pin_5" type="passive"/>
+        <pin num="6" name="Pin_6" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="Device" part="C">
+      <description>Unpolarized capacitor</description>
+      <footprints>
+        <fp>C_*</fp>
+      </footprints>
+      <fields>
+        <field name="Reference">C</field>
+        <field name="Value">C</field>
+        <field name="Footprint"/>
+        <field name="Datasheet"/>
+        <field name="Description">Unpolarized capacitor</field>
+      </fields>
+      <pins>
+        <pin num="1" name="" type="passive"/>
+        <pin num="2" name="" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="Device" part="C_Polarized">
+      <description>Polarized capacitor</description>
+      <footprints>
+        <fp>CP_*</fp>
+      </footprints>
+      <fields>
+        <field name="Reference">C</field>
+        <field name="Value">C_Polarized</field>
+        <field name="Footprint"/>
+        <field name="Datasheet"/>
+        <field name="Description">Polarized capacitor</field>
+      </fields>
+      <pins>
+        <pin num="1" name="" type="passive"/>
+        <pin num="2" name="" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="Device" part="R">
+      <description>Resistor</description>
+      <footprints>
+        <fp>R_*</fp>
+      </footprints>
+      <fields>
+        <field name="Reference">R</field>
+        <field name="Value">R</field>
+        <field name="Footprint"/>
+        <field name="Datasheet"/>
+        <field name="Description">Resistor</field>
+      </fields>
+      <pins>
+        <pin num="1" name="" type="passive"/>
+        <pin num="2" name="" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="Transistor_BJT" part="Q_NPN_EBC">
+      <description>NPN transistor, emitter/base/collector</description>
+      <fields>
+        <field name="Reference">Q</field>
+        <field name="Value">Q_NPN_EBC</field>
+        <field name="Footprint"/>
+        <field name="Datasheet"/>
+        <field name="Description">NPN transistor, emitter/base/collector</field>
+        <field name="Sim.Device">NPN</field>
+        <field name="Sim.Pins">1=E 2=B 3=C</field>
+      </fields>
+      <pins>
+        <pin num="1" name="E" type="passive"/>
+        <pin num="2" name="B" type="input"/>
+        <pin num="3" name="C" type="passive"/>
+      </pins>
+    </libpart>
+  </libparts>
+  <libraries>
+    <library logical="Connector_Generic">
+      <uri>${KICAD10_SYMBOL_DIR}/Connector_Generic.kicad_sym</uri>
+    </library>
+    <library logical="Device">
+      <uri>${KICAD10_SYMBOL_DIR}/Device.kicad_sym</uri>
+    </library>
+    <library logical="Transistor_BJT">
+      <uri>${KICAD10_SYMBOL_DIR}/Transistor_BJT.kicad_sym</uri>
+    </library>
+  </libraries>
+  <nets>
+    <net code="1" name="/ADC_BATT" class="Default">
+      <node ref="JM3L1" pin="2" pinfunction="Pin_2_2" pintype="passive"/>
+      <node ref="R5" pin="2" pintype="passive"/>
+    </net>
+    <net code="2" name="/AVR_RESET" class="Default">
+      <node ref="JISP1" pin="5" pinfunction="Pin_5_5" pintype="passive"/>
+      <node ref="JM2L1" pin="3" pinfunction="Pin_3_3" pintype="passive"/>
+      <node ref="JM2R1" pin="3" pinfunction="Pin_3_3" pintype="passive"/>
+    </net>
+    <net code="3" name="/CHARGE_5V" class="Default">
+      <node ref="JPV1" pin="1" pinfunction="Pin_1_1" pintype="passive"/>
+      <node ref="M1" pin="1" pinfunction="Pin_1_1" pintype="passive"/>
+    </net>
+    <net code="4" name="/CHARGE_RETURN" class="Default">
+      <node ref="JPV1" pin="2" pinfunction="Pin_2_2" pintype="passive"/>
+      <node ref="M1" pin="2" pinfunction="Pin_2_2" pintype="passive"/>
+    </net>
+    <net code="5" name="/ESP_3V3" class="Default">
+      <node ref="JM3L1" pin="8" pinfunction="Pin_8_8" pintype="passive"/>
+      <node ref="JP1" pin="2" pinfunction="Pin_2_2" pintype="passive"/>
+      <node ref="R10" pin="1" pintype="passive"/>
+    </net>
+    <net code="6" name="/ESP_D0" class="Default">
+      <node ref="JM3L1" pin="3" pinfunction="Pin_3_3" pintype="passive"/>
+      <node ref="JP2" pin="1" pinfunction="Pin_1_1" pintype="passive"/>
+    </net>
+    <net code="7" name="/ESP_RESET" class="Default">
+      <node ref="JM3L1" pin="1" pinfunction="Pin_1_1" pintype="passive"/>
+      <node ref="JP2" pin="2" pinfunction="Pin_2_2" pintype="passive"/>
+    </net>
+    <net code="8" name="/GND_LOAD" class="Default">
+      <node ref="C2" pin="2" pintype="passive"/>
+      <node ref="C3" pin="2" pintype="passive"/>
+      <node ref="C4" pin="2" pintype="passive"/>
+      <node ref="JBUTTON1" pin="2" pinfunction="Pin_2_2" pintype="passive"/>
+      <node ref="JISP1" pin="6" pinfunction="Pin_6_6" pintype="passive"/>
+      <node ref="JLED1" pin="2" pinfunction="Pin_2_2" pintype="passive"/>
+      <node ref="JM2L1" pin="4" pinfunction="Pin_4_4" pintype="passive"/>
+      <node ref="JM2R1" pin="2" pinfunction="Pin_2_2" pintype="passive"/>
+      <node ref="JM3R1" pin="7" pinfunction="Pin_7_7" pintype="passive"/>
+      <node ref="JU3IN1" pin="2" pinfunction="Pin_2_2" pintype="passive"/>
+      <node ref="JU3OUT1" pin="2" pinfunction="Pin_2_2" pintype="passive"/>
+      <node ref="M1" pin="4" pinfunction="Pin_4_4" pintype="passive"/>
+      <node ref="Q2" pin="1" pinfunction="E_1" pintype="passive"/>
+      <node ref="R4" pin="2" pintype="passive"/>
+      <node ref="R9" pin="2" pintype="passive"/>
+    </net>
+    <net code="9" name="/ISP_MISO" class="Default">
+      <node ref="JISP1" pin="1" pinfunction="Pin_1_1" pintype="passive"/>
+      <node ref="JM2R1" pin="10" pinfunction="Pin_10_10" pintype="passive"/>
+    </net>
+    <net code="10" name="/ISP_MOSI" class="Default">
+      <node ref="JISP1" pin="4" pinfunction="Pin_4_4" pintype="passive"/>
+      <node ref="JM2R1" pin="11" pinfunction="Pin_11_11" pintype="passive"/>
+    </net>
+    <net code="11" name="/ISP_SCK" class="Default">
+      <node ref="JISP1" pin="3" pinfunction="Pin_3_3" pintype="passive"/>
+      <node ref="JM2R1" pin="9" pinfunction="Pin_9_9" pintype="passive"/>
+    </net>
+    <net code="12" name="/LDR_POWER" class="Default">
+      <node ref="JLDR1" pin="1" pinfunction="Pin_1_1" pintype="passive"/>
+      <node ref="JM2L1" pin="10" pinfunction="Pin_10_10" pintype="passive"/>
+    </net>
+    <net code="13" name="/LDR_SENSE" class="Default">
+      <node ref="JLDR1" pin="2" pinfunction="Pin_2_2" pintype="passive"/>
+      <node ref="JM2R1" pin="7" pinfunction="Pin_7_7" pintype="passive"/>
+      <node ref="R4" pin="1" pintype="passive"/>
+    </net>
+    <net code="14" name="/LED_POS" class="Default">
+      <node ref="JLED1" pin="1" pinfunction="Pin_1_1" pintype="passive"/>
+      <node ref="R3" pin="2" pintype="passive"/>
+    </net>
+    <net code="15" name="/PACK_NEG" class="Default">
+      <node ref="JCELL1" pin="2" pinfunction="Pin_2_2" pintype="passive"/>
+      <node ref="M1" pin="6" pinfunction="Pin_6_6" pintype="passive"/>
+    </net>
+    <net code="16" name="/PACK_POS" class="Default">
+      <node ref="JCELL1" pin="1" pinfunction="Pin_1_1" pintype="passive"/>
+      <node ref="M1" pin="5" pinfunction="Pin_5_5" pintype="passive"/>
+    </net>
+    <net code="17" name="/PROTECTED_POS" class="Default">
+      <node ref="JS1" pin="1" pinfunction="Pin_1_1" pintype="passive"/>
+      <node ref="M1" pin="3" pinfunction="Pin_3_3" pintype="passive"/>
+    </net>
+    <net code="18" name="/PWM" class="Default">
+      <node ref="JM2L1" pin="12" pinfunction="Pin_12_12" pintype="passive"/>
+      <node ref="R3" pin="1" pintype="passive"/>
+    </net>
+    <net code="19" name="/REG_3V3" class="Default">
+      <node ref="JP1" pin="1" pinfunction="Pin_1_1" pintype="passive"/>
+      <node ref="JU3OUT1" pin="1" pinfunction="Pin_1_1" pintype="passive"/>
+    </net>
+    <net code="20" name="/SENSE_FEED" class="Default">
+      <node ref="JP3" pin="2" pinfunction="Pin_2_2" pintype="passive"/>
+      <node ref="R5" pin="1" pintype="passive"/>
+    </net>
+    <net code="21" name="/TEST" class="Default">
+      <node ref="JBUTTON1" pin="1" pinfunction="Pin_1_1" pintype="passive"/>
+      <node ref="JM2L1" pin="5" pinfunction="Pin_5_5" pintype="passive"/>
+    </net>
+    <net code="22" name="/UART_BASE" class="Default">
+      <node ref="Q2" pin="2" pinfunction="B_2" pintype="input"/>
+      <node ref="R8" pin="2" pintype="passive"/>
+      <node ref="R9" pin="1" pintype="passive"/>
+    </net>
+    <net code="23" name="/UART_RX_INVERTED" class="Default">
+      <node ref="JM3L1" pin="5" pinfunction="Pin_5_5" pintype="passive"/>
+      <node ref="Q2" pin="3" pinfunction="C_3" pintype="passive"/>
+      <node ref="R10" pin="2" pintype="passive"/>
+    </net>
+    <net code="24" name="/UART_TX" class="Default">
+      <node ref="JM2L1" pin="1" pinfunction="Pin_1_1" pintype="passive"/>
+      <node ref="R8" pin="1" pintype="passive"/>
+    </net>
+    <net code="25" name="/VBAT_SYS" class="Default">
+      <node ref="C2" pin="1" pintype="passive"/>
+      <node ref="C3" pin="1" pintype="passive"/>
+      <node ref="C4" pin="1" pintype="passive"/>
+      <node ref="JISP1" pin="2" pinfunction="Pin_2_2" pintype="passive"/>
+      <node ref="JM2R1" pin="4" pinfunction="Pin_4_4" pintype="passive"/>
+      <node ref="JP3" pin="1" pinfunction="Pin_1_1" pintype="passive"/>
+      <node ref="JS1" pin="2" pinfunction="Pin_2_2" pintype="passive"/>
+      <node ref="JU3IN1" pin="1" pinfunction="Pin_1_1" pintype="passive"/>
+    </net>
+    <net code="26" name="unconnected-(JM2L1-Pin_2-Pad2)" class="Default">
+      <node ref="JM2L1" pin="2" pinfunction="Pin_2_2" pintype="passive+no_connect"/>
+    </net>
+    <net code="27" name="unconnected-(JM2L1-Pin_6-Pad6)" class="Default">
+      <node ref="JM2L1" pin="6" pinfunction="Pin_6_6" pintype="passive+no_connect"/>
+    </net>
+    <net code="28" name="unconnected-(JM2L1-Pin_7-Pad7)" class="Default">
+      <node ref="JM2L1" pin="7" pinfunction="Pin_7_7" pintype="passive+no_connect"/>
+    </net>
+    <net code="29" name="unconnected-(JM2L1-Pin_8-Pad8)" class="Default">
+      <node ref="JM2L1" pin="8" pinfunction="Pin_8_8" pintype="passive+no_connect"/>
+    </net>
+    <net code="30" name="unconnected-(JM2L1-Pin_9-Pad9)" class="Default">
+      <node ref="JM2L1" pin="9" pinfunction="Pin_9_9" pintype="passive+no_connect"/>
+    </net>
+    <net code="31" name="unconnected-(JM2L1-Pin_11-Pad11)" class="Default">
+      <node ref="JM2L1" pin="11" pinfunction="Pin_11_11" pintype="passive+no_connect"/>
+    </net>
+    <net code="32" name="unconnected-(JM2R1-Pin_1-Pad1)" class="Default">
+      <node ref="JM2R1" pin="1" pinfunction="Pin_1_1" pintype="passive+no_connect"/>
+    </net>
+    <net code="33" name="unconnected-(JM2R1-Pin_5-Pad5)" class="Default">
+      <node ref="JM2R1" pin="5" pinfunction="Pin_5_5" pintype="passive+no_connect"/>
+    </net>
+    <net code="34" name="unconnected-(JM2R1-Pin_6-Pad6)" class="Default">
+      <node ref="JM2R1" pin="6" pinfunction="Pin_6_6" pintype="passive+no_connect"/>
+    </net>
+    <net code="35" name="unconnected-(JM2R1-Pin_8-Pad8)" class="Default">
+      <node ref="JM2R1" pin="8" pinfunction="Pin_8_8" pintype="passive+no_connect"/>
+    </net>
+    <net code="36" name="unconnected-(JM2R1-Pin_12-Pad12)" class="Default">
+      <node ref="JM2R1" pin="12" pinfunction="Pin_12_12" pintype="passive+no_connect"/>
+    </net>
+    <net code="37" name="unconnected-(JM3L1-Pin_4-Pad4)" class="Default">
+      <node ref="JM3L1" pin="4" pinfunction="Pin_4_4" pintype="passive+no_connect"/>
+    </net>
+    <net code="38" name="unconnected-(JM3L1-Pin_6-Pad6)" class="Default">
+      <node ref="JM3L1" pin="6" pinfunction="Pin_6_6" pintype="passive+no_connect"/>
+    </net>
+    <net code="39" name="unconnected-(JM3L1-Pin_7-Pad7)" class="Default">
+      <node ref="JM3L1" pin="7" pinfunction="Pin_7_7" pintype="passive+no_connect"/>
+    </net>
+    <net code="40" name="unconnected-(JM3R1-Pin_1-Pad1)" class="Default">
+      <node ref="JM3R1" pin="1" pinfunction="Pin_1_1" pintype="passive+no_connect"/>
+    </net>
+    <net code="41" name="unconnected-(JM3R1-Pin_2-Pad2)" class="Default">
+      <node ref="JM3R1" pin="2" pinfunction="Pin_2_2" pintype="passive+no_connect"/>
+    </net>
+    <net code="42" name="unconnected-(JM3R1-Pin_3-Pad3)" class="Default">
+      <node ref="JM3R1" pin="3" pinfunction="Pin_3_3" pintype="passive+no_connect"/>
+    </net>
+    <net code="43" name="unconnected-(JM3R1-Pin_4-Pad4)" class="Default">
+      <node ref="JM3R1" pin="4" pinfunction="Pin_4_4" pintype="passive+no_connect"/>
+    </net>
+    <net code="44" name="unconnected-(JM3R1-Pin_5-Pad5)" class="Default">
+      <node ref="JM3R1" pin="5" pinfunction="Pin_5_5" pintype="passive+no_connect"/>
+    </net>
+    <net code="45" name="unconnected-(JM3R1-Pin_6-Pad6)" class="Default">
+      <node ref="JM3R1" pin="6" pinfunction="Pin_6_6" pintype="passive+no_connect"/>
+    </net>
+    <net code="46" name="unconnected-(JM3R1-Pin_8-Pad8)" class="Default">
+      <node ref="JM3R1" pin="8" pinfunction="Pin_8_8" pintype="passive+no_connect"/>
+    </net>
+  </nets>
+</export>

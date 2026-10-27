@@ -1,0 +1,19 @@
+{
+  "status": "EXPORTED_FILES_PASS_SUPPLIER_DFM_NOT_RUN",
+  "outline_mm": [
+    74,
+    51.5
+  ],
+  "closed_outline_segments": 4,
+  "PTH_holes": 109,
+  "NPTH_holes": 3,
+  "NPTH_diameter_mm": 3.2,
+  "zip_files": 10,
+  "checks": [
+    "Closed correctly sized outline",
+    "Gerber layer identities",
+    "Three correct mounting-hole locations",
+    "Plated drill counts and tool sizes",
+    "ZIP CRC and exact file equality"
+  ]
+}

@@ -51,12 +51,11 @@ sync from the D1 Mini. Watch the added standby current.
 
 ## A carrier PCB
 
-Once your modules are fixed, a two-layer carrier board can replace perfboard:
-sockets for the Pro Mini and D1 Mini, screw terminals, fuse holders, labelled
-rails, test points and footprints for the Q2 interface. Keep the ESP8266
-antenna at the board edge, and keep LED return current away from the LDR and
-ADC ground. The KiCad schematic in [`hardware/kicad/`](../hardware/kicad/) is
-the starting point; it needs footprints and a layout.
+The two-layer carrier board is now part of the build: see
+[PCB carrier](13-pcb-carrier.md). It sockets the Pro Mini and D1 Mini, carries
+the TP4056 charger and replaces the perfboard. A next revision could add
+on-board fuse holders, test points, a cell-temperature input and an SMD
+version of the passives.
 
 ## Lower-power telemetry
 

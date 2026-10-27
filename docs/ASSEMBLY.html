@@ -23,7 +23,7 @@ section{margin-bottom:26px}.card strong{font-size:26px;display:block}.card p{fon
 .hold{padding:18px 24px;margin:0 0 24px;border-radius:8px;background:#fff8e9;border-left:5px solid #c38325}
 .hold p{margin:6px 0;max-width:none}
 hr{border:0;border-top:1px solid #e3eaee;margin:30px 0}
-figure{margin:24px 0}figcaption{font-size:14px;color:var(--muted);margin-top:8px}
+section img{max-width:100%;height:auto;border-radius:8px}figure{margin:24px 0}figcaption{font-size:14px;color:var(--muted);margin-top:8px}
 .drawing{overflow:auto;border:1px solid #e0e7eb;border-radius:8px;background:white}
 .drawing svg,.drawing img{width:100%;height:auto;min-width:900px;display:block}
 pre{overflow:auto;background:#10293d;color:#edf7fb;border-radius:8px;padding:16px 20px;font:14px/1.55 ui-monospace,SFMono-Regular,Consolas,monospace}
@@ -46,7 +46,7 @@ section{break-before:page;border:0;padding:0}a{color:inherit}pre{color:#000;back
 <h1>Low-power solar lights,<br>built one module at a time.</h1>
 <span class="badge">v0.6.0 · MODULES A–F · TELEMETRY TIERS 0–2 · GATES 0–8</span>
 <p>A small panel charges a protected Li-ion battery; an ATmega328P sleeps most of the time, detects dusk with a light sensor, and runs a low-power LED string from dusk to dawn. An optional Wemos D1 Mini reports it all to Home Assistant. Every module is built and tested on its own, so the project doubles as a hands-on course in soldering, microelectronics, embedded code and home automation.</p>
-<nav><a href="#d01" title="01 – Design overview">Overview</a><a href="#d02" title="02 – Parts, tools, skills and safety">Parts and safety</a><a href="#d03" title="03 – Module A: power, charging and battery">A · Power</a><a href="#d04" title="04 – Module B: controller">B · Controller</a><a href="#d05" title="05 – Module C: low-power lighting">C · Lighting</a><a href="#d06" title="06 – Module D: light sensor and test button">D · Sensor</a><a href="#d07" title="07 – Module E: telemetry hardware">E · Telemetry</a><a href="#d08" title="08 – Controller firmware: build, fuses, flash and diagnostics">Firmware</a><a href="#d09" title="09 – Home Assistant and ESPHome telemetry">Home Assistant</a><a href="#d10" title="10 – Commissioning: test gates and final assembly">Commissioning</a><a href="#d11" title="11 – Operation and maintenance">Operation</a><a href="#d12" title="12 – Going further">Going further</a><a href="#wires">Wire schedule</a><a href="#parts">Parts checklist</a><a class="pdf" href="drawings/SolarLights_Lite_Drawings.pdf">A3 drawings (PDF)</a></nav>
+<nav><a href="#d01" title="01 – Design overview">Overview</a><a href="#d02" title="02 – Parts, tools, skills and safety">Parts and safety</a><a href="#d03" title="03 – Module A: power, charging and battery">A · Power</a><a href="#d04" title="04 – Module B: controller">B · Controller</a><a href="#d05" title="05 – Module C: low-power lighting">C · Lighting</a><a href="#d06" title="06 – Module D: light sensor and test button">D · Sensor</a><a href="#d07" title="07 – Module E: telemetry hardware">E · Telemetry</a><a href="#d08" title="08 – Controller firmware: build, fuses, flash and diagnostics">Firmware</a><a href="#d09" title="09 – Home Assistant and ESPHome telemetry">Home Assistant</a><a href="#d10" title="10 – Commissioning: test gates and final assembly">Commissioning</a><a href="#d11" title="11 – Operation and maintenance">Operation</a><a href="#d12" title="12 – Going further">Going further</a><a href="#d13" title="13 – PCB carrier">PCB carrier</a><a href="#wires">Wire schedule</a><a href="#parts">Parts checklist</a><a class="pdf" href="drawings/SolarLights_Lite_Drawings.pdf">A3 drawings (PDF)</a></nav>
 </header>
 <main>
 <div class="cards">
@@ -10221,20 +10221,381 @@ into a true energy balance.</p>
 only" schedule would need real time: a DS3231 RTC on the controller, or a time
 sync from the D1 Mini. Watch the added standby current.</p>
 <h3 id="d12-a-carrier-pcb">A carrier PCB</h3>
-<p>Once your modules are fixed, a two-layer carrier board can replace perfboard:
-sockets for the Pro Mini and D1 Mini, screw terminals, fuse holders, labelled
-rails, test points and footprints for the Q2 interface. Keep the ESP8266
-antenna at the board edge, and keep LED return current away from the LDR and
-ADC ground. The KiCad schematic in <a href="../hardware/kicad/"><code>hardware/kicad/</code></a> is
-the starting point; it needs footprints and a layout.</p>
+<p>The two-layer carrier board is now part of the build: see
+<a href="#d13">PCB carrier</a>. It sockets the Pro Mini and D1 Mini, carries
+the TP4056 charger and replaces the perfboard. A next revision could add
+on-board fuse holders, test points, a cell-temperature input and an SMD
+version of the passives.</p>
 <h3 id="d12-lower-power-telemetry">Lower-power telemetry</h3>
 <p>An ESP32-C3 or similar module has a much lower deep-sleep current than an
 ESP8266 D1 Mini and can run directly from a 3.3 V buck-boost. The serial
-protocol and Home Assistant side would stay the same.</p><p class="top"><a href="#top">Back to top</a></p></section>
+protocol and Home Assistant side would stay the same.</p><p class="top"><a href="#top">Back to top</a></p></section><section id="d13"><h2 id="d13-13-–-pcb-carrier">13 – PCB carrier</h2>
+<p><strong>Design files:</strong> <a href="../hardware/pcb-rev-b/"><code>hardware/pcb-rev-b/</code></a> (KiCad 10).
+<strong>Fit check:</strong> <a href="../hardware/pcb-rev-b/review/fit-sheet-A4.pdf"><code>fit-sheet-A4.pdf</code></a>.
+<strong>Review pack:</strong> <a href="../hardware/pcb-rev-b/review/pcb-review.pdf"><code>pcb-review.pdf</code></a>.</p>
+<p>The carrier PCB replaces the perfboard from guides 04–07. The Pro Mini (M2)
+and D1 Mini (M3) plug into sockets, and the TP4056 charger (M1) solders
+directly onto the board. Every external connection is a 2.54 mm pin header.
+The circuit, firmware and ESPHome configuration are the same as in the wired
+build, so modules A–F, tiers 0/1/2 and gates 0–8 all still apply.</p>
+<p><strong>What you will learn:</strong> how to read a two-layer board, check that a board
+fits before you order it, order bare boards from a fabrication service,
+assemble through-hole parts in a sensible order, and test a populated board
+before any module goes in.</p>
+<p><img alt="Rev B carrier with pin headers fitted, angled view" src="images/pcb/carrier-angled.png" /></p>
+<p><em>Rev B rendered with every pin header and passive part fitted. The three
+modules are not drawn: M2 and M3 plug into the black sockets, and M1 sits
+inside the outline at top right.</em></p>
+<hr />
+<h3 id="d13-the-board-at-a-glance">The board at a glance</h3>
+<div class="scroll"><table>
+<thead>
+<tr>
+<th style="text-align: left;">Item</th>
+<th style="text-align: left;">Rev B</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">Size</td>
+<td style="text-align: left;">74 × 51.5 mm, two layers, 1.6 mm FR-4, 1 oz</td>
+</tr>
+<tr>
+<td style="text-align: left;">Parts</td>
+<td style="text-align: left;">All through-hole; no SMD soldering</td>
+</tr>
+<tr>
+<td style="text-align: left;">M2 Pro Mini</td>
+<td style="text-align: left;">Two 12-way sockets, serial-header end up</td>
+</tr>
+<tr>
+<td style="text-align: left;">M3 D1 Mini</td>
+<td style="text-align: left;">Two 8-way sockets; antenna overhangs the top edge</td>
+</tr>
+<tr>
+<td style="text-align: left;">M1 TP4056</td>
+<td style="text-align: left;">Six wire links through overlay holes, USB-C up</td>
+</tr>
+<tr>
+<td style="text-align: left;">External links</td>
+<td style="text-align: left;">Eight 2-pin headers along the bottom edge</td>
+</tr>
+<tr>
+<td style="text-align: left;">Tier links</td>
+<td style="text-align: left;">JP1–JP3, 2-pin headers with shunts</td>
+</tr>
+<tr>
+<td style="text-align: left;">Programming</td>
+<td style="text-align: left;"><code>JISP1</code> 2 × 3 AVR ISP header</td>
+</tr>
+<tr>
+<td style="text-align: left;">Mounting</td>
+<td style="text-align: left;">Three 3.2 mm holes, no copper near them</td>
+</tr>
+</tbody>
+</table></div>
+<p>The silkscreen shows each module's true outline, with its pin names beside
+every socket hole. That makes a reversed module easy to spot. Turning M2 or
+M3 through 180° puts signals on the wrong pins, so always match the module
+to the outline and the <code>SERIAL END</code> / <code>ANTENNA END</code> marks.</p>
+<p><img alt="Rev B carrier, top view" src="images/pcb/carrier-top.png" /></p>
+<hr />
+<h3 id="d13-design-decisions">Design decisions</h3>
+<ul>
+<li><strong>B– is not ground.</strong> On the board, <code>PACK_NEG</code> (B–) is its own net and
+  never joins <code>GND_LOAD</code>. Only M1 OUT– is the load return, exactly as in
+  guide 03.</li>
+<li><strong>The antenna overhangs the board.</strong> M3's antenna end sticks out past the
+  top edge, so there is no copper under it. The cost is that M3's
+  micro-USB faces into the board. A right-angle micro-USB adapter, or
+  ESPHome over-the-air updates, avoids the tight spot above JP2/JP3.</li>
+<li><strong>There are no fuses on the board.</strong> Fit the cell fuses FB1/FB2 inline at
+  the cell holder as in <a href="#d03-3-prepare-the-cells">guide 03, step 3</a>.
+  The copper between <code>JCELL1</code> and M1 is upstream of the module's protection,
+  so a bridge there shorts the cells directly. For F2, fit a 1 A inline fuse
+  in the S1 lead.</li>
+<li><strong>Small parts sit under the modules.</strong> R3, R4 and C4 are under M2; R5, R8,
+  R9, R10 and Q2 are under M3. With 8.5 mm sockets there is about 6 mm of
+  room, so keep these parts seated flat and low.</li>
+<li><strong>U0 and U3 stay off the board.</strong> Each one connects through its own pair of
+  pins: <code>PV</code> for U0's 5 V output and <code>U3 IN</code> / <code>U3 OUT</code> for U3.</li>
+</ul>
+<p><img alt="Rev B carrier, bottom view" src="images/pcb/carrier-bottom.png" /></p>
+<p><em>Bottom view, mirrored as seen from underneath.</em></p>
+<hr />
+<h3 id="d13-connections">Connections</h3>
+<p>Pin 1 of every pair is on the left, on the square pad.</p>
+<div class="scroll"><table>
+<thead>
+<tr>
+<th style="text-align: left;">Header</th>
+<th style="text-align: left;">Pin 1</th>
+<th style="text-align: left;">Pin 2</th>
+<th style="text-align: left;">Connects to</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><code>JLED1</code></td>
+<td style="text-align: left;">LED +</td>
+<td style="text-align: left;">–</td>
+<td style="text-align: left;">Low-power LED string</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>JLDR1</code></td>
+<td style="text-align: left;">D7 supply</td>
+<td style="text-align: left;">A1 sense</td>
+<td style="text-align: left;">Remote LDR across the two pins</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>JBUTTON1</code></td>
+<td style="text-align: left;">D2</td>
+<td style="text-align: left;">–</td>
+<td style="text-align: left;">Normally-open test button</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>JU3IN1</code></td>
+<td style="text-align: left;"><code>VBAT_SYS</code></td>
+<td style="text-align: left;">–</td>
+<td style="text-align: left;">U3 input (Tier 2)</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>JU3OUT1</code></td>
+<td style="text-align: left;">U3 3.3 V</td>
+<td style="text-align: left;">–</td>
+<td style="text-align: left;">U3 output (Tier 2)</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>JS1</code></td>
+<td style="text-align: left;">M1 OUT+</td>
+<td style="text-align: left;"><code>VBAT_SYS</code></td>
+<td style="text-align: left;">S1 service switch</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>JCELL1</code></td>
+<td style="text-align: left;">B+</td>
+<td style="text-align: left;">B–</td>
+<td style="text-align: left;">Fused 1S2P cells</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>JPV1</code></td>
+<td style="text-align: left;">Charger 5 V</td>
+<td style="text-align: left;">Charger –</td>
+<td style="text-align: left;">U0 output, or an Option A panel</td>
+</tr>
+</tbody>
+</table></div>
+<div class="scroll"><table>
+<thead>
+<tr>
+<th style="text-align: left;">Tier</th>
+<th style="text-align: left;">Fit</th>
+<th style="text-align: left;">JP1</th>
+<th style="text-align: left;">JP2</th>
+<th style="text-align: left;">JP3</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">0</td>
+<td style="text-align: left;">M1, M2, C3, C4, R3, R4, headers</td>
+<td style="text-align: left;">Open</td>
+<td style="text-align: left;">Open</td>
+<td style="text-align: left;">Open</td>
+</tr>
+<tr>
+<td style="text-align: left;">1</td>
+<td style="text-align: left;">Add M3, Q2, R5, R8, R9, R10</td>
+<td style="text-align: left;"><strong>Open</strong></td>
+<td style="text-align: left;">Open to flash</td>
+<td style="text-align: left;">Closed while powered</td>
+</tr>
+<tr>
+<td style="text-align: left;">2</td>
+<td style="text-align: left;">Add C2 and U3 wiring; production firmware</td>
+<td style="text-align: left;">Closed, no USB</td>
+<td style="text-align: left;">Closed</td>
+<td style="text-align: left;">Closed</td>
+</tr>
+</tbody>
+</table></div>
+<p>There is no automatic interlock between USB and battery power. Never close
+JP1 while M3 is powered from USB. Remove JP3 whenever M3 is unpowered.</p>
+<hr />
+<h3 id="d13-before-you-order">Before you order</h3>
+<ol>
+<li>Print <a href="../hardware/pcb-rev-b/review/fit-sheet-A4.pdf"><code>fit-sheet-A4.pdf</code></a>
+   at <strong>100 %</strong> (scaling off) and check the 50 mm calibration line.</li>
+<li>Lay the real M2, M3 and M1 on the sheet. Every pin and hole should sit
+   on its printed mark, with the D1 Mini's antenna end up and the TP4056's
+   USB-C end up.</li>
+<li>Upload <code>SolarLights_Carrier_RevB_fabrication_REVIEW.zip</code> only. The
+   options are 2 layers, FR-4, 1.6 mm, 1 oz copper, HASL (lead-free if
+   offered), any mask colour, top silkscreen, no assembly.</li>
+<li>Compare the fabrication service's preview with
+   <a href="images/pcb/carrier-top.png">the top render</a>: outline, three mounting holes,
+   pad names and the square pin-1 pads.</li>
+</ol>
+<hr />
+<h3 id="d13-parts-for-the-board">Parts for the board</h3>
+<p>The <a href="../hardware/pcb-rev-b/review/assembly-bom.csv">assembly BOM</a> lists every
+reference with its tier. In addition to the values already in
+<a href="#d02">guide 02</a>:</p>
+<div class="scroll"><table>
+<thead>
+<tr>
+<th style="text-align: left;">Part</th>
+<th style="text-align: left;">Qty</th>
+<th style="text-align: left;">For</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">1 × 12 female socket, 8.5 mm</td>
+<td style="text-align: left;">2</td>
+<td style="text-align: left;">M2 Pro Mini</td>
+</tr>
+<tr>
+<td style="text-align: left;">1 × 8 female socket, 8.5 mm</td>
+<td style="text-align: left;">2</td>
+<td style="text-align: left;">M3 D1 Mini (Tiers 1, 2)</td>
+</tr>
+<tr>
+<td style="text-align: left;">1 × 2 male header, 2.54 mm</td>
+<td style="text-align: left;">11</td>
+<td style="text-align: left;">Eight pairs, JP1–JP3</td>
+</tr>
+<tr>
+<td style="text-align: left;">2 × 3 male header, 2.54 mm</td>
+<td style="text-align: left;">1</td>
+<td style="text-align: left;"><code>JISP1</code></td>
+</tr>
+<tr>
+<td style="text-align: left;">2.54 mm shunt</td>
+<td style="text-align: left;">3</td>
+<td style="text-align: left;">JP1–JP3</td>
+</tr>
+<tr>
+<td style="text-align: left;">Tinned wire or cut resistor leads</td>
+<td style="text-align: left;">6</td>
+<td style="text-align: left;">M1 links</td>
+</tr>
+<tr>
+<td style="text-align: left;">M3 standoffs and screws</td>
+<td style="text-align: left;">3</td>
+<td style="text-align: left;">Mounting</td>
+</tr>
+</tbody>
+</table></div>
+<hr />
+<h3 id="d13-assembly">Assembly</h3>
+<p>Solder from the lowest parts to the tallest, so each part is held flat by
+the bench while you solder it. Check each joint for a shiny fillet on both
+sides of the board.</p>
+<h4 id="d13-1-resistors">1. Resistors</h4>
+<p>Fit R3 (47 Ω), R4 (47 k) and, for Tiers 1 and 2, R5 (220 k), R8 (47 k),
+R9 (100 k) and R10 (10 k). Seat them flat and trim the leads short:
+they sit under the modules. Keep two or three cut leads for M1.</p>
+<h4 id="d13-2-small-capacitor-and-transistor">2. Small capacitor and transistor</h4>
+<p>Fit C4 (100 nF). For Tiers 1 and 2, fit Q2 (2N3904) with its flat face
+matching the outline and E on the square pad. Push it down until the body
+is about 2 mm above the board, so M3 clears it.</p>
+<h4 id="d13-3-electrolytic-capacitors">3. Electrolytic capacitors</h4>
+<p>Fit C3 (100 µF) and, for Tier 2, C2 (470 µF). The stripe marks the
+negative lead; the <code>+</code> on the silkscreen marks the positive pad.</p>
+<h4 id="d13-4-pin-headers">4. Pin headers</h4>
+<p>Fit the eight bottom-edge pairs, JP1–JP3 and <code>JISP1</code>. Tack one pin, check
+the header is square to the board, then solder the rest. For a permanent
+outdoor install, you can solder the cell, PV and S1 wires straight into the
+pads instead.</p>
+<h4 id="d13-5-module-sockets">5. Module sockets</h4>
+<p>Plug the sockets onto the modules' own pins, set the modules in place, and
+tack the corner pins. This keeps the rows parallel at the right spacing.
+Remove the modules, then solder every socket pin. Fit the M3 sockets only
+for Tiers 1 and 2.</p>
+<h4 id="d13-6-tp4056-charger-m1">6. TP4056 charger M1</h4>
+<ol>
+<li>Replace the PROG resistor for 100–150 mA
+   (<a href="#d03-2-set-the-charge-current">guide 03, step 2</a>) before
+   fitting the module.</li>
+<li>Meter the module: IN– to OUT– is usually joined, and B– must not be
+   joined to OUT–.</li>
+<li>Push a cut lead through each of the six module holes and its carrier hole.
+   Stand the module about 2 mm proud, with USB-C at the top edge.</li>
+<li>Solder each link on both boards, then trim it.</li>
+</ol>
+<h4 id="d13-7-inspect-and-clean">7. Inspect and clean</h4>
+<p>Inspect every joint with a loupe, especially between the close pins of M1's
+bottom row (OUT–, B–, B+, OUT+). Clean off flux. A conformal coating over
+the bottom side, away from the sockets and headers, protects the unfused
+cell copper from moisture.</p>
+<hr />
+<h3 id="d13-test-before-the-modules-go-in">Test before the modules go in</h3>
+<p>With M2 and M3 out and nothing connected, measure with a meter:</p>
+<ul>
+<li class="check">No short between <code>VBAT_SYS</code> (<code>JS1</code> pin 2) and any <code>–</code> pin.</li>
+<li class="check">No short between B+ and B– at <code>JCELL1</code>.</li>
+<li class="check">B– (<code>JCELL1</code> pin 2) is <strong>not</strong> joined to any <code>–</code> pin.</li>
+<li class="check"><code>JS1</code> pin 1 and pin 2 are not joined: S1 open isolates the rail.</li>
+<li class="check">JP1 and JP3 pins are not joined without their shunts.</li>
+<li class="check">M2 socket VCC to <code>VBAT_SYS</code>, and M2 socket GND to <code>–</code>, are continuous.</li>
+</ul>
+<p>Then fit M2 (serial-header end up) and program it in circuit through
+<code>JISP1</code>. Open S1 first. Use 3.3 V signalling, and either set the programmer
+to supply no power or keep S1 open while it does
+(<a href="#d08-wire-the-programmer">guide 08</a>).</p>
+<p>From here, follow the gates in <a href="#d10">commissioning</a> exactly
+as for the wired build: Gate 0 inspection, Gate 1 on a bench supply, and so on.
+For Tiers 1 and 2, fit M3 antenna end up, matching the outline.</p>
+<hr />
+<h3 id="d13-what-can-go-wrong">What can go wrong</h3>
+<div class="scroll"><table>
+<thead>
+<tr>
+<th style="text-align: left;">Symptom</th>
+<th style="text-align: left;">Likely cause</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">Programmer cannot read the signature</td>
+<td style="text-align: left;">M2 reversed; S1 closed with programmer power; 5 V I/O</td>
+</tr>
+<tr>
+<td style="text-align: left;">D1 Mini or U3 damaged</td>
+<td style="text-align: left;">M3 turned 180°, or JP1 closed with USB connected</td>
+</tr>
+<tr>
+<td style="text-align: left;">Battery reading wrong or stuck</td>
+<td style="text-align: left;">JP3 open, or R5 / R9 values swapped</td>
+</tr>
+<tr>
+<td style="text-align: left;">No telemetry lines</td>
+<td style="text-align: left;">Q2 reversed (E must be on the square pad)</td>
+</tr>
+<tr>
+<td style="text-align: left;">Module will not seat</td>
+<td style="text-align: left;">Q2, C4 or a resistor standing too tall under it</td>
+</tr>
+<tr>
+<td style="text-align: left;">Cells drain with the switch open</td>
+<td style="text-align: left;">Bridge between B+ / B– copper; clean and re-inspect</td>
+</tr>
+<tr>
+<td style="text-align: left;">IDC programming cable will not fit</td>
+<td style="text-align: left;">2 × 3 IDC plug clashes with M2's socket: use leads</td>
+</tr>
+</tbody>
+</table></div>
+<hr />
+<h3 id="d13-rev-a">Rev A</h3>
+<p><a href="../hardware/pcb-rev-a/"><code>hardware/pcb-rev-a/</code></a> is an earlier 100 × 80 mm
+carrier. It has screw terminals and fuse F2 on the board, but M1 and the
+cell fuses stay off it. Rev B is the board to build. Rev A remains for reference.</p><p class="top"><a href="#top">Back to top</a></p></section>
 <section id="wires"><h2>Wire schedule</h2><p>Every terminal in a row belongs to the same external net. Read the actual module pad labels and transistor pin order before soldering. <a href="wire-schedule.csv">CSV checklist</a> · <a href="netlist.json">Wiring model (JSON)</a></p><div class="scroll"><table><thead><tr><th>Net</th><th>Connect these terminals together</th><th>Notes</th></tr></thead><tbody><tr><td>PV_POS</td><td>PV1.+; U0.IN+</td><td>Option A panels: PV1 + connects straight to M1 IN+ (no U0)</td></tr><tr><td>PV_RETURN</td><td>PV1.-; U0.IN-</td><td>Option A panels: PV1 - connects straight to M1 IN-</td></tr><tr><td>CHARGE_5V</td><td>U0.OUT+; M1.IN+</td><td></td></tr><tr><td>CHARGE_RETURN</td><td>U0.OUT-; M1.IN-</td><td></td></tr><tr><td>CELL1_POS</td><td>BT1.+; FB1.1</td><td></td></tr><tr><td>CELL2_POS</td><td>BT2.+; FB2.1</td><td></td></tr><tr><td>PACK_POS</td><td>FB1.2; FB2.2; M1.B+</td><td></td></tr><tr><td>PACK_NEG</td><td>BT1.-; BT2.-; M1.B-</td><td>NO bridge to OUT- / GND_LOAD</td></tr><tr><td>PROTECTED_POS</td><td>M1.OUT+; F2.1</td><td></td></tr><tr><td>FUSED_POS</td><td>F2.2; S1.1</td><td></td></tr><tr><td>VBAT_SYS</td><td>S1.2; M2.VCC; C3.+; C4.1; U3.VIN; C2.+; R5.1</td><td></td></tr><tr><td>GND_LOAD</td><td>M1.OUT-; M2.GND; C3.-; C4.2; JLED.-; R4.2; SW1.2; U3.GND; C2.-; M3.G; Q2.E; R9.2</td><td></td></tr><tr><td>PWM</td><td>M2.D9; R3.1</td><td></td></tr><tr><td>LED_POS</td><td>R3.2; JLED.+</td><td></td></tr><tr><td>LDR_POWER</td><td>M2.D7; LDR1.1</td><td></td></tr><tr><td>LDR_SENSE</td><td>LDR1.2; R4.1; M2.A1</td><td></td></tr><tr><td>TEST</td><td>M2.D2; SW1.1</td><td></td></tr><tr><td>UART_TX</td><td>M2.D1/TX; R8.1</td><td></td></tr><tr><td>UART_BASE</td><td>R8.2; R9.1; Q2.B</td><td></td></tr><tr><td>UART_RX_INVERTED</td><td>Q2.C; R10.2; M3.D6</td><td></td></tr><tr><td>ESP_3V3</td><td>U3.VOUT; M3.3V3; R10.1</td><td>Tier 2 only; in Tier 1 the D1 Mini runs from USB and U3 VOUT is open</td></tr><tr><td>ADC_BATT</td><td>R5.2; M3.A0</td><td></td></tr><tr><td>WAKE</td><td>M3.D0; M3.RST</td><td>Tier 2 deep-sleep wake</td></tr></tbody></table></div><p class="top"><a href="#top">Back to top</a></p></section>
 <section id="parts"><h2>Parts checklist</h2><p><a href="parts-list.csv">CSV checklist</a> with a "have it?" column for printing.</p><div class="scroll"><table><thead><tr><th>Module</th><th>Ref</th><th>Part / value</th><th>Qty</th><th>Notes</th></tr></thead><tbody><tr><td>A</td><td>PV1</td><td>Solar panel ~1-2 W (reference: AS102-0712A 1.2 W)</td><td>1</td><td>Measure open-circuit voltage (Voc) cold and in full sun to choose Option A or B</td></tr><tr><td>A</td><td>U0</td><td>5 V buck module (e.g. MP1584EN)</td><td>1</td><td>Option B panels only (Voc above 6.5 V). Set to 5.00 V and check reverse leakage before connecting M1. Not a linear regulator; not the TPS63802</td></tr><tr><td>A</td><td>M1</td><td>Protected TP4056-family charger module (TP4056/TC4056 + DW01A + 8205A)</td><td>1</td><td>Six labelled pads IN+/IN-/B+/B-/OUT+/OUT-. Change PROG for 100-150 mA charge</td></tr><tr><td>A</td><td>BT1 / BT2</td><td>18650 Li-ion cell</td><td>2</td><td>Matched type/age/capacity/state of charge; 1S2P; or one protected 1S2P pack</td></tr><tr><td>A</td><td>-</td><td>Insulated 2-cell parallel holder</td><td>1</td><td>No soldering to bare cell cans</td></tr><tr><td>A</td><td>FB1 / FB2</td><td>1 A fuse and holder</td><td>2</td><td>One per cell positive lead before the parallel junction</td></tr><tr><td>A</td><td>F2</td><td>1 A fuse and holder</td><td>1</td><td>In series after M1 OUT+</td></tr><tr><td>A</td><td>S1</td><td>SPST service switch</td><td>1</td><td>After F2; breaks the protected rail</td></tr><tr><td>B</td><td>M2</td><td>ATmega328P Pro Mini-class board (reference: BTE13-010A)</td><td>1</td><td>Remove regulator and power LED; set fuses for internal 8 MHz; flashed over ISP</td></tr><tr><td>B</td><td>C3</td><td>100 uF electrolytic 10 V</td><td>1</td><td>Across M2 VCC/GND</td></tr><tr><td>B</td><td>C4</td><td>100 nF ceramic</td><td>1</td><td>Across M2 VCC/GND</td></tr><tr><td>C</td><td>R3</td><td>47 ohm 1/4 W resistor</td><td>1</td><td>At the controller end of the LED cable; 56 ohm if current exceeds 22 mA at 4.20 V</td></tr><tr><td>C</td><td>JLED</td><td>Low-power LED string</td><td>1</td><td>About 2.5-3 V forward and 20 mA or less in total; driven directly by PWM from D9</td></tr><tr><td>D</td><td>LDR1</td><td>Light-dependent resistor</td><td>1</td><td>Shade it from the LEDs; must see the sky</td></tr><tr><td>D</td><td>R4</td><td>47 kohm resistor</td><td>1</td><td>LDR divider lower resistor (A1 to OUT-)</td></tr><tr><td>D</td><td>SW1</td><td>Momentary push button (normally open)</td><td>1</td><td>D2 to OUT-; 60 s test</td></tr><tr><td>E</td><td>M3</td><td>Wemos D1 Mini (ESP8266)</td><td>1</td><td>Telemetry tiers 1 and 2</td></tr><tr><td>E</td><td>U3</td><td>TPS63802 3.3 V buck-boost breakout (e.g. HL802A)</td><td>1</td><td>VIN from VBAT_SYS; OUT to D1 3V3 in Tier 2 only</td></tr><tr><td>E</td><td>C2</td><td>470 uF electrolytic 10 V</td><td>1</td><td>At U3 input</td></tr><tr><td>E</td><td>Q2</td><td>2N3904 NPN transistor (or BC547-BC550)</td><td>1</td><td>Serial inverter and level shifter; check the E-B-C pin order of your part</td></tr><tr><td>E</td><td>R8</td><td>47 kohm resistor</td><td>1</td><td>Controller D1/TX to Q2 base</td></tr><tr><td>E</td><td>R9</td><td>100 kohm resistor</td><td>1</td><td>Q2 base to emitter (OUT-)</td></tr><tr><td>E</td><td>R10</td><td>10 kohm resistor</td><td>1</td><td>Q2 collector to D1 Mini 3V3; collector also to D6</td></tr><tr><td>E</td><td>R5</td><td>220 kohm resistor</td><td>1</td><td>VBAT_SYS to D1 Mini A0</td></tr><tr><td>F</td><td>-</td><td>Weatherproof enclosure with cable glands</td><td>1</td><td>Shaded; cells separated from heat; antenna clear of metal and cells</td></tr><tr><td>F</td><td>-</td><td>Perfboard or stripboard carrier</td><td>1</td><td>Socket every module</td></tr><tr><td>F</td><td>-</td><td>Female headers and screw terminals</td><td>-</td><td>Keep modules replaceable</td></tr><tr><td>Tools</td><td>-</td><td>USBasp programmer (or Arduino Uno/Nano as ISP)</td><td>1</td><td>One-time fuses and every firmware update</td></tr><tr><td>Tools</td><td>-</td><td>Current-limited bench supply</td><td>1</td><td>Controller and LED tests without a battery</td></tr><tr><td>Tools</td><td>-</td><td>Multimeter</td><td>1</td><td>Every commissioning gate</td></tr></tbody></table></div><p class="top"><a href="#top">Back to top</a></p></section>
 </main>
-<footer>Generated by tools/make_guide.py from docs/01–12, the drawings and the CSV files. Edit the Markdown, then regenerate. Diagrams render with Mermaid when online.</footer>
+<footer>Generated by tools/make_guide.py from docs/01–13, the drawings and the CSV files. Edit the Markdown, then regenerate. Diagrams render with Mermaid when online.</footer>
 <script type="module">
 import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs";
 mermaid.initialize({startOnLoad: true, theme: "neutral"});

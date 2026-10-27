@@ -1,0 +1,12 @@
+{
+  "SolarLights_Carrier_RevB-B_Cu.gbl": "681a083fd30ce3fd5082231f9d1dc84c84370569ef80c21eac7678089095c212",
+  "SolarLights_Carrier_RevB-B_Mask.gbs": "4167785bea30c44c731d40f518785a00cce3bab172fa46312fe56f4d40f7d2d6",
+  "SolarLights_Carrier_RevB-B_Silkscreen.gbo": "078871f0a85ccb1c4c3dbb3a10f56a4b2de0a38ae51d19a518f2b06a5f0b8306",
+  "SolarLights_Carrier_RevB-Edge_Cuts.gm1": "3fcce986d0a4af7aad134c2051b23dc098b97c2c0d5699ab13aaaf25cfcd1768",
+  "SolarLights_Carrier_RevB-F_Cu.gtl": "3bb517037952fd5f7e73f13b764ac9e591ce39808111e58b9c00616e23cd5b2e",
+  "SolarLights_Carrier_RevB-F_Mask.gts": "0347eb9dda9999918be3b2f0f2d49090bf4b1b662c4385ba3a31924960bfc5c4",
+  "SolarLights_Carrier_RevB-F_Silkscreen.gto": "a0d4c46e3564b69911597edb0f591b36c4a66a7063be13dc9218723d097103f3",
+  "SolarLights_Carrier_RevB-NPTH.drl": "473f504788e9808122c4336e1b7aeb555b970491feaa9f7bd162370a7a272fe4",
+  "SolarLights_Carrier_RevB-PTH.drl": "90561891582f0994a59969c9f059c31f13f040b561582fdecbd6df68cad8d6e0",
+  "SolarLights_Carrier_RevB-job.gbrjob": "0786d977d3d74390b912af1684fdea98127cc50cdeb7d50a9e090469617db1e4"
+}

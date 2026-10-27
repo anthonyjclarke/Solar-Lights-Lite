@@ -108,6 +108,8 @@ commissioning gate before moving on:
    and 6.
 5. Add [telemetry hardware](docs/07-build-telemetry.md) and set up
    [Home Assistant](docs/09-home-assistant.md) in Tier 1.
+   To skip the perfboard, assemble the [PCB carrier](docs/13-pcb-carrier.md)
+   instead and plug the modules into it.
 6. Assemble the enclosure and run the 14-day soak (Gate 7), then switch to
    production (Gate 8): [commissioning](docs/10-commissioning.md).
 7. Live with it: [operation and maintenance](docs/11-operation.md).
@@ -125,13 +127,16 @@ module are in
 
 | Path                   | Contents                                      |
 | :--------------------- | :-------------------------------------------- |
-| `docs/`                | Guides 01–12 and the one-page `ASSEMBLY.html` |
+| `docs/`                | Guides 01–13 and the one-page `ASSEMBLY.html` |
 | `docs/drawings/`       | A3 sheets, pin map, USBasp and bench sheets   |
+| `docs/images/pcb/`     | Rendered views of the PCB carrier             |
 | `docs/reference/`      | Board photos, datasheet, LED characterisation |
 | `firmware/controller/` | ATmega328P firmware and host tests            |
 | `firmware/esphome/`    | D1 Mini profiles: Advanced and Production     |
 | `homeassistant/`       | HA package and dashboards                     |
 | `hardware/kicad/`      | KiCad schematic of the complete system        |
+| `hardware/pcb-rev-b/`  | PCB carrier: KiCad project, Gerbers, review   |
+| `hardware/pcb-rev-a/`  | Earlier, larger carrier (reference only)      |
 | `tools/`               | Drawing and wiring-data generators            |
 
 ---
