@@ -15,11 +15,12 @@ fits before you order it, order bare boards from a fabrication service,
 assemble through-hole parts in a sensible order, and test a populated board
 before any module goes in.
 
-![Rev B carrier with pin headers fitted, angled view](images/pcb/carrier-angled.png)
+![Rev B carrier fully assembled, angled view](images/pcb/carrier-assembled-angled.png)
 
-*Rev B rendered with every pin header and passive part fitted. The three
-modules are not drawn: M2 and M3 plug into the black sockets, and M1 sits
-inside the outline at top right.*
+*Rev B fully assembled: Pro Mini (left) and D1 Mini (centre) in their
+sockets, TP4056 charger (right) on wire links, and pin headers on every
+connection. See [About the renders](#about-the-renders) for which module
+models are exact.*
 
 ---
 
@@ -36,6 +37,8 @@ inside the outline at top right.*
 | Tier links        | JP1–JP3, 2-pin headers with shunts                |
 | Programming       | `JISP1` 2 × 3 AVR ISP header                      |
 | Mounting          | Three 3.2 mm holes, no copper near them           |
+| Assembled height  | About 15 mm above the board, 3 mm of leads below  |
+| Overhang          | D1 Mini antenna about 7.3 mm past the top edge    |
 
 The silkscreen shows each module's true outline, with its pin names beside
 every socket hole. That makes a reversed module easy to spot. Turning M2 or
@@ -126,6 +129,8 @@ reference with its tier. In addition to the values already in
 | 1 × 8 female socket, 8.5 mm          | 2   | M3 D1 Mini (Tiers 1, 2)  |
 | 1 × 2 male header, 2.54 mm           | 11  | Eight pairs, JP1–JP3     |
 | 2 × 3 male header, 2.54 mm           | 1   | `JISP1`                  |
+| 1 × 12 male header, 2.54 mm          | 2   | M2's own pins            |
+| 1 × 8 male header, 2.54 mm           | 2   | M3 pins (often supplied) |
 | 2.54 mm shunt                        | 3   | JP1–JP3                  |
 | Tinned wire or cut resistor leads    | 6   | M1 links                 |
 | M3 standoffs and screws              | 3   | Mounting                 |
@@ -162,12 +167,24 @@ the header is square to the board, then solder the rest. For a permanent
 outdoor install, you can solder the cell, PV and S1 wires straight into the
 pads instead.
 
-### 5. Module sockets
+![Carrier with headers and passives fitted, ready for the modules](images/pcb/carrier-angled.png)
 
-Plug the sockets onto the modules' own pins, set the modules in place, and
-tack the corner pins. This keeps the rows parallel at the right spacing.
-Remove the modules, then solder every socket pin. Fit the M3 sockets only
-for Tiers 1 and 2.
+*The board after steps 1–4, with the empty socket positions for M2 and M3
+and the outline for M1.*
+
+### 5. Module pins and sockets
+
+The carrier is the jig for both jobs, so the pins and sockets line up:
+
+1. Push the four sockets into their holes. Do not solder them yet.
+2. Push the male headers into the sockets, long pins down.
+3. Lay the Pro Mini, serial-header end up, on its pins and solder all 24
+   from the top. A D1 Mini usually comes with headers: if they are not
+   fitted, solder them the same way, antenna end up.
+4. With the modules still plugged in, tack one corner pin of each socket
+   from underneath, check the sockets sit flat, then solder every socket pin.
+5. Unplug the modules for the next steps. Fit the M3 sockets and pins only
+   for Tiers 1 and 2.
 
 ### 6. TP4056 charger M1
 
@@ -211,6 +228,29 @@ For Tiers 1 and 2, fit M3 antenna end up, matching the outline.
 
 ---
 
+## Final assembly
+
+Plug each module fully home, so its header spacer sits on the socket:
+
+- **M2 Pro Mini:** serial-header end towards the `SERIAL END` mark.
+- **M3 D1 Mini:** antenna end overhanging the top edge, USB end over JP1–JP3.
+- **M1 TP4056:** already soldered on its links, USB-C at the top edge.
+
+![Assembled carrier, top view](images/pcb/carrier-assembled-top.png)
+
+From the side, the modules stand about 11 mm above the board on their
+socket and header spacer, which leaves room for the parts underneath. The
+D1 Mini's antenna overhangs the top edge. Allow about 15 mm of height above
+the board, 3 mm of leads below it, and space past the top edge for the
+antenna in the enclosure.
+
+![Assembled carrier, side view from the right edge](images/pcb/carrier-assembled-side.png)
+
+*Side view from the right-hand edge: TP4056 on its links (front), D1 Mini
+on its sockets with the antenna overhanging the top edge (left).*
+
+---
+
 ## What can go wrong
 
 | Symptom                                   | Likely cause                                          |
@@ -222,6 +262,26 @@ For Tiers 1 and 2, fit M3 antenna end up, matching the outline.
 | Module will not seat                      | Q2, C4 or a resistor standing too tall under it       |
 | Cells drain with the switch open          | Bridge between B+ / B– copper; clean and re-inspect   |
 | IDC programming cable will not fit        | 2 × 3 IDC plug clashes with M2's socket: use leads    |
+
+---
+
+## About the renders
+
+The images are generated by `hardware/pcb-rev-b/tools/make_doc_renders.py`
+from the KiCad board, with standard KiCad pin-header models on every
+connection.
+
+- **Pro Mini:** the
+  [SnapEDA Arduino Pro Mini](https://www.snapeda.com/parts/Arduino%20Pro%20Mini/Arduino/view-part/)
+  model (CC BY-SA 4.0, credit SnapEDA). It follows the SparkFun layout. The
+  pin positions match the carrier, but the reference BTE13-010A clone places
+  its parts differently.
+- **D1 Mini and TP4056:** simple stand-in models built from the measured
+  outlines and pin positions. They are right for size, pins and height,
+  not for detail.
+
+[`hardware/pcb-rev-b/3dmodels/README.md`](../hardware/pcb-rev-b/3dmodels/README.md)
+records the sources and how to swap in a real model.
 
 ---
 

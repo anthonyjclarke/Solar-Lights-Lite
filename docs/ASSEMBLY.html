@@ -10242,10 +10242,11 @@ build, so modules A–F, tiers 0/1/2 and gates 0–8 all still apply.</p>
 fits before you order it, order bare boards from a fabrication service,
 assemble through-hole parts in a sensible order, and test a populated board
 before any module goes in.</p>
-<p><img alt="Rev B carrier with pin headers fitted, angled view" src="images/pcb/carrier-angled.png" /></p>
-<p><em>Rev B rendered with every pin header and passive part fitted. The three
-modules are not drawn: M2 and M3 plug into the black sockets, and M1 sits
-inside the outline at top right.</em></p>
+<p><img alt="Rev B carrier fully assembled, angled view" src="images/pcb/carrier-assembled-angled.png" /></p>
+<p><em>Rev B fully assembled: Pro Mini (left) and D1 Mini (centre) in their
+sockets, TP4056 charger (right) on wire links, and pin headers on every
+connection. See <a href="#d13-about-the-renders">About the renders</a> for which module
+models are exact.</em></p>
 <hr />
 <h3 id="d13-the-board-at-a-glance">The board at a glance</h3>
 <div class="scroll"><table>
@@ -10291,6 +10292,14 @@ inside the outline at top right.</em></p>
 <tr>
 <td style="text-align: left;">Mounting</td>
 <td style="text-align: left;">Three 3.2 mm holes, no copper near them</td>
+</tr>
+<tr>
+<td style="text-align: left;">Assembled height</td>
+<td style="text-align: left;">About 15 mm above the board, 3 mm of leads below</td>
+</tr>
+<tr>
+<td style="text-align: left;">Overhang</td>
+<td style="text-align: left;">D1 Mini antenna about 7.3 mm past the top edge</td>
 </tr>
 </tbody>
 </table></div>
@@ -10471,6 +10480,16 @@ reference with its tier. In addition to the values already in
 <td style="text-align: left;"><code>JISP1</code></td>
 </tr>
 <tr>
+<td style="text-align: left;">1 × 12 male header, 2.54 mm</td>
+<td style="text-align: left;">2</td>
+<td style="text-align: left;">M2's own pins</td>
+</tr>
+<tr>
+<td style="text-align: left;">1 × 8 male header, 2.54 mm</td>
+<td style="text-align: left;">2</td>
+<td style="text-align: left;">M3 pins (often supplied)</td>
+</tr>
+<tr>
 <td style="text-align: left;">2.54 mm shunt</td>
 <td style="text-align: left;">3</td>
 <td style="text-align: left;">JP1–JP3</td>
@@ -10508,11 +10527,22 @@ negative lead; the <code>+</code> on the silkscreen marks the positive pad.</p>
 the header is square to the board, then solder the rest. For a permanent
 outdoor install, you can solder the cell, PV and S1 wires straight into the
 pads instead.</p>
-<h4 id="d13-5-module-sockets">5. Module sockets</h4>
-<p>Plug the sockets onto the modules' own pins, set the modules in place, and
-tack the corner pins. This keeps the rows parallel at the right spacing.
-Remove the modules, then solder every socket pin. Fit the M3 sockets only
-for Tiers 1 and 2.</p>
+<p><img alt="Carrier with headers and passives fitted, ready for the modules" src="images/pcb/carrier-angled.png" /></p>
+<p><em>The board after steps 1–4, with the empty socket positions for M2 and M3
+and the outline for M1.</em></p>
+<h4 id="d13-5-module-pins-and-sockets">5. Module pins and sockets</h4>
+<p>The carrier is the jig for both jobs, so the pins and sockets line up:</p>
+<ol>
+<li>Push the four sockets into their holes. Do not solder them yet.</li>
+<li>Push the male headers into the sockets, long pins down.</li>
+<li>Lay the Pro Mini, serial-header end up, on its pins and solder all 24
+   from the top. A D1 Mini usually comes with headers: if they are not
+   fitted, solder them the same way, antenna end up.</li>
+<li>With the modules still plugged in, tack one corner pin of each socket
+   from underneath, check the sockets sit flat, then solder every socket pin.</li>
+<li>Unplug the modules for the next steps. Fit the M3 sockets and pins only
+   for Tiers 1 and 2.</li>
+</ol>
 <h4 id="d13-6-tp4056-charger-m1">6. TP4056 charger M1</h4>
 <ol>
 <li>Replace the PROG resistor for 100–150 mA
@@ -10547,6 +10577,23 @@ to supply no power or keep S1 open while it does
 <p>From here, follow the gates in <a href="#d10">commissioning</a> exactly
 as for the wired build: Gate 0 inspection, Gate 1 on a bench supply, and so on.
 For Tiers 1 and 2, fit M3 antenna end up, matching the outline.</p>
+<hr />
+<h3 id="d13-final-assembly">Final assembly</h3>
+<p>Plug each module fully home, so its header spacer sits on the socket:</p>
+<ul>
+<li><strong>M2 Pro Mini:</strong> serial-header end towards the <code>SERIAL END</code> mark.</li>
+<li><strong>M3 D1 Mini:</strong> antenna end overhanging the top edge, USB end over JP1–JP3.</li>
+<li><strong>M1 TP4056:</strong> already soldered on its links, USB-C at the top edge.</li>
+</ul>
+<p><img alt="Assembled carrier, top view" src="images/pcb/carrier-assembled-top.png" /></p>
+<p>From the side, the modules stand about 11 mm above the board on their
+socket and header spacer, which leaves room for the parts underneath. The
+D1 Mini's antenna overhangs the top edge. Allow about 15 mm of height above
+the board, 3 mm of leads below it, and space past the top edge for the
+antenna in the enclosure.</p>
+<p><img alt="Assembled carrier, side view from the right edge" src="images/pcb/carrier-assembled-side.png" /></p>
+<p><em>Side view from the right-hand edge: TP4056 on its links (front), D1 Mini
+on its sockets with the antenna overhanging the top edge (left).</em></p>
 <hr />
 <h3 id="d13-what-can-go-wrong">What can go wrong</h3>
 <div class="scroll"><table>
@@ -10587,6 +10634,23 @@ For Tiers 1 and 2, fit M3 antenna end up, matching the outline.</p>
 </tr>
 </tbody>
 </table></div>
+<hr />
+<h3 id="d13-about-the-renders">About the renders</h3>
+<p>The images are generated by <code>hardware/pcb-rev-b/tools/make_doc_renders.py</code>
+from the KiCad board, with standard KiCad pin-header models on every
+connection.</p>
+<ul>
+<li><strong>Pro Mini:</strong> the
+  <a href="https://www.snapeda.com/parts/Arduino%20Pro%20Mini/Arduino/view-part/">SnapEDA Arduino Pro Mini</a>
+  model (CC BY-SA 4.0, credit SnapEDA). It follows the SparkFun layout. The
+  pin positions match the carrier, but the reference BTE13-010A clone places
+  its parts differently.</li>
+<li><strong>D1 Mini and TP4056:</strong> simple stand-in models built from the measured
+  outlines and pin positions. They are right for size, pins and height,
+  not for detail.</li>
+</ul>
+<p><a href="../hardware/pcb-rev-b/3dmodels/README.md"><code>hardware/pcb-rev-b/3dmodels/README.md</code></a>
+records the sources and how to swap in a real model.</p>
 <hr />
 <h3 id="d13-rev-a">Rev A</h3>
 <p><a href="../hardware/pcb-rev-a/"><code>hardware/pcb-rev-a/</code></a> is an earlier 100 × 80 mm

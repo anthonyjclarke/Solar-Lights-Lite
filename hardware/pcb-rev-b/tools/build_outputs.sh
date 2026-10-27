@@ -9,7 +9,8 @@ RL=${REPORTLAB_PY:?set REPORTLAB_PY to a python with reportlab and pypdfium2}
 N=SolarLights_Carrier_RevB
 $PY tools/export.py | tail -1
 $PY tools/check_fabrication.py | tail -1
-$PY tools/make_doc_renders.py | tail -1                 # docs/images/pcb, with pin headers
+$PY tools/make_module_models.py >/dev/null
+$PY tools/make_doc_renders.py | tail -1                 # docs/images/pcb: headers, then modules fitted
 $CLI pcb render --side top --quality basic --background opaque --width 1800 --height 1300 -o review/pcb-top.png $N.kicad_pcb
 $CLI sch export pdf -o review/schematic.pdf $N.kicad_sch
 $RL tools/make_review.py; $RL tools/make_fit_sheet.py; $RL tools/make_module_check.py
