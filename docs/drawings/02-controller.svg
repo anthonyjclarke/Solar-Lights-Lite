@@ -16,7 +16,7 @@
 			<text x="42" y="790" style="font-family: Helvetica; font-size: 16px;fill: rgb(31%,39%,47%); stroke:none;" transform="translate(0,1580) scale(1,-1)">ATmega328P Pro Mini on its internal 8 MHz clock. D9 drives the low-power LED string directly by PWM through R3; no driver transistor.</text>
 			<path d="M 42,768 L 1398,768 Z" style="stroke: rgb(83%,87%,90%); stroke-linecap: butt; stroke-width: 1;"/>
 			<path d="M 42,50 L 1398,50 Z" style="stroke: rgb(83%,87%,90%); stroke-linecap: butt; stroke-width: 1;"/>
-			<text x="42" y="23" style="font-family: Helvetica-Bold; font-size: 13px;fill: rgb(0%,52%,44%); stroke:none;" transform="translate(0,46) scale(1,-1)">REV 0.6  |  READ MODULE PAD LABELS, NOT BOARD POSITIONS</text>
+			<text x="42" y="23" style="font-family: Helvetica-Bold; font-size: 13px;fill: rgb(0%,52%,44%); stroke:none;" transform="translate(0,46) scale(1,-1)">REV 0.7  |  READ MODULE PAD LABELS, NOT BOARD POSITIONS</text>
 			<text x="1175" y="23" style="font-family: Helvetica; font-size: 13px;fill: rgb(31%,39%,47%); stroke:none;" transform="translate(0,46) scale(1,-1)">SHEET 2 OF 7 / A3</text>
 			<path d="M 42,760 L 42,58 Z" style="stroke: rgb(94%,96%,97%); stroke-linecap: butt; stroke-width: 0.7;"/>
 			<path d="M 78,760 L 78,58 Z" style="stroke: rgb(94%,96%,97%); stroke-linecap: butt; stroke-width: 0.7;"/>
@@ -142,17 +142,24 @@
 			<path d="M 170,340 L 350,340 Z" style="stroke: rgb(0%,52%,44%); stroke-linecap: butt; stroke-width: 3;"/>
 			<circle cx="350" cy="340" r="4" style="stroke: none; stroke-linecap: butt; stroke-width: 1.5; fill: rgb(0%,52%,44%); fill-rule: evenodd;"/>
 			<path d="M 170,340 L 170,335 Z" style="stroke: rgb(0%,52%,44%); stroke-linecap: butt; stroke-width: 3;"/>
-			<path d="M 170,335 L 170,320 Z" style="stroke: rgb(9%,18%,27%); stroke-linecap: butt; stroke-width: 2;"/>
-			<rect x="162" y="280" width="16" height="40" style="stroke: rgb(9%,18%,27%); stroke-linecap: butt; stroke-width: 1.5; fill: rgb(100%,100%,100%); fill-rule: evenodd;"/>
-			<path d="M 170,280 L 170,265 Z" style="stroke: rgb(9%,18%,27%); stroke-linecap: butt; stroke-width: 2;"/>
-			<text x="187" y="304" style="font-family: Helvetica-Bold; font-size: 16px;fill: rgb(9%,18%,27%); stroke:none;" transform="translate(0,608) scale(1,-1)">R4</text>
-			<text x="187" y="283" style="font-family: Helvetica; font-size: 15px;fill: rgb(9%,18%,27%); stroke:none;" transform="translate(0,566) scale(1,-1)">47k</text>
-			<path d="M 170,265 L 170,245 Z" style="stroke: rgb(20%,26%,32%); stroke-linecap: butt; stroke-width: 2;"/>
-			<path d="M 170,245 L 170,235 Z" style="stroke: rgb(20%,26%,32%); stroke-linecap: butt; stroke-width: 2;"/>
-			<path d="M 156,235 L 184,235 Z" style="stroke: rgb(20%,26%,32%); stroke-linecap: butt; stroke-width: 2;"/>
-			<path d="M 161,229 L 179,229 Z" style="stroke: rgb(20%,26%,32%); stroke-linecap: butt; stroke-width: 2;"/>
-			<path d="M 166,223 L 174,223 Z" style="stroke: rgb(20%,26%,32%); stroke-linecap: butt; stroke-width: 2;"/>
-			<text x="190" y="226" style="font-family: Helvetica; font-size: 14px;fill: rgb(20%,26%,32%); stroke:none;" transform="translate(0,452) scale(1,-1)">GND_LOAD</text>
+			<path d="M 170,340 L 170,325 Z" style="stroke: rgb(9%,18%,27%); stroke-linecap: butt; stroke-width: 2;"/>
+			<rect x="162" y="285" width="16" height="40" style="stroke: rgb(9%,18%,27%); stroke-linecap: butt; stroke-width: 1.5; fill: rgb(100%,100%,100%); fill-rule: evenodd;"/>
+			<path d="M 170,285 L 170,270 Z" style="stroke: rgb(9%,18%,27%); stroke-linecap: butt; stroke-width: 2;"/>
+			<text x="187" y="309" style="font-family: Helvetica-Bold; font-size: 16px;fill: rgb(9%,18%,27%); stroke:none;" transform="translate(0,618) scale(1,-1)">R4</text>
+			<text x="187" y="288" style="font-family: Helvetica; font-size: 15px;fill: rgb(9%,18%,27%); stroke:none;" transform="translate(0,576) scale(1,-1)">22k</text>
+			<path d="M 170,270 L 170,255 Z" style="stroke: rgb(9%,18%,27%); stroke-linecap: butt; stroke-width: 2;"/>
+			<rect x="162" y="215" width="16" height="40" style="stroke: rgb(9%,18%,27%); stroke-linecap: butt; stroke-width: 1.5; fill: rgb(100%,100%,100%); fill-rule: evenodd;"/>
+			<path d="M 170,215 L 170,200 Z" style="stroke: rgb(9%,18%,27%); stroke-linecap: butt; stroke-width: 2;"/>
+			<text x="187" y="239" style="font-family: Helvetica-Bold; font-size: 16px;fill: rgb(9%,18%,27%); stroke:none;" transform="translate(0,478) scale(1,-1)">RV1</text>
+			<text x="187" y="218" style="font-family: Helvetica; font-size: 15px;fill: rgb(9%,18%,27%); stroke:none;" transform="translate(0,436) scale(1,-1)">50k trim</text>
+			<path d="M 154,217 L 184,253 Z" style="stroke: rgb(0%,52%,44%); stroke-linecap: butt; stroke-width: 2;"/>
+			<polygon points="188 258, 176 253, 184 245" style="stroke: none; stroke-linecap: butt; stroke-width: 1.5; fill: rgb(0%,52%,44%); fill-rule: evenodd;"/>
+			<path d="M 170,200 L 170,188 Z" style="stroke: rgb(20%,26%,32%); stroke-linecap: butt; stroke-width: 2;"/>
+			<path d="M 170,188 L 170,178 Z" style="stroke: rgb(20%,26%,32%); stroke-linecap: butt; stroke-width: 2;"/>
+			<path d="M 156,178 L 184,178 Z" style="stroke: rgb(20%,26%,32%); stroke-linecap: butt; stroke-width: 2;"/>
+			<path d="M 161,172 L 179,172 Z" style="stroke: rgb(20%,26%,32%); stroke-linecap: butt; stroke-width: 2;"/>
+			<path d="M 166,166 L 174,166 Z" style="stroke: rgb(20%,26%,32%); stroke-linecap: butt; stroke-width: 2;"/>
+			<text x="190" y="169" style="font-family: Helvetica; font-size: 14px;fill: rgb(20%,26%,32%); stroke:none;" transform="translate(0,338) scale(1,-1)">GND_LOAD</text>
 			<path d="M 350,270 L 300,270 Z" style="stroke: rgb(0%,52%,44%); stroke-linecap: butt; stroke-width: 3;"/>
 			<path d="M 300,270 L 300,200 Z" style="stroke: rgb(0%,52%,44%); stroke-linecap: butt; stroke-width: 3;"/>
 			<circle cx="350" cy="270" r="4" style="stroke: none; stroke-linecap: butt; stroke-width: 1.5; fill: rgb(0%,52%,44%); fill-rule: evenodd;"/>
@@ -166,8 +173,8 @@
 			<path d="M 383,184 L 401,184 Z" style="stroke: rgb(20%,26%,32%); stroke-linecap: butt; stroke-width: 2;"/>
 			<path d="M 388,178 L 396,178 Z" style="stroke: rgb(20%,26%,32%); stroke-linecap: butt; stroke-width: 2;"/>
 			<text x="412" y="181" style="font-family: Helvetica; font-size: 14px;fill: rgb(20%,26%,32%); stroke:none;" transform="translate(0,362) scale(1,-1)">GND_LOAD</text>
-			<rect x="266" y="149" width="73.34800000000001" height="21" rx="10.5" ry="10.5" style="stroke: none; stroke-linecap: butt; stroke-width: 2; fill: rgb(9%,18%,27%); fill-rule: evenodd;"/>
-			<text x="274" y="155" style="font-family: Helvetica-Bold; font-size: 12px;fill: rgb(100%,100%,100%); stroke:none;" transform="translate(0,310) scale(1,-1)">SW1 / test</text>
+			<rect x="266" y="149" width="82.68399999999997" height="21" rx="10.5" ry="10.5" style="stroke: none; stroke-linecap: butt; stroke-width: 2; fill: rgb(9%,18%,27%); fill-rule: evenodd;"/>
+			<text x="274" y="155" style="font-family: Helvetica-Bold; font-size: 12px;fill: rgb(100%,100%,100%); stroke:none;" transform="translate(0,310) scale(1,-1)">SW1 / TEST</text>
 			<path d="M 690,440 L 760,440 Z" style="stroke: rgb(0%,52%,44%); stroke-linecap: butt; stroke-width: 3;"/>
 			<path d="M 760,440 L 760,600 Z" style="stroke: rgb(0%,52%,44%); stroke-linecap: butt; stroke-width: 3;"/>
 			<path d="M 760,600 L 1000,600 Z" style="stroke: rgb(0%,52%,44%); stroke-linecap: butt; stroke-width: 3;"/>
@@ -178,7 +185,7 @@
 			<rect x="992" y="535" width="16" height="40" style="stroke: rgb(0%,52%,44%); stroke-linecap: butt; stroke-width: 1.5; fill: rgb(100%,100%,100%); fill-rule: evenodd;"/>
 			<path d="M 1000,535 L 1000,520 Z" style="stroke: rgb(0%,52%,44%); stroke-linecap: butt; stroke-width: 2;"/>
 			<text x="1017" y="559" style="font-family: Helvetica-Bold; font-size: 16px;fill: rgb(0%,52%,44%); stroke:none;" transform="translate(0,1118) scale(1,-1)">R3</text>
-			<text x="1017" y="538" style="font-family: Helvetica; font-size: 15px;fill: rgb(0%,52%,44%); stroke:none;" transform="translate(0,1076) scale(1,-1)">47R</text>
+			<text x="1017" y="538" style="font-family: Helvetica; font-size: 15px;fill: rgb(0%,52%,44%); stroke:none;" transform="translate(0,1076) scale(1,-1)">56R</text>
 			<path d="M 1000,520 L 1000,500 Z" style="stroke: rgb(0%,52%,44%); stroke-linecap: butt; stroke-width: 3;"/>
 			<rect x="918" y="402" width="170" height="92" rx="14" ry="14" style="stroke: none; stroke-linecap: butt; stroke-width: 2; fill: rgb(92%,92%,93%); fill-rule: evenodd;"/>
 			<rect x="915" y="408" width="170" height="92" rx="14" ry="14" style="stroke: rgb(65%,80%,59%); stroke-linecap: butt; stroke-width: 1.2; fill: rgb(95%,98%,94%); fill-rule: evenodd;"/>
@@ -197,7 +204,7 @@
 			<text x="1128" y="616" style="font-family: Helvetica-Bold; font-size: 17px;fill: rgb(9%,18%,27%); stroke:none;" transform="translate(0,1232) scale(1,-1)">Low-power string only</text>
 			<text x="1128" y="586" style="font-family: Helvetica; font-size: 14px;fill: rgb(9%,18%,27%); stroke:none;" transform="translate(0,1172) scale(1,-1)">Reference string: 2.56 V drop</text>
 			<text x="1128" y="562" style="font-family: Helvetica; font-size: 14px;fill: rgb(9%,18%,27%); stroke:none;" transform="translate(0,1124) scale(1,-1)">I = (VBAT - 2.56) / (R3 + pin R)</text>
-			<text x="1128" y="538" style="font-family: Helvetica; font-size: 14px;fill: rgb(9%,18%,27%); stroke:none;" transform="translate(0,1076) scale(1,-1)">Model: 21 / 15 / 11 mA at</text>
+			<text x="1128" y="538" style="font-family: Helvetica; font-size: 14px;fill: rgb(9%,18%,27%); stroke:none;" transform="translate(0,1076) scale(1,-1)">Model: 19 / 13 / 10 mA at</text>
 			<text x="1128" y="514" style="font-family: Helvetica; font-size: 14px;fill: rgb(9%,18%,27%); stroke:none;" transform="translate(0,1028) scale(1,-1)">4.20 / 3.70 / 3.40 V</text>
 			<text x="1128" y="490" style="font-family: Helvetica; font-size: 14px;fill: rgb(9%,18%,27%); stroke:none;" transform="translate(0,980) scale(1,-1)">Measure it in circuit</text>
 			<rect x="1128" y="451" width="252" height="1" style="stroke: none; stroke-linecap: butt; stroke-width: 2; fill: rgb(88%,91%,93%); fill-rule: evenodd;"/>

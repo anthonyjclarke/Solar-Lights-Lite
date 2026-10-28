@@ -82,7 +82,8 @@ for ref,p in PARTS.items():
         sheet.append(f'(label "{net}" (at {end} {yy} {angle}) (effects (font (size 1 1)) (justify {justify})) (uuid "{uid(ref+n+"label")}"))')
 schtext('U0 solar buck, U3 buck-boost, cells and S1 are external. B- is its own net: never joined to GND_LOAD. No fuses. All returns = M1 OUT-.',201,253,1.3)
 schtext('Tier 0: omit telemetry. Tier 1: JP1 OPEN, USB. Tier 2: JP1 + JP2 closed, NO USB. JP3 closed only with powered M3.',201,260,1.3)
-schtext('R3 peak current requires bench qualification. 47R matches existing circuit; no LED-cable short protection.',201,267,1.3)
+schtext('R3 56R (was 47R in Rev B): about 19 mA peak at 4.2 V, still to confirm on the bench. No LED-cable short protection.',201,267,1.3)
+schtext('RV1 50k rheostat + R4 22k = LDR lower leg 22k-72k; mid-travel matches the Rev B 47k. SW1 is on the board.',201,274,1.3)
 (ROOT/(NAME+'.kicad_sch')).write_text('\n'.join(sheet)+')\n')
 (ROOT/'fp-lib-table').write_text('(fp_lib_table (version 7) (lib (name "Carrier") (type "KiCad") (uri "${KIPRJMOD}/Carrier.pretty") (options "") (descr "Vendored Rev C carrier footprints")))\n')
 
@@ -107,7 +108,7 @@ for ref,p in PARTS.items():
     board.Add(fp); fp.SetReference(ref); fp.SetValue(p['value']); fp.SetFPIDAsString(p['local_fp'])
     fp.SetPath(pcb.KIID_PATH('/'+rootuid+'/'+p['uuid']))
     fp.SetPosition(V(*p['xy'])); fp.SetOrientationDegrees(p['angle'])
-    if ref.startswith(('JM2','JM3','JP','JL','JB','JU','JS','JC','JI')) or ref=='M1':
+    if ref.startswith(('JM2','JM3','JP','JL','JU','JS','JC','JI','SW')) or ref=='M1':
         fp.Reference().SetVisible(False)    # named by silkscreen text instead
     fp.Value().SetVisible(False)
     fp.Reference().SetTextSize(pcb.VECTOR2I(MM(1),MM(1))); fp.Reference().SetTextThickness(MM(.15))
@@ -129,8 +130,8 @@ for i,(x,y) in enumerate(HOLES,1):
     fp=pcb.FootprintLoad(str(LIB),'MountingHole_3.2mm_Small')
     board.Add(fp); fp.SetReference('H'+str(i));fp.SetPosition(V(x,y));fp.Value().SetVisible(False);fp.Reference().SetVisible(False)
     fp.SetAttributes(fp.GetAttributes()|pcb.FP_EXCLUDE_FROM_BOM|pcb.FP_BOARD_ONLY)
-def text(t,x,y,size=1,layer=pcb.F_SilkS,just='center'):
-    s=pcb.PCB_TEXT(board);s.SetText(t);s.SetPosition(V(x,y));s.SetTextSize(pcb.VECTOR2I(MM(size),MM(size)));s.SetTextThickness(MM(.15));s.SetLayer(layer)
+def text(t,x,y,size=1,layer=pcb.F_SilkS,just='center',width=None,angle=0):
+    s=pcb.PCB_TEXT(board);s.SetText(t);s.SetPosition(V(x,y));s.SetTextAngleDegrees(angle);s.SetTextSize(pcb.VECTOR2I(MM(width or size),MM(size)));s.SetTextThickness(MM(.15));s.SetLayer(layer)
     s.SetHorizJustify({'left':pcb.GR_TEXT_H_ALIGN_LEFT,'right':pcb.GR_TEXT_H_ALIGN_RIGHT,'center':pcb.GR_TEXT_H_ALIGN_CENTER}[just]);board.Add(s)
 S=pcb.F_SilkS
 # --- Module outlines and orientation marks (true-size bodies; rotation cues) ---
@@ -159,16 +160,11 @@ for n,(nm,above) in {1:('IN+',False),2:('IN-',False),3:('OUT+',True),4:('OUT-',T
 for key,name,m1,m2 in PAIR_LABELS:
     x=PAIR_X[key]
     text(name,x+1.27,ROW_Y-3.7);text(m1,x,ROW_Y-2.0);text(m2,x+2.54,ROW_Y+2.2)
-for ref,nm,dy in [('JP3','JP3 ADC',-2.0),('JP2','JP2 WAKE',-2.0),('JP1','JP1 BAT',-2.0)]:
+for ref,nm,dy in [('JP3','JP3 ADC',-1.8),('JP2','JP2 WAKE',-1.8),('JP1','JP1 BAT',-1.8)]:
     x,y=PARTS[ref]['xy'];text(nm,x+1.27,y+dy)
 text('OPEN FOR USB',PARTS['JP1']['xy'][0]+1.27,PARTS['JP1']['xy'][1]+2.2)
-ix,iy=PARTS['JISP1']['xy']
-for idx,nm,side in ISP_LABELS:
-    col=idx%2;row=idx//2
-    if side=='L':text(nm,ix-1.4,iy+2.54*row,1,just='right')
-    else:text(nm,ix+2.54+1.4,iy+2.54*row,1,just='left')
-text('ISP',16.4,36.3)
-for t,x,y,size,just in LABELS:text(t,x,y,size,just=just)
+for t,x,y in ISP_LEGEND:text(t,x,y,1,just='center' if t=='ISP' else 'left',width=None if t=='ISP' else .7)
+for t,x,y,size,just,width,angle in LABELS:text(t,x,y,size,just=just,width=width,angle=angle)
 
 # Grid router. THT pads are accessible on both layers. It routes to a growing
 # tree for each net, reserving all pad, trace and via copper with clearance.
@@ -239,37 +235,52 @@ def route(start,targets,net,width):
     if found is None:
         pcb.SaveBoard('/private/tmp/solar-route-debug.kicad_pcb',board)
         print('Endpoint masks',[(l,masks[l][start[1]*NX+start[0]],masks[l][gy*NX+gx]) for l in (0,1)])
-        raise RuntimeError('No route: '+net+str(start))
+        raise NoRoute(net,start)
     path=[found]
     while path[-1] in prev:path.append(prev[path[-1]])
     return path[::-1]
+class NoRoute(RuntimeError):
+    def __init__(self,net,start):super().__init__('No route: '+net+str(start));self.net=net
 def track(a,b,width,net):
     if a==b:return
     t=pcb.PCB_TRACK(board);t.SetStart(V(*a));t.SetEnd(V(*b));t.SetWidth(MM(width));t.SetLayer(pcb.F_Cu if currentlayer==0 else pcb.B_Cu);t.SetNet(nets[net]);board.Add(t)
 power=('VBAT_SYS','GND_LOAD','PROTECTED_POS','CHARGE_5V','CHARGE_RETURN','PACK_POS','PACK_NEG','REG_3V3','ESP_3V3')
-order=sorted(netnames,key=lambda n:(n not in power,not n.startswith('ISP_'),-len(pads_by_net[n]),n))
-for net in order:
-    ps=pads_by_net[net];width=.8 if net in power else .3
-    todo=list(ps); first=todo.pop(0); connected=[first]
-    while todo:
-        p,q=min(((p,q) for p in todo for q in connected),key=lambda pq:math.dist(coord(pq[0].GetPosition()),coord(pq[1].GetPosition())))
-        sx,sy=coord(p.GetPosition()); tx,ty=coord(q.GetPosition())
-        start=(round(sx/STEP),round(sy/STEP));end=(round(tx/STEP),round(ty/STEP))
-        path=route(start,[(*end,0),(*end,1)],net,width)
-        compact=[path[0]]
-        for i in range(1,len(path)-1):
-            a,b,c=path[i-1:i+2]
-            if (b[0]-a[0],b[1]-a[1],b[2]-a[2])!=(c[0]-b[0],c[1]-b[1],c[2]-b[2]):compact.append(b)
-        compact.append(path[-1]);currentlayer=path[0][2]
-        track((sx,sy),(start[0]*STEP,start[1]*STEP),width,net)
-        for a,b in zip(compact,compact[1:]):
-            if a[2]!=b[2]:
-                v=pcb.PCB_VIA(board);v.SetPosition(V(a[0]*STEP,a[1]*STEP));v.SetWidth(MM(.8));v.SetDrill(MM(.4));v.SetViaType(pcb.VIATYPE_THROUGH);v.SetLayerPair(pcb.F_Cu,pcb.B_Cu);v.SetNet(nets[net]);board.Add(v);vias.append((a[0]*STEP,a[1]*STEP,net));currentlayer=b[2]
-            else:
-                currentlayer=a[2];track((a[0]*STEP,a[1]*STEP),(b[0]*STEP,b[1]*STEP),width,net);traces.append((a,b,width,net))
-        currentlayer=path[-1][2];track((end[0]*STEP,end[1]*STEP),(tx,ty),width,net)
-        todo.remove(p);connected.append(p)
-    print('Routed',net,len(ps),'pads',flush=True)
+# Power first, then ISP, then signals by pad count. A net that cannot be routed is moved to the front
+# and the board is routed again (the rails otherwise box short signal nets in).
+promoted=[]
+def route_all():
+    global currentlayer
+    for net in promoted+[n for n in sorted(netnames,key=lambda n:(n not in power,not n.startswith('ISP_'),-len(pads_by_net[n]),n)) if n not in promoted]:
+        ps=pads_by_net[net];width=.8 if net in power else .3
+        todo=list(ps); first=todo.pop(0); connected=[first]
+        while todo:
+            p,q=min(((p,q) for p in todo for q in connected),key=lambda pq:math.dist(coord(pq[0].GetPosition()),coord(pq[1].GetPosition())))
+            sx,sy=coord(p.GetPosition()); tx,ty=coord(q.GetPosition())
+            start=(round(sx/STEP),round(sy/STEP));end=(round(tx/STEP),round(ty/STEP))
+            path=route(start,[(*end,0),(*end,1)],net,width)
+            compact=[path[0]]
+            for i in range(1,len(path)-1):
+                a,b,c=path[i-1:i+2]
+                if (b[0]-a[0],b[1]-a[1],b[2]-a[2])!=(c[0]-b[0],c[1]-b[1],c[2]-b[2]):compact.append(b)
+            compact.append(path[-1]);currentlayer=path[0][2]
+            track((sx,sy),(start[0]*STEP,start[1]*STEP),width,net)
+            for a,b in zip(compact,compact[1:]):
+                if a[2]!=b[2]:
+                    v=pcb.PCB_VIA(board);v.SetPosition(V(a[0]*STEP,a[1]*STEP));v.SetWidth(MM(.8));v.SetDrill(MM(.4));v.SetViaType(pcb.VIATYPE_THROUGH);v.SetLayerPair(pcb.F_Cu,pcb.B_Cu);v.SetNet(nets[net]);board.Add(v);vias.append((a[0]*STEP,a[1]*STEP,net));currentlayer=b[2]
+                else:
+                    currentlayer=a[2];track((a[0]*STEP,a[1]*STEP),(b[0]*STEP,b[1]*STEP),width,net);traces.append((a,b,width,net))
+            currentlayer=path[-1][2];track((end[0]*STEP,end[1]*STEP),(tx,ty),width,net)
+            todo.remove(p);connected.append(p)
+        print('Routed',net,len(ps),'pads',flush=True)
+for attempt in range(20):
+    try:route_all();break
+    except NoRoute as e:
+        print('Retry with',e.net,'first',flush=True)
+        for t in list(board.GetTracks()):board.Remove(t)
+        traces.clear();vias.clear()
+        if e.net in promoted:promoted.remove(e.net)
+        promoted.insert(0,e.net)
+else:raise RuntimeError('Routing failed after 20 orderings')
 pcb.SaveBoard(str(ROOT/(NAME+'.kicad_pcb')),board)
 project={'meta':{'filename':NAME+'.kicad_pro','version':1},
  'board':{'design_settings':{'rules':{'min_clearance':.25,'min_track_width':.3,'min_through_hole_diameter':.3,
@@ -281,5 +292,6 @@ project={'meta':{'filename':NAME+'.kicad_pro','version':1},
 with (ROOT/'review'/'assembly-bom.csv').open('w') as f:
     w=csv.writer(f);w.writerow(['Reference','Value','Footprint','Fit in tiers','Assembly note'])
     for ref,p in PARTS.items():w.writerow([ref,p['value'],p['local_fp'],p['tier'],p['note']])
+    for ref,value,fp,tier,note in BOM_OPTIONS:w.writerow([ref,value,'Carrier:'+fp.split(':')[1],tier,note])
 (ROOT/'review'/'design-manifest.json').write_text(json.dumps({'parts':PARTS,'holes_mm':HOLES,'board_mm':[BW,BH],'vias':len(vias)},indent=2)+'\n')
 print('Generated',NAME,'with',len(vias),'vias')

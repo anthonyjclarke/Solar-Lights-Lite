@@ -44,9 +44,10 @@ kicad-cli sch export pdf -o SolarLights_Lite.pdf SolarLights_Lite.kicad_sch
 kicad-cli sch erc SolarLights_Lite.kicad_sch
 ```
 
-ERC currently reports four items, none of them wiring faults: GND has no
+ERC currently reports five items, none of them wiring faults: GND has no
 `PWR_FLAG`; the `Q_NPN_BCE` symbol is not in KiCad 10's `Device` library; and
-two `Battery_Cell` symbols differ from KiCad 10's library copies.
+two `Battery_Cell` symbols and the `R_Potentiometer` (RV1) symbol differ from
+KiCad 10's library copies.
 
 ## Regenerating
 
@@ -58,5 +59,7 @@ folder containing `Connector_Generic`, `Device`, `Switch` and `power`:
 KICAD_LIBS=/path/to/kicad7-symbols python3 tools/gen_lite_sch.py
 ```
 
-Then re-export the PDF and preview, and compare netlists before and after to
-confirm connectivity.
+Without a KiCad 7 library, a folder built from the symbols embedded in the
+current `SolarLights_Lite.kicad_sch` works, with `R_Potentiometer` added in the
+same one-line pin format. Then re-export the PDF and preview, and compare
+netlists before and after to confirm connectivity.

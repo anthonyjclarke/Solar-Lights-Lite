@@ -97,8 +97,8 @@
       "symbol": "Device:C_Polarized",
       "footprint": "Capacitor_THT:CP_Radial_D6.3mm_P2.50mm",
       "xy": [
-        21.0,
-        38.8
+        20.0,
+        39.0
       ],
       "angle": 0,
       "nets": {
@@ -137,7 +137,7 @@
       "local_fp": "Carrier:C_Disc_D5.0mm_W2.5mm_P5.00mm"
     },
     "R3": {
-      "value": "47R / 0.25W",
+      "value": "56R / 0.25W",
       "symbol": "Device:R",
       "footprint": "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal",
       "xy": [
@@ -154,7 +154,7 @@
         187
       ],
       "tier": "all",
-      "note": "Direct GPIO drive; qualify peak current at 4.20 V. 56R option; no cable-short protection. Fits under M2.",
+      "note": "Direct GPIO drive; 56R keeps peak current near 19 mA at 4.20 V. No cable-short protection. Fits under M2.",
       "uuid": "9743936d-dc32-58f1-a215-a799b105bd99",
       "local_fp": "Carrier:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal"
     },
@@ -163,7 +163,7 @@
       "symbol": "Connector_Generic:Conn_01x02",
       "footprint": "Carrier:SolderPads_1x02_P2.54mm",
       "xy": [
-        9,
+        17.2,
         47.5
       ],
       "angle": 0,
@@ -185,7 +185,7 @@
       "symbol": "Connector_Generic:Conn_01x02",
       "footprint": "Carrier:SolderPads_1x02_P2.54mm",
       "xy": [
-        17,
+        22.3,
         47.5
       ],
       "angle": 0,
@@ -203,7 +203,7 @@
       "local_fp": "Carrier:SolderPads_1x02_P2.54mm"
     },
     "R4": {
-      "value": "47k",
+      "value": "22k",
       "symbol": "Device:R",
       "footprint": "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal",
       "xy": [
@@ -213,24 +213,47 @@
       "angle": 90,
       "nets": {
         "1": "LDR_SENSE",
-        "2": "GND_LOAD"
+        "2": "LDR_TRIM"
       },
       "sch": [
         143,
         187
       ],
       "tier": "all",
-      "note": "Fits under M2.",
+      "note": "Fixed part of the LDR lower leg; with RV1 the leg is 22k-72k (47k at mid-travel). Fits under M2.",
       "uuid": "767f21cc-fa31-5713-b787-5e4e10d44735",
       "local_fp": "Carrier:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal"
     },
-    "JBUTTON1": {
-      "value": "SW1 D2 / -",
-      "symbol": "Connector_Generic:Conn_01x02",
-      "footprint": "Carrier:SolderPads_1x02_P2.54mm",
+    "RV1": {
+      "value": "50k 3296W",
+      "symbol": "Device:R_Potentiometer",
+      "footprint": "Potentiometer_THT:Potentiometer_Bourns_3296W_Vertical",
       "xy": [
-        25,
-        47.5
+        51.5,
+        38.5
+      ],
+      "angle": 0,
+      "nets": {
+        "1": "LDR_TRIM",
+        "2": "GND_LOAD",
+        "3": "GND_LOAD"
+      },
+      "sch": [
+        160,
+        205
+      ],
+      "tier": "all",
+      "note": "Bourns 3296W-1-503 multi-turn trimmer, wired as a rheostat in series with R4. Sets the light level that counts as dusk; start at mid-travel (47k).",
+      "uuid": "fdae2063-2ab4-5faf-95d3-6bb86ac5aa56",
+      "local_fp": "Carrier:Potentiometer_Bourns_3296W_Vertical"
+    },
+    "SW1": {
+      "value": "6x6 tactile",
+      "symbol": "Switch:SW_Push",
+      "footprint": "Button_Switch_THT:SW_PUSH_6mm_H9.5mm",
+      "xy": [
+        27.6,
+        44.0
       ],
       "angle": 0,
       "nets": {
@@ -242,9 +265,9 @@
         227
       ],
       "tier": "all",
-      "note": "Normally-open remote pushbutton.",
-      "uuid": "1661be22-4e38-5f54-b1f5-0ebbb8018167",
-      "local_fp": "Carrier:SolderPads_1x02_P2.54mm"
+      "note": "On-board 6x6 mm THT tactile switch, tall stem (about 9.5 mm), normally open.",
+      "uuid": "e8361717-264b-5b2e-9463-fe6e56af3ea1",
+      "local_fp": "Carrier:SW_PUSH_6mm_H9.5mm"
     },
     "R5": {
       "value": "220k",
@@ -362,7 +385,7 @@
       "symbol": "Connector_Generic:Conn_01x02",
       "footprint": "Carrier:SolderPads_1x02_P2.54mm",
       "xy": [
-        33,
+        36.9,
         47.5
       ],
       "angle": 0,
@@ -384,7 +407,7 @@
       "symbol": "Connector_Generic:Conn_01x02",
       "footprint": "Carrier:SolderPads_1x02_P2.54mm",
       "xy": [
-        41,
+        42.9,
         47.5
       ],
       "angle": 0,
@@ -554,14 +577,14 @@
       "local_fp": "Carrier:PinSocket_1x12_P2.54mm_Vertical"
     },
     "JISP1": {
-      "value": "ISP",
+      "value": "2x3 male header 2.54 mm",
       "symbol": "Connector_Generic:Conn_02x03_Odd_Even",
-      "footprint": "Carrier:Pads_2x03_P2.54mm",
+      "footprint": "Connector_IDC:IDC-Header_2x03_P2.54mm_Vertical",
       "xy": [
-        7.0,
-        36.6
+        6.0,
+        42.2
       ],
-      "angle": 0,
+      "angle": 90,
       "nets": {
         "1": "ISP_MISO",
         "2": "VBAT_SYS",
@@ -575,9 +598,9 @@
         94
       ],
       "tier": "all",
-      "note": "Standard AVR ISP, in-circuit with M2 fitted. Open S1 if the programmer supplies VCC.",
+      "note": "Standard AVR ISP, in-circuit with M2 fitted. Outline is a DC3-6P box header, clear of M2; a plain 2x3 header fits the same holes. Open S1 if the programmer supplies VCC.",
       "uuid": "3a4eb82a-a299-590f-be14-055206a30801",
-      "local_fp": "Carrier:Pads_2x03_P2.54mm"
+      "local_fp": "Carrier:IDC-Header_2x03_P2.54mm_Vertical"
     },
     "JM3L1": {
       "value": "M3 LEFT / antenna end top",
@@ -639,7 +662,7 @@
   "holes_mm": [
     [
       3.5,
-      47.5
+      48.0
     ],
     [
       71.3,
@@ -654,5 +677,5 @@
     74,
     51.5
   ],
-  "vias": 14
+  "vias": 24
 }

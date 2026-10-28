@@ -38,8 +38,8 @@ bindings={'M2.VCC':('JM2R1','4'),'M2.GND':('JM2L1','4'),'M2.D9':('JM2L1','12'),
  'BT1.-':('JCELL1','2'),'BT2.-':('JCELL1','2'),
  'U3.VIN':('JU3IN1','1'),'U3.GND':('JU3IN1','2'),'U3.VOUT':('JU3OUT1','1'),
  'S1.1':('JS1','1'),'S1.2':('JS1','2'),'JLED.+':('JLED1','1'),'JLED.-':('JLED1','2'),
- 'LDR1.1':('JLDR1','1'),'LDR1.2':('JLDR1','2'),'SW1.1':('JBUTTON1','1'),
- 'SW1.2':('JBUTTON1','2'),'Q2.E':('Q2','1'),'Q2.B':('Q2','2'),'Q2.C':('Q2','3')}
+ 'LDR1.1':('JLDR1','1'),'LDR1.2':('JLDR1','2'),'SW1.1':('SW1','1'),
+ 'SW1.2':('SW1','2'),'Q2.E':('Q2','1'),'Q2.B':('Q2','2'),'Q2.C':('Q2','3')}
 merged={n:set(v) for n,v in actual.items()}
 for a,c in [('VBAT_SYS','SENSE_FEED'),('ESP_3V3','REG_3V3'),('ESP_D0','ESP_RESET')]:
     joined=merged[a]|merged[c]
@@ -49,7 +49,7 @@ for net,terminals in expected.items():
     mapped=[]
     for t in terminals:
         if t in bindings:mapped.append(bindings[t])
-        elif re.match(r'^(C[234]|R[34589]|R10)\.',t):
+        elif re.match(r'^(C[234]|R[34589]|R10|RV1)\.',t):
             ref,pin=t.split('.');mapped.append((ref, {'+':'1','-':'2'}.get(pin,pin)))
     if len(mapped)<2:continue
     group=next((v for v in merged.values() if mapped[0] in v),set())
@@ -67,6 +67,10 @@ require(actual['PROTECTED_POS']=={('M1','3'),('JS1','1')},'Charger OUT+ reaches 
 require(actual['GND_LOAD']>={('M1','4')},'Charger OUT- is the load ground')
 require(actual['LED_POS']=={('R3','2'),('JLED1','1')},'LED positive is fed only through R3')
 require(actual['PWM']=={('R3','1'),('JM2L1','12')},'R3 is driven only by D9')
+require(actual['LDR_SENSE']=={('R4','1'),('JLDR1','2'),('JM2R1','7')},'A1 sees only the LDR and R4')
+require(actual['LDR_TRIM']=={('R4','2'),('RV1','1')} and {('RV1','2'),('RV1','3')}<=actual['GND_LOAD'],
+        'RV1 is a rheostat (wiper to pin 3) between R4 and ground')
+require(actual['TEST']=={('SW1','1'),('JM2L1','5')} and ('SW1','2') in actual['GND_LOAD'],'On-board SW1 pulls D2 to ground')
 require(actual['REG_3V3']=={('JP1','1'),('JU3OUT1','1')},'Removing JP1 isolates U3 positive output from ESP supply')
 require(actual['SENSE_FEED']=={('JP3','2'),('R5','1')},'Removing JP3 isolates battery-sense feed')
 isp={'1':'ISP_MISO','2':'VBAT_SYS','3':'ISP_SCK','4':'ISP_MOSI','5':'AVR_RESET','6':'GND_LOAD'}
@@ -74,6 +78,9 @@ require(all(('JISP1',p) in actual[n] for p,n in isp.items()),'Standard six-pin A
 require(actual['ISP_SCK']=={('JISP1','3'),('JM2R1','9')} and actual['ISP_MISO']=={('JISP1','1'),('JM2R1','10')} and actual['ISP_MOSI']=={('JISP1','4'),('JM2R1','11')},
         'ISP SCK/MISO/MOSI go only to M2 D13/D12/D11')
 require(len([f for f in b.GetFootprints() if f.GetReference().startswith('H')])==3,'Three mounting holes')
+from design import M2_BODY
+isp_top=min(pcb.ToMM(g.GetBoundingBox().GetY())-50 for g in b.FindFootprintByReference('JISP1').GraphicalItems() if g.GetLayer()==pcb.F_SilkS)
+require(isp_top>M2_BODY[3],f'ISP box-header outline starts {isp_top-M2_BODY[3]:.1f} mm below the M2 outline')
 bb=b.GetBoardEdgesBoundingBox();area=pcb.ToMM(bb.GetWidth())*pcb.ToMM(bb.GetHeight())
 require(area<4000,f'Board area {area:.0f} mm2 is under half of Rev A (8000 mm2)')
 cfg=(REPO/'firmware/controller/include/config.h').read_text()
@@ -87,9 +94,10 @@ for name in ['drc','erc']:
 require(all(pcb.ToMM(t.GetWidth())>=.3-1e-6 for t in b.GetTracks() if not isinstance(t,pcb.PCB_VIA)), 'Every copper track is at least 0.30 mm wide')
 require(all(pcb.ToMM(t.GetDrillValue())>=.4-1e-6 for t in b.GetTracks() if isinstance(t,pcb.PCB_VIA)),'Via drill at least 0.40 mm')
 # Model checks are disclosed as estimates, never as physical qualification.
-models={'LED_typical_mA':{str(v):round(1000*(v-2.56)/(47+30),2) for v in (3.4,3.7,4.2)},
- 'LED_4V2_sensitivity_mA':{'min':round(1000*(4.2-2.7)/(47*1.05+40),2),
-                         'max':round(1000*(4.2-2.3)/(47*.95+20),2)},
+R3_OHM=56
+models={'LED_typical_mA':{str(v):round(1000*(v-2.56)/(R3_OHM+30),2) for v in (3.4,3.7,4.2)},
+ 'LED_4V2_sensitivity_mA':{'min':round(1000*(4.2-2.7)/(R3_OHM*1.05+40),2),
+                         'max':round(1000*(4.2-2.3)/(R3_OHM*.95+20),2)},
  'A0_chip_at_4V2_V':4.2*100/540,'A0_header_at_4V2_V':4.2*320/540,
  'UART_base_uA_at_3V0_Vbe_0V8':1e6*((3-.8)/47000-.8/100000),
  'UART_collector_uA_at_3V3_Vce_0V2':1e6*(3.3-.2)/10000,

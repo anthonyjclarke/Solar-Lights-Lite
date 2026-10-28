@@ -43,10 +43,10 @@ Tier 1 or a USB-UART adapter.
 | Reset                        | Banner (version, build date), then `fw=`    |
 | `vdd` vs meter               | Within 0.05 V after `BANDGAP_V` calibration |
 | D9 PWM frequency             | 1.9–2.0 kHz (confirms 8 MHz clock)          |
-| Press D2                     | `cause=BUTTON_TEST output=100%`             |
-| LED current, 3.40 V          | About 11 mA (record actual)                 |
-| LED current, 3.70 V          | About 15 mA (record actual)                 |
-| LED current, 4.20 V          | About 21 mA; over 22 mA → fit 56 Ω          |
+| Press TEST (SW1, D2)         | `cause=BUTTON_TEST output=100%`             |
+| LED current, 3.40 V          | About 10 mA (record actual)                 |
+| LED current, 3.70 V          | About 13 mA (record actual)                 |
+| LED current, 4.20 V          | About 19 mA; over 20 mA → fit 68 Ω          |
 | Controller unpowered / reset | String dark                                 |
 
 Measure LED current with a meter in series with the string positive, lights at
@@ -214,7 +214,7 @@ unaffected.
 ## Production readiness checklist
 
 - [ ] Gates 0–8 passed and recorded
-- [ ] LED current measured in circuit at 4.20 V (≤ 22 mA)
+- [ ] LED current measured in circuit at 4.20 V (≤ 20 mA)
 - [ ] Charge current and termination measured with the load connected
 - [ ] 14-day soak with no downward battery trend
 - [ ] LDR thresholds calibrated in the final position

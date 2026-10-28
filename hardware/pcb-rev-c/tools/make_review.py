@@ -25,7 +25,7 @@ def title(n, caption):
     C.setFillColor(TEAL); C.setFont('Helvetica-Bold', 10); C.drawString(20 * mm, H - 19 * mm, 'SOLAR LIGHTS LITE / PCB REV C')
     C.setFillColor(INK); C.setFont('Helvetica-Bold', 20); C.drawString(20 * mm, H - 31 * mm, caption)
     C.setFillColor(GRAY); C.setFont('Helvetica', 9)
-    C.drawString(20 * mm, H - 40 * mm, '28-Oct-2026 | Rev C draft | Not reviewed for fabrication')
+    C.drawString(20 * mm, H - 40 * mm, '28-Oct-2026 | Rev C | CAD checks pass; supplier DFM not run')
     C.setStrokeColor(HexColor('#c6d6df')); C.line(20 * mm, 18 * mm, W - 20 * mm, 18 * mm)
     C.setFont('Helvetica', 8); C.drawString(20 * mm, 12 * mm, 'KiCad 10.0.6 | See README.md for wiring, links and assembly steps')
     C.drawRightString(W - 20 * mm, 12 * mm, str(n))
@@ -35,9 +35,9 @@ image = ImageReader(str(OUT / 'pcb-top.png')); iw, ih = image.getSize(); rw = 17
 C.drawImage(image, 20 * mm, H - 48 * mm - rh, width=rw, height=rh)
 y = H - 54 * mm - rh
 y = para(f'{BW} x {BH} mm carrier (about {BW * BH:,.0f} mm2, under half of Rev A). Pro Mini M2 and optional D1 Mini M3 are '
-         'socketed; the TP4056 charger M1 sits on the board; every external connection is a 2.54 mm solder point. '
+         'socketed; the TP4056 charger M1, the TEST button SW1 and the RV1 dusk trimmer sit on the board; every external connection is a 2.54 mm solder point. '
          'The image is a KiCad render: modules are not modelled.', 20 * mm, y)
-y = para('External: panel, U0 (5 V buck, if needed), U3 (3.3 V buck-boost), cells, S1 and the LED/LDR/button. '
+y = para('External: panel, U0 (5 V buck, if needed), U3 (3.3 V buck-boost), cells, S1, the LED string and the LDR. '
          '<b>No fuses.</b> B- is its own net and never joins ground; only M1 OUT- is the load return.', 20 * mm, y)
 y = para(f'<b>CAD checks:</b> zero ERC/DRC violations, zero unrouted connections and schematic parity issues; '
          f'{len(V["checks"])} independent/model checks recorded.', 20 * mm, y)
@@ -80,8 +80,9 @@ for t in ['M2 Pro Mini: rows 15.24 mm apart, pitch 2.54, body 18 x 33.3 mm, pin 
           'M3 D1 Mini: rows 22.86 mm apart; body 25.6 x 34.2 mm; antenna end overhangs the top edge, USB end faces the board. Parts under it: R5, R8, R9, R10, Q2.',
           '<b>M1 TP4056:</b> 17.2 x 26.73 mm; holes 14 mm apart at the USB end, rows 22 mm apart, bottom holes 3.45 / 7.45 / 3.10 mm (measured); hole 1.2 mm. '
           'See review/fit-sheet-A4.pdf for a 1:1 check.',
-          'Parts under a module need under about 6 mm of height with 8.5 mm sockets; C2 and C3 stay beside the modules.',
-          'Mounting: 3.2 mm holes at (3.5, 47.5), (71.3, 48), (52.8, 31.5) mm from the upper-left corner.']:
+          'Parts under a module need under about 6 mm of height with 8.5 mm sockets; C2, C3, RV1 and SW1 stay beside the modules.',
+          'ISP lies on its side below the Pro Mini, outlined for an optional DC3-6P box header (key slot down); a plain 2x3 header fits the same holes.',
+          'Mounting: 3.2 mm holes at (3.5, 48), (71.3, 48), (52.8, 31.5) mm from the upper-left corner.']:
     y = para(t, 20 * mm, y)
 C.showPage()
 

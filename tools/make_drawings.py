@@ -52,7 +52,7 @@ def header(n,title,sub):
  global D
  D=Drawing(W,H);rect(0,0,W,H,'#ffffff','#ffffff',0);text(42,38,'SOLAR LIGHTS LITE / BUILD DRAWINGS',15,GREEN,True);text(42,80,title,32,INK,True);text(42,110,sub,16,MUTED)
  line(42,132,1398,132,'#d5e0e6',1)
- line(42,850,1398,850,'#d5e0e6',1);text(42,877,'REV 0.6  |  READ MODULE PAD LABELS, NOT BOARD POSITIONS',13,GREEN,True);text(1175,877,f'SHEET {n} OF 7 / A3',13,MUTED)
+ line(42,850,1398,850,'#d5e0e6',1);text(42,877,'REV 0.7  |  READ MODULE PAD LABELS, NOT BOARD POSITIONS',13,GREEN,True);text(1175,877,f'SHEET {n} OF 7 / A3',13,MUTED)
 def save(name):
  renderSVG.drawToFile(D,str(DOC/(name+'.svg')));return D
 # ---- presentation layer: shadowed cards, ref pills, pin chips, icons, line hops.
@@ -225,20 +225,22 @@ disc(LX,515,27,'#ffffff',GREEN,2);box(LX-7,495,14,40,'#ffffff',GREEN,0,2)
 for ax,ay in ((LX-44,478),(LX-36,494)):line(ax,ay,ax+14,ay+12,GREEN,2);poly([(ax+17,ay+15),(ax+6,ay+13),(ax+14,ay+5)],GREEN)
 text(LX+38,510,'LDR1',15,GREEN,True);text(LX+38,530,'ambient light',13,MUTED)
 line(LX,535,LX,560,GREEN,3);disc(LX,560,5,GREEN);line(LX,560,350,560,GREEN,3);disc(350,560,4,GREEN)
-line(LX,560,LX,565,GREEN,3);res(LX,600,'R4','47k',True);line(LX,635,LX,655,GND,2);ground(LX,655)
+line(LX,560,LX,565,GREEN,3);res(LX,595,'R4','22k',True)
+res(LX,665,'RV1','50k trim',True);line(LX-16,683,LX+14,647,GREEN,2);poly([(LX+18,642),(LX+6,647),(LX+14,655)],GREEN)
+line(LX,700,LX,712,GND,2);ground(LX,712)
 # test button
 path([(350,630),(300,630),(300,700)],GREEN,3);disc(350,630,4,GREEN)
 disc(300,700,4.5,INK);disc(352,700,4.5,INK);line(306,686,346,686,INK,2.5);line(326,674,326,686,INK,2.5);line(352,700,392,700,GND,2);ground(392,700)
-pill(266,730,'SW1 / test',INK,size=12)
+pill(266,730,'SW1 / TEST',INK,size=12)
 # D9 straight to R3 and the string - no switching device
 RX=1000
 path([(690,460),(760,460),(760,300),(RX,300),(RX,310)],GREEN,3);disc(690,460,4,GREEN);arrow(880,300,'r',GREEN)
-res(RX,345,'R3','47R',True,GREEN);line(RX,380,RX,400,GREEN,3)
+res(RX,345,'R3','56R',True,GREEN);line(RX,380,RX,400,GREEN,3)
 card(915,400,170,92,GREEN,'#f3faf1','#a8cc97');head(915,400,'','LED string','low power; + top, - bottom',GREEN)
 line(RX,492,RX,700,GND,3);ground(RX,700)
 # design card
 card(1110,250,288,300,INK);text(1128,284,'Low-power string only',17,INK,True)
-lines(1128,314,['Reference string: 2.56 V drop','I = (VBAT - 2.56) / (R3 + pin R)','Model: 21 / 15 / 11 mA at','4.20 / 3.70 / 3.40 V','Measure it in circuit'],14,INK,24)
+lines(1128,314,['Reference string: 2.56 V drop','I = (VBAT - 2.56) / (R3 + pin R)','Model: 19 / 13 / 10 mA at','4.20 / 3.70 / 3.40 V','Measure it in circuit'],14,INK,24)
 box(1128,448,252,1,'#e1e9ee',None);lines(1128,476,['Not mains, 12 V or legacy lights','20 mA pin rating is the ceiling'],14,AMBER,24)
 badge(1358,284,GREEN);i_led(1358,284,GREEN)
 # telemetry out to sheets 3 and 6
@@ -331,7 +333,7 @@ def steps(y,title,items,c,icon,marker,fill='#ffffff',stroke='#d3dee6'):
  return h
 def num(i,yy):disc(1020,yy,10,GREEN);text(1016 if i<9 else 1012,yy+4.5,str(i+1),11,'#ffffff',True)
 def swatch(c):return lambda i,yy:(box(1008,yy-7,22,14,c,None,3))
-steps(196,'Build in this order',['Prepare, fuse and flash the Pro Mini.','Add R3 (47R) + low-power LED string.','Add LDR + button; check dusk/dawn, LVC.','Qualify charger (and U0 if fitted).','Assemble the protected, fused pack.','Add telemetry; commission with Tier 1.'],GREEN,i_flag,num)
+steps(196,'Build in this order',['Prepare, fuse and flash the Pro Mini.','Add R3 (56R) + low-power LED string.','Add LDR, RV1 trim + TEST button; check dusk/dawn.','Qualify charger (and U0 if fitted).','Assemble the protected, fused pack.','Add telemetry; commission with Tier 1.'],GREEN,i_flag,num)
 cols=[RED,GND,BLUE,PURPLE,GREEN]
 steps(432,'Label every connector',['RED: protected positive / VBAT_SYS','BLACK: load return / OUT-','BLUE: panel input pair','PURPLE: battery-only connections','GREEN: logic / sensor signals'],INK,i_info,lambda i,yy:box(1008,yy-7,22,14,cols[i],None,3))
 steps(642,'Before closing the lid',['Strain relief, polarity, cell insulation.','No exposed underside copper.','Charger/cell temperature tests passed.','14-day Tier 1 soak test passed.'],AMBER,i_check,lambda i,yy:box(1011,yy-7,14,14,'#ffffff',AMBER,3,1.5),'#fffaf0','#e5c58f')
@@ -467,10 +469,10 @@ def taps(xv,xg):
 # M2 Pro Mini
 card(42,CY,400,CB-CY,INK);head(42,CY,'M2','BTE13-010A Pro Mini','Internal 8 MHz, ISP programmed',INK);badge(402,CY+34,INK);i_chip(402,CY+34,INK);taps(190,230)
 row(60,600,'VCC',RED,'<- VBAT_SYS');row(212,600,'GND',GND,'<- OUT-')
-row(60,630,'D7',BLUE,'-> LDR -> A1 -> R4 -> OUT-')
-row(60,660,'D9',AMBER,'-> R3 47R -> LED string -> OUT-')
+row(60,630,'D7',BLUE,'-> LDR -> A1 -> R4 + RV1 -> OUT-')
+row(60,660,'D9',AMBER,'-> R3 56R -> LED string -> OUT-')
 row(60,690,'D1/TX',GREEN,'-> R8 -> Q2 base (9600 baud)')
-row(60,720,'D2',GREEN,'<- SW1 test button to OUT-')
+row(60,720,'D2',GREEN,'<- SW1 TEST button to OUT-')
 # U3 3.3 V supply
 card(520,CY,300,100,RED);head(520,CY,'U3','3.3 V supply','TPS63802 at 3.3 V for M3',RED);badge(780,CY+34,RED);i_bolt(780,CY+34,RED);taps(560,600)
 text(538,CY+88,'VIN <- VBAT_SYS   OUT -> M3 (Tier 2)',12.5,MUTED)

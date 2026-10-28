@@ -17,13 +17,16 @@ and pin-change interrupts.
 ```
 D7 ──> LDR1 ──┬──> A1
               │
-              R4 47 kΩ
+              R4 22 kΩ
+              │
+              RV1 50 kΩ trimmer (wiper joined to pin 3)
               │
            GND_LOAD
 ```
 
-The LDR's resistance rises in the dark. With R4 = 47 kΩ, A1 reads as a fraction
-of VCC:
+The LDR's resistance rises in the dark. R4 and RV1 form the lower leg of the
+divider, 22–72 kΩ. Set to mid-travel, the leg is 47 kΩ, the value the firmware
+was calibrated with, and A1 reads as a fraction of VCC:
 
 | A1 reading | Meaning                | LDR resistance |
 | :--------- | :--------------------- | :------------- |
@@ -39,21 +42,26 @@ controller changes state, and the gap between 30 % and 60 % stops it
 hunting at dusk.
 
 The thresholds live in `firmware/controller/include/config.h`
-(`LDR_DARK_RATIO`, `LDR_LIGHT_RATIO`). R4 sets where they fall: a larger R4
-makes the sensor call "dark" later (it needs a darker sky).
+(`LDR_DARK_RATIO`, `LDR_LIGHT_RATIO`). The lower leg sets where they fall, and
+RV1 changes it without reflashing: more resistance makes the sensor call
+"dark" later (it needs a darker sky). Across RV1's travel, the dark point moves
+from an LDR of about 51 kΩ to 168 kΩ.
 
 ---
 
 ## Build steps
 
-1. Wire D7 → LDR1 → A1, and A1 → R4 (47 kΩ) → GND_LOAD.
+1. Wire D7 → LDR1 → A1, and A1 → R4 (22 kΩ) → RV1 pin 1. Join RV1's wiper
+   (pin 2) to pin 3 and take pin 3 to GND_LOAD. RV1 is a 3296W multi-turn
+   trimmer, 50 kΩ (marked 503). Before fitting, set it to mid-travel: about
+   25 kΩ between pins 1 and 2.
 2. Mount the LDR where it sees the sky but **not the LED string**: the lights
    must never be able to convince the sensor it is daytime. A short tube or
    hood around the LDR helps. Check it at night: with the lights on, `ldr=`
    should rise by only a few points and stay well below the light threshold
    (Gate 3, step 6). On the bench, the string raised it by 4.5, 8 and 16
    points in three different positions.
-3. Wire SW1 between D2 and GND_LOAD. The firmware enables D2's internal
+3. Wire SW1, the TEST button, between D2 and GND_LOAD. The firmware enables D2's internal
    pull-up and a pin-change interrupt, so a press wakes the controller
    immediately.
 
@@ -67,9 +75,12 @@ a loose cap can still let through enough light to read about 20 %.
 
 **Calibrate in the final position.** With Advanced Telemetry running, note the
 `Arduino LDR` value at the moment you would like the lights to come on. If it
-is well above 30 %, the lights will come on later than you want: raise
-`LDR_DARK_RATIO` in `config.h` (keeping `LDR_LIGHT_RATIO` about 0.3 above it),
-or fit a smaller R4. If the lights come on too early, do the opposite.
+is well above 30 %, the lights will come on later than you want: turn RV1
+towards more resistance, which raises the reading, until it sits just below
+30 % at that moment. If the lights come on too early, turn it the other way.
+Measure between RV1's pins 1 and 2 to find which way your part turns. If RV1's
+range is not enough, change `LDR_DARK_RATIO` in `config.h` (keeping
+`LDR_LIGHT_RATIO` about 0.3 above it).
 
 Each threshold has a 3 % hysteresis band (`LDR_HYSTERESIS`): once the reading
 is DARK it stays DARK until it rises above 33 %, and once LIGHT it stays LIGHT

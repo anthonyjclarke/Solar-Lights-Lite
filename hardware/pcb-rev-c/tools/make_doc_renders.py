@@ -14,7 +14,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 from design import ROOT, NAME
 
 CLI = Path(os.environ.get('KICAD_APP', '/Applications/KiCad/KiCad.app')) / 'Contents/MacOS/kicad-cli'
-OUT = ROOT / 'review' / 'renders'          # docs/images/pcb shows Rev B, as ordered; copy these there if Rev C replaces it
+OUT = ROOT / 'review' / 'renders'          # copied to docs/images/pcb for guide 13
 MODELS = ROOT / '3dmodels'
 SNAPEDA = MODELS / 'snapeda' / 'Arduino_Pro_Mini.step'
 HDR = '${KICAD10_3DMODEL_DIR}/Connector_PinHeader_2.54mm.3dshapes/'

@@ -48,7 +48,7 @@ terminal level; sheet 7 is the whole system on one page.
 
 The lights are a **low-power LED string**: the reference string drops about
 2.56 V and draws roughly 10–20 mA in total. The controller drives it
-**directly by PWM from pin D9** through a 47 Ω resistor (R3). There is no
+**directly by PWM from pin D9** through a 56 Ω resistor (R3). There is no
 MOSFET or transistor driver.
 
 That has three consequences you should understand before choosing lights:
@@ -60,7 +60,7 @@ That has three consequences you should understand before choosing lights:
   absolute maximum). Mains lights, 12 V garden lights and conventional or
   legacy light fittings cannot be connected.
 - **Brightness follows the battery.** With no regulator in the LED path,
-  current falls as the cell discharges – about 21 mA at 4.20 V down to 11 mA
+  current falls as the cell discharges – about 19 mA at 4.20 V down to 10 mA
   at 3.40 V with the reference string. This is intended.
 
 Brighter lighting is possible, but it needs a driver stage and a new energy
@@ -164,17 +164,17 @@ does not change. See [09 – Home Assistant](09-home-assistant.md).
 
 These are planning figures, not measurements. Commissioning replaces them with
 your own numbers ([10 – Commissioning](10-commissioning.md)). Assumptions: 14
-dark hours, reference LED string at about 15 mA, Tier 2 telemetry.
+dark hours, reference LED string at about 13 mA, Tier 2 telemetry.
 
 | Load                                  |   100 % duty |    50 % duty |
 | :------------------------------------ | -----------: | -----------: |
-| LED string, 15 mA × 14 h              |      210 mAh |      105 mAh |
+| LED string, 13 mA × 14 h              |      182 mAh |       91 mAh |
 | Controller, 1 mA lit + 10 µA for 10 h |       14 mAh |       14 mAh |
 | Controller status line, ~40 µA × 24 h |        1 mAh |        1 mAh |
 | D1 Mini wakes, 24 × 20 s × 80 mA      |       11 mAh |       11 mAh |
 | U3 and D1 Mini sleep, 0.2 mA × 24 h   |        5 mAh |        5 mAh |
 | Other standby allowance               |        1 mAh |        1 mAh |
-| **Total per day**                     | **~242 mAh** | **~137 mAh** |
+| **Total per day**                     | **~214 mAh** | **~123 mAh** |
 
 On the harvest side, a TP4056-family linear charger set to 100 mA and an
 assumed 2.5 equivalent full-sun hours with 20 % derating gives about

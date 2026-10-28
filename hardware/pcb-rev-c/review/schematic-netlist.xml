@@ -2,7 +2,7 @@
 <export version="E">
   <design>
     <source>/Users/anthonyjclarke/PlatformIO/Projects/SolarLights_2026_Lite/hardware/pcb-rev-c/SolarLights_Carrier_RevC.kicad_sch</source>
-    <date>2026-10-28T07:10:09</date>
+    <date>2026-10-28T17:11:16</date>
     <tool>Eeschema 10.0.6</tool>
     <sheet number="1" name="/" tstamps="/">
       <title_block>
@@ -96,30 +96,6 @@
         </unit>
       </units>
     </comp>
-    <comp ref="JBUTTON1">
-      <value>SW1 D2 / -</value>
-      <footprint>Carrier:SolderPads_1x02_P2.54mm</footprint>
-      <fields>
-        <field name="Footprint">Carrier:SolderPads_1x02_P2.54mm</field>
-        <field name="Datasheet"/>
-        <field name="Description"/>
-      </fields>
-      <libsource lib="Connector_Generic" part="Conn_01x02" description="Generic connector, single row, 01x02, script generated (kicad-library-utils/schlib/autogen/connector/)"/>
-      <property name="Sheetname" value="SolarLights_Carrier_RevC"/>
-      <property name="Sheetfile" value="SolarLights_Carrier_RevC.kicad_sch"/>
-      <property name="ki_keywords" value="connector"/>
-      <property name="ki_fp_filters" value="Connector*:*_1x??_*"/>
-      <sheetpath names="/" tstamps="/"/>
-      <tstamps>1661be22-4e38-5f54-b1f5-0ebbb8018167</tstamps>
-      <units>
-        <unit name="A">
-          <pins>
-            <pin num="1"/>
-            <pin num="2"/>
-          </pins>
-        </unit>
-      </units>
-    </comp>
     <comp ref="JCELL1">
       <value>CELL B+ / B-</value>
       <footprint>Carrier:SolderPads_1x02_P2.54mm</footprint>
@@ -145,10 +121,10 @@
       </units>
     </comp>
     <comp ref="JISP1">
-      <value>ISP</value>
-      <footprint>Carrier:Pads_2x03_P2.54mm</footprint>
+      <value>2x3 male header 2.54 mm</value>
+      <footprint>Carrier:IDC-Header_2x03_P2.54mm_Vertical</footprint>
       <fields>
-        <field name="Footprint">Carrier:Pads_2x03_P2.54mm</field>
+        <field name="Footprint">Carrier:IDC-Header_2x03_P2.54mm_Vertical</field>
         <field name="Datasheet"/>
         <field name="Description"/>
       </fields>
@@ -569,7 +545,7 @@
       </units>
     </comp>
     <comp ref="R3">
-      <value>47R / 0.25W</value>
+      <value>56R / 0.25W</value>
       <footprint>Carrier:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal</footprint>
       <fields>
         <field name="Footprint">Carrier:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal</field>
@@ -593,7 +569,7 @@
       </units>
     </comp>
     <comp ref="R4">
-      <value>47k</value>
+      <value>22k</value>
       <footprint>Carrier:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal</footprint>
       <fields>
         <field name="Footprint">Carrier:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal</field>
@@ -703,6 +679,54 @@
       <property name="ki_fp_filters" value="R_*"/>
       <sheetpath names="/" tstamps="/"/>
       <tstamps>434938a8-2964-5c8a-b2b4-c9c9d63f05f4</tstamps>
+      <units>
+        <unit name="A">
+          <pins>
+            <pin num="1"/>
+            <pin num="2"/>
+          </pins>
+        </unit>
+      </units>
+    </comp>
+    <comp ref="RV1">
+      <value>50k 3296W</value>
+      <footprint>Carrier:Potentiometer_Bourns_3296W_Vertical</footprint>
+      <fields>
+        <field name="Footprint">Carrier:Potentiometer_Bourns_3296W_Vertical</field>
+        <field name="Datasheet"/>
+        <field name="Description"/>
+      </fields>
+      <libsource lib="Device" part="R_Potentiometer" description="Potentiometer"/>
+      <property name="Sheetname" value="SolarLights_Carrier_RevC"/>
+      <property name="Sheetfile" value="SolarLights_Carrier_RevC.kicad_sch"/>
+      <property name="ki_keywords" value="resistor variable"/>
+      <property name="ki_fp_filters" value="Potentiometer*"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>fdae2063-2ab4-5faf-95d3-6bb86ac5aa56</tstamps>
+      <units>
+        <unit name="A">
+          <pins>
+            <pin num="1"/>
+            <pin num="3"/>
+            <pin num="2"/>
+          </pins>
+        </unit>
+      </units>
+    </comp>
+    <comp ref="SW1">
+      <value>6x6 tactile</value>
+      <footprint>Carrier:SW_PUSH_6mm_H9.5mm</footprint>
+      <fields>
+        <field name="Footprint">Carrier:SW_PUSH_6mm_H9.5mm</field>
+        <field name="Datasheet"/>
+        <field name="Description"/>
+      </fields>
+      <libsource lib="Switch" part="SW_Push" description="Push button switch, generic, two pins"/>
+      <property name="Sheetname" value="SolarLights_Carrier_RevC"/>
+      <property name="Sheetfile" value="SolarLights_Carrier_RevC.kicad_sch"/>
+      <property name="ki_keywords" value="switch normally-open pushbutton push-button"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>e8361717-264b-5b2e-9463-fe6e56af3ea1</tstamps>
       <units>
         <unit name="A">
           <pins>
@@ -874,6 +898,41 @@
         <pin num="2" name="" type="passive"/>
       </pins>
     </libpart>
+    <libpart lib="Device" part="R_Potentiometer">
+      <description>Potentiometer</description>
+      <footprints>
+        <fp>Potentiometer*</fp>
+      </footprints>
+      <fields>
+        <field name="Reference">RV</field>
+        <field name="Value">R_Potentiometer</field>
+        <field name="Footprint"/>
+        <field name="Datasheet"/>
+        <field name="Description">Potentiometer</field>
+        <field name="Sim.Device">R</field>
+        <field name="Sim.Type">POT</field>
+        <field name="Sim.Pins">1=r0 2=wiper 3=r1</field>
+      </fields>
+      <pins>
+        <pin num="1" name="1" type="passive"/>
+        <pin num="2" name="2" type="passive"/>
+        <pin num="3" name="3" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="Switch" part="SW_Push">
+      <description>Push button switch, generic, two pins</description>
+      <fields>
+        <field name="Reference">SW</field>
+        <field name="Value">SW_Push</field>
+        <field name="Footprint"/>
+        <field name="Datasheet"/>
+        <field name="Description">Push button switch, generic, two pins</field>
+      </fields>
+      <pins>
+        <pin num="1" name="1" type="passive"/>
+        <pin num="2" name="2" type="passive"/>
+      </pins>
+    </libpart>
     <libpart lib="Transistor_BJT" part="Q_NPN_EBC">
       <description>NPN transistor, emitter/base/collector</description>
       <fields>
@@ -898,6 +957,9 @@
     </library>
     <library logical="Device">
       <uri>${KICAD10_SYMBOL_DIR}/Device.kicad_sym</uri>
+    </library>
+    <library logical="Switch">
+      <uri>${KICAD10_SYMBOL_DIR}/Switch.kicad_sym</uri>
     </library>
     <library logical="Transistor_BJT">
       <uri>${KICAD10_SYMBOL_DIR}/Transistor_BJT.kicad_sym</uri>
@@ -938,7 +1000,6 @@
       <node ref="C2" pin="2" pintype="passive"/>
       <node ref="C3" pin="2" pintype="passive"/>
       <node ref="C4" pin="2" pintype="passive"/>
-      <node ref="JBUTTON1" pin="2" pinfunction="Pin_2_2" pintype="passive"/>
       <node ref="JISP1" pin="6" pinfunction="Pin_6_6" pintype="passive"/>
       <node ref="JLED1" pin="2" pinfunction="Pin_2_2" pintype="passive"/>
       <node ref="JM2L1" pin="4" pinfunction="Pin_4_4" pintype="passive"/>
@@ -948,8 +1009,10 @@
       <node ref="JU3OUT1" pin="2" pinfunction="Pin_2_2" pintype="passive"/>
       <node ref="M1" pin="4" pinfunction="Pin_4_4" pintype="passive"/>
       <node ref="Q2" pin="1" pinfunction="E_1" pintype="passive"/>
-      <node ref="R4" pin="2" pintype="passive"/>
       <node ref="R9" pin="2" pintype="passive"/>
+      <node ref="RV1" pin="2" pinfunction="2_2" pintype="passive"/>
+      <node ref="RV1" pin="3" pinfunction="3_3" pintype="passive"/>
+      <node ref="SW1" pin="2" pinfunction="2_2" pintype="passive"/>
     </net>
     <net code="9" name="/ISP_MISO" class="Default">
       <node ref="JISP1" pin="1" pinfunction="Pin_1_1" pintype="passive"/>
@@ -972,53 +1035,57 @@
       <node ref="JM2R1" pin="7" pinfunction="Pin_7_7" pintype="passive"/>
       <node ref="R4" pin="1" pintype="passive"/>
     </net>
-    <net code="14" name="/LED_POS" class="Default">
+    <net code="14" name="/LDR_TRIM" class="Default">
+      <node ref="R4" pin="2" pintype="passive"/>
+      <node ref="RV1" pin="1" pinfunction="1_1" pintype="passive"/>
+    </net>
+    <net code="15" name="/LED_POS" class="Default">
       <node ref="JLED1" pin="1" pinfunction="Pin_1_1" pintype="passive"/>
       <node ref="R3" pin="2" pintype="passive"/>
     </net>
-    <net code="15" name="/PACK_NEG" class="Default">
+    <net code="16" name="/PACK_NEG" class="Default">
       <node ref="JCELL1" pin="2" pinfunction="Pin_2_2" pintype="passive"/>
       <node ref="M1" pin="6" pinfunction="Pin_6_6" pintype="passive"/>
     </net>
-    <net code="16" name="/PACK_POS" class="Default">
+    <net code="17" name="/PACK_POS" class="Default">
       <node ref="JCELL1" pin="1" pinfunction="Pin_1_1" pintype="passive"/>
       <node ref="M1" pin="5" pinfunction="Pin_5_5" pintype="passive"/>
     </net>
-    <net code="17" name="/PROTECTED_POS" class="Default">
+    <net code="18" name="/PROTECTED_POS" class="Default">
       <node ref="JS1" pin="1" pinfunction="Pin_1_1" pintype="passive"/>
       <node ref="M1" pin="3" pinfunction="Pin_3_3" pintype="passive"/>
     </net>
-    <net code="18" name="/PWM" class="Default">
+    <net code="19" name="/PWM" class="Default">
       <node ref="JM2L1" pin="12" pinfunction="Pin_12_12" pintype="passive"/>
       <node ref="R3" pin="1" pintype="passive"/>
     </net>
-    <net code="19" name="/REG_3V3" class="Default">
+    <net code="20" name="/REG_3V3" class="Default">
       <node ref="JP1" pin="1" pinfunction="Pin_1_1" pintype="passive"/>
       <node ref="JU3OUT1" pin="1" pinfunction="Pin_1_1" pintype="passive"/>
     </net>
-    <net code="20" name="/SENSE_FEED" class="Default">
+    <net code="21" name="/SENSE_FEED" class="Default">
       <node ref="JP3" pin="2" pinfunction="Pin_2_2" pintype="passive"/>
       <node ref="R5" pin="1" pintype="passive"/>
     </net>
-    <net code="21" name="/TEST" class="Default">
-      <node ref="JBUTTON1" pin="1" pinfunction="Pin_1_1" pintype="passive"/>
+    <net code="22" name="/TEST" class="Default">
       <node ref="JM2L1" pin="5" pinfunction="Pin_5_5" pintype="passive"/>
+      <node ref="SW1" pin="1" pinfunction="1_1" pintype="passive"/>
     </net>
-    <net code="22" name="/UART_BASE" class="Default">
+    <net code="23" name="/UART_BASE" class="Default">
       <node ref="Q2" pin="2" pinfunction="B_2" pintype="input"/>
       <node ref="R8" pin="2" pintype="passive"/>
       <node ref="R9" pin="1" pintype="passive"/>
     </net>
-    <net code="23" name="/UART_RX_INVERTED" class="Default">
+    <net code="24" name="/UART_RX_INVERTED" class="Default">
       <node ref="JM3L1" pin="5" pinfunction="Pin_5_5" pintype="passive"/>
       <node ref="Q2" pin="3" pinfunction="C_3" pintype="passive"/>
       <node ref="R10" pin="2" pintype="passive"/>
     </net>
-    <net code="24" name="/UART_TX" class="Default">
+    <net code="25" name="/UART_TX" class="Default">
       <node ref="JM2L1" pin="1" pinfunction="Pin_1_1" pintype="passive"/>
       <node ref="R8" pin="1" pintype="passive"/>
     </net>
-    <net code="25" name="/VBAT_SYS" class="Default">
+    <net code="26" name="/VBAT_SYS" class="Default">
       <node ref="C2" pin="1" pintype="passive"/>
       <node ref="C3" pin="1" pintype="passive"/>
       <node ref="C4" pin="1" pintype="passive"/>
@@ -1028,67 +1095,67 @@
       <node ref="JS1" pin="2" pinfunction="Pin_2_2" pintype="passive"/>
       <node ref="JU3IN1" pin="1" pinfunction="Pin_1_1" pintype="passive"/>
     </net>
-    <net code="26" name="unconnected-(JM2L1-Pin_2-Pad2)" class="Default">
+    <net code="27" name="unconnected-(JM2L1-Pin_2-Pad2)" class="Default">
       <node ref="JM2L1" pin="2" pinfunction="Pin_2_2" pintype="passive+no_connect"/>
     </net>
-    <net code="27" name="unconnected-(JM2L1-Pin_6-Pad6)" class="Default">
+    <net code="28" name="unconnected-(JM2L1-Pin_6-Pad6)" class="Default">
       <node ref="JM2L1" pin="6" pinfunction="Pin_6_6" pintype="passive+no_connect"/>
     </net>
-    <net code="28" name="unconnected-(JM2L1-Pin_7-Pad7)" class="Default">
+    <net code="29" name="unconnected-(JM2L1-Pin_7-Pad7)" class="Default">
       <node ref="JM2L1" pin="7" pinfunction="Pin_7_7" pintype="passive+no_connect"/>
     </net>
-    <net code="29" name="unconnected-(JM2L1-Pin_8-Pad8)" class="Default">
+    <net code="30" name="unconnected-(JM2L1-Pin_8-Pad8)" class="Default">
       <node ref="JM2L1" pin="8" pinfunction="Pin_8_8" pintype="passive+no_connect"/>
     </net>
-    <net code="30" name="unconnected-(JM2L1-Pin_9-Pad9)" class="Default">
+    <net code="31" name="unconnected-(JM2L1-Pin_9-Pad9)" class="Default">
       <node ref="JM2L1" pin="9" pinfunction="Pin_9_9" pintype="passive+no_connect"/>
     </net>
-    <net code="31" name="unconnected-(JM2L1-Pin_11-Pad11)" class="Default">
+    <net code="32" name="unconnected-(JM2L1-Pin_11-Pad11)" class="Default">
       <node ref="JM2L1" pin="11" pinfunction="Pin_11_11" pintype="passive+no_connect"/>
     </net>
-    <net code="32" name="unconnected-(JM2R1-Pin_1-Pad1)" class="Default">
+    <net code="33" name="unconnected-(JM2R1-Pin_1-Pad1)" class="Default">
       <node ref="JM2R1" pin="1" pinfunction="Pin_1_1" pintype="passive+no_connect"/>
     </net>
-    <net code="33" name="unconnected-(JM2R1-Pin_5-Pad5)" class="Default">
+    <net code="34" name="unconnected-(JM2R1-Pin_5-Pad5)" class="Default">
       <node ref="JM2R1" pin="5" pinfunction="Pin_5_5" pintype="passive+no_connect"/>
     </net>
-    <net code="34" name="unconnected-(JM2R1-Pin_6-Pad6)" class="Default">
+    <net code="35" name="unconnected-(JM2R1-Pin_6-Pad6)" class="Default">
       <node ref="JM2R1" pin="6" pinfunction="Pin_6_6" pintype="passive+no_connect"/>
     </net>
-    <net code="35" name="unconnected-(JM2R1-Pin_8-Pad8)" class="Default">
+    <net code="36" name="unconnected-(JM2R1-Pin_8-Pad8)" class="Default">
       <node ref="JM2R1" pin="8" pinfunction="Pin_8_8" pintype="passive+no_connect"/>
     </net>
-    <net code="36" name="unconnected-(JM2R1-Pin_12-Pad12)" class="Default">
+    <net code="37" name="unconnected-(JM2R1-Pin_12-Pad12)" class="Default">
       <node ref="JM2R1" pin="12" pinfunction="Pin_12_12" pintype="passive+no_connect"/>
     </net>
-    <net code="37" name="unconnected-(JM3L1-Pin_4-Pad4)" class="Default">
+    <net code="38" name="unconnected-(JM3L1-Pin_4-Pad4)" class="Default">
       <node ref="JM3L1" pin="4" pinfunction="Pin_4_4" pintype="passive+no_connect"/>
     </net>
-    <net code="38" name="unconnected-(JM3L1-Pin_6-Pad6)" class="Default">
+    <net code="39" name="unconnected-(JM3L1-Pin_6-Pad6)" class="Default">
       <node ref="JM3L1" pin="6" pinfunction="Pin_6_6" pintype="passive+no_connect"/>
     </net>
-    <net code="39" name="unconnected-(JM3L1-Pin_7-Pad7)" class="Default">
+    <net code="40" name="unconnected-(JM3L1-Pin_7-Pad7)" class="Default">
       <node ref="JM3L1" pin="7" pinfunction="Pin_7_7" pintype="passive+no_connect"/>
     </net>
-    <net code="40" name="unconnected-(JM3R1-Pin_1-Pad1)" class="Default">
+    <net code="41" name="unconnected-(JM3R1-Pin_1-Pad1)" class="Default">
       <node ref="JM3R1" pin="1" pinfunction="Pin_1_1" pintype="passive+no_connect"/>
     </net>
-    <net code="41" name="unconnected-(JM3R1-Pin_2-Pad2)" class="Default">
+    <net code="42" name="unconnected-(JM3R1-Pin_2-Pad2)" class="Default">
       <node ref="JM3R1" pin="2" pinfunction="Pin_2_2" pintype="passive+no_connect"/>
     </net>
-    <net code="42" name="unconnected-(JM3R1-Pin_3-Pad3)" class="Default">
+    <net code="43" name="unconnected-(JM3R1-Pin_3-Pad3)" class="Default">
       <node ref="JM3R1" pin="3" pinfunction="Pin_3_3" pintype="passive+no_connect"/>
     </net>
-    <net code="43" name="unconnected-(JM3R1-Pin_4-Pad4)" class="Default">
+    <net code="44" name="unconnected-(JM3R1-Pin_4-Pad4)" class="Default">
       <node ref="JM3R1" pin="4" pinfunction="Pin_4_4" pintype="passive+no_connect"/>
     </net>
-    <net code="44" name="unconnected-(JM3R1-Pin_5-Pad5)" class="Default">
+    <net code="45" name="unconnected-(JM3R1-Pin_5-Pad5)" class="Default">
       <node ref="JM3R1" pin="5" pinfunction="Pin_5_5" pintype="passive+no_connect"/>
     </net>
-    <net code="45" name="unconnected-(JM3R1-Pin_6-Pad6)" class="Default">
+    <net code="46" name="unconnected-(JM3R1-Pin_6-Pad6)" class="Default">
       <node ref="JM3R1" pin="6" pinfunction="Pin_6_6" pintype="passive+no_connect"/>
     </net>
-    <net code="46" name="unconnected-(JM3R1-Pin_8-Pad8)" class="Default">
+    <net code="47" name="unconnected-(JM3R1-Pin_8-Pad8)" class="Default">
       <node ref="JM3R1" pin="8" pinfunction="Pin_8_8" pintype="passive+no_connect"/>
     </net>
   </nets>

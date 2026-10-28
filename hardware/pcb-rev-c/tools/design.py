@@ -47,7 +47,7 @@ def pads2(ref, value, xy, nets, sch, tier='all', note=''):
 
 # Solder-point row along the bottom edge. Pad 1 (square) is on the left.
 ROW_Y = 47.5
-PAIR_X = dict(LED=9, LDR=17, BTN=25, U3IN=33, U3OUT=41, S1=49, CELL=57, PV=65)
+PAIR_X = dict(LED=17.2, LDR=22.3, U3IN=36.9, U3OUT=42.9, S1=49, CELL=57, PV=65)   # SW1 sits between LDR and U3IN
 
 add('M1', 'TP4056 module', 'Connector_Generic:Conn_01x06', M1FP, M1_PADS_BOARD[1],
     {1: 'CHARGE_5V', 2: 'CHARGE_RETURN', 3: 'PROTECTED_POS', 4: 'GND_LOAD', 5: 'PACK_POS', 6: 'PACK_NEG'},
@@ -65,23 +65,28 @@ add('JM2L', 'M2 LEFT / serial end top', 'Connector_Generic:Conn_01x12', SOCKET.f
 add('JM2R', 'M2 RIGHT / serial end top', 'Connector_Generic:Conn_01x12', SOCKET.format(12), (M2_RX, M2_PIN1_Y),
     dict(enumerate([None, 'GND_LOAD', 'AVR_RESET', 'VBAT_SYS', None, None, 'LDR_SENSE', None, 'ISP_SCK', 'ISP_MISO', 'ISP_MOSI', None], 1)),
     (93, 94), note='Top to bottom: RAW GND RST VCC A3 A2 A1 A0 D13 D12 D11 D10. Rows 15.24 mm apart; verify clone.')
-add('JISP', 'ISP', 'Connector_Generic:Conn_02x03_Odd_Even',
-    'Carrier:Pads_2x03_P2.54mm', (7.0, 36.6),
-    {1: 'ISP_MISO', 2: 'VBAT_SYS', 3: 'ISP_SCK', 4: 'ISP_MOSI', 5: 'AVR_RESET', 6: 'GND_LOAD'}, (124, 94),
-    note='Standard AVR ISP, in-circuit with M2 fitted. Open S1 if the programmer supplies VCC.')
+# ISP lies on its side below M2: pin 1 lower left, odd pins along the lower row, the box header's key slot faces down.
+add('JISP', '2x3 male header 2.54 mm', 'Connector_Generic:Conn_02x03_Odd_Even',
+    'Connector_IDC:IDC-Header_2x03_P2.54mm_Vertical', (6.0, 42.2),
+    {1: 'ISP_MISO', 2: 'VBAT_SYS', 3: 'ISP_SCK', 4: 'ISP_MOSI', 5: 'AVR_RESET', 6: 'GND_LOAD'}, (124, 94), 90,
+    note='Standard AVR ISP, in-circuit with M2 fitted. Outline is a DC3-6P box header, clear of M2; a plain 2x3 header fits the same holes. Open S1 if the programmer supplies VCC.')
 add('C3', '100u / 10V', 'Device:C_Polarized', 'Capacitor_THT:CP_Radial_D6.3mm_P2.50mm',
-    (21.0, 38.8), {1: 'VBAT_SYS', 2: 'GND_LOAD'}, (30, 140))
+    (20.0, 39.0), {1: 'VBAT_SYS', 2: 'GND_LOAD'}, (30, 140))
 add('C4', '100n', 'Device:C', 'Capacitor_THT:C_Disc_D5.0mm_W2.5mm_P5.00mm',
     (8.6, 20.2), {1: 'VBAT_SYS', 2: 'GND_LOAD'}, (66, 140), 90, note='Fits under M2.')
-add('R3', '47R / 0.25W', 'Device:R', RES, (8.6, 22.8), {1: 'PWM', 2: 'LED_POS'}, (30, 187), 270,
-    note='Direct GPIO drive; qualify peak current at 4.20 V. 56R option; no cable-short protection. Fits under M2.')
+add('R3', '56R / 0.25W', 'Device:R', RES, (8.6, 22.8), {1: 'PWM', 2: 'LED_POS'}, (30, 187), 270,
+    note='Direct GPIO drive; 56R keeps peak current near 19 mA at 4.20 V. No cable-short protection. Fits under M2.')
 pads2('JLED1', 'LED + / -', (PAIR_X['LED'], ROW_Y), ['LED_POS', 'GND_LOAD'], (70, 187),
       note='Low-power LED string only; no connection to VBAT_SYS.')
 pads2('JLDR1', 'LDR D7 / A1', (PAIR_X['LDR'], ROW_Y), ['LDR_POWER', 'LDR_SENSE'], (109, 187),
       note='Remote LDR between these two pads, no ground lead.')
-add('R4', '47k', 'Device:R', RES, (12.2, 26.0), {1: 'LDR_SENSE', 2: 'GND_LOAD'}, (143, 187), 90, note='Fits under M2.')
-pads2('JBUTTON1', 'SW1 D2 / -', (PAIR_X['BTN'], ROW_Y), ['TEST', 'GND_LOAD'], (143, 227),
-      note='Normally-open remote pushbutton.')
+add('R4', '22k', 'Device:R', RES, (12.2, 26.0), {1: 'LDR_SENSE', 2: 'LDR_TRIM'}, (143, 187), 90,
+    note='Fixed part of the LDR lower leg; with RV1 the leg is 22k-72k (47k at mid-travel). Fits under M2.')
+add('RV1', '50k 3296W', 'Device:R_Potentiometer', 'Potentiometer_THT:Potentiometer_Bourns_3296W_Vertical',
+    (51.5, 38.5), {1: 'LDR_TRIM', 2: 'GND_LOAD', 3: 'GND_LOAD'}, (160, 205),
+    note='Bourns 3296W-1-503 multi-turn trimmer, wired as a rheostat in series with R4. Sets the light level that counts as dusk; start at mid-travel (47k).')
+add('SW1', '6x6 tactile', 'Switch:SW_Push', 'Button_Switch_THT:SW_PUSH_6mm_H9.5mm', (27.6, 44.0),
+    {1: 'TEST', 2: 'GND_LOAD'}, (143, 227), note='On-board 6x6 mm THT tactile switch, tall stem (about 9.5 mm), normally open.')
 
 add('JM3L', 'M3 LEFT / antenna end top', 'Connector_Generic:Conn_01x08', SOCKET.format(8), (M3_LX, M3_PIN1_Y),
     dict(enumerate(['ESP_RESET', 'ADC_BATT', 'ESP_D0', None, 'UART_RX_INVERTED', None, None, 'ESP_3V3'], 1)),
@@ -110,7 +115,7 @@ pads2('JP1', 'BAT power link', (46.0, 33.0), ['REG_3V3', 'ESP_3V3'], (305, 227),
       'Header + shunt. Tier 1 OPEN, Tier 2 CLOSED. No automatic USB/battery interlock.')
 
 # M3 heads/standoffs need ~5.6 mm: H2 clears JPV1, H3 sits below M1 clear of JP1 and C2.
-HOLES = [(3.5, 47.5), (71.3, 48.0), (52.8, 31.5)]
+HOLES = [(3.5, 48.0), (71.3, 48.0), (52.8, 31.5)]
 
 # ---- Silkscreen description (drawn by generate.py on F.Silkscreen) ----
 M2_BODY = (2.0, 2.0, 20.0, 35.3)        # Pro Mini outline: x0 y0 x1 y1
@@ -120,13 +125,21 @@ M2_L = ['TX', 'RX', 'RST', 'GND', 'D2', 'D3', 'D4', 'D5', 'D6', 'D7', 'D8', 'D9'
 M2_R = ['RAW', 'GND', 'RST', 'VCC', 'A3', 'A2', 'A1', 'A0', 'D13', 'D12', 'D11', 'D10']
 M3_L = ['RST', 'A0', 'D0', 'D5', 'D6', 'D7', 'D8', '3V3']
 M3_R = ['TX', 'RX', 'D1', 'D2', 'D3', 'D4', 'G', '5V']
-# label text, x, y (centre), size, justification
-LABELS = [('SOLAR LIGHTS LITE / C', 27.0, 39.5, 1.0, 'left')]
+# label text, x, y, size, justification, character width (None = size), angle (degrees)
+LABELS = [('SOLAR LIGHTS LITE / C', 25.5, 36.6, 1.0, 'left', None, 0), ('ANTHONY CLARKE', 25.8, 38.4, 1.0, 'left', None, 0),
+          ('github.com/anthonyjclarke/Solar-Lights-Lite', 72.2, 22.5, 1.0, 'center', 0.8, 90),  # right edge, beside M1
+          ('LDR TRIM', 49.0, 42.0, 1.0, 'center', None, 0), ('TEST', 30.85, 42.2, 1.0, 'center', None, 0)]
 # Solder-point names/polarity: (ref key, name, mark above pad 1, mark below pad 2)
-PAIR_LABELS = [('LED', 'LED', '+', '-'), ('LDR', 'LDR', 'D7', 'A1'), ('BTN', 'BUTTON', 'D2', '-'),
+PAIR_LABELS = [('LED', 'LED', '+', '-'), ('LDR', 'LDR', 'D7', 'A1'),
                ('U3IN', 'U3 IN', '+', '-'), ('U3OUT', 'U3 OUT', '+', '-'), ('S1', 'S1', 'OUT+', 'SYS'),
                ('CELL', 'CELL', 'B+', 'B-'), ('PV', 'PV<=6.5V', '+', '-')]
-ISP_LABELS = [(0, 'MISO', 'L'), (1, 'VCC', 'R'), (2, 'SCK', 'L'), (3, 'MOSI', 'R'), (4, 'RST', 'L'), (5, 'GND', 'R')]
+# ISP pin legend below the header (the box would cover labels beside the pins): text, x, y
+ISP_LEGEND = [('ISP', 10.8, 46.4), ('1 MISO', 6.7, 47.8), ('2 VCC', 11.0, 47.8), ('3 SCK', 6.7, 49.2),
+              ('4 MOSI', 11.0, 49.2), ('5 RST', 6.7, 50.6), ('6 GND', 11.0, 50.6)]
+# Optional parts listed in the BOM but not placed: reference, value, footprint, tiers, note
+BOM_OPTIONS = [('JISP1 (option)', 'DC3-6P 2x3 box header, 2.54 mm, straight',
+                'Connector_IDC:IDC-Header_2x03_P2.54mm_Vertical', 'optional',
+                'Shrouded, keyed alternative to the plain 2x3 header: same holes, matches the silkscreen outline. Key slot faces the board bottom edge.')]
 
 # KiCad annotation requires a numeric suffix even for descriptive connector refs.
 for old in list(PARTS):

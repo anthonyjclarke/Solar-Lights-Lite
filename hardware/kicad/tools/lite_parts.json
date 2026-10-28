@@ -128,13 +128,13 @@
  },
  "R3": {
   "lib": "Device:R",
-  "val": "47R",
+  "val": "56R",
   "pins": {
    "1": "PWM",
    "2": "LED+"
   },
   "fp": "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal",
-  "note": "low-power string only; model ~15 mA @3.7 V, 56R if >22 mA @4.2 V",
+  "note": "low-power string only; model ~13 mA @3.7 V, 68R if >20 mA @4.2 V",
   "dnp": false,
   "hide_val": false
  },
@@ -185,19 +185,32 @@
  },
  "R4": {
   "lib": "Device:R",
-  "val": "47k",
+  "val": "22k",
   "pins": {
    "1": "LDR_SENSE",
-   "2": "GND"
+   "2": "LDR_TRIM"
   },
   "fp": "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal",
   "note": "",
   "dnp": false,
   "hide_val": false
  },
+ "RV1": {
+  "lib": "Device:R_Potentiometer",
+  "val": "50k trim",
+  "pins": {
+   "1": "LDR_TRIM",
+   "2": "GND",
+   "3": "GND"
+  },
+  "fp": "Potentiometer_THT:Potentiometer_Bourns_3296W_Vertical",
+  "note": "3296W; wiper to pin 3",
+  "dnp": false,
+  "hide_val": false
+ },
  "SW1": {
   "lib": "Switch:SW_Push",
-  "val": "test",
+  "val": "TEST",
   "pins": {
    "1": "BTN",
    "2": "GND"

@@ -33,17 +33,18 @@ the wire schedule and the KiCad schematic.
 
 | Ref  | Part                              | Notes                              |
 | :--- | :-------------------------------- | :--------------------------------- |
-| R3   | 47 Ω, ¼ W                         | At the controller end; 56 Ω option |
+| R3   | 56 Ω, ¼ W                         | At the controller end; 68 Ω option |
 | JLED | Low-power LED string              | ~2.5–3 V forward, ≤ 20 mA total    |
 | –    | 2-way screw terminal or connector | Outdoor cable to the string        |
 
 ### Module D – light sensor and button
 
-| Ref  | Part                      | Notes                        |
-| :--- | :------------------------ | :--------------------------- |
-| LDR1 | Light-dependent resistor  | Typical 5–10 kΩ (light) type |
-| R4   | 47 kΩ                     | LDR divider lower resistor   |
-| SW1  | Momentary push button, NO | D2 to ground; test button    |
+| Ref  | Part                       | Notes                        |
+| :--- | :------------------------- | :--------------------------- |
+| LDR1 | Light-dependent resistor   | Typical 5–10 kΩ (light) type |
+| R4   | 22 kΩ                      | LDR divider, fixed part      |
+| RV1  | 50 kΩ trimmer, 3296W (503) | In series with R4; sets dusk |
+| SW1  | Push button, NO (6 × 6 mm) | TEST button, D2 to ground    |
 
 ### Module E – telemetry (optional)
 

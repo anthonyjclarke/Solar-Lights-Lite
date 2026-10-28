@@ -1,6 +1,6 @@
 #!/bin/zsh
 # Regenerate, polish, run KiCad ERC/DRC, export the netlist and validate. Run from the project folder.
-set -e
+set -e -o pipefail
 KICAD=${KICAD_APP:-/Applications/KiCad/KiCad.app}
 PY=$KICAD/Contents/Frameworks/Python.framework/Versions/3.9/bin/python3
 CLI=$KICAD/Contents/MacOS/kicad-cli

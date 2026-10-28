@@ -11,7 +11,7 @@
 constexpr char FW_VERSION[] = "0.7.0";
 
 // ------------------------------------------------------------ pins
-constexpr uint8_t PIN_LED_PWM = 9;  // D9 / OC1A -> R3 47 ohm -> low-power LED string +
+constexpr uint8_t PIN_LED_PWM = 9;  // D9 / OC1A -> R3 56 ohm -> low-power LED string +
 constexpr uint8_t PIN_LDR_PWR = 7;  // D7 powers the LDR divider only while sampling
 constexpr uint8_t ADC_LDR     = 1;  // A1: LDR / R4 midpoint (ADC channel number)
 constexpr uint8_t PIN_BUTTON  = 2;  // D2: test button to GND, internal pull-up
@@ -35,9 +35,10 @@ constexpr uint32_t EVENING_FULL_S     = 4UL * 3600;
 constexpr uint8_t  OVERNIGHT_DUTY_PCT = 30;
 
 // ------------------------------------------------------------ light sensor
-// A1 as a fraction of VCC with R4 = 47k. Dark below ~0.30 means the LDR is
-// above ~110k; light above ~0.60 means it is below ~31k. The gap between the
-// two thresholds prevents flicker. Calibrate in the final mounting position.
+// A1 as a fraction of VCC with R4 + RV1 = 47k (RV1 at mid-travel). Dark below
+// ~0.30 means the LDR is above ~110k; light above ~0.60 means it is below ~31k.
+// The gap between the two thresholds prevents flicker. Calibrate in the final
+// mounting position with RV1 first; change these ratios only if RV1 runs out.
 constexpr float    LDR_DARK_RATIO       = 0.30f;
 constexpr float    LDR_LIGHT_RATIO      = 0.60f;
 constexpr uint16_t TRANSITION_CONFIRM_S = 300;  // dark or light must persist this long

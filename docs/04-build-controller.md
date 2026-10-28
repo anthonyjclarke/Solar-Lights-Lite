@@ -57,7 +57,7 @@ any board.
 | VCC   | VBAT_SYS (protected battery)   | A      |
 | GND   | GND_LOAD (M1 OUT-)             | A      |
 | RAW   | Not connected                  | –      |
-| D9    | R3 47 Ω → LED string +         | C      |
+| D9    | R3 56 Ω → LED string +         | C      |
 | D7    | LDR supply (switched)          | D      |
 | A1    | LDR / R4 midpoint              | D      |
 | D2    | Test button to GND_LOAD        | D      |

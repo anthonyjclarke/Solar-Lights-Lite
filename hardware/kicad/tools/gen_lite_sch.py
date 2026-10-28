@@ -55,8 +55,8 @@ part("F2", "Device:Fuse", "1 A", (75.5, 20, 90), {"1": "OUT+", "2": "VBAT_SW"})
 part("S1", "Switch:SW_SPST", "service", (83, 20, 0), {"1": "VBAT_SW", "2": "VBAT"})
 part("C3", "Device:C_Polarized", "100u", (93, 25.5, 0), {"1": "VBAT", "2": "GND"}, fp=ECAP)
 # --- 3 LED driver: direct pin drive, no Q1/R6/R7/F1 -------------------------
-part("R3", "Device:R", "47R", (120.5, 20, 90), {"1": "PWM", "2": "LED+"}, fp=RES,
-     note="low-power string only; model ~15 mA @3.7 V, 56R if >22 mA @4.2 V")
+part("R3", "Device:R", "56R", (120.5, 20, 90), {"1": "PWM", "2": "LED+"}, fp=RES,
+     note="low-power string only; model ~13 mA @3.7 V, 68R if >20 mA @4.2 V")
 part("J2", "Connector_Generic:Conn_01x02", "LED string", (146, 20, 0), {"1": "LED+", "2": "LED-"},
      note="screw terminal")
 # --- 4 controller (BTE13-010A Pro Mini, converted to internal 8 MHz) --------
@@ -65,9 +65,11 @@ part("M2", "SolarLights_Lite:Pro_Mini_BTE13", "BTE13-010A - int. 8 MHz", (38, 66
       "D7": "LDR_PWR", "D1": "UART_TX", "D8": "NC_D8", "D9": "PWM", "A0": "NC_A0",
       "D10": "NC_D10", "D11": "NC_D11"},
      note="RAW unused; A0/D10/D11 reserved, left open")
-part("LDR1", "SolarLights_Lite:LDR", "LDR", (16, 83.5, 0), {"1": "LDR_PWR", "2": "LDR_SENSE"})
-part("R4", "Device:R", "47k", (16, 89.5, 0), {"1": "LDR_SENSE", "2": "GND"}, fp=RES)
-part("SW1", "Switch:SW_Push", "test", (40, 84, 0), {"1": "BTN", "2": "GND"})
+part("LDR1", "SolarLights_Lite:LDR", "LDR", (16, 82.5, 0), {"1": "LDR_PWR", "2": "LDR_SENSE"})
+part("R4", "Device:R", "22k", (16, 87, 0), {"1": "LDR_SENSE", "2": "LDR_TRIM"}, fp=RES)
+part("RV1", "Device:R_Potentiometer", "50k trim", (16, 92, 0), {"1": "LDR_TRIM", "2": "GND", "3": "GND"},
+     fp="Potentiometer_THT:Potentiometer_Bourns_3296W_Vertical", note="3296W; wiper to pin 3")
+part("SW1", "Switch:SW_Push", "TEST", (40, 84, 0), {"1": "BTN", "2": "GND"})
 # --- 5 telemetry: NPN-inverted D1/TX to D6 serial receiver --------
 part("R8", "Device:R", "47k", (78.5, 67, 90), {"1": "UART_TX", "2": "Q2_BASE"}, fp=RES)
 part("R9", "Device:R", "100k", (82, 71.5, 0), {"1": "Q2_BASE", "2": "GND"}, fp=RES, note="B-E pulldown")
@@ -290,9 +292,11 @@ l1, l2 = pin("LDR1", 1), pin("LDR1", 2)
 wire((l1[0] - 3, l1[1] - 2), (l1[0], l1[1] - 2), l1); label("LDR_PWR", l1[0] - 3, l1[1] - 2, 180)
 wire(l2, pin("R4", 1))
 wire((l2[0], l2[1] + 1), (l2[0] + 3, l2[1] + 1)); label("LDR_SENSE", l2[0] + 3, l2[1] + 1)
-r4b = pin("R4", 2)
-wire(r4b, (r4b[0], r4b[1] + 2)); gnd(r4b[0], r4b[1] + 2)
-text("Light sensor (switched by D7)", 8, 77)
+wire(pin("R4", 2), pin("RV1", 1))
+v2, v3 = pin("RV1", 2), pin("RV1", 3)
+wire(v2, (v2[0] + 1, v2[1]), (v2[0] + 1, v3[1] + 0.5), (v3[0], v3[1] + 0.5))   # wiper joined to pin 3
+wire(v3, (v3[0], v3[1] + 0.5)); gnd(v3[0], v3[1] + 0.5)
+text("Light sensor (switched by D7), RV1 sets dusk", 8, 77)
 # test button
 s1, s2 = pin("SW1", 1), pin("SW1", 2)
 wire((s1[0] - 3, s1[1]), s1); label("BTN", s1[0] - 3, s1[1], 180)
@@ -400,6 +404,9 @@ def sym_block(ref, lib, val, at, fp, note, dnp, pins, hide_val=False, mirror=Fal
     elif lib == "Device:Q_NPN_BCE":
         r = (sx + 5.08, sy - 1.27, "left"); v = (sx + 5.08, sy + 1.27, "left")
         n_ = (sx + 5.08, sy + 3.6, "left")
+    elif lib == "Device:R_Potentiometer":    # fields clear of the wiper link
+        r = (sx + 7.62, sy - 1.27, "left"); v = (sx + 7.62, sy + 1.27, "left")
+        n_ = (sx + 7.62, sy + 3.3, "left")
     elif lib.startswith("Connector_"):
         r = (sx, sy - 2.54, None); v = (sx, sy + 6.35, None); n_ = (sx, sy + 8.4, None)
     elif ang in (90, 270) or horiz:

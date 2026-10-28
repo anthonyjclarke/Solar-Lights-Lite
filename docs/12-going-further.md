@@ -53,8 +53,9 @@ sync from the D1 Mini. Watch the added standby current.
 
 The two-layer carrier board is now part of the build: see
 [PCB carrier](13-pcb-carrier.md). It sockets the Pro Mini and D1 Mini, carries
-the TP4056 charger and replaces the perfboard. A next revision could add
-on-board fuse holders, test points, a cell-temperature input and an SMD
+the TP4056 charger and replaces the perfboard. Rev C adds an on-board TEST
+button, the RV1 dusk trimmer and a keyed ISP header. A later revision could
+add on-board fuse holders, test points, a cell-temperature input and an SMD
 version of the passives.
 
 ## Lower-power telemetry

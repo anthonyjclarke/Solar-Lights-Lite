@@ -14,7 +14,7 @@ import markdown
 
 DOC = Path(__file__).resolve().parents[1] / 'docs'
 DRAW = DOC / 'drawings'
-VERSION = '0.6.0'
+VERSION = '0.7.0'
 
 # Drawings placed inline in the first document that relies on them.
 FIGURES = {
@@ -159,7 +159,7 @@ page = f'''<!doctype html>
 <div class="card"><strong>Commission</strong><p>Gates 0–8 add one thing at a time. Advanced Telemetry shows every controller decision during the soak test.</p></div>
 <div class="card"><strong>Operate</strong><p>Production Telemetry reports hourly on battery power. The lights never depend on Wi-Fi.</p></div>
 </div>
-<div class="hold"><p><b>Low-power lights only.</b> The controller drives the LED string directly by PWM from pin D9 through a 47 Ω resistor, with no driver transistor. The whole string must run at 20 mA or less from a 3–4.2 V supply. Mains lights, 12 V garden lights and conventional or legacy fittings cannot be used; brighter lighting needs a driver stage (see Going further).</p></div>
+<div class="hold"><p><b>Low-power lights only.</b> The controller drives the LED string directly by PWM from pin D9 through a 56 Ω resistor, with no driver transistor. The whole string must run at 20 mA or less from a 3–4.2 V supply. Mains lights, 12 V garden lights and conventional or legacy fittings cannot be used; brighter lighting needs a driver stage (see Going further).</p></div>
 {"".join(sections)}
 <section id="wires"><h2>Wire schedule</h2><p>Every terminal in a row belongs to the same external net. Read the actual module pad labels and transistor pin order before soldering. <a href="wire-schedule.csv">CSV checklist</a> · <a href="netlist.json">Wiring model (JSON)</a></p>{csv_table(DOC / "wire-schedule.csv")}<p class="top"><a href="#top">Back to top</a></p></section>
 <section id="parts"><h2>Parts checklist</h2><p><a href="parts-list.csv">CSV checklist</a> with a "have it?" column for printing.</p>{csv_table(DOC / "parts-list.csv", ["Module", "Ref", "Part / value", "Qty", "Notes"])}<p class="top"><a href="#top">Back to top</a></p></section>

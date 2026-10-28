@@ -39,13 +39,16 @@ I = (VBAT − Vstring) / (R3 + Rpin)
 
 `Rpin` is the ATmega328P's own output resistance, roughly 30 Ω at these
 currents (a typical datasheet characteristic, not a guaranteed value). With
-R3 = 47 Ω the model predicts:
+R3 = 56 Ω the model predicts:
 
-| Battery | R3 = 47 Ω | R3 = 56 Ω |
+| Battery | R3 = 56 Ω | R3 = 68 Ω |
 | :------ | --------: | --------: |
-| 4.20 V  |     21 mA |     18 mA |
-| 3.70 V  |     15 mA |     13 mA |
-| 3.40 V  |     11 mA |      9 mA |
+| 4.20 V  |     19 mA |     17 mA |
+| 3.70 V  |     13 mA |     12 mA |
+| 3.40 V  |     10 mA |      9 mA |
+
+56 Ω keeps the peak under 20 mA on a full cell. Earlier builds used 47 Ω, which
+predicts 21 mA at 4.20 V.
 
 These are predictions. Gate 1 measures the real current through the pin; the
 reference string's own characterisation is in
@@ -60,7 +63,7 @@ pulse is still set by R3 and the pin. That is why the firmware's
 
 ## Build steps
 
-1. Fit R3 (47 Ω) on the carrier, **at the controller end**, from D9 to the
+1. Fit R3 (56 Ω) on the carrier, **at the controller end**, from D9 to the
    LED output terminal. The outdoor cable should always be on the far side of
    the resistor.
 2. Connect the LED string's positive lead to the R3 terminal and its negative
@@ -74,8 +77,8 @@ pulse is still set by R3 and the pin. That is why the firmware's
 ## Test gate
 
 **Gate 1** in [10 – Commissioning](10-commissioning.md) measures the string
-current at 3.40, 3.70 and 4.20 V at 100 % duty. If it exceeds 22 mA at 4.20 V,
-fit 56 Ω and measure again. Also confirm that R3 and the controller stay at
+current at 3.40, 3.70 and 4.20 V at 100 % duty. If it exceeds 20 mA at 4.20 V,
+fit 68 Ω and measure again. Also confirm that R3 and the controller stay at
 room temperature, and that the string is dark with the controller unpowered
 and during reset.
 
@@ -86,7 +89,7 @@ and during reset.
 | Symptom                        | Likely cause                           |
 | :----------------------------- | :------------------------------------- |
 | Very dim at 3.4 V              | Expected: brightness tracks battery    |
-| Over 22 mA at 4.20 V           | String Vf lower than reference: 56 Ω   |
+| Over 20 mA at 4.20 V           | String Vf lower than reference: 68 Ω   |
 | Uneven brightness              | Parallel LEDs sharing one resistor     |
 | Visible flicker on camera      | 1.96 kHz PWM banding; normal to eye    |
 | Lights on while controller off | Wiring fault: D9 must be the only feed |

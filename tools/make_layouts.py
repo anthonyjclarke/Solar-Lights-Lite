@@ -328,6 +328,18 @@ def k_tact4():
     return dict(pins=pins, body=(-0.25, 0.25, 2.25, 2.75), draw=draw, labels=[])
 
 
+def k_pot():
+    # 3296W multi-turn trimmer: three pins in a row, adjusting screw at the pin 1 end
+    pins = [('1', 0, 0), ('2', 1, 0), ('3', 2, 0)]
+
+    def draw(s):
+        s.rect(-0.75, -1.0, 3.5, 1.9, fill='#2f6fd0', stroke='#1c4a91', stroke_width=0.06, rx=0.1)
+        s.circle(-0.25, -0.5, 0.36, fill='#d39a3a', stroke='#8a5f1c', stroke_width=0.05)
+        s.line(-0.5, -0.5, 0.0, -0.5, stroke='#8a5f1c', stroke_width=0.1)
+    return dict(pins=pins, body=(-0.75, -1.0, 2.75, 0.9), draw=draw,
+                labels=[('503', 1.4, 0.45, 0.4, '#e8eefa')])
+
+
 def k_term(fill='#2f7fc9'):
     pins = [('~1', 0, 0), ('~2', 2, 0)]
 
@@ -351,7 +363,7 @@ def k_jumper():
 
 
 KINDS = dict(promini=k_promini, d1mini=k_d1mini, tp4056=k_tp4056, buck=k_buck, hl802=k_hl802,
-             res=k_res, cer=k_cer, elec=k_elec, to92=k_to92, ldr=k_ldr, tact2=k_tact2,
+             res=k_res, pot=k_pot, cer=k_cer, elec=k_elec, to92=k_to92, ldr=k_ldr, tact2=k_tact2,
              tact4=k_tact4, term=k_term, jumper=k_jumper)
 MODULES = {'promini', 'd1mini', 'tp4056', 'buck', 'hl802'}
 
@@ -557,7 +569,7 @@ def header(s, W, title, sub, sheet):
     s.text(42, 112, sub, 15, MUTED)
     s.line(42, 130, W - 42, 130, stroke='#d5e0e6', stroke_width=1)
     s.line(42, s.h - 44, W - 42, s.h - 44, stroke='#d5e0e6', stroke_width=1)
-    s.text(42, s.h - 20, 'REV 0.6  |  READ MODULE PAD LABELS, NOT BOARD POSITIONS', 12.5, GREEN, True)
+    s.text(42, s.h - 20, 'REV 0.7  |  READ MODULE PAD LABELS, NOT BOARD POSITIONS', 12.5, GREEN, True)
     s.text(W - 42, s.h - 20, sheet, 12.5, MUTED, anchor='end')
 
 
@@ -702,10 +714,11 @@ def breadboard():
     bb.add('R5', 'res', 5, 15, 270, ohms=220000, label='R5 220k', lab=(4.4, 13.1, 'end'))
     bb.add('C4', 'cer', 29, 1, 180, label='C4 100n', lab=(26.6, 1.35, 'end'))
     bb.add('C3', 'elec', 30, -4, 90, rad=1.0, label='C3 100u', lab=(31.4, -5.05, 'start'))
-    bb.add('R4', 'res', 32, 0, 270, span=3, ohms=47000, label='R4 47k', lab=(32.7, -1.1, 'start'))
-    bb.add('SW1', 'tact2', 30, 11, 0, label='SW1 test', lab=(31.1, 13.0, 'start'))
+    bb.add('SW1', 'tact2', 30, 11, 0, label='SW1 TEST', lab=(31.1, 13.0, 'start'))
     bb.add('LDR1', 'ldr', 35, 11, 0, label='LDR1', lab=(36.5, 12.8, 'middle'))
-    bb.add('R3', 'res', 37, 9, 0, ohms=47, label='R3 47R', lab=(39.8, 10.45, 'middle'))
+    bb.add('R3', 'res', 37, 9, 0, ohms=56, label='R3 56R', lab=(39.8, 10.45, 'middle'))
+    bb.add('R4', 'res', 38, 8, 0, span=6, ohms=22000, label='R4 22k', lab=(41, 7.35, 'middle'))
+    bb.add('RV1', 'pot', 44, 10, 0, label='RV1 50k trim', lab=(47.6, 10.1, 'start'))
     bb.add('JP1', 'jumper', 15, 9, 0, nets=['ESP_3V3', 'ESP_3V3'], label='JP1', lab=(15.5, 7.75, 'middle'))
 
     # ---- jumper wires (breadboard wires carry the colour of their net)
@@ -720,6 +733,8 @@ def breadboard():
         ((29, 0), (29, -4), 'VBAT_SYS', {}),                          # M2 VCC
         ((27, 0), (27, -3), 'GND_LOAD', {}),                          # M2 GND
         ((32, 1), (38, 7), 'LDR_SENSE', dict(via=((35, -1.8), (40.2, 2.5)), tag='A1', tag_at=(38.6, 0.9))),
+        ((45, 11), (45, 14), 'GND_LOAD', {}),                         # RV1 wiper
+        ((46, 11), (46, 14), 'GND_LOAD', {}),                         # RV1 pin 3
         ((60, -4), (60, 15), 'VBAT_SYS', dict(bend=0.05)),            # rail links
         ((59, -3), (59, 14), 'GND_LOAD', dict(bend=0.05)),
     ]
@@ -895,7 +910,7 @@ def breadboard():
         'Shade LDR1 from the LED string: with the lights on, ldr= may rise only a few percent (Gate 3).'])
     notes(s, 912, 1092, 846, 'Why it is laid out this way', [
         'Every module pin has one free hole beside it, so parts plug straight into the pin columns:',
-        'R5 A0 to rail, R9 base to rail, R4 A1 to rail, SW1 D2 to rail, C4 across the M2 pins.',
+        'R5 A0 to rail, R9 base to rail, SW1 D2 to rail, C4 across the M2 pins; R4 + RV1 trim A1 to rail.',
         'U3 straddles the channel so its input and output pads never share a column.',
         'D1 Mini antenna overhangs the left end; its USB faces U3, which is low enough for the plug.',
         'Nothing sits by the M2 serial header, so a USB-UART can clip on to monitor TXO (TX to RX, GND).',
@@ -951,7 +966,7 @@ PF_W, PF_H = 38, 26
 ROUTE_ORDER = ['WAKE:d0', 'WAKE:rst', 'ADC_BATT', 'UART_TX', 'UART_BASE', 'UART_RX_INVERTED', 'ESP_3V3',
                'ESP_3V3:u3', 'TEST', 'PWM', 'LED_POS', 'LDR_POWER', 'LDR_SENSE', 'CHARGE_5V',
                'CHARGE_RETURN', 'PV_POS', 'PV_RETURN', 'PACK_POS', 'PACK_NEG', 'PROTECTED_POS',
-               'GND_LOAD', 'VBAT_SYS']
+               'GND_LOAD', 'VBAT_SYS', 'LDR_TRIM']
 
 
 def route(occ, pins_by_net, order, links=()):
@@ -1040,12 +1055,13 @@ def perfboard():
     pb = Board('pb', P, 380, 196)
     add = pb.add
     add('M3', 'd1mini', 10, 1, 90, label='M3  Wemos D1 Mini', lab=(6.6, 12.35, 'middle'))
-    add('M2', 'promini', 33, 1, 90, label='M2  Pro Mini\n328P or 328PB', lab=(30, 13.6, 'middle'))
+    add('M2', 'promini', 33, 1, 90, label='M2  Pro Mini\n328P or 328PB', lab=(24.4, 11.7, 'middle'))
     add('C4', 'cer', 34, 4, 270, label='C4', lab=(34.5, 1.35, 'middle'))
-    add('R4', 'res', 35, 7, 270, ohms=47000, label='R4 47k', lab=(36.2, 5.6, 'start'))
+    add('R4', 'res', 35, 11, 90, span=3, ohms=22000, label='R4 22k', lab=(35.9, 12.6, 'start'))
+    add('RV1', 'pot', 33, 14, 180, label='RV1 LDR trim', lab=(32, 15.75, 'middle'))
     add('C3', 'elec', 37, 2, 180, rad=1.0, label='C3 100u', lab=(37.2, -0.9, 'middle'))
     add('R8', 'res', 26, 1, 180, ohms=47000, label='R8 47k', lab=(24, 0.2, 'middle'))
-    add('SW1', 'tact4', 24, 5, 0, label='SW1 test', lab=(25, 9.35, 'middle'))
+    add('SW1', 'tact4', 24, 5, 0, label='SW1 TEST', lab=(25, 9.35, 'middle'))
     add('Q2', 'to92', 21, 3, 180, label='Q2', lab=(22.4, 2.95, 'start'))
     add('R9', 'res', 20, 4, 90, span=3, ohms=100000, label='R9 100k', lab=(20.8, 8.3, 'middle'))
     add('R10', 'res', 18, 7, 270, span=3, ohms=10000, label='R10 10k', lab=(17.5, 5.9, 'end'))
@@ -1054,7 +1070,7 @@ def perfboard():
     add('JP1', 'jumper', 16, 8, 0, nets=['ESP_3V3:u3', 'ESP_3V3'], label='JP1', lab=(15.3, 8.3, 'end'))
     add('U3', 'hl802', 14, 10, 0, label='U3 3.3 V', lab=(15.5, 9.2, 'middle'))
     add('C2', 'elec', 14, 14, 0, rad=1.2, pitch=2, label='C2 470u', lab=(17.4, 14.35, 'start'))
-    add('R3', 'res', 27, 13, 90, span=3, ohms=47, label='R3 47R', lab=(26.4, 15.6, 'end'))
+    add('R3', 'res', 27, 13, 90, span=3, ohms=56, label='R3 56R', lab=(26.4, 15.6, 'end'))
     add('J4', 'term', 37, 15, 90, nets=['GND_LOAD', 'LED_POS'], label='J4 LED', lab=(37.2, 19.1, 'middle'))
     add('J5', 'term', 37, 10, 90, nets=['LDR_SENSE', 'LDR_POWER'], label='J5 LDR', lab=(37.2, 8.75, 'middle'))
     add('M1', 'tp4056', 13, 22, 180, label='M1  protected TP4056', lab=(8, 16.35, 'middle'))

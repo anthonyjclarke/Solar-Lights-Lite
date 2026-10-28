@@ -9,10 +9,25 @@ with [README.md](README.md).
 
 ### Added
 
-- PCB carrier Rev C draft (`hardware/pcb-rev-c/`), started from the Rev B
-  layout that was ordered. Rev C renders go to its own `review/renders/`, so
-  guide 13 keeps showing Rev B. The SnapEDA model ignore rule now covers every
-  revision folder.
+- PCB carrier Rev C (`hardware/pcb-rev-c/`), started from the Rev B layout
+  that was ordered, now the board the docs describe. Fabrication files,
+  review pack, fit sheet and renders are exported; not yet ordered, supplier
+  DFM not run. The SnapEDA model ignore rule now covers every revision folder.
+- Rev C: R3 is 56 Ω (Rev B 47 Ω). The model puts LED peak current at
+  19.1 mA at 4.2 V, inside the 20 mA target; bench confirmation pending.
+- Rev C: LDR sensitivity trim. R4 becomes 22 kΩ in series with RV1, a 50 kΩ
+  3296W multi-turn rheostat, so dusk can be set without reflashing
+  (mid-travel equals the old 47 kΩ).
+- Rev C: an on-board 6 × 6 mm tactile switch SW1 replaces the remote-button
+  pads. The silkscreen adds the author name, and the GitHub repository up the
+  right-hand edge.
+- Rev C: the ISP header now lies sideways below the Pro Mini. The silkscreen
+  outlines a DC3-6P keyed box header, which the BOM lists as an optional
+  alternative to the plain 2 × 3 header, and a pin legend sits under it.
+  Mounting hole H1 moves 0.5 mm down, to (3.5, 48.0) mm.
+- Rev C generator: a net that the router cannot complete now moves to the
+  front of the routing order and the board is routed again.
+  `run_checks.sh` stops when a step fails.
 - PCB carrier Rev B (`hardware/pcb-rev-b/`, review prototype, not yet fabricated):
   74 x 51.5 mm, all through-hole. The TP4056 charger M1 mounts on the board, every
   external connection is a 2.54 mm solder point, there are no fuses, and the
@@ -51,6 +66,15 @@ with [README.md](README.md).
 
 ### Changed
 
+- Documentation now follows Rev C throughout. Guide 13 and its renders show
+  Rev C, with Rev B summarised as the ordered predecessor. The whole system
+  moves to R3 = 56 Ω (68 Ω if the string draws over 20 mA at 4.20 V), R4 =
+  22 kΩ plus the RV1 50 kΩ dusk trimmer, and an SW1 TEST button: guides
+  01, 02, 04, 05, 06, 10 and 12, `parts-list.csv`, the netlist and wire
+  schedule (new net `LDR_TRIM`), drawing sheets, bench sheet, breadboard and
+  perfboard layouts, the KiCad system schematic and `ASSEMBLY.html`. The
+  energy budget uses 13 mA for the reference string. Drawings and guide are
+  marked revision 0.7. Firmware changed in comments only.
 - PCB carrier Rev B, before ordering: the TP4056 B- and B+ holes move to the
   module in hand (OUT- 3.45, B- 7.45, B+ 3.10 mm to OUT+; the vendor drawing's
   2.54 / 8.92 / 2.54 did not fit). Mounting hole H3 moves from beside M1's IN-

@@ -1,5 +1,5 @@
 {
-  "revision": "0.6",
+  "revision": "0.7",
   "scope": "External module terminals only; internal connections must be verified. Not a PCB netlist.",
   "nets": {
     "PV_POS": [
@@ -59,7 +59,8 @@
       "C3.-",
       "C4.2",
       "JLED.-",
-      "R4.2",
+      "RV1.2",
+      "RV1.3",
       "SW1.2",
       "U3.GND",
       "C2.-",
@@ -83,6 +84,10 @@
       "LDR1.2",
       "R4.1",
       "M2.A1"
+    ],
+    "LDR_TRIM": [
+      "R4.2",
+      "RV1.1"
     ],
     "TEST": [
       "M2.D2",

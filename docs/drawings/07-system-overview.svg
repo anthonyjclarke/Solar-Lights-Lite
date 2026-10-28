@@ -16,7 +16,7 @@
 			<text x="42" y="790" style="font-family: Helvetica; font-size: 16px;fill: rgb(31%,39%,47%); stroke:none;" transform="translate(0,1580) scale(1,-1)">Every module on one sheet. Telemetry reports controller state to Home Assistant; it is not a current or energy meter.</text>
 			<path d="M 42,768 L 1398,768 Z" style="stroke: rgb(83%,87%,90%); stroke-linecap: butt; stroke-width: 1;"/>
 			<path d="M 42,50 L 1398,50 Z" style="stroke: rgb(83%,87%,90%); stroke-linecap: butt; stroke-width: 1;"/>
-			<text x="42" y="23" style="font-family: Helvetica-Bold; font-size: 13px;fill: rgb(0%,52%,44%); stroke:none;" transform="translate(0,46) scale(1,-1)">REV 0.6  |  READ MODULE PAD LABELS, NOT BOARD POSITIONS</text>
+			<text x="42" y="23" style="font-family: Helvetica-Bold; font-size: 13px;fill: rgb(0%,52%,44%); stroke:none;" transform="translate(0,46) scale(1,-1)">REV 0.7  |  READ MODULE PAD LABELS, NOT BOARD POSITIONS</text>
 			<text x="1175" y="23" style="font-family: Helvetica; font-size: 13px;fill: rgb(31%,39%,47%); stroke:none;" transform="translate(0,46) scale(1,-1)">SHEET 7 OF 7 / A3</text>
 			<path d="M 42,760 L 42,58 Z" style="stroke: rgb(94%,96%,97%); stroke-linecap: butt; stroke-width: 0.7;"/>
 			<path d="M 78,760 L 78,58 Z" style="stroke: rgb(94%,96%,97%); stroke-linecap: butt; stroke-width: 0.7;"/>
@@ -223,16 +223,16 @@
 			<text x="259.553" y="295" style="font-family: Helvetica; font-size: 13.5px;fill: rgb(9%,18%,27%); stroke:none;" transform="translate(0,590) scale(1,-1)">&lt;- OUT-</text>
 			<rect x="60" y="261" width="26.697000000000003" height="18" rx="4" ry="4" style="stroke: rgb(9%,43%,69%); stroke-linecap: butt; stroke-width: 1; fill: rgb(88%,92%,96%); fill-rule: evenodd;"/>
 			<text x="66" y="265.5" style="font-family: Helvetica-Bold; font-size: 11.5px;fill: rgb(9%,43%,69%); stroke:none;" transform="translate(0,531) scale(1,-1)">D7</text>
-			<text x="96.697" y="265" style="font-family: Helvetica; font-size: 13.5px;fill: rgb(9%,18%,27%); stroke:none;" transform="translate(0,530) scale(1,-1)">-&gt; LDR -&gt; A1 -&gt; R4 -&gt; OUT-</text>
+			<text x="96.697" y="265" style="font-family: Helvetica; font-size: 13.5px;fill: rgb(9%,18%,27%); stroke:none;" transform="translate(0,530) scale(1,-1)">-&gt; LDR -&gt; A1 -&gt; R4 + RV1 -&gt; OUT-</text>
 			<rect x="60" y="231" width="26.697000000000003" height="18" rx="4" ry="4" style="stroke: rgb(67%,38%,0%); stroke-linecap: butt; stroke-width: 1; fill: rgb(95%,92%,87%); fill-rule: evenodd;"/>
 			<text x="66" y="235.5" style="font-family: Helvetica-Bold; font-size: 11.5px;fill: rgb(67%,38%,0%); stroke:none;" transform="translate(0,471) scale(1,-1)">D9</text>
-			<text x="96.697" y="235" style="font-family: Helvetica; font-size: 13.5px;fill: rgb(9%,18%,27%); stroke:none;" transform="translate(0,470) scale(1,-1)">-&gt; R3 47R -&gt; LED string -&gt; OUT-</text>
+			<text x="96.697" y="235" style="font-family: Helvetica; font-size: 13.5px;fill: rgb(9%,18%,27%); stroke:none;" transform="translate(0,470) scale(1,-1)">-&gt; R3 56R -&gt; LED string -&gt; OUT-</text>
 			<rect x="60" y="201" width="44.59100000000001" height="18" rx="4" ry="4" style="stroke: rgb(0%,52%,44%); stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,93%,92%); fill-rule: evenodd;"/>
 			<text x="66" y="205.5" style="font-family: Helvetica-Bold; font-size: 11.5px;fill: rgb(0%,52%,44%); stroke:none;" transform="translate(0,411) scale(1,-1)">D1/TX</text>
 			<text x="114.59100000000001" y="205" style="font-family: Helvetica; font-size: 13.5px;fill: rgb(9%,18%,27%); stroke:none;" transform="translate(0,410) scale(1,-1)">-&gt; R8 -&gt; Q2 base (9600 baud)</text>
 			<rect x="60" y="171" width="26.697000000000003" height="18" rx="4" ry="4" style="stroke: rgb(0%,52%,44%); stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,93%,92%); fill-rule: evenodd;"/>
 			<text x="66" y="175.5" style="font-family: Helvetica-Bold; font-size: 11.5px;fill: rgb(0%,52%,44%); stroke:none;" transform="translate(0,351) scale(1,-1)">D2</text>
-			<text x="96.697" y="175" style="font-family: Helvetica; font-size: 13.5px;fill: rgb(9%,18%,27%); stroke:none;" transform="translate(0,350) scale(1,-1)">&lt;- SW1 test button to OUT-</text>
+			<text x="96.697" y="175" style="font-family: Helvetica; font-size: 13.5px;fill: rgb(9%,18%,27%); stroke:none;" transform="translate(0,350) scale(1,-1)">&lt;- SW1 TEST button to OUT-</text>
 			<rect x="523" y="288" width="300" height="100" rx="14" ry="14" style="stroke: none; stroke-linecap: butt; stroke-width: 2; fill: rgb(92%,92%,93%); fill-rule: evenodd;"/>
 			<rect x="520" y="294" width="300" height="100" rx="14" ry="14" style="stroke: rgb(82%,87%,90%); stroke-linecap: butt; stroke-width: 1.2; fill: rgb(100%,100%,100%); fill-rule: evenodd;"/>
 			<rect x="538" y="390" width="264" height="4" rx="2" ry="2" style="stroke: none; stroke-linecap: butt; stroke-width: 2; fill: rgb(75%,21%,23%); fill-rule: evenodd;"/>

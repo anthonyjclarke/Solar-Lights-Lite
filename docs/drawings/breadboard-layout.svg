@@ -5,7 +5,7 @@
 <text x="42" y="112" font-size="15" fill="#516578" text-anchor="start">Tier 2 jumpers fitted. The panel, charger, cells, fuses and service switch stay on soldered leads; only the protected VBAT_SYS and OUT- reach the breadboard.</text>
 <line x1="42" y1="130" x2="1758" y2="130" stroke="#d5e0e6" stroke-width="1"/>
 <line x1="42" y1="1290" x2="1758" y2="1290" stroke="#d5e0e6" stroke-width="1"/>
-<text x="42" y="1314" font-size="12.5" fill="#008572" text-anchor="start" font-weight="bold">REV 0.6  |  READ MODULE PAD LABELS, NOT BOARD POSITIONS</text>
+<text x="42" y="1314" font-size="12.5" fill="#008572" text-anchor="start" font-weight="bold">REV 0.7  |  READ MODULE PAD LABELS, NOT BOARD POSITIONS</text>
 <text x="1758" y="1314" font-size="12.5" fill="#516578" text-anchor="end">BREADBOARD LAYOUT</text>
 <rect x="154" y="174" width="180" height="190" fill="#dfe4e8" rx="10"/>
 <rect x="150" y="168" width="180" height="190" fill="#26282c" stroke="#101113" stroke-width="1.5" rx="10"/>
@@ -149,9 +149,10 @@
 <rect x="294.76" y="740.76" width="18.48" height="106.48" fill="#c6ecc8" stroke="#96d59c" stroke-width="1" rx="4"/>
 <rect x="470.76" y="586.76" width="18.48" height="106.48" fill="#c6ecc8" stroke="#96d59c" stroke-width="1" rx="4"/>
 <rect x="206.76" y="586.76" width="18.48" height="106.48" fill="#c6ecc8" stroke="#96d59c" stroke-width="1" rx="4"/>
+<rect x="1108.76" y="894.76" width="18.48" height="18.48" fill="#c6ecc8" stroke="#96d59c" stroke-width="1" rx="4"/>
 <rect x="558.76" y="740.76" width="18.48" height="106.48" fill="#c6ecc8" stroke="#96d59c" stroke-width="1" rx="4"/>
-<rect x="1438.76" y="498.76" width="18.48" height="18.48" fill="#c6ecc8" stroke="#96d59c" stroke-width="1" rx="4"/>
 <rect x="1438.76" y="916.76" width="18.48" height="18.48" fill="#c6ecc8" stroke="#96d59c" stroke-width="1" rx="4"/>
+<rect x="228.76" y="916.76" width="18.48" height="18.48" fill="#c6ecc8" stroke="#96d59c" stroke-width="1" rx="4"/>
 <rect x="580.76" y="740.76" width="18.48" height="106.48" fill="#c6ecc8" stroke="#96d59c" stroke-width="1" rx="4"/>
 <rect x="602.76" y="498.76" width="18.48" height="18.48" fill="#c6ecc8" stroke="#96d59c" stroke-width="1" rx="4"/>
 <rect x="360.76" y="740.76" width="18.48" height="106.48" fill="#c6ecc8" stroke="#96d59c" stroke-width="1" rx="4"/>
@@ -166,9 +167,9 @@
 <rect x="514.76" y="586.76" width="18.48" height="106.48" fill="#c6ecc8" stroke="#96d59c" stroke-width="1" rx="4"/>
 <rect x="756.76" y="498.76" width="18.48" height="18.48" fill="#c6ecc8" stroke="#96d59c" stroke-width="1" rx="4"/>
 <rect x="338.76" y="740.76" width="18.48" height="106.48" fill="#c6ecc8" stroke="#96d59c" stroke-width="1" rx="4"/>
+<rect x="1108.76" y="740.76" width="18.48" height="106.48" fill="#c6ecc8" stroke="#96d59c" stroke-width="1" rx="4"/>
 <rect x="866.76" y="586.76" width="18.48" height="106.48" fill="#c6ecc8" stroke="#96d59c" stroke-width="1" rx="4"/>
 <rect x="888.76" y="740.76" width="18.48" height="106.48" fill="#c6ecc8" stroke="#96d59c" stroke-width="1" rx="4"/>
-<rect x="822.76" y="520.76" width="18.48" height="18.48" fill="#c6ecc8" stroke="#96d59c" stroke-width="1" rx="4"/>
 <rect x="338.76" y="520.76" width="18.48" height="18.48" fill="#c6ecc8" stroke="#96d59c" stroke-width="1" rx="4"/>
 <rect x="778.76" y="520.76" width="18.48" height="18.48" fill="#c6ecc8" stroke="#96d59c" stroke-width="1" rx="4"/>
 <rect x="272.76" y="740.76" width="18.48" height="106.48" fill="#c6ecc8" stroke="#96d59c" stroke-width="1" rx="4"/>
@@ -182,10 +183,12 @@
 <rect x="470.76" y="498.76" width="18.48" height="18.48" fill="#c6ecc8" stroke="#96d59c" stroke-width="1" rx="4"/>
 <rect x="1020.76" y="740.76" width="18.48" height="106.48" fill="#c6ecc8" stroke="#96d59c" stroke-width="1" rx="4"/>
 <rect x="932.76" y="586.76" width="18.48" height="106.48" fill="#c6ecc8" stroke="#96d59c" stroke-width="1" rx="4"/>
+<rect x="1086.76" y="740.76" width="18.48" height="106.48" fill="#c6ecc8" stroke="#96d59c" stroke-width="1" rx="4"/>
 <rect x="316.76" y="586.76" width="18.48" height="106.48" fill="#c6ecc8" stroke="#96d59c" stroke-width="1" rx="4"/>
 <rect x="690.76" y="586.76" width="18.48" height="106.48" fill="#c6ecc8" stroke="#96d59c" stroke-width="1" rx="4"/>
 <rect x="206.76" y="740.76" width="18.48" height="106.48" fill="#c6ecc8" stroke="#96d59c" stroke-width="1" rx="4"/>
 <rect x="822.76" y="586.76" width="18.48" height="106.48" fill="#c6ecc8" stroke="#96d59c" stroke-width="1" rx="4"/>
+<rect x="1438.76" y="498.76" width="18.48" height="18.48" fill="#c6ecc8" stroke="#96d59c" stroke-width="1" rx="4"/>
 <rect x="338.76" y="586.76" width="18.48" height="106.48" fill="#c6ecc8" stroke="#96d59c" stroke-width="1" rx="4"/>
 <rect x="778.76" y="498.76" width="18.48" height="18.48" fill="#c6ecc8" stroke="#96d59c" stroke-width="1" rx="4"/>
 <rect x="778.76" y="894.76" width="18.48" height="18.48" fill="#c6ecc8" stroke="#96d59c" stroke-width="1" rx="4"/>
@@ -193,8 +196,8 @@
 <rect x="712.76" y="740.76" width="18.48" height="106.48" fill="#c6ecc8" stroke="#96d59c" stroke-width="1" rx="4"/>
 <rect x="448.76" y="740.76" width="18.48" height="106.48" fill="#c6ecc8" stroke="#96d59c" stroke-width="1" rx="4"/>
 <rect x="228.76" y="740.76" width="18.48" height="106.48" fill="#c6ecc8" stroke="#96d59c" stroke-width="1" rx="4"/>
+<rect x="1130.76" y="894.76" width="18.48" height="18.48" fill="#c6ecc8" stroke="#96d59c" stroke-width="1" rx="4"/>
 <rect x="360.76" y="586.76" width="18.48" height="106.48" fill="#c6ecc8" stroke="#96d59c" stroke-width="1" rx="4"/>
-<rect x="228.76" y="916.76" width="18.48" height="18.48" fill="#c6ecc8" stroke="#96d59c" stroke-width="1" rx="4"/>
 <rect x="954.76" y="740.76" width="18.48" height="106.48" fill="#c6ecc8" stroke="#96d59c" stroke-width="1" rx="4"/>
 <rect x="514.76" y="520.76" width="18.48" height="18.48" fill="#c6ecc8" stroke="#96d59c" stroke-width="1" rx="4"/>
 <rect x="470.76" y="740.76" width="18.48" height="106.48" fill="#c6ecc8" stroke="#96d59c" stroke-width="1" rx="4"/>
@@ -207,6 +210,7 @@
 <rect x="778.76" y="740.76" width="18.48" height="106.48" fill="#c6ecc8" stroke="#96d59c" stroke-width="1" rx="4"/>
 <rect x="272.76" y="586.76" width="18.48" height="106.48" fill="#c6ecc8" stroke="#96d59c" stroke-width="1" rx="4"/>
 <rect x="910.76" y="740.76" width="18.48" height="106.48" fill="#c6ecc8" stroke="#96d59c" stroke-width="1" rx="4"/>
+<rect x="1130.76" y="740.76" width="18.48" height="106.48" fill="#c6ecc8" stroke="#96d59c" stroke-width="1" rx="4"/>
 <rect x="712.76" y="520.76" width="18.48" height="18.48" fill="#c6ecc8" stroke="#96d59c" stroke-width="1" rx="4"/>
 <rect x="1416.76" y="894.76" width="18.48" height="18.48" fill="#c6ecc8" stroke="#96d59c" stroke-width="1" rx="4"/>
 <rect x="866.76" y="740.76" width="18.48" height="106.48" fill="#c6ecc8" stroke="#96d59c" stroke-width="1" rx="4"/>
@@ -1278,14 +1282,6 @@
 <rect x="0.97" y="0.31" width="0.22" height="0.08" fill="#1f3f75"/>
 <path d="M0.05 0 H 0.7 M 0.38 -0.32 V 0.32" stroke="#6f86ad" stroke-width="0.06"/>
 </g>
-<g transform="translate(832,596) rotate(270) scale(22)">
-<line x1="0" y1="0" x2="3" y2="0" stroke="#a7abb0" stroke-width="0.12" stroke-linecap="round"/>
-<rect x="0.3" y="-0.43" width="2.4" height="0.86" fill="#dcc28f" stroke="#b3955a" stroke-width="0.05" rx="0.38"/>
-<rect x="0.75" y="-0.42" width="0.18" height="0.84" fill="#fbc02d"/>
-<rect x="1.08" y="-0.42" width="0.18" height="0.84" fill="#7b1fa2"/>
-<rect x="1.41" y="-0.42" width="0.18" height="0.84" fill="#f57c00"/>
-<rect x="2.15" y="-0.42" width="0.18" height="0.84" fill="#c9a13b"/>
-</g>
 <g transform="translate(788,838) rotate(0) scale(22)">
 <line x1="0" y1="0" x2="0" y2="3" stroke="#a7abb0" stroke-width="0.14"/>
 <rect x="-0.85" y="0.35" width="1.7" height="2.3" fill="#2b2d30" stroke="#000000" stroke-width="0.05" rx="0.12"/>
@@ -1300,11 +1296,25 @@
 <g transform="translate(942,794) rotate(0) scale(22)">
 <line x1="0" y1="0" x2="4" y2="0" stroke="#a7abb0" stroke-width="0.12" stroke-linecap="round"/>
 <rect x="0.75" y="-0.43" width="2.5" height="0.86" fill="#dcc28f" stroke="#b3955a" stroke-width="0.05" rx="0.38"/>
-<rect x="1.2" y="-0.42" width="0.18" height="0.84" fill="#fbc02d"/>
-<rect x="1.53" y="-0.42" width="0.18" height="0.84" fill="#7b1fa2"/>
+<rect x="1.2" y="-0.42" width="0.18" height="0.84" fill="#388e3c"/>
+<rect x="1.53" y="-0.42" width="0.18" height="0.84" fill="#1976d2"/>
 <rect x="1.86" y="-0.42" width="0.18" height="0.84" fill="#111111"/>
 <rect x="2.7" y="-0.42" width="0.18" height="0.84" fill="#c9a13b"/>
 </g>
+<g transform="translate(964,772) rotate(0) scale(22)">
+<line x1="0" y1="0" x2="6" y2="0" stroke="#a7abb0" stroke-width="0.12" stroke-linecap="round"/>
+<rect x="1.75" y="-0.43" width="2.5" height="0.86" fill="#dcc28f" stroke="#b3955a" stroke-width="0.05" rx="0.38"/>
+<rect x="2.2" y="-0.42" width="0.18" height="0.84" fill="#d32f2f"/>
+<rect x="2.53" y="-0.42" width="0.18" height="0.84" fill="#d32f2f"/>
+<rect x="2.86" y="-0.42" width="0.18" height="0.84" fill="#f57c00"/>
+<rect x="3.7" y="-0.42" width="0.18" height="0.84" fill="#c9a13b"/>
+</g>
+<g transform="translate(1096,816) rotate(0) scale(22)">
+<rect x="-0.75" y="-1" width="3.5" height="1.9" fill="#2f6fd0" stroke="#1c4a91" stroke-width="0.06" rx="0.1"/>
+<circle cx="-0.25" cy="-0.5" r="0.36" fill="#d39a3a" stroke="#8a5f1c" stroke-width="0.05"/>
+<line x1="-0.5" y1="-0.5" x2="0" y2="-0.5" stroke="#8a5f1c" stroke-width="0.1"/>
+</g>
+<text x="1126.8" y="828.1" font-size="8.8" fill="#e8eefa" text-anchor="middle" font-weight="bold">503</text>
 <g transform="translate(458,794) rotate(0) scale(22)">
 <rect x="-0.5" y="-0.5" width="2" height="1" fill="#161718" rx="0.06"/>
 <rect x="-0.45" y="-0.42" width="1.9" height="0.84" fill="#f2c200" stroke="#9c7c00" stroke-width="0.05" rx="0.12"/>
@@ -1474,6 +1484,16 @@
 <path d="M832 618 C 898 556.4 1012.4 651 964 750" fill="none" stroke="#7dccb9" stroke-width="1.452" stroke-linecap="round" transform="translate(0,-1.188)" opacity="0.55"/>
 <circle cx="832" cy="618" r="3.63" fill="#a9aeb4" stroke="#6c7278" stroke-width="0.8"/>
 <circle cx="964" cy="750" r="3.63" fill="#a9aeb4" stroke="#6c7278" stroke-width="0.8"/>
+<path d="M1118 838 Q 1106.12 871 1118 904" fill="none" stroke="#17191c" stroke-width="8.91" stroke-linecap="round"/>
+<path d="M1118 838 Q 1106.12 871 1118 904" fill="none" stroke="#2a2e33" stroke-width="6.6" stroke-linecap="round"/>
+<path d="M1118 838 Q 1106.12 871 1118 904" fill="none" stroke="#8a8c8f" stroke-width="1.452" stroke-linecap="round" transform="translate(0,-1.188)" opacity="0.55"/>
+<circle cx="1118" cy="838" r="3.63" fill="#a9aeb4" stroke="#6c7278" stroke-width="0.8"/>
+<circle cx="1118" cy="904" r="3.63" fill="#a9aeb4" stroke="#6c7278" stroke-width="0.8"/>
+<path d="M1140 838 Q 1128.12 871 1140 904" fill="none" stroke="#17191c" stroke-width="8.91" stroke-linecap="round"/>
+<path d="M1140 838 Q 1128.12 871 1140 904" fill="none" stroke="#2a2e33" stroke-width="6.6" stroke-linecap="round"/>
+<path d="M1140 838 Q 1128.12 871 1140 904" fill="none" stroke="#8a8c8f" stroke-width="1.452" stroke-linecap="round" transform="translate(0,-1.188)" opacity="0.55"/>
+<circle cx="1140" cy="838" r="3.63" fill="#a9aeb4" stroke="#6c7278" stroke-width="0.8"/>
+<circle cx="1140" cy="904" r="3.63" fill="#a9aeb4" stroke="#6c7278" stroke-width="0.8"/>
 <path d="M1448 508 Q 1427.1 717 1448 926" fill="none" stroke="#762020" stroke-width="8.91" stroke-linecap="round"/>
 <path d="M1448 508 Q 1427.1 717 1448 926" fill="none" stroke="#d63a3a" stroke-width="6.6" stroke-linecap="round"/>
 <path d="M1448 508 Q 1427.1 717 1448 926" fill="none" stroke="#e89393" stroke-width="1.452" stroke-linecap="round" transform="translate(0,-1.188)" opacity="0.55"/>
@@ -1508,14 +1528,16 @@
 <text x="713.2" y="625.7" font-size="12" fill="#173047" text-anchor="end" font-weight="bold">C4 100n</text>
 <rect x="815.8" y="473.9" width="52.494" height="16" fill="#ffffff" opacity="0.88" rx="3"/>
 <text x="818.8" y="484.9" font-size="12" fill="#173047" text-anchor="start" font-weight="bold">C3 100u</text>
-<rect x="844.4" y="560.8" width="45.564" height="16" fill="#ffffff" opacity="0.88" rx="3"/>
-<text x="847.4" y="571.8" font-size="12" fill="#173047" text-anchor="start" font-weight="bold">R4 47k</text>
-<rect x="809.2" y="871" width="62.574" height="16" fill="#ffffff" opacity="0.88" rx="3"/>
-<text x="812.2" y="882" font-size="12" fill="#173047" text-anchor="start" font-weight="bold">SW1 test</text>
+<rect x="809.2" y="871" width="68.118" height="16" fill="#ffffff" opacity="0.88" rx="3"/>
+<text x="812.2" y="882" font-size="12" fill="#173047" text-anchor="start" font-weight="bold">SW1 TEST</text>
 <rect x="912.061" y="866.6" width="37.878" height="16" fill="#ffffff" opacity="0.88" rx="3"/>
 <text x="931" y="877.6" font-size="12" fill="#173047" text-anchor="middle" font-weight="bold">LDR1</text>
 <rect x="980.125" y="814.9" width="46.95" height="16" fill="#ffffff" opacity="0.88" rx="3"/>
-<text x="1003.6" y="825.9" font-size="12" fill="#173047" text-anchor="middle" font-weight="bold">R3 47R</text>
+<text x="1003.6" y="825.9" font-size="12" fill="#173047" text-anchor="middle" font-weight="bold">R3 56R</text>
+<rect x="1007.218" y="746.7" width="45.564" height="16" fill="#ffffff" opacity="0.88" rx="3"/>
+<text x="1030" y="757.7" font-size="12" fill="#173047" text-anchor="middle" font-weight="bold">R4 22k</text>
+<rect x="1172.2" y="807.2" width="84.876" height="16" fill="#ffffff" opacity="0.88" rx="3"/>
+<text x="1175.2" y="818.2" font-size="12" fill="#173047" text-anchor="start" font-weight="bold">RV1 50k trim</text>
 <rect x="454.219" y="755.5" width="29.562" height="16" fill="#ffffff" opacity="0.88" rx="3"/>
 <text x="469" y="766.5" font-size="12" fill="#173047" text-anchor="middle" font-weight="bold">JP1</text>
 <rect x="565.642" y="168.3" width="140.316" height="16" fill="#ffffff" opacity="0.88" rx="3"/>
@@ -1576,7 +1598,7 @@
 <text x="1098.625" y="1072.5" font-size="12.5" fill="#173047" text-anchor="start">Logic / sensor</text>
 <rect x="42" y="1092" width="850" height="191" fill="#fffaf0" stroke="#e5c58f" stroke-width="1.2" rx="12"/>
 <text x="60" y="1119" font-size="15" fill="#ad6200" text-anchor="start" font-weight="bold">Build notes</text>
-<text x="60" y="1143" font-size="13" fill="#173047" text-anchor="start">10 jumper wires on the board (JP2 is the yellow D0-RST link), 2 rail links, one JP1 header.</text>
+<text x="60" y="1143" font-size="13" fill="#173047" text-anchor="start">12 jumper wires on the board (JP2 is the yellow D0-RST link), 2 rail links, one JP1 header.</text>
 <text x="60" y="1164" font-size="13" fill="#173047" text-anchor="start">Tier 1: remove the JP1 shunt and power the D1 Mini from its USB. Remove JP2 to flash it over USB.</text>
 <text x="60" y="1185" font-size="13" fill="#173047" text-anchor="start">Rails: outer red = VBAT_SYS, inner blue = GND_LOAD, linked top to bottom at columns 59 and 60.</text>
 <text x="60" y="1206" font-size="13" fill="#173047" text-anchor="start">Q2 flat face toward the channel (E-B-C = columns 22-21-20). Check the pin order of your part.</text>
@@ -1586,7 +1608,7 @@
 <rect x="912" y="1092" width="846" height="170" fill="#f3faf7" stroke="#a9d8c6" stroke-width="1.2" rx="12"/>
 <text x="930" y="1119" font-size="15" fill="#008572" text-anchor="start" font-weight="bold">Why it is laid out this way</text>
 <text x="930" y="1143" font-size="13" fill="#173047" text-anchor="start">Every module pin has one free hole beside it, so parts plug straight into the pin columns:</text>
-<text x="930" y="1164" font-size="13" fill="#173047" text-anchor="start">R5 A0 to rail, R9 base to rail, R4 A1 to rail, SW1 D2 to rail, C4 across the M2 pins.</text>
+<text x="930" y="1164" font-size="13" fill="#173047" text-anchor="start">R5 A0 to rail, R9 base to rail, SW1 D2 to rail, C4 across the M2 pins; R4 + RV1 trim A1 to rail.</text>
 <text x="930" y="1185" font-size="13" fill="#173047" text-anchor="start">U3 straddles the channel so its input and output pads never share a column.</text>
 <text x="930" y="1206" font-size="13" fill="#173047" text-anchor="start">D1 Mini antenna overhangs the left end; its USB faces U3, which is low enough for the plug.</text>
 <text x="930" y="1227" font-size="13" fill="#173047" text-anchor="start">Nothing sits by the M2 serial header, so a USB-UART can clip on to monitor TXO (TX to RX, GND).</text>

@@ -1,24 +1,29 @@
 # 13 – PCB carrier
 
-**Design files:** [`hardware/pcb-rev-b/`](../hardware/pcb-rev-b/) (KiCad 10).
-**Fit check:** [`fit-sheet-A4.pdf`](../hardware/pcb-rev-b/review/fit-sheet-A4.pdf).
-**Review pack:** [`pcb-review.pdf`](../hardware/pcb-rev-b/review/pcb-review.pdf).
+**Design files:** [`hardware/pcb-rev-c/`](../hardware/pcb-rev-c/) (KiCad 10).
+**Fit check:** [`fit-sheet-A4.pdf`](../hardware/pcb-rev-c/review/fit-sheet-A4.pdf).
+**Review pack:** [`pcb-review.pdf`](../hardware/pcb-rev-c/review/pcb-review.pdf).
 
 The carrier PCB replaces the perfboard from guides 04–07. The Pro Mini (M2)
 and D1 Mini (M3) plug into sockets, and the TP4056 charger (M1) solders
-directly onto the board. Every external connection is a 2.54 mm pin header.
-The circuit, firmware and ESPHome configuration are the same as in the wired
+directly onto the board. The TEST button and the RV1 dusk trimmer are on the
+board too, and every other external connection is a 2.54 mm pin header. The
+circuit, firmware and ESPHome configuration are the same as in the wired
 build, so modules A–F, tiers 0/1/2 and gates 0–8 all still apply.
+
+Rev C is the current design. It has passed the CAD checks but has not been
+fabricated yet; Rev B, the board that was ordered, is described at the end.
 
 **What you will learn:** how to read a two-layer board, check that a board
 fits before you order it, order bare boards from a fabrication service,
 assemble through-hole parts in a sensible order, and test a populated board
 before any module goes in.
 
-![Rev B carrier fully assembled, angled view](images/pcb/carrier-assembled-angled.png)
+![Rev C carrier fully assembled, angled view](images/pcb/carrier-assembled-angled.png)
 
-*Rev B fully assembled: Pro Mini (left) and D1 Mini (centre) in their
-sockets, TP4056 charger (right) on wire links, and pin headers on every
+*Rev C fully assembled: Pro Mini (left) and D1 Mini (centre) in their
+sockets, TP4056 charger (right) on wire links, the ISP box header below the
+Pro Mini, RV1 and the TEST button along the bottom, and pin headers on every
 connection. See [About the renders](#about-the-renders) for which module
 models are exact.*
 
@@ -26,16 +31,17 @@ models are exact.*
 
 ## The board at a glance
 
-| Item              | Rev B                                             |
+| Item              | Rev C                                             |
 |:------------------|:--------------------------------------------------|
 | Size              | 74 × 51.5 mm, two layers, 1.6 mm FR-4, 1 oz       |
 | Parts             | All through-hole; no SMD soldering                |
 | M2 Pro Mini       | Two 12-way sockets, serial-header end up          |
 | M3 D1 Mini        | Two 8-way sockets; antenna overhangs the top edge |
 | M1 TP4056         | Six wire links through overlay holes, USB-C up    |
-| External links    | Eight 2-pin headers along the bottom edge         |
+| External links    | Seven 2-pin headers along the bottom edge         |
+| On-board controls | SW1 TEST button, RV1 dusk trimmer                 |
 | Tier links        | JP1–JP3, 2-pin headers with shunts                |
-| Programming       | `JISP1` 2 × 3 AVR ISP header                      |
+| Programming       | `JISP1` 2 × 3 ISP, optional keyed box header      |
 | Mounting          | Three 3.2 mm holes, no copper near them           |
 | Assembled height  | About 15 mm above the board, 3 mm of leads below  |
 | Overhang          | D1 Mini antenna about 7.3 mm past the top edge    |
@@ -45,7 +51,11 @@ every socket hole. That makes a reversed module easy to spot. Turning M2 or
 M3 through 180° puts signals on the wrong pins, so always match the module
 to the outline and the `SERIAL END` / `ANTENNA END` marks.
 
-![Rev B carrier, top view](images/pcb/carrier-top.png)
+The silkscreen also carries the author's name and, running up the right-hand
+edge beside the TP4056, the repository address
+`github.com/anthonyjclarke/Solar-Lights-Lite`.
+
+![Rev C carrier, top view](images/pcb/carrier-top.png)
 
 ---
 
@@ -66,10 +76,18 @@ to the outline and the `SERIAL END` / `ANTENNA END` marks.
 - **Small parts sit under the modules.** R3, R4 and C4 are under M2; R5, R8,
   R9, R10 and Q2 are under M3. With 8.5 mm sockets there is about 6 mm of
   room, so keep these parts seated flat and low.
+- **Controls sit where you can reach them.** RV1 and SW1 are clear of both
+  modules, so you can trim the dusk level and run the TEST without
+  unplugging anything. RV1 is a multi-turn 3296W trimmer in series with R4
+  (see [guide 06](06-build-sensor.md#how-the-sensor-works)).
+- **The ISP header lies on its side below the Pro Mini.** Its outline is a
+  DC3-6P box header, so a keyed 6-pin IDC cable or a 2 × 3 adapter plugs in
+  without touching M2. The pin names are printed underneath it, because the
+  box covers the board beside the pins.
 - **U0 and U3 stay off the board.** Each one connects through its own pair of
   pins: `PV` for U0's 5 V output and `U3 IN` / `U3 OUT` for U3.
 
-![Rev B carrier, bottom view](images/pcb/carrier-bottom.png)
+![Rev C carrier, bottom view](images/pcb/carrier-bottom.png)
 
 *Bottom view, mirrored as seen from underneath.*
 
@@ -83,7 +101,6 @@ Pin 1 of every pair is on the left, on the square pad.
 |:-----------|:--------------|:------------|:-----------------------------------|
 | `JLED1`    | LED +         | –           | Low-power LED string               |
 | `JLDR1`    | D7 supply     | A1 sense    | Remote LDR across the two pins     |
-| `JBUTTON1` | D2            | –           | Normally-open test button          |
 | `JU3IN1`   | `VBAT_SYS`    | –           | U3 input (Tier 2)                  |
 | `JU3OUT1`  | U3 3.3 V      | –           | U3 output (Tier 2)                 |
 | `JS1`      | M1 OUT+       | `VBAT_SYS`  | S1 service switch                  |
@@ -92,34 +109,37 @@ Pin 1 of every pair is on the left, on the square pad.
 
 | Tier | Fit                                       | JP1             | JP2           | JP3                  |
 |:-----|:------------------------------------------|:----------------|:--------------|:---------------------|
-| 0    | M1, M2, C3, C4, R3, R4, headers           | Open            | Open          | Open                 |
+| 0    | M1, M2, C3, C4, R3, R4, RV1, SW1, headers | Open            | Open          | Open                 |
 | 1    | Add M3, Q2, R5, R8, R9, R10               | **Open**        | Open to flash | Closed while powered |
 | 2    | Add C2 and U3 wiring; production firmware | Closed, no USB  | Closed        | Closed               |
 
-There is no automatic interlock between USB and battery power. Never close
-JP1 while M3 is powered from USB. Remove JP3 whenever M3 is unpowered.
+JP1 decides where M3's 3.3 V comes from: open, M3 runs from its own USB;
+closed, U3 feeds it from the battery. There is no automatic interlock between
+USB and battery power. Never close JP1 while M3 is powered from USB. Remove
+JP3 whenever M3 is unpowered.
 
 ---
 
 ## Before you order
 
-1. Print [`fit-sheet-A4.pdf`](../hardware/pcb-rev-b/review/fit-sheet-A4.pdf)
+1. Print [`fit-sheet-A4.pdf`](../hardware/pcb-rev-c/review/fit-sheet-A4.pdf)
    at **100 %** (scaling off) and check the 50 mm calibration line.
 2. Lay the real M2, M3 and M1 on the sheet. Every pin and hole should sit
    on its printed mark, with the D1 Mini's antenna end up and the TP4056's
    USB-C end up.
-3. Upload `SolarLights_Carrier_RevB_fabrication_REVIEW.zip` only. The
+3. Upload `SolarLights_Carrier_RevC_fabrication_REVIEW.zip` only. The
    options are 2 layers, FR-4, 1.6 mm, 1 oz copper, HASL (lead-free if
    offered), any mask colour, top silkscreen, no assembly.
 4. Compare the fabrication service's preview with
    [the top render](images/pcb/carrier-top.png): outline, three mounting holes,
-   pad names and the square pin-1 pads.
+   pad names and the square pin-1 pads. The fabrication service's own
+   design-for-manufacture check has not been run on Rev C yet.
 
 ---
 
 ## Parts for the board
 
-The [assembly BOM](../hardware/pcb-rev-b/review/assembly-bom.csv) lists every
+The [assembly BOM](../hardware/pcb-rev-c/review/assembly-bom.csv) lists every
 reference with its tier. In addition to the values already in
 [guide 02](02-parts-and-tools.md):
 
@@ -127,8 +147,11 @@ reference with its tier. In addition to the values already in
 |:-------------------------------------|:----|:-------------------------|
 | 1 × 12 female socket, 8.5 mm         | 2   | M2 Pro Mini              |
 | 1 × 8 female socket, 8.5 mm          | 2   | M3 D1 Mini (Tiers 1, 2)  |
-| 1 × 2 male header, 2.54 mm           | 11  | Eight pairs, JP1–JP3     |
+| 1 × 2 male header, 2.54 mm           | 10  | Seven pairs, JP1–JP3     |
 | 2 × 3 male header, 2.54 mm           | 1   | `JISP1`                  |
+| DC3-6P box header, 2.54 mm, straight | 1   | `JISP1`, optional, keyed |
+| 6 × 6 mm tactile switch, tall stem   | 1   | SW1 TEST                 |
+| 50 kΩ 3296W trimmer (503)            | 1   | RV1                      |
 | 1 × 12 male header, 2.54 mm          | 2   | M2's own pins            |
 | 1 × 8 male header, 2.54 mm           | 2   | M3 pins (often supplied) |
 | 2.54 mm shunt                        | 3   | JP1–JP3                  |
@@ -145,7 +168,7 @@ sides of the board.
 
 ### 1. Resistors
 
-Fit R3 (47 Ω), R4 (47 k) and, for Tiers 1 and 2, R5 (220 k), R8 (47 k),
+Fit R3 (56 Ω), R4 (22 k) and, for Tiers 1 and 2, R5 (220 k), R8 (47 k),
 R9 (100 k) and R10 (10 k). Seat them flat and trim the leads short:
 they sit under the modules. Keep two or three cut leads for M1.
 
@@ -160,19 +183,27 @@ is about 2 mm above the board, so M3 clears it.
 Fit C3 (100 µF) and, for Tier 2, C2 (470 µF). The stripe marks the
 negative lead; the `+` on the silkscreen marks the positive pad.
 
-### 4. Pin headers
+### 4. Trimmer and button
 
-Fit the eight bottom-edge pairs, JP1–JP3 and `JISP1`. Tack one pin, check
+Set RV1 to mid-travel before fitting: about 25 kΩ between pins 1 and 2.
+Fit it with its adjusting screw at the end the outline shows, then fit SW1
+flat on the board. Both are clear of the modules.
+
+### 5. Pin headers
+
+Fit the seven bottom-edge pairs, JP1–JP3 and `JISP1`. For `JISP1`, either a
+plain 2 × 3 header or the optional DC3-6P box header fits the same holes;
+match the box's key slot to the outline, facing the bottom edge. Tack one pin, check
 the header is square to the board, then solder the rest. For a permanent
 outdoor install, you can solder the cell, PV and S1 wires straight into the
 pads instead.
 
 ![Carrier with headers and passives fitted, ready for the modules](images/pcb/carrier-angled.png)
 
-*The board after steps 1–4, with the empty socket positions for M2 and M3
+*The board after steps 1–5, with the empty socket positions for M2 and M3
 and the outline for M1.*
 
-### 5. Module pins and sockets
+### 6. Module pins and sockets
 
 The carrier is the jig for both jobs, so the pins and sockets line up:
 
@@ -186,7 +217,7 @@ The carrier is the jig for both jobs, so the pins and sockets line up:
 5. Unplug the modules for the next steps. Fit the M3 sockets and pins only
    for Tiers 1 and 2.
 
-### 6. TP4056 charger M1
+### 7. TP4056 charger M1
 
 1. Replace the PROG resistor for 100–150 mA
    ([guide 03, step 2](03-build-power.md#2-set-the-charge-current)) before
@@ -197,7 +228,7 @@ The carrier is the jig for both jobs, so the pins and sockets line up:
    Stand the module about 2 mm proud, with USB-C at the top edge.
 4. Solder each link on both boards, then trim it.
 
-### 7. Inspect and clean
+### 8. Inspect and clean
 
 Inspect every joint with a loupe, especially between the close pins of M1's
 bottom row (OUT–, B–, B+, OUT+). Clean off flux. A conformal coating over
@@ -215,6 +246,8 @@ With M2 and M3 out and nothing connected, measure with a meter:
 - [ ] B– (`JCELL1` pin 2) is **not** joined to any `–` pin.
 - [ ] `JS1` pin 1 and pin 2 are not joined: S1 open isolates the rail.
 - [ ] JP1 and JP3 pins are not joined without their shunts.
+- [ ] D2 (M2 socket) to `–` reads open, and closed while SW1 is pressed.
+- [ ] M2 socket A1 to `–` reads 22–72 kΩ, depending on RV1.
 - [ ] M2 socket VCC to `VBAT_SYS`, and M2 socket GND to `–`, are continuous.
 
 Then fit M2 (serial-header end up) and program it in circuit through
@@ -261,15 +294,16 @@ on its sockets with the antenna overhanging the top edge (left).*
 | No telemetry lines                        | Q2 reversed (E must be on the square pad)             |
 | Module will not seat                      | Q2, C4 or a resistor standing too tall under it       |
 | Cells drain with the switch open          | Bridge between B+ / B– copper; clean and re-inspect   |
-| IDC programming cable will not fit        | 2 × 3 IDC plug clashes with M2's socket: use leads    |
+| IDC programming cable will not go in      | Key does not match the box header's slot (bottom edge) |
+| Lights come on too early or too late      | RV1 setting: see guide 06, calibrate in place         |
 
 ---
 
 ## About the renders
 
-The images are generated by `hardware/pcb-rev-b/tools/make_doc_renders.py`
-from the KiCad board, with standard KiCad pin-header models on every
-connection.
+The images are generated by `hardware/pcb-rev-c/tools/make_doc_renders.py`
+from the KiCad board, with standard KiCad models for the pin headers, the
+box header, the trimmer and the button.
 
 - **Pro Mini:** the
   [SnapEDA Arduino Pro Mini](https://www.snapeda.com/parts/Arduino%20Pro%20Mini/Arduino/view-part/)
@@ -280,13 +314,21 @@ connection.
   outlines and pin positions. They are right for size, pins and height,
   not for detail.
 
-[`hardware/pcb-rev-b/3dmodels/README.md`](../hardware/pcb-rev-b/3dmodels/README.md)
+[`hardware/pcb-rev-c/3dmodels/README.md`](../hardware/pcb-rev-c/3dmodels/README.md)
 records the sources and how to swap in a real model.
 
 ---
 
-## Rev A
+## Earlier revisions
+
+[`hardware/pcb-rev-b/`](../hardware/pcb-rev-b/) is the board that was
+ordered, kept unchanged as the record. It has the same outline and modules
+as Rev C, with these differences: R3 is 47 Ω and R4 is 47 kΩ with no
+trimmer; the test button is a pair of pins for a remote switch; the ISP
+header stands upright against the end of the Pro Mini, so an IDC plug does
+not fit; and mounting hole H1 is 0.5 mm higher. On a Rev B board, fit R3 as
+56 Ω if the string draws over 20 mA at 4.20 V.
 
 [`hardware/pcb-rev-a/`](../hardware/pcb-rev-a/) is an earlier 100 × 80 mm
 carrier. It has screw terminals and fuse F2 on the board, but M1 and the
-cell fuses stay off it. Rev B is the board to build. Rev A remains for reference.
+cell fuses stay off it. It remains for reference only.

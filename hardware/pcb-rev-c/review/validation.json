@@ -13,6 +13,7 @@
     "Wire schedule preserved (fuses removed, tier links closed): LED_POS",
     "Wire schedule preserved (fuses removed, tier links closed): LDR_POWER",
     "Wire schedule preserved (fuses removed, tier links closed): LDR_SENSE",
+    "Wire schedule preserved (fuses removed, tier links closed): LDR_TRIM",
     "Wire schedule preserved (fuses removed, tier links closed): TEST",
     "Wire schedule preserved (fuses removed, tier links closed): UART_TX",
     "Wire schedule preserved (fuses removed, tier links closed): UART_BASE",
@@ -32,11 +33,15 @@
     "Charger OUT- is the load ground",
     "LED positive is fed only through R3",
     "R3 is driven only by D9",
+    "A1 sees only the LDR and R4",
+    "RV1 is a rheostat (wiper to pin 3) between R4 and ground",
+    "On-board SW1 pulls D2 to ground",
     "Removing JP1 isolates U3 positive output from ESP supply",
     "Removing JP3 isolates battery-sense feed",
     "Standard six-pin AVR ISP ordering",
     "ISP SCK/MISO/MOSI go only to M2 D13/D12/D11",
     "Three mounting holes",
+    "ISP box-header outline starts 1.0 mm below the M2 outline",
     "Board area 3830 mm2 is under half of Rev A (8000 mm2)",
     "Firmware pin matches carrier: PIN_LED_PWM",
     "Firmware pin matches carrier: PIN_LDR_PWR",
@@ -53,13 +58,13 @@
   ],
   "models_not_measurements": {
     "LED_typical_mA": {
-      "3.4": 10.91,
-      "3.7": 14.81,
-      "4.2": 21.3
+      "3.4": 9.77,
+      "3.7": 13.26,
+      "4.2": 19.07
     },
     "LED_4V2_sensitivity_mA": {
-      "min": 16.79,
-      "max": 29.39
+      "min": 15.18,
+      "max": 25.96
     },
     "A0_chip_at_4V2_V": 0.7777777777777778,
     "A0_header_at_4V2_V": 2.488888888888889,
@@ -68,7 +73,7 @@
     "trace_100mm_0V8mm_1oz_400mA_drop_mV": 24.628571428571426
   },
   "sha256": {
-    ".kicad_pcb": "0fb41b88f73e4f2fd2ac0161be193c8728cf263f32366e330d20c78f699e9ac7",
-    ".kicad_sch": "ae81d9f5fcca787cd7c8c1a96b3cbea70b48a0252da07cf1645a2f6a58f3d447"
+    ".kicad_pcb": "d3115f63e613f32848d06576f5bab79d48dab0884ab14abf25be01bbe2afe8c3",
+    ".kicad_sch": "f46554d71db17f2ffb1cda959e248619638bbc970e96a1d0404349f77d0667ca"
   }
 }

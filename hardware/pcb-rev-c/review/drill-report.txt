@@ -1,0 +1,27 @@
+Drill report for SolarLights_Carrier_RevC.kicad_pcb
+Created on 2026-10-28T17:11:33
+
+Copper Layer Stackup:
+    =============================================================
+    L1 :  F.Cu                      front
+    L2 :  B.Cu                      back
+
+
+Drill file 'SolarLights_Carrier_RevC-PTH.drl' contains
+    plated through holes:
+    =============================================================
+    T1  0.400mm  0.0157"  (24 holes))
+    T2  0.800mm  0.0315"  (22 holes))
+    T3  1.000mm  0.0394"  (68 holes))
+    T4  1.100mm  0.0433"  (4 holes))
+    T5  1.200mm  0.0472"  (6 holes))
+
+    Total plated holes count 124
+
+
+Drill file 'SolarLights_Carrier_RevC-NPTH.drl' contains
+    unplated through holes:
+    =============================================================
+    T1  3.200mm  0.1260"  (3 holes))
+
+    Total unplated holes count 3

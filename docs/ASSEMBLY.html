@@ -44,7 +44,7 @@ section{break-before:page;border:0;padding:0}a{color:inherit}pre{color:#000;back
 <header>
 <div class="eyebrow">SOLAR LIGHTS LITE / BUILD AND OPERATE GUIDE</div>
 <h1>Low-power solar lights,<br>built one module at a time.</h1>
-<span class="badge">v0.6.0 · MODULES A–F · TELEMETRY TIERS 0–2 · GATES 0–8</span>
+<span class="badge">v0.7.0 · MODULES A–F · TELEMETRY TIERS 0–2 · GATES 0–8</span>
 <p>A small panel charges a protected Li-ion battery; an ATmega328P sleeps most of the time, detects dusk with a light sensor, and runs a low-power LED string from dusk to dawn. An optional Wemos D1 Mini reports it all to Home Assistant. Every module is built and tested on its own, so the project doubles as a hands-on course in soldering, microelectronics, embedded code and home automation.</p>
 <nav><a href="#d01" title="01 – Design overview">Overview</a><a href="#d02" title="02 – Parts, tools, skills and safety">Parts and safety</a><a href="#d03" title="03 – Module A: power, charging and battery">A · Power</a><a href="#d04" title="04 – Module B: controller">B · Controller</a><a href="#d05" title="05 – Module C: low-power lighting">C · Lighting</a><a href="#d06" title="06 – Module D: light sensor and test button">D · Sensor</a><a href="#d07" title="07 – Module E: telemetry hardware">E · Telemetry</a><a href="#d08" title="08 – Controller firmware: build, fuses, flash and diagnostics">Firmware</a><a href="#d09" title="09 – Home Assistant and ESPHome telemetry">Home Assistant</a><a href="#d10" title="10 – Commissioning: test gates and final assembly">Commissioning</a><a href="#d11" title="11 – Operation and maintenance">Operation</a><a href="#d12" title="12 – Going further">Going further</a><a href="#d13" title="13 – PCB carrier">PCB carrier</a><a href="#wires">Wire schedule</a><a href="#parts">Parts checklist</a><a class="pdf" href="drawings/SolarLights_Lite_Drawings.pdf">A3 drawings (PDF)</a></nav>
 </header>
@@ -55,7 +55,7 @@ section{break-before:page;border:0;padding:0}a{color:inherit}pre{color:#000;back
 <div class="card"><strong>Commission</strong><p>Gates 0–8 add one thing at a time. Advanced Telemetry shows every controller decision during the soak test.</p></div>
 <div class="card"><strong>Operate</strong><p>Production Telemetry reports hourly on battery power. The lights never depend on Wi-Fi.</p></div>
 </div>
-<div class="hold"><p><b>Low-power lights only.</b> The controller drives the LED string directly by PWM from pin D9 through a 47 Ω resistor, with no driver transistor. The whole string must run at 20 mA or less from a 3–4.2 V supply. Mains lights, 12 V garden lights and conventional or legacy fittings cannot be used; brighter lighting needs a driver stage (see Going further).</p></div>
+<div class="hold"><p><b>Low-power lights only.</b> The controller drives the LED string directly by PWM from pin D9 through a 56 Ω resistor, with no driver transistor. The whole string must run at 20 mA or less from a 3–4.2 V supply. Mains lights, 12 V garden lights and conventional or legacy fittings cannot be used; brighter lighting needs a driver stage (see Going further).</p></div>
 <section id="d01"><h2 id="d01-01-–-design-overview">01 – Design overview</h2>
 <p>Solar Lights Lite is a small, modular solar lighting system. A solar panel
 charges a protected lithium-ion battery. An ATmega328P controller wakes from
@@ -80,7 +80,7 @@ well as a working set of garden lights.</p>
 			<text x="42" y="790" style="font-family: Helvetica; font-size: 16px;fill: rgb(31%,39%,47%); stroke:none;" transform="translate(0,1580) scale(1,-1)">Every module on one sheet. Telemetry reports controller state to Home Assistant; it is not a current or energy meter.</text>
 			<path d="M 42,768 L 1398,768 Z" style="stroke: rgb(83%,87%,90%); stroke-linecap: butt; stroke-width: 1;"/>
 			<path d="M 42,50 L 1398,50 Z" style="stroke: rgb(83%,87%,90%); stroke-linecap: butt; stroke-width: 1;"/>
-			<text x="42" y="23" style="font-family: Helvetica-Bold; font-size: 13px;fill: rgb(0%,52%,44%); stroke:none;" transform="translate(0,46) scale(1,-1)">REV 0.6  |  READ MODULE PAD LABELS, NOT BOARD POSITIONS</text>
+			<text x="42" y="23" style="font-family: Helvetica-Bold; font-size: 13px;fill: rgb(0%,52%,44%); stroke:none;" transform="translate(0,46) scale(1,-1)">REV 0.7  |  READ MODULE PAD LABELS, NOT BOARD POSITIONS</text>
 			<text x="1175" y="23" style="font-family: Helvetica; font-size: 13px;fill: rgb(31%,39%,47%); stroke:none;" transform="translate(0,46) scale(1,-1)">SHEET 7 OF 7 / A3</text>
 			<path d="M 42,760 L 42,58 Z" style="stroke: rgb(94%,96%,97%); stroke-linecap: butt; stroke-width: 0.7;"/>
 			<path d="M 78,760 L 78,58 Z" style="stroke: rgb(94%,96%,97%); stroke-linecap: butt; stroke-width: 0.7;"/>
@@ -287,16 +287,16 @@ well as a working set of garden lights.</p>
 			<text x="259.553" y="295" style="font-family: Helvetica; font-size: 13.5px;fill: rgb(9%,18%,27%); stroke:none;" transform="translate(0,590) scale(1,-1)">&lt;- OUT-</text>
 			<rect x="60" y="261" width="26.697000000000003" height="18" rx="4" ry="4" style="stroke: rgb(9%,43%,69%); stroke-linecap: butt; stroke-width: 1; fill: rgb(88%,92%,96%); fill-rule: evenodd;"/>
 			<text x="66" y="265.5" style="font-family: Helvetica-Bold; font-size: 11.5px;fill: rgb(9%,43%,69%); stroke:none;" transform="translate(0,531) scale(1,-1)">D7</text>
-			<text x="96.697" y="265" style="font-family: Helvetica; font-size: 13.5px;fill: rgb(9%,18%,27%); stroke:none;" transform="translate(0,530) scale(1,-1)">-&gt; LDR -&gt; A1 -&gt; R4 -&gt; OUT-</text>
+			<text x="96.697" y="265" style="font-family: Helvetica; font-size: 13.5px;fill: rgb(9%,18%,27%); stroke:none;" transform="translate(0,530) scale(1,-1)">-&gt; LDR -&gt; A1 -&gt; R4 + RV1 -&gt; OUT-</text>
 			<rect x="60" y="231" width="26.697000000000003" height="18" rx="4" ry="4" style="stroke: rgb(67%,38%,0%); stroke-linecap: butt; stroke-width: 1; fill: rgb(95%,92%,87%); fill-rule: evenodd;"/>
 			<text x="66" y="235.5" style="font-family: Helvetica-Bold; font-size: 11.5px;fill: rgb(67%,38%,0%); stroke:none;" transform="translate(0,471) scale(1,-1)">D9</text>
-			<text x="96.697" y="235" style="font-family: Helvetica; font-size: 13.5px;fill: rgb(9%,18%,27%); stroke:none;" transform="translate(0,470) scale(1,-1)">-&gt; R3 47R -&gt; LED string -&gt; OUT-</text>
+			<text x="96.697" y="235" style="font-family: Helvetica; font-size: 13.5px;fill: rgb(9%,18%,27%); stroke:none;" transform="translate(0,470) scale(1,-1)">-&gt; R3 56R -&gt; LED string -&gt; OUT-</text>
 			<rect x="60" y="201" width="44.59100000000001" height="18" rx="4" ry="4" style="stroke: rgb(0%,52%,44%); stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,93%,92%); fill-rule: evenodd;"/>
 			<text x="66" y="205.5" style="font-family: Helvetica-Bold; font-size: 11.5px;fill: rgb(0%,52%,44%); stroke:none;" transform="translate(0,411) scale(1,-1)">D1/TX</text>
 			<text x="114.59100000000001" y="205" style="font-family: Helvetica; font-size: 13.5px;fill: rgb(9%,18%,27%); stroke:none;" transform="translate(0,410) scale(1,-1)">-&gt; R8 -&gt; Q2 base (9600 baud)</text>
 			<rect x="60" y="171" width="26.697000000000003" height="18" rx="4" ry="4" style="stroke: rgb(0%,52%,44%); stroke-linecap: butt; stroke-width: 1; fill: rgb(87%,93%,92%); fill-rule: evenodd;"/>
 			<text x="66" y="175.5" style="font-family: Helvetica-Bold; font-size: 11.5px;fill: rgb(0%,52%,44%); stroke:none;" transform="translate(0,351) scale(1,-1)">D2</text>
-			<text x="96.697" y="175" style="font-family: Helvetica; font-size: 13.5px;fill: rgb(9%,18%,27%); stroke:none;" transform="translate(0,350) scale(1,-1)">&lt;- SW1 test button to OUT-</text>
+			<text x="96.697" y="175" style="font-family: Helvetica; font-size: 13.5px;fill: rgb(9%,18%,27%); stroke:none;" transform="translate(0,350) scale(1,-1)">&lt;- SW1 TEST button to OUT-</text>
 			<rect x="523" y="288" width="300" height="100" rx="14" ry="14" style="stroke: none; stroke-linecap: butt; stroke-width: 2; fill: rgb(92%,92%,93%); fill-rule: evenodd;"/>
 			<rect x="520" y="294" width="300" height="100" rx="14" ry="14" style="stroke: rgb(82%,87%,90%); stroke-linecap: butt; stroke-width: 1.2; fill: rgb(100%,100%,100%); fill-rule: evenodd;"/>
 			<rect x="538" y="390" width="264" height="4" rx="2" ry="2" style="stroke: none; stroke-linecap: butt; stroke-width: 2; fill: rgb(75%,21%,23%); fill-rule: evenodd;"/>
@@ -477,7 +477,7 @@ terminal level; sheet 7 is the whole system on one page.</p>
 <h3 id="d01-low-power-lighting-only">Low-power lighting only</h3>
 <p>The lights are a <strong>low-power LED string</strong>: the reference string drops about
 2.56 V and draws roughly 10–20 mA in total. The controller drives it
-<strong>directly by PWM from pin D9</strong> through a 47 Ω resistor (R3). There is no
+<strong>directly by PWM from pin D9</strong> through a 56 Ω resistor (R3). There is no
 MOSFET or transistor driver.</p>
 <p>That has three consequences you should understand before choosing lights:</p>
 <ul>
@@ -488,7 +488,7 @@ MOSFET or transistor driver.</p>
   absolute maximum). Mains lights, 12 V garden lights and conventional or
   legacy light fittings cannot be connected.</li>
 <li><strong>Brightness follows the battery.</strong> With no regulator in the LED path,
-  current falls as the cell discharges – about 21 mA at 4.20 V down to 11 mA
+  current falls as the cell discharges – about 19 mA at 4.20 V down to 10 mA
   at 3.40 V with the reference string. This is intended.</li>
 </ul>
 <p>Brighter lighting is possible, but it needs a driver stage and a new energy
@@ -638,7 +638,7 @@ does not change. See <a href="#d09">09 – Home Assistant</a>.</p>
 <h3 id="d01-energy-budget">Energy budget</h3>
 <p>These are planning figures, not measurements. Commissioning replaces them with
 your own numbers (<a href="#d10">10 – Commissioning</a>). Assumptions: 14
-dark hours, reference LED string at about 15 mA, Tier 2 telemetry.</p>
+dark hours, reference LED string at about 13 mA, Tier 2 telemetry.</p>
 <div class="scroll"><table>
 <thead>
 <tr>
@@ -649,9 +649,9 @@ dark hours, reference LED string at about 15 mA, Tier 2 telemetry.</p>
 </thead>
 <tbody>
 <tr>
-<td style="text-align: left;">LED string, 15 mA × 14 h</td>
-<td style="text-align: right;">210 mAh</td>
-<td style="text-align: right;">105 mAh</td>
+<td style="text-align: left;">LED string, 13 mA × 14 h</td>
+<td style="text-align: right;">182 mAh</td>
+<td style="text-align: right;">91 mAh</td>
 </tr>
 <tr>
 <td style="text-align: left;">Controller, 1 mA lit + 10 µA for 10 h</td>
@@ -680,8 +680,8 @@ dark hours, reference LED string at about 15 mA, Tier 2 telemetry.</p>
 </tr>
 <tr>
 <td style="text-align: left;"><strong>Total per day</strong></td>
-<td style="text-align: right;"><strong>~242 mAh</strong></td>
-<td style="text-align: right;"><strong>~137 mAh</strong></td>
+<td style="text-align: right;"><strong>~214 mAh</strong></td>
+<td style="text-align: right;"><strong>~123 mAh</strong></td>
 </tr>
 </tbody>
 </table></div>
@@ -816,8 +816,8 @@ the wire schedule and the KiCad schematic.</p>
 <tbody>
 <tr>
 <td style="text-align: left;">R3</td>
-<td style="text-align: left;">47 Ω, ¼ W</td>
-<td style="text-align: left;">At the controller end; 56 Ω option</td>
+<td style="text-align: left;">56 Ω, ¼ W</td>
+<td style="text-align: left;">At the controller end; 68 Ω option</td>
 </tr>
 <tr>
 <td style="text-align: left;">JLED</td>
@@ -848,13 +848,18 @@ the wire schedule and the KiCad schematic.</p>
 </tr>
 <tr>
 <td style="text-align: left;">R4</td>
-<td style="text-align: left;">47 kΩ</td>
-<td style="text-align: left;">LDR divider lower resistor</td>
+<td style="text-align: left;">22 kΩ</td>
+<td style="text-align: left;">LDR divider, fixed part</td>
+</tr>
+<tr>
+<td style="text-align: left;">RV1</td>
+<td style="text-align: left;">50 kΩ trimmer, 3296W (503)</td>
+<td style="text-align: left;">In series with R4; sets dusk</td>
 </tr>
 <tr>
 <td style="text-align: left;">SW1</td>
-<td style="text-align: left;">Momentary push button, NO</td>
-<td style="text-align: left;">D2 to ground; test button</td>
+<td style="text-align: left;">Push button, NO (6 × 6 mm)</td>
+<td style="text-align: left;">TEST button, D2 to ground</td>
 </tr>
 </tbody>
 </table></div>
@@ -1102,7 +1107,7 @@ to qualify a module you did not design.</p>
 			<text x="42" y="790" style="font-family: Helvetica; font-size: 16px;fill: rgb(31%,39%,47%); stroke:none;" transform="translate(0,1580) scale(1,-1)">Terminal-level schematic. Amber blocks depend on your panel choice. All loads connect to the protected outputs.</text>
 			<path d="M 42,768 L 1398,768 Z" style="stroke: rgb(83%,87%,90%); stroke-linecap: butt; stroke-width: 1;"/>
 			<path d="M 42,50 L 1398,50 Z" style="stroke: rgb(83%,87%,90%); stroke-linecap: butt; stroke-width: 1;"/>
-			<text x="42" y="23" style="font-family: Helvetica-Bold; font-size: 13px;fill: rgb(0%,52%,44%); stroke:none;" transform="translate(0,46) scale(1,-1)">REV 0.6  |  READ MODULE PAD LABELS, NOT BOARD POSITIONS</text>
+			<text x="42" y="23" style="font-family: Helvetica-Bold; font-size: 13px;fill: rgb(0%,52%,44%); stroke:none;" transform="translate(0,46) scale(1,-1)">REV 0.7  |  READ MODULE PAD LABELS, NOT BOARD POSITIONS</text>
 			<text x="1175" y="23" style="font-family: Helvetica; font-size: 13px;fill: rgb(31%,39%,47%); stroke:none;" transform="translate(0,46) scale(1,-1)">SHEET 1 OF 7 / A3</text>
 			<path d="M 42,760 L 42,58 Z" style="stroke: rgb(94%,96%,97%); stroke-linecap: butt; stroke-width: 0.7;"/>
 			<path d="M 78,760 L 78,58 Z" style="stroke: rgb(94%,96%,97%); stroke-linecap: butt; stroke-width: 0.7;"/>
@@ -1526,7 +1531,7 @@ programming, and why clock speed and supply voltage are linked.</p>
 			<text x="42" y="790" style="font-family: Helvetica; font-size: 16px;fill: rgb(31%,39%,47%); stroke:none;" transform="translate(0,1580) scale(1,-1)">ATmega328P Pro Mini on its internal 8 MHz clock. D9 drives the low-power LED string directly by PWM through R3; no driver transistor.</text>
 			<path d="M 42,768 L 1398,768 Z" style="stroke: rgb(83%,87%,90%); stroke-linecap: butt; stroke-width: 1;"/>
 			<path d="M 42,50 L 1398,50 Z" style="stroke: rgb(83%,87%,90%); stroke-linecap: butt; stroke-width: 1;"/>
-			<text x="42" y="23" style="font-family: Helvetica-Bold; font-size: 13px;fill: rgb(0%,52%,44%); stroke:none;" transform="translate(0,46) scale(1,-1)">REV 0.6  |  READ MODULE PAD LABELS, NOT BOARD POSITIONS</text>
+			<text x="42" y="23" style="font-family: Helvetica-Bold; font-size: 13px;fill: rgb(0%,52%,44%); stroke:none;" transform="translate(0,46) scale(1,-1)">REV 0.7  |  READ MODULE PAD LABELS, NOT BOARD POSITIONS</text>
 			<text x="1175" y="23" style="font-family: Helvetica; font-size: 13px;fill: rgb(31%,39%,47%); stroke:none;" transform="translate(0,46) scale(1,-1)">SHEET 2 OF 7 / A3</text>
 			<path d="M 42,760 L 42,58 Z" style="stroke: rgb(94%,96%,97%); stroke-linecap: butt; stroke-width: 0.7;"/>
 			<path d="M 78,760 L 78,58 Z" style="stroke: rgb(94%,96%,97%); stroke-linecap: butt; stroke-width: 0.7;"/>
@@ -1652,17 +1657,24 @@ programming, and why clock speed and supply voltage are linked.</p>
 			<path d="M 170,340 L 350,340 Z" style="stroke: rgb(0%,52%,44%); stroke-linecap: butt; stroke-width: 3;"/>
 			<circle cx="350" cy="340" r="4" style="stroke: none; stroke-linecap: butt; stroke-width: 1.5; fill: rgb(0%,52%,44%); fill-rule: evenodd;"/>
 			<path d="M 170,340 L 170,335 Z" style="stroke: rgb(0%,52%,44%); stroke-linecap: butt; stroke-width: 3;"/>
-			<path d="M 170,335 L 170,320 Z" style="stroke: rgb(9%,18%,27%); stroke-linecap: butt; stroke-width: 2;"/>
-			<rect x="162" y="280" width="16" height="40" style="stroke: rgb(9%,18%,27%); stroke-linecap: butt; stroke-width: 1.5; fill: rgb(100%,100%,100%); fill-rule: evenodd;"/>
-			<path d="M 170,280 L 170,265 Z" style="stroke: rgb(9%,18%,27%); stroke-linecap: butt; stroke-width: 2;"/>
-			<text x="187" y="304" style="font-family: Helvetica-Bold; font-size: 16px;fill: rgb(9%,18%,27%); stroke:none;" transform="translate(0,608) scale(1,-1)">R4</text>
-			<text x="187" y="283" style="font-family: Helvetica; font-size: 15px;fill: rgb(9%,18%,27%); stroke:none;" transform="translate(0,566) scale(1,-1)">47k</text>
-			<path d="M 170,265 L 170,245 Z" style="stroke: rgb(20%,26%,32%); stroke-linecap: butt; stroke-width: 2;"/>
-			<path d="M 170,245 L 170,235 Z" style="stroke: rgb(20%,26%,32%); stroke-linecap: butt; stroke-width: 2;"/>
-			<path d="M 156,235 L 184,235 Z" style="stroke: rgb(20%,26%,32%); stroke-linecap: butt; stroke-width: 2;"/>
-			<path d="M 161,229 L 179,229 Z" style="stroke: rgb(20%,26%,32%); stroke-linecap: butt; stroke-width: 2;"/>
-			<path d="M 166,223 L 174,223 Z" style="stroke: rgb(20%,26%,32%); stroke-linecap: butt; stroke-width: 2;"/>
-			<text x="190" y="226" style="font-family: Helvetica; font-size: 14px;fill: rgb(20%,26%,32%); stroke:none;" transform="translate(0,452) scale(1,-1)">GND_LOAD</text>
+			<path d="M 170,340 L 170,325 Z" style="stroke: rgb(9%,18%,27%); stroke-linecap: butt; stroke-width: 2;"/>
+			<rect x="162" y="285" width="16" height="40" style="stroke: rgb(9%,18%,27%); stroke-linecap: butt; stroke-width: 1.5; fill: rgb(100%,100%,100%); fill-rule: evenodd;"/>
+			<path d="M 170,285 L 170,270 Z" style="stroke: rgb(9%,18%,27%); stroke-linecap: butt; stroke-width: 2;"/>
+			<text x="187" y="309" style="font-family: Helvetica-Bold; font-size: 16px;fill: rgb(9%,18%,27%); stroke:none;" transform="translate(0,618) scale(1,-1)">R4</text>
+			<text x="187" y="288" style="font-family: Helvetica; font-size: 15px;fill: rgb(9%,18%,27%); stroke:none;" transform="translate(0,576) scale(1,-1)">22k</text>
+			<path d="M 170,270 L 170,255 Z" style="stroke: rgb(9%,18%,27%); stroke-linecap: butt; stroke-width: 2;"/>
+			<rect x="162" y="215" width="16" height="40" style="stroke: rgb(9%,18%,27%); stroke-linecap: butt; stroke-width: 1.5; fill: rgb(100%,100%,100%); fill-rule: evenodd;"/>
+			<path d="M 170,215 L 170,200 Z" style="stroke: rgb(9%,18%,27%); stroke-linecap: butt; stroke-width: 2;"/>
+			<text x="187" y="239" style="font-family: Helvetica-Bold; font-size: 16px;fill: rgb(9%,18%,27%); stroke:none;" transform="translate(0,478) scale(1,-1)">RV1</text>
+			<text x="187" y="218" style="font-family: Helvetica; font-size: 15px;fill: rgb(9%,18%,27%); stroke:none;" transform="translate(0,436) scale(1,-1)">50k trim</text>
+			<path d="M 154,217 L 184,253 Z" style="stroke: rgb(0%,52%,44%); stroke-linecap: butt; stroke-width: 2;"/>
+			<polygon points="188 258, 176 253, 184 245" style="stroke: none; stroke-linecap: butt; stroke-width: 1.5; fill: rgb(0%,52%,44%); fill-rule: evenodd;"/>
+			<path d="M 170,200 L 170,188 Z" style="stroke: rgb(20%,26%,32%); stroke-linecap: butt; stroke-width: 2;"/>
+			<path d="M 170,188 L 170,178 Z" style="stroke: rgb(20%,26%,32%); stroke-linecap: butt; stroke-width: 2;"/>
+			<path d="M 156,178 L 184,178 Z" style="stroke: rgb(20%,26%,32%); stroke-linecap: butt; stroke-width: 2;"/>
+			<path d="M 161,172 L 179,172 Z" style="stroke: rgb(20%,26%,32%); stroke-linecap: butt; stroke-width: 2;"/>
+			<path d="M 166,166 L 174,166 Z" style="stroke: rgb(20%,26%,32%); stroke-linecap: butt; stroke-width: 2;"/>
+			<text x="190" y="169" style="font-family: Helvetica; font-size: 14px;fill: rgb(20%,26%,32%); stroke:none;" transform="translate(0,338) scale(1,-1)">GND_LOAD</text>
 			<path d="M 350,270 L 300,270 Z" style="stroke: rgb(0%,52%,44%); stroke-linecap: butt; stroke-width: 3;"/>
 			<path d="M 300,270 L 300,200 Z" style="stroke: rgb(0%,52%,44%); stroke-linecap: butt; stroke-width: 3;"/>
 			<circle cx="350" cy="270" r="4" style="stroke: none; stroke-linecap: butt; stroke-width: 1.5; fill: rgb(0%,52%,44%); fill-rule: evenodd;"/>
@@ -1676,8 +1688,8 @@ programming, and why clock speed and supply voltage are linked.</p>
 			<path d="M 383,184 L 401,184 Z" style="stroke: rgb(20%,26%,32%); stroke-linecap: butt; stroke-width: 2;"/>
 			<path d="M 388,178 L 396,178 Z" style="stroke: rgb(20%,26%,32%); stroke-linecap: butt; stroke-width: 2;"/>
 			<text x="412" y="181" style="font-family: Helvetica; font-size: 14px;fill: rgb(20%,26%,32%); stroke:none;" transform="translate(0,362) scale(1,-1)">GND_LOAD</text>
-			<rect x="266" y="149" width="73.34800000000001" height="21" rx="10.5" ry="10.5" style="stroke: none; stroke-linecap: butt; stroke-width: 2; fill: rgb(9%,18%,27%); fill-rule: evenodd;"/>
-			<text x="274" y="155" style="font-family: Helvetica-Bold; font-size: 12px;fill: rgb(100%,100%,100%); stroke:none;" transform="translate(0,310) scale(1,-1)">SW1 / test</text>
+			<rect x="266" y="149" width="82.68399999999997" height="21" rx="10.5" ry="10.5" style="stroke: none; stroke-linecap: butt; stroke-width: 2; fill: rgb(9%,18%,27%); fill-rule: evenodd;"/>
+			<text x="274" y="155" style="font-family: Helvetica-Bold; font-size: 12px;fill: rgb(100%,100%,100%); stroke:none;" transform="translate(0,310) scale(1,-1)">SW1 / TEST</text>
 			<path d="M 690,440 L 760,440 Z" style="stroke: rgb(0%,52%,44%); stroke-linecap: butt; stroke-width: 3;"/>
 			<path d="M 760,440 L 760,600 Z" style="stroke: rgb(0%,52%,44%); stroke-linecap: butt; stroke-width: 3;"/>
 			<path d="M 760,600 L 1000,600 Z" style="stroke: rgb(0%,52%,44%); stroke-linecap: butt; stroke-width: 3;"/>
@@ -1688,7 +1700,7 @@ programming, and why clock speed and supply voltage are linked.</p>
 			<rect x="992" y="535" width="16" height="40" style="stroke: rgb(0%,52%,44%); stroke-linecap: butt; stroke-width: 1.5; fill: rgb(100%,100%,100%); fill-rule: evenodd;"/>
 			<path d="M 1000,535 L 1000,520 Z" style="stroke: rgb(0%,52%,44%); stroke-linecap: butt; stroke-width: 2;"/>
 			<text x="1017" y="559" style="font-family: Helvetica-Bold; font-size: 16px;fill: rgb(0%,52%,44%); stroke:none;" transform="translate(0,1118) scale(1,-1)">R3</text>
-			<text x="1017" y="538" style="font-family: Helvetica; font-size: 15px;fill: rgb(0%,52%,44%); stroke:none;" transform="translate(0,1076) scale(1,-1)">47R</text>
+			<text x="1017" y="538" style="font-family: Helvetica; font-size: 15px;fill: rgb(0%,52%,44%); stroke:none;" transform="translate(0,1076) scale(1,-1)">56R</text>
 			<path d="M 1000,520 L 1000,500 Z" style="stroke: rgb(0%,52%,44%); stroke-linecap: butt; stroke-width: 3;"/>
 			<rect x="918" y="402" width="170" height="92" rx="14" ry="14" style="stroke: none; stroke-linecap: butt; stroke-width: 2; fill: rgb(92%,92%,93%); fill-rule: evenodd;"/>
 			<rect x="915" y="408" width="170" height="92" rx="14" ry="14" style="stroke: rgb(65%,80%,59%); stroke-linecap: butt; stroke-width: 1.2; fill: rgb(95%,98%,94%); fill-rule: evenodd;"/>
@@ -1707,7 +1719,7 @@ programming, and why clock speed and supply voltage are linked.</p>
 			<text x="1128" y="616" style="font-family: Helvetica-Bold; font-size: 17px;fill: rgb(9%,18%,27%); stroke:none;" transform="translate(0,1232) scale(1,-1)">Low-power string only</text>
 			<text x="1128" y="586" style="font-family: Helvetica; font-size: 14px;fill: rgb(9%,18%,27%); stroke:none;" transform="translate(0,1172) scale(1,-1)">Reference string: 2.56 V drop</text>
 			<text x="1128" y="562" style="font-family: Helvetica; font-size: 14px;fill: rgb(9%,18%,27%); stroke:none;" transform="translate(0,1124) scale(1,-1)">I = (VBAT - 2.56) / (R3 + pin R)</text>
-			<text x="1128" y="538" style="font-family: Helvetica; font-size: 14px;fill: rgb(9%,18%,27%); stroke:none;" transform="translate(0,1076) scale(1,-1)">Model: 21 / 15 / 11 mA at</text>
+			<text x="1128" y="538" style="font-family: Helvetica; font-size: 14px;fill: rgb(9%,18%,27%); stroke:none;" transform="translate(0,1076) scale(1,-1)">Model: 19 / 13 / 10 mA at</text>
 			<text x="1128" y="514" style="font-family: Helvetica; font-size: 14px;fill: rgb(9%,18%,27%); stroke:none;" transform="translate(0,1028) scale(1,-1)">4.20 / 3.70 / 3.40 V</text>
 			<text x="1128" y="490" style="font-family: Helvetica; font-size: 14px;fill: rgb(9%,18%,27%); stroke:none;" transform="translate(0,980) scale(1,-1)">Measure it in circuit</text>
 			<rect x="1128" y="451" width="252" height="1" style="stroke: none; stroke-linecap: butt; stroke-width: 2; fill: rgb(88%,91%,93%); fill-rule: evenodd;"/>
@@ -1886,7 +1898,7 @@ programming, and why clock speed and supply voltage are linked.</p>
 <text x="42" y="112" font-size="15" fill="#516578" text-anchor="start">Tier 2 jumpers fitted. The panel, charger, cells, fuses and service switch stay on soldered leads; only the protected VBAT_SYS and OUT- reach the breadboard.</text>
 <line x1="42" y1="130" x2="1758" y2="130" stroke="#d5e0e6" stroke-width="1"/>
 <line x1="42" y1="1290" x2="1758" y2="1290" stroke="#d5e0e6" stroke-width="1"/>
-<text x="42" y="1314" font-size="12.5" fill="#008572" text-anchor="start" font-weight="bold">REV 0.6  |  READ MODULE PAD LABELS, NOT BOARD POSITIONS</text>
+<text x="42" y="1314" font-size="12.5" fill="#008572" text-anchor="start" font-weight="bold">REV 0.7  |  READ MODULE PAD LABELS, NOT BOARD POSITIONS</text>
 <text x="1758" y="1314" font-size="12.5" fill="#516578" text-anchor="end">BREADBOARD LAYOUT</text>
 <rect x="154" y="174" width="180" height="190" fill="#dfe4e8" rx="10"/>
 <rect x="150" y="168" width="180" height="190" fill="#26282c" stroke="#101113" stroke-width="1.5" rx="10"/>
@@ -2030,9 +2042,10 @@ programming, and why clock speed and supply voltage are linked.</p>
 <rect x="294.76" y="740.76" width="18.48" height="106.48" fill="#c6ecc8" stroke="#96d59c" stroke-width="1" rx="4"/>
 <rect x="470.76" y="586.76" width="18.48" height="106.48" fill="#c6ecc8" stroke="#96d59c" stroke-width="1" rx="4"/>
 <rect x="206.76" y="586.76" width="18.48" height="106.48" fill="#c6ecc8" stroke="#96d59c" stroke-width="1" rx="4"/>
+<rect x="1108.76" y="894.76" width="18.48" height="18.48" fill="#c6ecc8" stroke="#96d59c" stroke-width="1" rx="4"/>
 <rect x="558.76" y="740.76" width="18.48" height="106.48" fill="#c6ecc8" stroke="#96d59c" stroke-width="1" rx="4"/>
-<rect x="1438.76" y="498.76" width="18.48" height="18.48" fill="#c6ecc8" stroke="#96d59c" stroke-width="1" rx="4"/>
 <rect x="1438.76" y="916.76" width="18.48" height="18.48" fill="#c6ecc8" stroke="#96d59c" stroke-width="1" rx="4"/>
+<rect x="228.76" y="916.76" width="18.48" height="18.48" fill="#c6ecc8" stroke="#96d59c" stroke-width="1" rx="4"/>
 <rect x="580.76" y="740.76" width="18.48" height="106.48" fill="#c6ecc8" stroke="#96d59c" stroke-width="1" rx="4"/>
 <rect x="602.76" y="498.76" width="18.48" height="18.48" fill="#c6ecc8" stroke="#96d59c" stroke-width="1" rx="4"/>
 <rect x="360.76" y="740.76" width="18.48" height="106.48" fill="#c6ecc8" stroke="#96d59c" stroke-width="1" rx="4"/>
@@ -2047,9 +2060,9 @@ programming, and why clock speed and supply voltage are linked.</p>
 <rect x="514.76" y="586.76" width="18.48" height="106.48" fill="#c6ecc8" stroke="#96d59c" stroke-width="1" rx="4"/>
 <rect x="756.76" y="498.76" width="18.48" height="18.48" fill="#c6ecc8" stroke="#96d59c" stroke-width="1" rx="4"/>
 <rect x="338.76" y="740.76" width="18.48" height="106.48" fill="#c6ecc8" stroke="#96d59c" stroke-width="1" rx="4"/>
+<rect x="1108.76" y="740.76" width="18.48" height="106.48" fill="#c6ecc8" stroke="#96d59c" stroke-width="1" rx="4"/>
 <rect x="866.76" y="586.76" width="18.48" height="106.48" fill="#c6ecc8" stroke="#96d59c" stroke-width="1" rx="4"/>
 <rect x="888.76" y="740.76" width="18.48" height="106.48" fill="#c6ecc8" stroke="#96d59c" stroke-width="1" rx="4"/>
-<rect x="822.76" y="520.76" width="18.48" height="18.48" fill="#c6ecc8" stroke="#96d59c" stroke-width="1" rx="4"/>
 <rect x="338.76" y="520.76" width="18.48" height="18.48" fill="#c6ecc8" stroke="#96d59c" stroke-width="1" rx="4"/>
 <rect x="778.76" y="520.76" width="18.48" height="18.48" fill="#c6ecc8" stroke="#96d59c" stroke-width="1" rx="4"/>
 <rect x="272.76" y="740.76" width="18.48" height="106.48" fill="#c6ecc8" stroke="#96d59c" stroke-width="1" rx="4"/>
@@ -2063,10 +2076,12 @@ programming, and why clock speed and supply voltage are linked.</p>
 <rect x="470.76" y="498.76" width="18.48" height="18.48" fill="#c6ecc8" stroke="#96d59c" stroke-width="1" rx="4"/>
 <rect x="1020.76" y="740.76" width="18.48" height="106.48" fill="#c6ecc8" stroke="#96d59c" stroke-width="1" rx="4"/>
 <rect x="932.76" y="586.76" width="18.48" height="106.48" fill="#c6ecc8" stroke="#96d59c" stroke-width="1" rx="4"/>
+<rect x="1086.76" y="740.76" width="18.48" height="106.48" fill="#c6ecc8" stroke="#96d59c" stroke-width="1" rx="4"/>
 <rect x="316.76" y="586.76" width="18.48" height="106.48" fill="#c6ecc8" stroke="#96d59c" stroke-width="1" rx="4"/>
 <rect x="690.76" y="586.76" width="18.48" height="106.48" fill="#c6ecc8" stroke="#96d59c" stroke-width="1" rx="4"/>
 <rect x="206.76" y="740.76" width="18.48" height="106.48" fill="#c6ecc8" stroke="#96d59c" stroke-width="1" rx="4"/>
 <rect x="822.76" y="586.76" width="18.48" height="106.48" fill="#c6ecc8" stroke="#96d59c" stroke-width="1" rx="4"/>
+<rect x="1438.76" y="498.76" width="18.48" height="18.48" fill="#c6ecc8" stroke="#96d59c" stroke-width="1" rx="4"/>
 <rect x="338.76" y="586.76" width="18.48" height="106.48" fill="#c6ecc8" stroke="#96d59c" stroke-width="1" rx="4"/>
 <rect x="778.76" y="498.76" width="18.48" height="18.48" fill="#c6ecc8" stroke="#96d59c" stroke-width="1" rx="4"/>
 <rect x="778.76" y="894.76" width="18.48" height="18.48" fill="#c6ecc8" stroke="#96d59c" stroke-width="1" rx="4"/>
@@ -2074,8 +2089,8 @@ programming, and why clock speed and supply voltage are linked.</p>
 <rect x="712.76" y="740.76" width="18.48" height="106.48" fill="#c6ecc8" stroke="#96d59c" stroke-width="1" rx="4"/>
 <rect x="448.76" y="740.76" width="18.48" height="106.48" fill="#c6ecc8" stroke="#96d59c" stroke-width="1" rx="4"/>
 <rect x="228.76" y="740.76" width="18.48" height="106.48" fill="#c6ecc8" stroke="#96d59c" stroke-width="1" rx="4"/>
+<rect x="1130.76" y="894.76" width="18.48" height="18.48" fill="#c6ecc8" stroke="#96d59c" stroke-width="1" rx="4"/>
 <rect x="360.76" y="586.76" width="18.48" height="106.48" fill="#c6ecc8" stroke="#96d59c" stroke-width="1" rx="4"/>
-<rect x="228.76" y="916.76" width="18.48" height="18.48" fill="#c6ecc8" stroke="#96d59c" stroke-width="1" rx="4"/>
 <rect x="954.76" y="740.76" width="18.48" height="106.48" fill="#c6ecc8" stroke="#96d59c" stroke-width="1" rx="4"/>
 <rect x="514.76" y="520.76" width="18.48" height="18.48" fill="#c6ecc8" stroke="#96d59c" stroke-width="1" rx="4"/>
 <rect x="470.76" y="740.76" width="18.48" height="106.48" fill="#c6ecc8" stroke="#96d59c" stroke-width="1" rx="4"/>
@@ -2088,6 +2103,7 @@ programming, and why clock speed and supply voltage are linked.</p>
 <rect x="778.76" y="740.76" width="18.48" height="106.48" fill="#c6ecc8" stroke="#96d59c" stroke-width="1" rx="4"/>
 <rect x="272.76" y="586.76" width="18.48" height="106.48" fill="#c6ecc8" stroke="#96d59c" stroke-width="1" rx="4"/>
 <rect x="910.76" y="740.76" width="18.48" height="106.48" fill="#c6ecc8" stroke="#96d59c" stroke-width="1" rx="4"/>
+<rect x="1130.76" y="740.76" width="18.48" height="106.48" fill="#c6ecc8" stroke="#96d59c" stroke-width="1" rx="4"/>
 <rect x="712.76" y="520.76" width="18.48" height="18.48" fill="#c6ecc8" stroke="#96d59c" stroke-width="1" rx="4"/>
 <rect x="1416.76" y="894.76" width="18.48" height="18.48" fill="#c6ecc8" stroke="#96d59c" stroke-width="1" rx="4"/>
 <rect x="866.76" y="740.76" width="18.48" height="106.48" fill="#c6ecc8" stroke="#96d59c" stroke-width="1" rx="4"/>
@@ -3159,14 +3175,6 @@ programming, and why clock speed and supply voltage are linked.</p>
 <rect x="0.97" y="0.31" width="0.22" height="0.08" fill="#1f3f75"/>
 <path d="M0.05 0 H 0.7 M 0.38 -0.32 V 0.32" stroke="#6f86ad" stroke-width="0.06"/>
 </g>
-<g transform="translate(832,596) rotate(270) scale(22)">
-<line x1="0" y1="0" x2="3" y2="0" stroke="#a7abb0" stroke-width="0.12" stroke-linecap="round"/>
-<rect x="0.3" y="-0.43" width="2.4" height="0.86" fill="#dcc28f" stroke="#b3955a" stroke-width="0.05" rx="0.38"/>
-<rect x="0.75" y="-0.42" width="0.18" height="0.84" fill="#fbc02d"/>
-<rect x="1.08" y="-0.42" width="0.18" height="0.84" fill="#7b1fa2"/>
-<rect x="1.41" y="-0.42" width="0.18" height="0.84" fill="#f57c00"/>
-<rect x="2.15" y="-0.42" width="0.18" height="0.84" fill="#c9a13b"/>
-</g>
 <g transform="translate(788,838) rotate(0) scale(22)">
 <line x1="0" y1="0" x2="0" y2="3" stroke="#a7abb0" stroke-width="0.14"/>
 <rect x="-0.85" y="0.35" width="1.7" height="2.3" fill="#2b2d30" stroke="#000000" stroke-width="0.05" rx="0.12"/>
@@ -3181,11 +3189,25 @@ programming, and why clock speed and supply voltage are linked.</p>
 <g transform="translate(942,794) rotate(0) scale(22)">
 <line x1="0" y1="0" x2="4" y2="0" stroke="#a7abb0" stroke-width="0.12" stroke-linecap="round"/>
 <rect x="0.75" y="-0.43" width="2.5" height="0.86" fill="#dcc28f" stroke="#b3955a" stroke-width="0.05" rx="0.38"/>
-<rect x="1.2" y="-0.42" width="0.18" height="0.84" fill="#fbc02d"/>
-<rect x="1.53" y="-0.42" width="0.18" height="0.84" fill="#7b1fa2"/>
+<rect x="1.2" y="-0.42" width="0.18" height="0.84" fill="#388e3c"/>
+<rect x="1.53" y="-0.42" width="0.18" height="0.84" fill="#1976d2"/>
 <rect x="1.86" y="-0.42" width="0.18" height="0.84" fill="#111111"/>
 <rect x="2.7" y="-0.42" width="0.18" height="0.84" fill="#c9a13b"/>
 </g>
+<g transform="translate(964,772) rotate(0) scale(22)">
+<line x1="0" y1="0" x2="6" y2="0" stroke="#a7abb0" stroke-width="0.12" stroke-linecap="round"/>
+<rect x="1.75" y="-0.43" width="2.5" height="0.86" fill="#dcc28f" stroke="#b3955a" stroke-width="0.05" rx="0.38"/>
+<rect x="2.2" y="-0.42" width="0.18" height="0.84" fill="#d32f2f"/>
+<rect x="2.53" y="-0.42" width="0.18" height="0.84" fill="#d32f2f"/>
+<rect x="2.86" y="-0.42" width="0.18" height="0.84" fill="#f57c00"/>
+<rect x="3.7" y="-0.42" width="0.18" height="0.84" fill="#c9a13b"/>
+</g>
+<g transform="translate(1096,816) rotate(0) scale(22)">
+<rect x="-0.75" y="-1" width="3.5" height="1.9" fill="#2f6fd0" stroke="#1c4a91" stroke-width="0.06" rx="0.1"/>
+<circle cx="-0.25" cy="-0.5" r="0.36" fill="#d39a3a" stroke="#8a5f1c" stroke-width="0.05"/>
+<line x1="-0.5" y1="-0.5" x2="0" y2="-0.5" stroke="#8a5f1c" stroke-width="0.1"/>
+</g>
+<text x="1126.8" y="828.1" font-size="8.8" fill="#e8eefa" text-anchor="middle" font-weight="bold">503</text>
 <g transform="translate(458,794) rotate(0) scale(22)">
 <rect x="-0.5" y="-0.5" width="2" height="1" fill="#161718" rx="0.06"/>
 <rect x="-0.45" y="-0.42" width="1.9" height="0.84" fill="#f2c200" stroke="#9c7c00" stroke-width="0.05" rx="0.12"/>
@@ -3355,6 +3377,16 @@ programming, and why clock speed and supply voltage are linked.</p>
 <path d="M832 618 C 898 556.4 1012.4 651 964 750" fill="none" stroke="#7dccb9" stroke-width="1.452" stroke-linecap="round" transform="translate(0,-1.188)" opacity="0.55"/>
 <circle cx="832" cy="618" r="3.63" fill="#a9aeb4" stroke="#6c7278" stroke-width="0.8"/>
 <circle cx="964" cy="750" r="3.63" fill="#a9aeb4" stroke="#6c7278" stroke-width="0.8"/>
+<path d="M1118 838 Q 1106.12 871 1118 904" fill="none" stroke="#17191c" stroke-width="8.91" stroke-linecap="round"/>
+<path d="M1118 838 Q 1106.12 871 1118 904" fill="none" stroke="#2a2e33" stroke-width="6.6" stroke-linecap="round"/>
+<path d="M1118 838 Q 1106.12 871 1118 904" fill="none" stroke="#8a8c8f" stroke-width="1.452" stroke-linecap="round" transform="translate(0,-1.188)" opacity="0.55"/>
+<circle cx="1118" cy="838" r="3.63" fill="#a9aeb4" stroke="#6c7278" stroke-width="0.8"/>
+<circle cx="1118" cy="904" r="3.63" fill="#a9aeb4" stroke="#6c7278" stroke-width="0.8"/>
+<path d="M1140 838 Q 1128.12 871 1140 904" fill="none" stroke="#17191c" stroke-width="8.91" stroke-linecap="round"/>
+<path d="M1140 838 Q 1128.12 871 1140 904" fill="none" stroke="#2a2e33" stroke-width="6.6" stroke-linecap="round"/>
+<path d="M1140 838 Q 1128.12 871 1140 904" fill="none" stroke="#8a8c8f" stroke-width="1.452" stroke-linecap="round" transform="translate(0,-1.188)" opacity="0.55"/>
+<circle cx="1140" cy="838" r="3.63" fill="#a9aeb4" stroke="#6c7278" stroke-width="0.8"/>
+<circle cx="1140" cy="904" r="3.63" fill="#a9aeb4" stroke="#6c7278" stroke-width="0.8"/>
 <path d="M1448 508 Q 1427.1 717 1448 926" fill="none" stroke="#762020" stroke-width="8.91" stroke-linecap="round"/>
 <path d="M1448 508 Q 1427.1 717 1448 926" fill="none" stroke="#d63a3a" stroke-width="6.6" stroke-linecap="round"/>
 <path d="M1448 508 Q 1427.1 717 1448 926" fill="none" stroke="#e89393" stroke-width="1.452" stroke-linecap="round" transform="translate(0,-1.188)" opacity="0.55"/>
@@ -3389,14 +3421,16 @@ programming, and why clock speed and supply voltage are linked.</p>
 <text x="713.2" y="625.7" font-size="12" fill="#173047" text-anchor="end" font-weight="bold">C4 100n</text>
 <rect x="815.8" y="473.9" width="52.494" height="16" fill="#ffffff" opacity="0.88" rx="3"/>
 <text x="818.8" y="484.9" font-size="12" fill="#173047" text-anchor="start" font-weight="bold">C3 100u</text>
-<rect x="844.4" y="560.8" width="45.564" height="16" fill="#ffffff" opacity="0.88" rx="3"/>
-<text x="847.4" y="571.8" font-size="12" fill="#173047" text-anchor="start" font-weight="bold">R4 47k</text>
-<rect x="809.2" y="871" width="62.574" height="16" fill="#ffffff" opacity="0.88" rx="3"/>
-<text x="812.2" y="882" font-size="12" fill="#173047" text-anchor="start" font-weight="bold">SW1 test</text>
+<rect x="809.2" y="871" width="68.118" height="16" fill="#ffffff" opacity="0.88" rx="3"/>
+<text x="812.2" y="882" font-size="12" fill="#173047" text-anchor="start" font-weight="bold">SW1 TEST</text>
 <rect x="912.061" y="866.6" width="37.878" height="16" fill="#ffffff" opacity="0.88" rx="3"/>
 <text x="931" y="877.6" font-size="12" fill="#173047" text-anchor="middle" font-weight="bold">LDR1</text>
 <rect x="980.125" y="814.9" width="46.95" height="16" fill="#ffffff" opacity="0.88" rx="3"/>
-<text x="1003.6" y="825.9" font-size="12" fill="#173047" text-anchor="middle" font-weight="bold">R3 47R</text>
+<text x="1003.6" y="825.9" font-size="12" fill="#173047" text-anchor="middle" font-weight="bold">R3 56R</text>
+<rect x="1007.218" y="746.7" width="45.564" height="16" fill="#ffffff" opacity="0.88" rx="3"/>
+<text x="1030" y="757.7" font-size="12" fill="#173047" text-anchor="middle" font-weight="bold">R4 22k</text>
+<rect x="1172.2" y="807.2" width="84.876" height="16" fill="#ffffff" opacity="0.88" rx="3"/>
+<text x="1175.2" y="818.2" font-size="12" fill="#173047" text-anchor="start" font-weight="bold">RV1 50k trim</text>
 <rect x="454.219" y="755.5" width="29.562" height="16" fill="#ffffff" opacity="0.88" rx="3"/>
 <text x="469" y="766.5" font-size="12" fill="#173047" text-anchor="middle" font-weight="bold">JP1</text>
 <rect x="565.642" y="168.3" width="140.316" height="16" fill="#ffffff" opacity="0.88" rx="3"/>
@@ -3457,7 +3491,7 @@ programming, and why clock speed and supply voltage are linked.</p>
 <text x="1098.625" y="1072.5" font-size="12.5" fill="#173047" text-anchor="start">Logic / sensor</text>
 <rect x="42" y="1092" width="850" height="191" fill="#fffaf0" stroke="#e5c58f" stroke-width="1.2" rx="12"/>
 <text x="60" y="1119" font-size="15" fill="#ad6200" text-anchor="start" font-weight="bold">Build notes</text>
-<text x="60" y="1143" font-size="13" fill="#173047" text-anchor="start">10 jumper wires on the board (JP2 is the yellow D0-RST link), 2 rail links, one JP1 header.</text>
+<text x="60" y="1143" font-size="13" fill="#173047" text-anchor="start">12 jumper wires on the board (JP2 is the yellow D0-RST link), 2 rail links, one JP1 header.</text>
 <text x="60" y="1164" font-size="13" fill="#173047" text-anchor="start">Tier 1: remove the JP1 shunt and power the D1 Mini from its USB. Remove JP2 to flash it over USB.</text>
 <text x="60" y="1185" font-size="13" fill="#173047" text-anchor="start">Rails: outer red = VBAT_SYS, inner blue = GND_LOAD, linked top to bottom at columns 59 and 60.</text>
 <text x="60" y="1206" font-size="13" fill="#173047" text-anchor="start">Q2 flat face toward the channel (E-B-C = columns 22-21-20). Check the pin order of your part.</text>
@@ -3467,7 +3501,7 @@ programming, and why clock speed and supply voltage are linked.</p>
 <rect x="912" y="1092" width="846" height="170" fill="#f3faf7" stroke="#a9d8c6" stroke-width="1.2" rx="12"/>
 <text x="930" y="1119" font-size="15" fill="#008572" text-anchor="start" font-weight="bold">Why it is laid out this way</text>
 <text x="930" y="1143" font-size="13" fill="#173047" text-anchor="start">Every module pin has one free hole beside it, so parts plug straight into the pin columns:</text>
-<text x="930" y="1164" font-size="13" fill="#173047" text-anchor="start">R5 A0 to rail, R9 base to rail, R4 A1 to rail, SW1 D2 to rail, C4 across the M2 pins.</text>
+<text x="930" y="1164" font-size="13" fill="#173047" text-anchor="start">R5 A0 to rail, R9 base to rail, SW1 D2 to rail, C4 across the M2 pins; R4 + RV1 trim A1 to rail.</text>
 <text x="930" y="1185" font-size="13" fill="#173047" text-anchor="start">U3 straddles the channel so its input and output pads never share a column.</text>
 <text x="930" y="1206" font-size="13" fill="#173047" text-anchor="start">D1 Mini antenna overhangs the left end; its USB faces U3, which is low enough for the plug.</text>
 <text x="930" y="1227" font-size="13" fill="#173047" text-anchor="start">Nothing sits by the M2 serial header, so a USB-UART can clip on to monitor TXO (TX to RX, GND).</text>
@@ -3529,7 +3563,7 @@ any board.</p>
 </tr>
 <tr>
 <td style="text-align: left;">D9</td>
-<td style="text-align: left;">R3 47 Ω → LED string +</td>
+<td style="text-align: left;">R3 56 Ω → LED string +</td>
 <td style="text-align: left;">C</td>
 </tr>
 <tr>
@@ -3883,33 +3917,35 @@ measured 2.56 V with almost no change across the battery range, so:</p>
 </code></pre>
 <p><code>Rpin</code> is the ATmega328P's own output resistance, roughly 30 Ω at these
 currents (a typical datasheet characteristic, not a guaranteed value). With
-R3 = 47 Ω the model predicts:</p>
+R3 = 56 Ω the model predicts:</p>
 <div class="scroll"><table>
 <thead>
 <tr>
 <th style="text-align: left;">Battery</th>
-<th style="text-align: right;">R3 = 47 Ω</th>
 <th style="text-align: right;">R3 = 56 Ω</th>
+<th style="text-align: right;">R3 = 68 Ω</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td style="text-align: left;">4.20 V</td>
-<td style="text-align: right;">21 mA</td>
-<td style="text-align: right;">18 mA</td>
+<td style="text-align: right;">19 mA</td>
+<td style="text-align: right;">17 mA</td>
 </tr>
 <tr>
 <td style="text-align: left;">3.70 V</td>
-<td style="text-align: right;">15 mA</td>
 <td style="text-align: right;">13 mA</td>
+<td style="text-align: right;">12 mA</td>
 </tr>
 <tr>
 <td style="text-align: left;">3.40 V</td>
-<td style="text-align: right;">11 mA</td>
+<td style="text-align: right;">10 mA</td>
 <td style="text-align: right;">9 mA</td>
 </tr>
 </tbody>
 </table></div>
+<p>56 Ω keeps the peak under 20 mA on a full cell. Earlier builds used 47 Ω, which
+predicts 21 mA at 4.20 V.</p>
 <p>These are predictions. Gate 1 measures the real current through the pin; the
 reference string's own characterisation is in
 <a href="reference/led-string-characterisation.md"><code>reference/led-string-characterisation.md</code></a>.</p>
@@ -3920,7 +3956,7 @@ pulse is still set by R3 and the pin. That is why the firmware's
 <hr />
 <h3 id="d05-build-steps">Build steps</h3>
 <ol>
-<li>Fit R3 (47 Ω) on the carrier, <strong>at the controller end</strong>, from D9 to the
+<li>Fit R3 (56 Ω) on the carrier, <strong>at the controller end</strong>, from D9 to the
    LED output terminal. The outdoor cable should always be on the far side of
    the resistor.</li>
 <li>Connect the LED string's positive lead to the R3 terminal and its negative
@@ -3932,8 +3968,8 @@ pulse is still set by R3 and the pin. That is why the firmware's
 <hr />
 <h3 id="d05-test-gate">Test gate</h3>
 <p><strong>Gate 1</strong> in <a href="#d10">10 – Commissioning</a> measures the string
-current at 3.40, 3.70 and 4.20 V at 100 % duty. If it exceeds 22 mA at 4.20 V,
-fit 56 Ω and measure again. Also confirm that R3 and the controller stay at
+current at 3.40, 3.70 and 4.20 V at 100 % duty. If it exceeds 20 mA at 4.20 V,
+fit 68 Ω and measure again. Also confirm that R3 and the controller stay at
 room temperature, and that the string is dark with the controller unpowered
 and during reset.</p>
 <hr />
@@ -3951,8 +3987,8 @@ and during reset.</p>
 <td style="text-align: left;">Expected: brightness tracks battery</td>
 </tr>
 <tr>
-<td style="text-align: left;">Over 22 mA at 4.20 V</td>
-<td style="text-align: left;">String Vf lower than reference: 56 Ω</td>
+<td style="text-align: left;">Over 20 mA at 4.20 V</td>
+<td style="text-align: left;">String Vf lower than reference: 68 Ω</td>
 </tr>
 <tr>
 <td style="text-align: left;">Uneven brightness</td>
@@ -3979,12 +4015,15 @@ and pin-change interrupts.</p>
 <h3 id="d06-how-the-sensor-works">How the sensor works</h3>
 <pre><code>D7 ──&gt; LDR1 ──┬──&gt; A1
               │
-              R4 47 kΩ
+              R4 22 kΩ
+              │
+              RV1 50 kΩ trimmer (wiper joined to pin 3)
               │
            GND_LOAD
 </code></pre>
-<p>The LDR's resistance rises in the dark. With R4 = 47 kΩ, A1 reads as a fraction
-of VCC:</p>
+<p>The LDR's resistance rises in the dark. R4 and RV1 form the lower leg of the
+divider, 22–72 kΩ. Set to mid-travel, the leg is 47 kΩ, the value the firmware
+was calibrated with, and A1 reads as a fraction of VCC:</p>
 <div class="scroll"><table>
 <thead>
 <tr>
@@ -4018,19 +4057,24 @@ divider draws nothing between readings. A reading must stay dark (or light) for
 controller changes state, and the gap between 30 % and 60 % stops it
 hunting at dusk.</p>
 <p>The thresholds live in <code>firmware/controller/include/config.h</code>
-(<code>LDR_DARK_RATIO</code>, <code>LDR_LIGHT_RATIO</code>). R4 sets where they fall: a larger R4
-makes the sensor call "dark" later (it needs a darker sky).</p>
+(<code>LDR_DARK_RATIO</code>, <code>LDR_LIGHT_RATIO</code>). The lower leg sets where they fall, and
+RV1 changes it without reflashing: more resistance makes the sensor call
+"dark" later (it needs a darker sky). Across RV1's travel, the dark point moves
+from an LDR of about 51 kΩ to 168 kΩ.</p>
 <hr />
 <h3 id="d06-build-steps">Build steps</h3>
 <ol>
-<li>Wire D7 → LDR1 → A1, and A1 → R4 (47 kΩ) → GND_LOAD.</li>
+<li>Wire D7 → LDR1 → A1, and A1 → R4 (22 kΩ) → RV1 pin 1. Join RV1's wiper
+   (pin 2) to pin 3 and take pin 3 to GND_LOAD. RV1 is a 3296W multi-turn
+   trimmer, 50 kΩ (marked 503). Before fitting, set it to mid-travel: about
+   25 kΩ between pins 1 and 2.</li>
 <li>Mount the LDR where it sees the sky but <strong>not the LED string</strong>: the lights
    must never be able to convince the sensor it is daytime. A short tube or
    hood around the LDR helps. Check it at night: with the lights on, <code>ldr=</code>
    should rise by only a few points and stay well below the light threshold
    (Gate 3, step 6). On the bench, the string raised it by 4.5, 8 and 16
    points in three different positions.</li>
-<li>Wire SW1 between D2 and GND_LOAD. The firmware enables D2's internal
+<li>Wire SW1, the TEST button, between D2 and GND_LOAD. The firmware enables D2's internal
    pull-up and a pin-change interrupt, so a press wakes the controller
    immediately.</li>
 </ol>
@@ -4041,9 +4085,12 @@ LDR and confirm the transitions. Test darkness with a truly light-tight cover;
 a loose cap can still let through enough light to read about 20 %.</p>
 <p><strong>Calibrate in the final position.</strong> With Advanced Telemetry running, note the
 <code>Arduino LDR</code> value at the moment you would like the lights to come on. If it
-is well above 30 %, the lights will come on later than you want: raise
-<code>LDR_DARK_RATIO</code> in <code>config.h</code> (keeping <code>LDR_LIGHT_RATIO</code> about 0.3 above it),
-or fit a smaller R4. If the lights come on too early, do the opposite.</p>
+is well above 30 %, the lights will come on later than you want: turn RV1
+towards more resistance, which raises the reading, until it sits just below
+30 % at that moment. If the lights come on too early, turn it the other way.
+Measure between RV1's pins 1 and 2 to find which way your part turns. If RV1's
+range is not enough, change <code>LDR_DARK_RATIO</code> in <code>config.h</code> (keeping
+<code>LDR_LIGHT_RATIO</code> about 0.3 above it).</p>
 <p>Each threshold has a 3 % hysteresis band (<code>LDR_HYSTERESIS</code>): once the reading
 is DARK it stays DARK until it rises above 33 %, and once LIGHT it stays LIGHT
 until it falls below 57 %. Noise near a threshold therefore cannot restart the
@@ -4109,7 +4156,7 @@ ESP8266 deep sleep and wake-on-reset, and keeping two power domains apart.</p>
 			<text x="42" y="790" style="font-family: Helvetica; font-size: 16px;fill: rgb(31%,39%,47%); stroke:none;" transform="translate(0,1580) scale(1,-1)">Always-on commissioning instrument: decodes every controller diagnostic line into Home Assistant while you build, calibrate and soak-test.</text>
 			<path d="M 42,768 L 1398,768 Z" style="stroke: rgb(83%,87%,90%); stroke-linecap: butt; stroke-width: 1;"/>
 			<path d="M 42,50 L 1398,50 Z" style="stroke: rgb(83%,87%,90%); stroke-linecap: butt; stroke-width: 1;"/>
-			<text x="42" y="23" style="font-family: Helvetica-Bold; font-size: 13px;fill: rgb(0%,52%,44%); stroke:none;" transform="translate(0,46) scale(1,-1)">REV 0.6  |  READ MODULE PAD LABELS, NOT BOARD POSITIONS</text>
+			<text x="42" y="23" style="font-family: Helvetica-Bold; font-size: 13px;fill: rgb(0%,52%,44%); stroke:none;" transform="translate(0,46) scale(1,-1)">REV 0.7  |  READ MODULE PAD LABELS, NOT BOARD POSITIONS</text>
 			<text x="1175" y="23" style="font-family: Helvetica; font-size: 13px;fill: rgb(31%,39%,47%); stroke:none;" transform="translate(0,46) scale(1,-1)">SHEET 6 OF 7 / A3</text>
 			<path d="M 42,760 L 42,58 Z" style="stroke: rgb(94%,96%,97%); stroke-linecap: butt; stroke-width: 0.7;"/>
 			<path d="M 78,760 L 78,58 Z" style="stroke: rgb(94%,96%,97%); stroke-linecap: butt; stroke-width: 0.7;"/>
@@ -4373,7 +4420,7 @@ ESP8266 deep sleep and wake-on-reset, and keeping two power domains apart.</p>
 			<text x="42" y="790" style="font-family: Helvetica; font-size: 16px;fill: rgb(31%,39%,47%); stroke:none;" transform="translate(0,1580) scale(1,-1)">Hourly deep sleep on battery power. Same Q2 serial harness as Tier 1 (sheet 6); the D1 Mini is powered from U3.</text>
 			<path d="M 42,768 L 1398,768 Z" style="stroke: rgb(83%,87%,90%); stroke-linecap: butt; stroke-width: 1;"/>
 			<path d="M 42,50 L 1398,50 Z" style="stroke: rgb(83%,87%,90%); stroke-linecap: butt; stroke-width: 1;"/>
-			<text x="42" y="23" style="font-family: Helvetica-Bold; font-size: 13px;fill: rgb(0%,52%,44%); stroke:none;" transform="translate(0,46) scale(1,-1)">REV 0.6  |  READ MODULE PAD LABELS, NOT BOARD POSITIONS</text>
+			<text x="42" y="23" style="font-family: Helvetica-Bold; font-size: 13px;fill: rgb(0%,52%,44%); stroke:none;" transform="translate(0,46) scale(1,-1)">REV 0.7  |  READ MODULE PAD LABELS, NOT BOARD POSITIONS</text>
 			<text x="1175" y="23" style="font-family: Helvetica; font-size: 13px;fill: rgb(31%,39%,47%); stroke:none;" transform="translate(0,46) scale(1,-1)">SHEET 3 OF 7 / A3</text>
 			<path d="M 42,760 L 42,58 Z" style="stroke: rgb(94%,96%,97%); stroke-linecap: butt; stroke-width: 0.7;"/>
 			<path d="M 78,760 L 78,58 Z" style="stroke: rgb(94%,96%,97%); stroke-linecap: butt; stroke-width: 0.7;"/>
@@ -4614,7 +4661,7 @@ ESP8266 deep sleep and wake-on-reset, and keeping two power domains apart.</p>
 <text x="42" y="112" font-size="15" fill="#516578" text-anchor="start">Tier 2 jumpers fitted. Modules sit in sockets or on header pins; coloured lines are the solder traces on the underside, seen through the board.</text>
 <line x1="42" y1="130" x2="1758" y2="130" stroke="#d5e0e6" stroke-width="1"/>
 <line x1="42" y1="1400" x2="1758" y2="1400" stroke="#d5e0e6" stroke-width="1"/>
-<text x="42" y="1424" font-size="12.5" fill="#008572" text-anchor="start" font-weight="bold">REV 0.6  |  READ MODULE PAD LABELS, NOT BOARD POSITIONS</text>
+<text x="42" y="1424" font-size="12.5" fill="#008572" text-anchor="start" font-weight="bold">REV 0.7  |  READ MODULE PAD LABELS, NOT BOARD POSITIONS</text>
 <text x="1758" y="1424" font-size="12.5" fill="#516578" text-anchor="end">PERFBOARD LAYOUT</text>
 <rect x="34" y="606" width="180" height="190" fill="#dfe4e8" rx="10"/>
 <rect x="30" y="600" width="180" height="190" fill="#26282c" stroke="#101113" stroke-width="1.5" rx="10"/>
@@ -6853,14 +6900,20 @@ ESP8266 deep sleep and wake-on-reset, and keeping two power domains apart.</p>
 <ellipse cx="1" cy="0" rx="0.75" ry="0.48" fill="#e3992f" stroke="#b3721a" stroke-width="0.05"/>
 </g>
 <text x="1335.64" y="282.52" font-size="10.08" fill="#5a3508" text-anchor="middle" font-weight="bold">104</text>
-<g transform="translate(1360,392) rotate(270) scale(28)">
-<line x1="0" y1="0" x2="4" y2="0" stroke="#a7abb0" stroke-width="0.12" stroke-linecap="round"/>
-<rect x="0.75" y="-0.43" width="2.5" height="0.86" fill="#dcc28f" stroke="#b3955a" stroke-width="0.05" rx="0.38"/>
-<rect x="1.2" y="-0.42" width="0.18" height="0.84" fill="#fbc02d"/>
-<rect x="1.53" y="-0.42" width="0.18" height="0.84" fill="#7b1fa2"/>
-<rect x="1.86" y="-0.42" width="0.18" height="0.84" fill="#f57c00"/>
-<rect x="2.7" y="-0.42" width="0.18" height="0.84" fill="#c9a13b"/>
+<g transform="translate(1360,504) rotate(90) scale(28)">
+<line x1="0" y1="0" x2="3" y2="0" stroke="#a7abb0" stroke-width="0.12" stroke-linecap="round"/>
+<rect x="0.3" y="-0.43" width="2.4" height="0.86" fill="#dcc28f" stroke="#b3955a" stroke-width="0.05" rx="0.38"/>
+<rect x="0.75" y="-0.42" width="0.18" height="0.84" fill="#d32f2f"/>
+<rect x="1.08" y="-0.42" width="0.18" height="0.84" fill="#d32f2f"/>
+<rect x="1.41" y="-0.42" width="0.18" height="0.84" fill="#f57c00"/>
+<rect x="2.15" y="-0.42" width="0.18" height="0.84" fill="#c9a13b"/>
 </g>
+<g transform="translate(1304,588) rotate(180) scale(28)">
+<rect x="-0.75" y="-1" width="3.5" height="1.9" fill="#2f6fd0" stroke="#1c4a91" stroke-width="0.06" rx="0.1"/>
+<circle cx="-0.25" cy="-0.5" r="0.36" fill="#d39a3a" stroke="#8a5f1c" stroke-width="0.05"/>
+<line x1="-0.5" y1="-0.5" x2="0" y2="-0.5" stroke="#8a5f1c" stroke-width="0.1"/>
+</g>
+<text x="1264.8" y="578.2" font-size="11.2" fill="#e8eefa" text-anchor="middle" font-weight="bold">503</text>
 <g transform="translate(1416,252) rotate(180) scale(28)">
 <circle cx="0.5" cy="0" r="1" fill="#1f3f75" stroke="#11274b" stroke-width="0.06"/>
 <path d="M0.85 -0.937 A 1 1 0 0 1 0.85 0.937 Z" fill="#b8c6da"/>
@@ -6952,8 +7005,8 @@ ESP8266 deep sleep and wake-on-reset, and keeping two power domains apart.</p>
 <g transform="translate(1136,560) rotate(90) scale(28)">
 <line x1="0" y1="0" x2="3" y2="0" stroke="#a7abb0" stroke-width="0.12" stroke-linecap="round"/>
 <rect x="0.3" y="-0.43" width="2.4" height="0.86" fill="#dcc28f" stroke="#b3955a" stroke-width="0.05" rx="0.38"/>
-<rect x="0.75" y="-0.42" width="0.18" height="0.84" fill="#fbc02d"/>
-<rect x="1.08" y="-0.42" width="0.18" height="0.84" fill="#7b1fa2"/>
+<rect x="0.75" y="-0.42" width="0.18" height="0.84" fill="#388e3c"/>
+<rect x="1.08" y="-0.42" width="0.18" height="0.84" fill="#1976d2"/>
 <rect x="1.41" y="-0.42" width="0.18" height="0.84" fill="#111111"/>
 <rect x="2.15" y="-0.42" width="0.18" height="0.84" fill="#c9a13b"/>
 </g>
@@ -7155,6 +7208,7 @@ ESP8266 deep sleep and wake-on-reset, and keeping two power domains apart.</p>
 <line x1="1360" y1="448" x2="1360" y2="476" stroke="#12a37f" stroke-width="10.08" stroke-linecap="round" opacity="0.72"/>
 <line x1="1388" y1="476" x2="1416" y2="476" stroke="#12a37f" stroke-width="10.08" stroke-linecap="round" opacity="0.72"/>
 <line x1="1360" y1="392" x2="1360" y2="420" stroke="#12a37f" stroke-width="10.08" stroke-linecap="round" opacity="0.72"/>
+<line x1="1360" y1="476" x2="1360" y2="504" stroke="#12a37f" stroke-width="10.08" stroke-linecap="round" opacity="0.72"/>
 <line x1="744" y1="812" x2="772" y2="812" stroke="#e8772e" stroke-width="10.08" stroke-linecap="round" opacity="0.72"/>
 <line x1="800" y1="812" x2="828" y2="812" stroke="#e8772e" stroke-width="10.08" stroke-linecap="round" opacity="0.72"/>
 <line x1="772" y1="812" x2="800" y2="812" stroke="#e8772e" stroke-width="10.08" stroke-linecap="round" opacity="0.72"/>
@@ -7193,61 +7247,61 @@ ESP8266 deep sleep and wake-on-reset, and keeping two power domains apart.</p>
 <line x1="1052" y1="560" x2="1052" y2="588" stroke="#2a2e33" stroke-width="10.08" stroke-linecap="round" opacity="0.72"/>
 <line x1="464" y1="672" x2="492" y2="672" stroke="#2a2e33" stroke-width="10.08" stroke-linecap="round" opacity="0.72"/>
 <line x1="884" y1="476" x2="884" y2="504" stroke="#2a2e33" stroke-width="10.08" stroke-linecap="round" opacity="0.72"/>
-<line x1="1192" y1="616" x2="1220" y2="616" stroke="#2a2e33" stroke-width="10.08" stroke-linecap="round" opacity="0.72"/>
 <line x1="1164" y1="308" x2="1192" y2="308" stroke="#2a2e33" stroke-width="10.08" stroke-linecap="round" opacity="0.72"/>
 <line x1="576" y1="448" x2="604" y2="448" stroke="#2a2e33" stroke-width="10.08" stroke-linecap="round" opacity="0.72"/>
 <line x1="492" y1="504" x2="492" y2="532" stroke="#2a2e33" stroke-width="10.08" stroke-linecap="round" opacity="0.72"/>
 <line x1="1052" y1="308" x2="1052" y2="336" stroke="#2a2e33" stroke-width="10.08" stroke-linecap="round" opacity="0.72"/>
-<line x1="1248" y1="616" x2="1276" y2="616" stroke="#2a2e33" stroke-width="10.08" stroke-linecap="round" opacity="0.72"/>
 <line x1="884" y1="476" x2="912" y2="476" stroke="#2a2e33" stroke-width="10.08" stroke-linecap="round" opacity="0.72"/>
 <line x1="940" y1="392" x2="940" y2="420" stroke="#2a2e33" stroke-width="10.08" stroke-linecap="round" opacity="0.72"/>
 <line x1="1024" y1="420" x2="1052" y2="420" stroke="#2a2e33" stroke-width="10.08" stroke-linecap="round" opacity="0.72"/>
 <line x1="968" y1="336" x2="996" y2="336" stroke="#2a2e33" stroke-width="10.08" stroke-linecap="round" opacity="0.72"/>
 <line x1="492" y1="448" x2="520" y2="448" stroke="#2a2e33" stroke-width="10.08" stroke-linecap="round" opacity="0.72"/>
 <line x1="772" y1="476" x2="772" y2="504" stroke="#2a2e33" stroke-width="10.08" stroke-linecap="round" opacity="0.72"/>
+<line x1="1220" y1="588" x2="1248" y2="588" stroke="#2a2e33" stroke-width="10.08" stroke-linecap="round" opacity="0.72"/>
 <line x1="772" y1="504" x2="800" y2="504" stroke="#2a2e33" stroke-width="10.08" stroke-linecap="round" opacity="0.72"/>
 <line x1="968" y1="308" x2="968" y2="336" stroke="#2a2e33" stroke-width="10.08" stroke-linecap="round" opacity="0.72"/>
 <line x1="1304" y1="616" x2="1332" y2="616" stroke="#2a2e33" stroke-width="10.08" stroke-linecap="round" opacity="0.72"/>
-<line x1="1164" y1="616" x2="1192" y2="616" stroke="#2a2e33" stroke-width="10.08" stroke-linecap="round" opacity="0.72"/>
 <line x1="1052" y1="504" x2="1052" y2="532" stroke="#2a2e33" stroke-width="10.08" stroke-linecap="round" opacity="0.72"/>
 <line x1="1052" y1="336" x2="1052" y2="364" stroke="#2a2e33" stroke-width="10.08" stroke-linecap="round" opacity="0.72"/>
 <line x1="940" y1="420" x2="968" y2="420" stroke="#2a2e33" stroke-width="10.08" stroke-linecap="round" opacity="0.72"/>
 <line x1="1080" y1="308" x2="1108" y2="308" stroke="#2a2e33" stroke-width="10.08" stroke-linecap="round" opacity="0.72"/>
 <line x1="968" y1="280" x2="968" y2="308" stroke="#2a2e33" stroke-width="10.08" stroke-linecap="round" opacity="0.72"/>
-<line x1="1220" y1="616" x2="1248" y2="616" stroke="#2a2e33" stroke-width="10.08" stroke-linecap="round" opacity="0.72"/>
 <line x1="604" y1="448" x2="632" y2="448" stroke="#2a2e33" stroke-width="10.08" stroke-linecap="round" opacity="0.72"/>
 <line x1="996" y1="336" x2="1024" y2="336" stroke="#2a2e33" stroke-width="10.08" stroke-linecap="round" opacity="0.72"/>
 <line x1="1304" y1="252" x2="1332" y2="252" stroke="#2a2e33" stroke-width="10.08" stroke-linecap="round" opacity="0.72"/>
-<line x1="1080" y1="616" x2="1108" y2="616" stroke="#2a2e33" stroke-width="10.08" stroke-linecap="round" opacity="0.72"/>
+<line x1="1192" y1="588" x2="1220" y2="588" stroke="#2a2e33" stroke-width="10.08" stroke-linecap="round" opacity="0.72"/>
 <line x1="492" y1="644" x2="492" y2="672" stroke="#2a2e33" stroke-width="10.08" stroke-linecap="round" opacity="0.72"/>
 <line x1="884" y1="532" x2="884" y2="560" stroke="#2a2e33" stroke-width="10.08" stroke-linecap="round" opacity="0.72"/>
 <line x1="1360" y1="616" x2="1388" y2="616" stroke="#2a2e33" stroke-width="10.08" stroke-linecap="round" opacity="0.72"/>
 <line x1="1220" y1="308" x2="1248" y2="308" stroke="#2a2e33" stroke-width="10.08" stroke-linecap="round" opacity="0.72"/>
+<line x1="1248" y1="588" x2="1276" y2="588" stroke="#2a2e33" stroke-width="10.08" stroke-linecap="round" opacity="0.72"/>
+<line x1="1136" y1="588" x2="1164" y2="588" stroke="#2a2e33" stroke-width="10.08" stroke-linecap="round" opacity="0.72"/>
 <line x1="912" y1="476" x2="940" y2="476" stroke="#2a2e33" stroke-width="10.08" stroke-linecap="round" opacity="0.72"/>
-<line x1="1052" y1="616" x2="1080" y2="616" stroke="#2a2e33" stroke-width="10.08" stroke-linecap="round" opacity="0.72"/>
+<line x1="1108" y1="588" x2="1136" y2="588" stroke="#2a2e33" stroke-width="10.08" stroke-linecap="round" opacity="0.72"/>
 <line x1="856" y1="588" x2="884" y2="588" stroke="#2a2e33" stroke-width="10.08" stroke-linecap="round" opacity="0.72"/>
 <line x1="1052" y1="448" x2="1052" y2="476" stroke="#2a2e33" stroke-width="10.08" stroke-linecap="round" opacity="0.72"/>
 <line x1="492" y1="616" x2="492" y2="644" stroke="#2a2e33" stroke-width="10.08" stroke-linecap="round" opacity="0.72"/>
 <line x1="660" y1="448" x2="688" y2="448" stroke="#2a2e33" stroke-width="10.08" stroke-linecap="round" opacity="0.72"/>
 <line x1="1360" y1="252" x2="1388" y2="252" stroke="#2a2e33" stroke-width="10.08" stroke-linecap="round" opacity="0.72"/>
 <line x1="492" y1="532" x2="492" y2="560" stroke="#2a2e33" stroke-width="10.08" stroke-linecap="round" opacity="0.72"/>
+<line x1="1080" y1="588" x2="1108" y2="588" stroke="#2a2e33" stroke-width="10.08" stroke-linecap="round" opacity="0.72"/>
 <line x1="884" y1="504" x2="884" y2="532" stroke="#2a2e33" stroke-width="10.08" stroke-linecap="round" opacity="0.72"/>
 <line x1="492" y1="476" x2="492" y2="504" stroke="#2a2e33" stroke-width="10.08" stroke-linecap="round" opacity="0.72"/>
 <line x1="1276" y1="252" x2="1276" y2="280" stroke="#2a2e33" stroke-width="10.08" stroke-linecap="round" opacity="0.72"/>
 <line x1="800" y1="588" x2="828" y2="588" stroke="#2a2e33" stroke-width="10.08" stroke-linecap="round" opacity="0.72"/>
 <line x1="1052" y1="364" x2="1052" y2="392" stroke="#2a2e33" stroke-width="10.08" stroke-linecap="round" opacity="0.72"/>
 <line x1="688" y1="448" x2="716" y2="448" stroke="#2a2e33" stroke-width="10.08" stroke-linecap="round" opacity="0.72"/>
+<line x1="1276" y1="588" x2="1276" y2="616" stroke="#2a2e33" stroke-width="10.08" stroke-linecap="round" opacity="0.72"/>
 <line x1="800" y1="560" x2="800" y2="588" stroke="#2a2e33" stroke-width="10.08" stroke-linecap="round" opacity="0.72"/>
 <line x1="1388" y1="616" x2="1416" y2="616" stroke="#2a2e33" stroke-width="10.08" stroke-linecap="round" opacity="0.72"/>
 <line x1="1108" y1="308" x2="1136" y2="308" stroke="#2a2e33" stroke-width="10.08" stroke-linecap="round" opacity="0.72"/>
 <line x1="1052" y1="392" x2="1052" y2="420" stroke="#2a2e33" stroke-width="10.08" stroke-linecap="round" opacity="0.72"/>
+<line x1="1052" y1="476" x2="1052" y2="504" stroke="#2a2e33" stroke-width="10.08" stroke-linecap="round" opacity="0.72"/>
 <line x1="1332" y1="252" x2="1360" y2="252" stroke="#2a2e33" stroke-width="10.08" stroke-linecap="round" opacity="0.72"/>
 <line x1="940" y1="448" x2="940" y2="476" stroke="#2a2e33" stroke-width="10.08" stroke-linecap="round" opacity="0.72"/>
-<line x1="1052" y1="476" x2="1052" y2="504" stroke="#2a2e33" stroke-width="10.08" stroke-linecap="round" opacity="0.72"/>
 <line x1="492" y1="560" x2="492" y2="588" stroke="#2a2e33" stroke-width="10.08" stroke-linecap="round" opacity="0.72"/>
 <line x1="772" y1="448" x2="772" y2="476" stroke="#2a2e33" stroke-width="10.08" stroke-linecap="round" opacity="0.72"/>
 <line x1="520" y1="448" x2="548" y2="448" stroke="#2a2e33" stroke-width="10.08" stroke-linecap="round" opacity="0.72"/>
-<line x1="1360" y1="252" x2="1360" y2="280" stroke="#2a2e33" stroke-width="10.08" stroke-linecap="round" opacity="0.72"/>
 <line x1="716" y1="448" x2="744" y2="448" stroke="#2a2e33" stroke-width="10.08" stroke-linecap="round" opacity="0.72"/>
 <line x1="1276" y1="252" x2="1304" y2="252" stroke="#2a2e33" stroke-width="10.08" stroke-linecap="round" opacity="0.72"/>
 <line x1="968" y1="420" x2="996" y2="420" stroke="#2a2e33" stroke-width="10.08" stroke-linecap="round" opacity="0.72"/>
@@ -7260,45 +7314,45 @@ ESP8266 deep sleep and wake-on-reset, and keeping two power domains apart.</p>
 <line x1="632" y1="448" x2="660" y2="448" stroke="#2a2e33" stroke-width="10.08" stroke-linecap="round" opacity="0.72"/>
 <line x1="800" y1="532" x2="800" y2="560" stroke="#2a2e33" stroke-width="10.08" stroke-linecap="round" opacity="0.72"/>
 <line x1="996" y1="420" x2="1024" y2="420" stroke="#2a2e33" stroke-width="10.08" stroke-linecap="round" opacity="0.72"/>
-<line x1="1052" y1="588" x2="1052" y2="616" stroke="#2a2e33" stroke-width="10.08" stroke-linecap="round" opacity="0.72"/>
 <line x1="1332" y1="616" x2="1360" y2="616" stroke="#2a2e33" stroke-width="10.08" stroke-linecap="round" opacity="0.72"/>
 <line x1="856" y1="476" x2="884" y2="476" stroke="#2a2e33" stroke-width="10.08" stroke-linecap="round" opacity="0.72"/>
-<line x1="1108" y1="616" x2="1136" y2="616" stroke="#2a2e33" stroke-width="10.08" stroke-linecap="round" opacity="0.72"/>
 <line x1="1276" y1="616" x2="1304" y2="616" stroke="#2a2e33" stroke-width="10.08" stroke-linecap="round" opacity="0.72"/>
 <line x1="1052" y1="532" x2="1052" y2="560" stroke="#2a2e33" stroke-width="10.08" stroke-linecap="round" opacity="0.72"/>
+<line x1="1164" y1="588" x2="1192" y2="588" stroke="#2a2e33" stroke-width="10.08" stroke-linecap="round" opacity="0.72"/>
 <line x1="492" y1="448" x2="492" y2="476" stroke="#2a2e33" stroke-width="10.08" stroke-linecap="round" opacity="0.72"/>
 <line x1="1192" y1="308" x2="1220" y2="308" stroke="#2a2e33" stroke-width="10.08" stroke-linecap="round" opacity="0.72"/>
-<line x1="1136" y1="616" x2="1164" y2="616" stroke="#2a2e33" stroke-width="10.08" stroke-linecap="round" opacity="0.72"/>
 <line x1="1136" y1="308" x2="1164" y2="308" stroke="#2a2e33" stroke-width="10.08" stroke-linecap="round" opacity="0.72"/>
 <line x1="1024" y1="336" x2="1052" y2="336" stroke="#2a2e33" stroke-width="10.08" stroke-linecap="round" opacity="0.72"/>
+<line x1="1052" y1="588" x2="1080" y2="588" stroke="#2a2e33" stroke-width="10.08" stroke-linecap="round" opacity="0.72"/>
 <line x1="492" y1="588" x2="492" y2="616" stroke="#2a2e33" stroke-width="10.08" stroke-linecap="round" opacity="0.72"/>
 <line x1="1164" y1="196" x2="1192" y2="196" stroke="#d63a3a" stroke-width="10.08" stroke-linecap="round" opacity="0.72"/>
+<line x1="1024" y1="616" x2="1052" y2="616" stroke="#d63a3a" stroke-width="10.08" stroke-linecap="round" opacity="0.72"/>
 <line x1="548" y1="588" x2="576" y2="588" stroke="#d63a3a" stroke-width="10.08" stroke-linecap="round" opacity="0.72"/>
 <line x1="1052" y1="196" x2="1080" y2="196" stroke="#d63a3a" stroke-width="10.08" stroke-linecap="round" opacity="0.72"/>
-<line x1="996" y1="644" x2="1024" y2="644" stroke="#d63a3a" stroke-width="10.08" stroke-linecap="round" opacity="0.72"/>
-<line x1="548" y1="784" x2="548" y2="812" stroke="#d63a3a" stroke-width="10.08" stroke-linecap="round" opacity="0.72"/>
 <line x1="548" y1="700" x2="548" y2="728" stroke="#d63a3a" stroke-width="10.08" stroke-linecap="round" opacity="0.72"/>
+<line x1="548" y1="784" x2="548" y2="812" stroke="#d63a3a" stroke-width="10.08" stroke-linecap="round" opacity="0.72"/>
 <line x1="912" y1="196" x2="940" y2="196" stroke="#d63a3a" stroke-width="10.08" stroke-linecap="round" opacity="0.72"/>
 <line x1="548" y1="616" x2="548" y2="644" stroke="#d63a3a" stroke-width="10.08" stroke-linecap="round" opacity="0.72"/>
 <line x1="660" y1="588" x2="688" y2="588" stroke="#d63a3a" stroke-width="10.08" stroke-linecap="round" opacity="0.72"/>
+<line x1="940" y1="616" x2="968" y2="616" stroke="#d63a3a" stroke-width="10.08" stroke-linecap="round" opacity="0.72"/>
 <line x1="744" y1="588" x2="772" y2="588" stroke="#d63a3a" stroke-width="10.08" stroke-linecap="round" opacity="0.72"/>
 <line x1="1024" y1="196" x2="1052" y2="196" stroke="#d63a3a" stroke-width="10.08" stroke-linecap="round" opacity="0.72"/>
 <line x1="884" y1="196" x2="912" y2="196" stroke="#d63a3a" stroke-width="10.08" stroke-linecap="round" opacity="0.72"/>
+<line x1="884" y1="616" x2="912" y2="616" stroke="#d63a3a" stroke-width="10.08" stroke-linecap="round" opacity="0.72"/>
 <line x1="548" y1="644" x2="548" y2="672" stroke="#d63a3a" stroke-width="10.08" stroke-linecap="round" opacity="0.72"/>
 <line x1="1332" y1="308" x2="1360" y2="308" stroke="#d63a3a" stroke-width="10.08" stroke-linecap="round" opacity="0.72"/>
-<line x1="968" y1="644" x2="996" y2="644" stroke="#d63a3a" stroke-width="10.08" stroke-linecap="round" opacity="0.72"/>
-<line x1="1360" y1="308" x2="1388" y2="308" stroke="#d63a3a" stroke-width="10.08" stroke-linecap="round" opacity="0.72"/>
 <line x1="1052" y1="644" x2="1052" y2="672" stroke="#d63a3a" stroke-width="10.08" stroke-linecap="round" opacity="0.72"/>
-<line x1="1192" y1="196" x2="1220" y2="196" stroke="#d63a3a" stroke-width="10.08" stroke-linecap="round" opacity="0.72"/>
+<line x1="1360" y1="308" x2="1388" y2="308" stroke="#d63a3a" stroke-width="10.08" stroke-linecap="round" opacity="0.72"/>
 <line x1="1304" y1="700" x2="1332" y2="700" stroke="#d63a3a" stroke-width="10.08" stroke-linecap="round" opacity="0.72"/>
+<line x1="1192" y1="196" x2="1220" y2="196" stroke="#d63a3a" stroke-width="10.08" stroke-linecap="round" opacity="0.72"/>
+<line x1="828" y1="616" x2="856" y2="616" stroke="#d63a3a" stroke-width="10.08" stroke-linecap="round" opacity="0.72"/>
 <line x1="1164" y1="700" x2="1192" y2="700" stroke="#d63a3a" stroke-width="10.08" stroke-linecap="round" opacity="0.72"/>
-<line x1="772" y1="616" x2="772" y2="644" stroke="#d63a3a" stroke-width="10.08" stroke-linecap="round" opacity="0.72"/>
 <line x1="632" y1="588" x2="660" y2="588" stroke="#d63a3a" stroke-width="10.08" stroke-linecap="round" opacity="0.72"/>
 <line x1="968" y1="196" x2="996" y2="196" stroke="#d63a3a" stroke-width="10.08" stroke-linecap="round" opacity="0.72"/>
 <line x1="1192" y1="700" x2="1220" y2="700" stroke="#d63a3a" stroke-width="10.08" stroke-linecap="round" opacity="0.72"/>
 <line x1="548" y1="812" x2="548" y2="840" stroke="#d63a3a" stroke-width="10.08" stroke-linecap="round" opacity="0.72"/>
 <line x1="1108" y1="196" x2="1136" y2="196" stroke="#d63a3a" stroke-width="10.08" stroke-linecap="round" opacity="0.72"/>
-<line x1="828" y1="644" x2="856" y2="644" stroke="#d63a3a" stroke-width="10.08" stroke-linecap="round" opacity="0.72"/>
+<line x1="548" y1="588" x2="548" y2="616" stroke="#d63a3a" stroke-width="10.08" stroke-linecap="round" opacity="0.72"/>
 <line x1="548" y1="672" x2="548" y2="700" stroke="#d63a3a" stroke-width="10.08" stroke-linecap="round" opacity="0.72"/>
 <line x1="996" y1="196" x2="1024" y2="196" stroke="#d63a3a" stroke-width="10.08" stroke-linecap="round" opacity="0.72"/>
 <line x1="1220" y1="196" x2="1248" y2="196" stroke="#d63a3a" stroke-width="10.08" stroke-linecap="round" opacity="0.72"/>
@@ -7306,24 +7360,23 @@ ESP8266 deep sleep and wake-on-reset, and keeping two power domains apart.</p>
 <line x1="1388" y1="308" x2="1416" y2="308" stroke="#d63a3a" stroke-width="10.08" stroke-linecap="round" opacity="0.72"/>
 <line x1="1416" y1="252" x2="1416" y2="280" stroke="#d63a3a" stroke-width="10.08" stroke-linecap="round" opacity="0.72"/>
 <line x1="1416" y1="224" x2="1416" y2="252" stroke="#d63a3a" stroke-width="10.08" stroke-linecap="round" opacity="0.72"/>
-<line x1="856" y1="644" x2="884" y2="644" stroke="#d63a3a" stroke-width="10.08" stroke-linecap="round" opacity="0.72"/>
 <line x1="548" y1="868" x2="548" y2="896" stroke="#d63a3a" stroke-width="10.08" stroke-linecap="round" opacity="0.72"/>
-<line x1="912" y1="644" x2="940" y2="644" stroke="#d63a3a" stroke-width="10.08" stroke-linecap="round" opacity="0.72"/>
-<line x1="1052" y1="700" x2="1080" y2="700" stroke="#d63a3a" stroke-width="10.08" stroke-linecap="round" opacity="0.72"/>
 <line x1="576" y1="588" x2="604" y2="588" stroke="#d63a3a" stroke-width="10.08" stroke-linecap="round" opacity="0.72"/>
+<line x1="1052" y1="700" x2="1080" y2="700" stroke="#d63a3a" stroke-width="10.08" stroke-linecap="round" opacity="0.72"/>
 <line x1="1136" y1="196" x2="1164" y2="196" stroke="#d63a3a" stroke-width="10.08" stroke-linecap="round" opacity="0.72"/>
 <line x1="1332" y1="196" x2="1360" y2="196" stroke="#d63a3a" stroke-width="10.08" stroke-linecap="round" opacity="0.72"/>
-<line x1="772" y1="644" x2="800" y2="644" stroke="#d63a3a" stroke-width="10.08" stroke-linecap="round" opacity="0.72"/>
 <line x1="688" y1="588" x2="716" y2="588" stroke="#d63a3a" stroke-width="10.08" stroke-linecap="round" opacity="0.72"/>
 <line x1="1248" y1="700" x2="1276" y2="700" stroke="#d63a3a" stroke-width="10.08" stroke-linecap="round" opacity="0.72"/>
-<line x1="548" y1="588" x2="548" y2="616" stroke="#d63a3a" stroke-width="10.08" stroke-linecap="round" opacity="0.72"/>
+<line x1="996" y1="616" x2="1024" y2="616" stroke="#d63a3a" stroke-width="10.08" stroke-linecap="round" opacity="0.72"/>
 <line x1="884" y1="196" x2="884" y2="224" stroke="#d63a3a" stroke-width="10.08" stroke-linecap="round" opacity="0.72"/>
 <line x1="772" y1="588" x2="772" y2="616" stroke="#d63a3a" stroke-width="10.08" stroke-linecap="round" opacity="0.72"/>
-<line x1="800" y1="644" x2="828" y2="644" stroke="#d63a3a" stroke-width="10.08" stroke-linecap="round" opacity="0.72"/>
-<line x1="1024" y1="644" x2="1052" y2="644" stroke="#d63a3a" stroke-width="10.08" stroke-linecap="round" opacity="0.72"/>
+<line x1="772" y1="616" x2="800" y2="616" stroke="#d63a3a" stroke-width="10.08" stroke-linecap="round" opacity="0.72"/>
+<line x1="968" y1="616" x2="996" y2="616" stroke="#d63a3a" stroke-width="10.08" stroke-linecap="round" opacity="0.72"/>
+<line x1="1052" y1="616" x2="1052" y2="644" stroke="#d63a3a" stroke-width="10.08" stroke-linecap="round" opacity="0.72"/>
 <line x1="1080" y1="700" x2="1108" y2="700" stroke="#d63a3a" stroke-width="10.08" stroke-linecap="round" opacity="0.72"/>
 <line x1="1276" y1="700" x2="1304" y2="700" stroke="#d63a3a" stroke-width="10.08" stroke-linecap="round" opacity="0.72"/>
 <line x1="1248" y1="196" x2="1276" y2="196" stroke="#d63a3a" stroke-width="10.08" stroke-linecap="round" opacity="0.72"/>
+<line x1="800" y1="616" x2="828" y2="616" stroke="#d63a3a" stroke-width="10.08" stroke-linecap="round" opacity="0.72"/>
 <line x1="1332" y1="308" x2="1332" y2="336" stroke="#d63a3a" stroke-width="10.08" stroke-linecap="round" opacity="0.72"/>
 <line x1="884" y1="224" x2="884" y2="252" stroke="#d63a3a" stroke-width="10.08" stroke-linecap="round" opacity="0.72"/>
 <line x1="1136" y1="700" x2="1164" y2="700" stroke="#d63a3a" stroke-width="10.08" stroke-linecap="round" opacity="0.72"/>
@@ -7331,23 +7384,25 @@ ESP8266 deep sleep and wake-on-reset, and keeping two power domains apart.</p>
 <line x1="548" y1="728" x2="548" y2="756" stroke="#d63a3a" stroke-width="10.08" stroke-linecap="round" opacity="0.72"/>
 <line x1="1220" y1="700" x2="1248" y2="700" stroke="#d63a3a" stroke-width="10.08" stroke-linecap="round" opacity="0.72"/>
 <line x1="548" y1="756" x2="548" y2="784" stroke="#d63a3a" stroke-width="10.08" stroke-linecap="round" opacity="0.72"/>
-<line x1="940" y1="644" x2="968" y2="644" stroke="#d63a3a" stroke-width="10.08" stroke-linecap="round" opacity="0.72"/>
-<line x1="1360" y1="196" x2="1388" y2="196" stroke="#d63a3a" stroke-width="10.08" stroke-linecap="round" opacity="0.72"/>
 <line x1="1108" y1="700" x2="1136" y2="700" stroke="#d63a3a" stroke-width="10.08" stroke-linecap="round" opacity="0.72"/>
+<line x1="1360" y1="196" x2="1388" y2="196" stroke="#d63a3a" stroke-width="10.08" stroke-linecap="round" opacity="0.72"/>
 <line x1="772" y1="532" x2="772" y2="560" stroke="#d63a3a" stroke-width="10.08" stroke-linecap="round" opacity="0.72"/>
 <line x1="940" y1="196" x2="968" y2="196" stroke="#d63a3a" stroke-width="10.08" stroke-linecap="round" opacity="0.72"/>
-<line x1="884" y1="644" x2="912" y2="644" stroke="#d63a3a" stroke-width="10.08" stroke-linecap="round" opacity="0.72"/>
 <line x1="548" y1="840" x2="548" y2="868" stroke="#d63a3a" stroke-width="10.08" stroke-linecap="round" opacity="0.72"/>
 <line x1="1416" y1="196" x2="1416" y2="224" stroke="#d63a3a" stroke-width="10.08" stroke-linecap="round" opacity="0.72"/>
 <line x1="1416" y1="280" x2="1416" y2="308" stroke="#d63a3a" stroke-width="10.08" stroke-linecap="round" opacity="0.72"/>
 <line x1="1276" y1="196" x2="1304" y2="196" stroke="#d63a3a" stroke-width="10.08" stroke-linecap="round" opacity="0.72"/>
+<line x1="856" y1="616" x2="884" y2="616" stroke="#d63a3a" stroke-width="10.08" stroke-linecap="round" opacity="0.72"/>
 <line x1="520" y1="896" x2="548" y2="896" stroke="#d63a3a" stroke-width="10.08" stroke-linecap="round" opacity="0.72"/>
 <line x1="716" y1="588" x2="744" y2="588" stroke="#d63a3a" stroke-width="10.08" stroke-linecap="round" opacity="0.72"/>
 <line x1="1080" y1="196" x2="1108" y2="196" stroke="#d63a3a" stroke-width="10.08" stroke-linecap="round" opacity="0.72"/>
+<line x1="912" y1="616" x2="940" y2="616" stroke="#d63a3a" stroke-width="10.08" stroke-linecap="round" opacity="0.72"/>
 <line x1="1304" y1="308" x2="1332" y2="308" stroke="#d63a3a" stroke-width="10.08" stroke-linecap="round" opacity="0.72"/>
 <line x1="1052" y1="672" x2="1052" y2="700" stroke="#d63a3a" stroke-width="10.08" stroke-linecap="round" opacity="0.72"/>
 <line x1="1388" y1="196" x2="1416" y2="196" stroke="#d63a3a" stroke-width="10.08" stroke-linecap="round" opacity="0.72"/>
 <line x1="772" y1="560" x2="772" y2="588" stroke="#d63a3a" stroke-width="10.08" stroke-linecap="round" opacity="0.72"/>
+<line x1="1304" y1="588" x2="1332" y2="588" stroke="#12a37f" stroke-width="10.08" stroke-linecap="round" opacity="0.72"/>
+<line x1="1332" y1="588" x2="1360" y2="588" stroke="#12a37f" stroke-width="10.08" stroke-linecap="round" opacity="0.72"/>
 <path d="M1332 336 Q 1295.6 518 1332 700" fill="none" stroke="#762020" stroke-width="11.34" stroke-linecap="round"/>
 <path d="M1332 336 Q 1295.6 518 1332 700" fill="none" stroke="#d63a3a" stroke-width="8.4" stroke-linecap="round"/>
 <path d="M1332 336 Q 1295.6 518 1332 700" fill="none" stroke="#e89393" stroke-width="1.848" stroke-linecap="round" transform="translate(0,-1.512)" opacity="0.55"/>
@@ -7412,20 +7467,22 @@ ESP8266 deep sleep and wake-on-reset, and keeping two power domains apart.</p>
 <rect x="309" y="633" width="18" height="14" fill="#3b3f45" rx="4"/>
 <rect x="506.108" y="530.8" width="117.384" height="16" fill="#ffffff" opacity="0.88" rx="3"/>
 <text x="564.8" y="541.8" font-size="12" fill="#173047" text-anchor="middle" font-weight="bold">M3  Wemos D1 Mini</text>
-<rect x="1180.082" y="565.8" width="79.836" height="16" fill="#ffffff" opacity="0.88" rx="3"/>
-<text x="1220" y="576.8" font-size="12" fill="#173047" text-anchor="middle" font-weight="bold">M2  Pro Mini</text>
-<rect x="1175.36" y="579.8" width="89.28" height="16" fill="#ffffff" opacity="0.88" rx="3"/>
-<text x="1220" y="590.8" font-size="12" fill="#516578" text-anchor="middle">328P or 328PB</text>
+<rect x="1023.282" y="512.6" width="79.836" height="16" fill="#ffffff" opacity="0.88" rx="3"/>
+<text x="1063.2" y="523.6" font-size="12" fill="#173047" text-anchor="middle" font-weight="bold">M2  Pro Mini</text>
+<rect x="1018.56" y="526.6" width="89.28" height="16" fill="#ffffff" opacity="0.88" rx="3"/>
+<text x="1063.2" y="537.6" font-size="12" fill="#516578" text-anchor="middle">328P or 328PB</text>
 <rect x="1335.377" y="222.8" width="21.246" height="16" fill="#ffffff" opacity="0.88" rx="3"/>
 <text x="1346" y="233.8" font-size="12" fill="#173047" text-anchor="middle" font-weight="bold">C4</text>
-<rect x="1390.6" y="341.8" width="45.564" height="16" fill="#ffffff" opacity="0.88" rx="3"/>
-<text x="1393.6" y="352.8" font-size="12" fill="#173047" text-anchor="start" font-weight="bold">R4 47k</text>
+<rect x="1382.2" y="537.8" width="45.564" height="16" fill="#ffffff" opacity="0.88" rx="3"/>
+<text x="1385.2" y="548.8" font-size="12" fill="#173047" text-anchor="start" font-weight="bold">R4 22k</text>
+<rect x="1231.483" y="626" width="89.034" height="16" fill="#ffffff" opacity="0.88" rx="3"/>
+<text x="1276" y="637" font-size="12" fill="#173047" text-anchor="middle" font-weight="bold">RV1 LDR trim</text>
 <rect x="1395.353" y="159.8" width="52.494" height="16" fill="#ffffff" opacity="0.88" rx="3"/>
 <text x="1421.6" y="170.8" font-size="12" fill="#173047" text-anchor="middle" font-weight="bold">C3 100u</text>
 <rect x="1029.218" y="190.6" width="45.564" height="16" fill="#ffffff" opacity="0.88" rx="3"/>
 <text x="1052" y="201.6" font-size="12" fill="#173047" text-anchor="middle" font-weight="bold">R8 47k</text>
-<rect x="1048.713" y="446.8" width="62.574" height="16" fill="#ffffff" opacity="0.88" rx="3"/>
-<text x="1080" y="457.8" font-size="12" fill="#173047" text-anchor="middle" font-weight="bold">SW1 test</text>
+<rect x="1045.941" y="446.8" width="68.118" height="16" fill="#ffffff" opacity="0.88" rx="3"/>
+<text x="1080" y="457.8" font-size="12" fill="#173047" text-anchor="middle" font-weight="bold">SW1 TEST</text>
 <rect x="1004.2" y="267.6" width="21.246" height="16" fill="#ffffff" opacity="0.88" rx="3"/>
 <text x="1007.2" y="278.6" font-size="12" fill="#173047" text-anchor="start" font-weight="bold">Q2</text>
 <rect x="936.153" y="417.4" width="52.494" height="16" fill="#ffffff" opacity="0.88" rx="3"/>
@@ -7443,7 +7500,7 @@ ESP8266 deep sleep and wake-on-reset, and keeping two power domains apart.</p>
 <rect x="864.2" y="586.8" width="52.494" height="16" fill="#ffffff" opacity="0.88" rx="3"/>
 <text x="867.2" y="597.8" font-size="12" fill="#173047" text-anchor="start" font-weight="bold">C2 470u</text>
 <rect x="1075.25" y="621.8" width="46.95" height="16" fill="#ffffff" opacity="0.88" rx="3"/>
-<text x="1119.2" y="632.8" font-size="12" fill="#173047" text-anchor="end" font-weight="bold">R3 47R</text>
+<text x="1119.2" y="632.8" font-size="12" fill="#173047" text-anchor="end" font-weight="bold">R3 56R</text>
 <rect x="1396.739" y="719.8" width="49.722" height="16" fill="#ffffff" opacity="0.88" rx="3"/>
 <text x="1421.6" y="730.8" font-size="12" fill="#173047" text-anchor="middle" font-weight="bold">J4 LED</text>
 <rect x="1396.739" y="430" width="49.722" height="16" fill="#ffffff" opacity="0.88" rx="3"/>
@@ -7515,7 +7572,7 @@ ESP8266 deep sleep and wake-on-reset, and keeping two power domains apart.</p>
 <text x="934.625" y="1168.5" font-size="12.5" fill="#173047" text-anchor="start">Logic / sensor</text>
 <rect x="42" y="1188" width="850" height="191" fill="#fffaf0" stroke="#e5c58f" stroke-width="1.2" rx="12"/>
 <text x="60" y="1215" font-size="15" fill="#ad6200" text-anchor="start" font-weight="bold">Build notes</text>
-<text x="60" y="1239" font-size="13" fill="#173047" text-anchor="start">One top-side wire (VBAT_SYS, red, beside M2). Everything else is solder bridge or tinned wire underneath, about 75 cm.</text>
+<text x="60" y="1239" font-size="13" fill="#173047" text-anchor="start">One top-side wire (VBAT_SYS, red, beside M2). Everything else is solder bridge or tinned wire underneath, about 76 cm.</text>
 <text x="60" y="1260" font-size="13" fill="#173047" text-anchor="start">M2 and M3 plug into female headers. M1, U0 and U3 stand on header pins: their pads are not all on</text>
 <text x="60" y="1281" font-size="13" fill="#173047" text-anchor="start">0.1 in pitch, so bend the pins to suit and follow the pad labels, not these positions.</text>
 <text x="60" y="1302" font-size="13" fill="#173047" text-anchor="start">Tier 1: pull the JP1 shunt and power M3 from USB. Pull JP2 to flash M3 over USB.</text>
@@ -8640,7 +8697,7 @@ confirmation therefore takes about 5.5–6 real minutes. That is normal.</p>
 			<text x="42" y="790" style="font-family: Helvetica; font-size: 16px;fill: rgb(31%,39%,47%); stroke:none;" transform="translate(0,1580) scale(1,-1)">Optional alternative to Tier 1 telemetry. The USB-UART adapter only listens: connect RX and GND; leave its power and control pins open.</text>
 			<path d="M 42,768 L 1398,768 Z" style="stroke: rgb(83%,87%,90%); stroke-linecap: butt; stroke-width: 1;"/>
 			<path d="M 42,50 L 1398,50 Z" style="stroke: rgb(83%,87%,90%); stroke-linecap: butt; stroke-width: 1;"/>
-			<text x="42" y="23" style="font-family: Helvetica-Bold; font-size: 13px;fill: rgb(0%,52%,44%); stroke:none;" transform="translate(0,46) scale(1,-1)">REV 0.6  |  READ MODULE PAD LABELS, NOT BOARD POSITIONS</text>
+			<text x="42" y="23" style="font-family: Helvetica-Bold; font-size: 13px;fill: rgb(0%,52%,44%); stroke:none;" transform="translate(0,46) scale(1,-1)">REV 0.7  |  READ MODULE PAD LABELS, NOT BOARD POSITIONS</text>
 			<text x="1175" y="23" style="font-family: Helvetica; font-size: 13px;fill: rgb(31%,39%,47%); stroke:none;" transform="translate(0,46) scale(1,-1)">SHEET 5 OF 7 / A3</text>
 			<path d="M 42,760 L 42,58 Z" style="stroke: rgb(94%,96%,97%); stroke-linecap: butt; stroke-width: 0.7;"/>
 			<path d="M 78,760 L 78,58 Z" style="stroke: rgb(94%,96%,97%); stroke-linecap: butt; stroke-width: 0.7;"/>
@@ -8951,7 +9008,7 @@ confirmation therefore takes about 5.5–6 real minutes. That is normal.</p>
 			<text x="42" y="790" style="font-family: Helvetica; font-size: 16px;fill: rgb(31%,39%,47%); stroke:none;" transform="translate(0,1580) scale(1,-1)">Top-down placement concept, not a drilling template. Use terminal labels and the wire schedule for electrical connections.</text>
 			<path d="M 42,768 L 1398,768 Z" style="stroke: rgb(83%,87%,90%); stroke-linecap: butt; stroke-width: 1;"/>
 			<path d="M 42,50 L 1398,50 Z" style="stroke: rgb(83%,87%,90%); stroke-linecap: butt; stroke-width: 1;"/>
-			<text x="42" y="23" style="font-family: Helvetica-Bold; font-size: 13px;fill: rgb(0%,52%,44%); stroke:none;" transform="translate(0,46) scale(1,-1)">REV 0.6  |  READ MODULE PAD LABELS, NOT BOARD POSITIONS</text>
+			<text x="42" y="23" style="font-family: Helvetica-Bold; font-size: 13px;fill: rgb(0%,52%,44%); stroke:none;" transform="translate(0,46) scale(1,-1)">REV 0.7  |  READ MODULE PAD LABELS, NOT BOARD POSITIONS</text>
 			<text x="1175" y="23" style="font-family: Helvetica; font-size: 13px;fill: rgb(31%,39%,47%); stroke:none;" transform="translate(0,46) scale(1,-1)">SHEET 4 OF 7 / A3</text>
 			<path d="M 42,760 L 42,58 Z" style="stroke: rgb(94%,96%,97%); stroke-linecap: butt; stroke-width: 0.7;"/>
 			<path d="M 78,760 L 78,58 Z" style="stroke: rgb(94%,96%,97%); stroke-linecap: butt; stroke-width: 0.7;"/>
@@ -9573,10 +9630,10 @@ confirmation therefore takes about 5.5–6 real minutes. That is normal.</p>
 			<text x="1040" y="625" style="font-family: Helvetica; font-size: 13.5px;fill: rgb(9%,18%,27%); stroke:none;" transform="translate(0,1250) scale(1,-1)">Prepare, fuse and flash the Pro Mini.</text>
 			<circle cx="1020" cy="604" r="10" style="stroke: none; stroke-linecap: butt; stroke-width: 1.5; fill: rgb(0%,52%,44%); fill-rule: evenodd;"/>
 			<text x="1016" y="599.5" style="font-family: Helvetica-Bold; font-size: 11px;fill: rgb(100%,100%,100%); stroke:none;" transform="translate(0,1199) scale(1,-1)">2</text>
-			<text x="1040" y="599" style="font-family: Helvetica; font-size: 13.5px;fill: rgb(9%,18%,27%); stroke:none;" transform="translate(0,1198) scale(1,-1)">Add R3 (47R) + low-power LED string.</text>
+			<text x="1040" y="599" style="font-family: Helvetica; font-size: 13.5px;fill: rgb(9%,18%,27%); stroke:none;" transform="translate(0,1198) scale(1,-1)">Add R3 (56R) + low-power LED string.</text>
 			<circle cx="1020" cy="578" r="10" style="stroke: none; stroke-linecap: butt; stroke-width: 1.5; fill: rgb(0%,52%,44%); fill-rule: evenodd;"/>
 			<text x="1016" y="573.5" style="font-family: Helvetica-Bold; font-size: 11px;fill: rgb(100%,100%,100%); stroke:none;" transform="translate(0,1147) scale(1,-1)">3</text>
-			<text x="1040" y="573" style="font-family: Helvetica; font-size: 13.5px;fill: rgb(9%,18%,27%); stroke:none;" transform="translate(0,1146) scale(1,-1)">Add LDR + button; check dusk/dawn, LVC.</text>
+			<text x="1040" y="573" style="font-family: Helvetica; font-size: 13.5px;fill: rgb(9%,18%,27%); stroke:none;" transform="translate(0,1146) scale(1,-1)">Add LDR, RV1 trim + TEST button; check dusk/dawn.</text>
 			<circle cx="1020" cy="552" r="10" style="stroke: none; stroke-linecap: butt; stroke-width: 1.5; fill: rgb(0%,52%,44%); fill-rule: evenodd;"/>
 			<text x="1016" y="547.5" style="font-family: Helvetica-Bold; font-size: 11px;fill: rgb(100%,100%,100%); stroke:none;" transform="translate(0,1095) scale(1,-1)">4</text>
 			<text x="1040" y="547" style="font-family: Helvetica; font-size: 13.5px;fill: rgb(9%,18%,27%); stroke:none;" transform="translate(0,1094) scale(1,-1)">Qualify charger (and U0 if fitted).</text>
@@ -9661,20 +9718,20 @@ Tier 1 or a USB-UART adapter.</p>
 <td style="text-align: left;">1.9–2.0 kHz (confirms 8 MHz clock)</td>
 </tr>
 <tr>
-<td style="text-align: left;">Press D2</td>
+<td style="text-align: left;">Press TEST (SW1, D2)</td>
 <td style="text-align: left;"><code>cause=BUTTON_TEST output=100%</code></td>
 </tr>
 <tr>
 <td style="text-align: left;">LED current, 3.40 V</td>
-<td style="text-align: left;">About 11 mA (record actual)</td>
+<td style="text-align: left;">About 10 mA (record actual)</td>
 </tr>
 <tr>
 <td style="text-align: left;">LED current, 3.70 V</td>
-<td style="text-align: left;">About 15 mA (record actual)</td>
+<td style="text-align: left;">About 13 mA (record actual)</td>
 </tr>
 <tr>
 <td style="text-align: left;">LED current, 4.20 V</td>
-<td style="text-align: left;">About 21 mA; over 22 mA → fit 56 Ω</td>
+<td style="text-align: left;">About 19 mA; over 20 mA → fit 68 Ω</td>
 </tr>
 <tr>
 <td style="text-align: left;">Controller unpowered / reset</td>
@@ -9841,7 +9898,7 @@ unaffected.</p>
 <h3 id="d10-production-readiness-checklist">Production readiness checklist</h3>
 <ul>
 <li class="check">Gates 0–8 passed and recorded</li>
-<li class="check">LED current measured in circuit at 4.20 V (≤ 22 mA)</li>
+<li class="check">LED current measured in circuit at 4.20 V (≤ 20 mA)</li>
 <li class="check">Charge current and termination measured with the load connected</li>
 <li class="check">14-day soak with no downward battery trend</li>
 <li class="check">LDR thresholds calibrated in the final position</li>
@@ -10223,28 +10280,33 @@ sync from the D1 Mini. Watch the added standby current.</p>
 <h3 id="d12-a-carrier-pcb">A carrier PCB</h3>
 <p>The two-layer carrier board is now part of the build: see
 <a href="#d13">PCB carrier</a>. It sockets the Pro Mini and D1 Mini, carries
-the TP4056 charger and replaces the perfboard. A next revision could add
-on-board fuse holders, test points, a cell-temperature input and an SMD
+the TP4056 charger and replaces the perfboard. Rev C adds an on-board TEST
+button, the RV1 dusk trimmer and a keyed ISP header. A later revision could
+add on-board fuse holders, test points, a cell-temperature input and an SMD
 version of the passives.</p>
 <h3 id="d12-lower-power-telemetry">Lower-power telemetry</h3>
 <p>An ESP32-C3 or similar module has a much lower deep-sleep current than an
 ESP8266 D1 Mini and can run directly from a 3.3 V buck-boost. The serial
 protocol and Home Assistant side would stay the same.</p><p class="top"><a href="#top">Back to top</a></p></section><section id="d13"><h2 id="d13-13-–-pcb-carrier">13 – PCB carrier</h2>
-<p><strong>Design files:</strong> <a href="../hardware/pcb-rev-b/"><code>hardware/pcb-rev-b/</code></a> (KiCad 10).
-<strong>Fit check:</strong> <a href="../hardware/pcb-rev-b/review/fit-sheet-A4.pdf"><code>fit-sheet-A4.pdf</code></a>.
-<strong>Review pack:</strong> <a href="../hardware/pcb-rev-b/review/pcb-review.pdf"><code>pcb-review.pdf</code></a>.</p>
+<p><strong>Design files:</strong> <a href="../hardware/pcb-rev-c/"><code>hardware/pcb-rev-c/</code></a> (KiCad 10).
+<strong>Fit check:</strong> <a href="../hardware/pcb-rev-c/review/fit-sheet-A4.pdf"><code>fit-sheet-A4.pdf</code></a>.
+<strong>Review pack:</strong> <a href="../hardware/pcb-rev-c/review/pcb-review.pdf"><code>pcb-review.pdf</code></a>.</p>
 <p>The carrier PCB replaces the perfboard from guides 04–07. The Pro Mini (M2)
 and D1 Mini (M3) plug into sockets, and the TP4056 charger (M1) solders
-directly onto the board. Every external connection is a 2.54 mm pin header.
-The circuit, firmware and ESPHome configuration are the same as in the wired
+directly onto the board. The TEST button and the RV1 dusk trimmer are on the
+board too, and every other external connection is a 2.54 mm pin header. The
+circuit, firmware and ESPHome configuration are the same as in the wired
 build, so modules A–F, tiers 0/1/2 and gates 0–8 all still apply.</p>
+<p>Rev C is the current design. It has passed the CAD checks but has not been
+fabricated yet; Rev B, the board that was ordered, is described at the end.</p>
 <p><strong>What you will learn:</strong> how to read a two-layer board, check that a board
 fits before you order it, order bare boards from a fabrication service,
 assemble through-hole parts in a sensible order, and test a populated board
 before any module goes in.</p>
-<p><img alt="Rev B carrier fully assembled, angled view" src="images/pcb/carrier-assembled-angled.png" /></p>
-<p><em>Rev B fully assembled: Pro Mini (left) and D1 Mini (centre) in their
-sockets, TP4056 charger (right) on wire links, and pin headers on every
+<p><img alt="Rev C carrier fully assembled, angled view" src="images/pcb/carrier-assembled-angled.png" /></p>
+<p><em>Rev C fully assembled: Pro Mini (left) and D1 Mini (centre) in their
+sockets, TP4056 charger (right) on wire links, the ISP box header below the
+Pro Mini, RV1 and the TEST button along the bottom, and pin headers on every
 connection. See <a href="#d13-about-the-renders">About the renders</a> for which module
 models are exact.</em></p>
 <hr />
@@ -10253,7 +10315,7 @@ models are exact.</em></p>
 <thead>
 <tr>
 <th style="text-align: left;">Item</th>
-<th style="text-align: left;">Rev B</th>
+<th style="text-align: left;">Rev C</th>
 </tr>
 </thead>
 <tbody>
@@ -10279,7 +10341,11 @@ models are exact.</em></p>
 </tr>
 <tr>
 <td style="text-align: left;">External links</td>
-<td style="text-align: left;">Eight 2-pin headers along the bottom edge</td>
+<td style="text-align: left;">Seven 2-pin headers along the bottom edge</td>
+</tr>
+<tr>
+<td style="text-align: left;">On-board controls</td>
+<td style="text-align: left;">SW1 TEST button, RV1 dusk trimmer</td>
 </tr>
 <tr>
 <td style="text-align: left;">Tier links</td>
@@ -10287,7 +10353,7 @@ models are exact.</em></p>
 </tr>
 <tr>
 <td style="text-align: left;">Programming</td>
-<td style="text-align: left;"><code>JISP1</code> 2 × 3 AVR ISP header</td>
+<td style="text-align: left;"><code>JISP1</code> 2 × 3 ISP, optional keyed box header</td>
 </tr>
 <tr>
 <td style="text-align: left;">Mounting</td>
@@ -10307,7 +10373,10 @@ models are exact.</em></p>
 every socket hole. That makes a reversed module easy to spot. Turning M2 or
 M3 through 180° puts signals on the wrong pins, so always match the module
 to the outline and the <code>SERIAL END</code> / <code>ANTENNA END</code> marks.</p>
-<p><img alt="Rev B carrier, top view" src="images/pcb/carrier-top.png" /></p>
+<p>The silkscreen also carries the author's name and, running up the right-hand
+edge beside the TP4056, the repository address
+<code>github.com/anthonyjclarke/Solar-Lights-Lite</code>.</p>
+<p><img alt="Rev C carrier, top view" src="images/pcb/carrier-top.png" /></p>
 <hr />
 <h3 id="d13-design-decisions">Design decisions</h3>
 <ul>
@@ -10326,10 +10395,18 @@ to the outline and the <code>SERIAL END</code> / <code>ANTENNA END</code> marks.
 <li><strong>Small parts sit under the modules.</strong> R3, R4 and C4 are under M2; R5, R8,
   R9, R10 and Q2 are under M3. With 8.5 mm sockets there is about 6 mm of
   room, so keep these parts seated flat and low.</li>
+<li><strong>Controls sit where you can reach them.</strong> RV1 and SW1 are clear of both
+  modules, so you can trim the dusk level and run the TEST without
+  unplugging anything. RV1 is a multi-turn 3296W trimmer in series with R4
+  (see <a href="#d06-how-the-sensor-works">guide 06</a>).</li>
+<li><strong>The ISP header lies on its side below the Pro Mini.</strong> Its outline is a
+  DC3-6P box header, so a keyed 6-pin IDC cable or a 2 × 3 adapter plugs in
+  without touching M2. The pin names are printed underneath it, because the
+  box covers the board beside the pins.</li>
 <li><strong>U0 and U3 stay off the board.</strong> Each one connects through its own pair of
   pins: <code>PV</code> for U0's 5 V output and <code>U3 IN</code> / <code>U3 OUT</code> for U3.</li>
 </ul>
-<p><img alt="Rev B carrier, bottom view" src="images/pcb/carrier-bottom.png" /></p>
+<p><img alt="Rev C carrier, bottom view" src="images/pcb/carrier-bottom.png" /></p>
 <p><em>Bottom view, mirrored as seen from underneath.</em></p>
 <hr />
 <h3 id="d13-connections">Connections</h3>
@@ -10355,12 +10432,6 @@ to the outline and the <code>SERIAL END</code> / <code>ANTENNA END</code> marks.
 <td style="text-align: left;">D7 supply</td>
 <td style="text-align: left;">A1 sense</td>
 <td style="text-align: left;">Remote LDR across the two pins</td>
-</tr>
-<tr>
-<td style="text-align: left;"><code>JBUTTON1</code></td>
-<td style="text-align: left;">D2</td>
-<td style="text-align: left;">–</td>
-<td style="text-align: left;">Normally-open test button</td>
 </tr>
 <tr>
 <td style="text-align: left;"><code>JU3IN1</code></td>
@@ -10407,7 +10478,7 @@ to the outline and the <code>SERIAL END</code> / <code>ANTENNA END</code> marks.
 <tbody>
 <tr>
 <td style="text-align: left;">0</td>
-<td style="text-align: left;">M1, M2, C3, C4, R3, R4, headers</td>
+<td style="text-align: left;">M1, M2, C3, C4, R3, R4, RV1, SW1, headers</td>
 <td style="text-align: left;">Open</td>
 <td style="text-align: left;">Open</td>
 <td style="text-align: left;">Open</td>
@@ -10428,26 +10499,29 @@ to the outline and the <code>SERIAL END</code> / <code>ANTENNA END</code> marks.
 </tr>
 </tbody>
 </table></div>
-<p>There is no automatic interlock between USB and battery power. Never close
-JP1 while M3 is powered from USB. Remove JP3 whenever M3 is unpowered.</p>
+<p>JP1 decides where M3's 3.3 V comes from: open, M3 runs from its own USB;
+closed, U3 feeds it from the battery. There is no automatic interlock between
+USB and battery power. Never close JP1 while M3 is powered from USB. Remove
+JP3 whenever M3 is unpowered.</p>
 <hr />
 <h3 id="d13-before-you-order">Before you order</h3>
 <ol>
-<li>Print <a href="../hardware/pcb-rev-b/review/fit-sheet-A4.pdf"><code>fit-sheet-A4.pdf</code></a>
+<li>Print <a href="../hardware/pcb-rev-c/review/fit-sheet-A4.pdf"><code>fit-sheet-A4.pdf</code></a>
    at <strong>100 %</strong> (scaling off) and check the 50 mm calibration line.</li>
 <li>Lay the real M2, M3 and M1 on the sheet. Every pin and hole should sit
    on its printed mark, with the D1 Mini's antenna end up and the TP4056's
    USB-C end up.</li>
-<li>Upload <code>SolarLights_Carrier_RevB_fabrication_REVIEW.zip</code> only. The
+<li>Upload <code>SolarLights_Carrier_RevC_fabrication_REVIEW.zip</code> only. The
    options are 2 layers, FR-4, 1.6 mm, 1 oz copper, HASL (lead-free if
    offered), any mask colour, top silkscreen, no assembly.</li>
 <li>Compare the fabrication service's preview with
    <a href="images/pcb/carrier-top.png">the top render</a>: outline, three mounting holes,
-   pad names and the square pin-1 pads.</li>
+   pad names and the square pin-1 pads. The fabrication service's own
+   design-for-manufacture check has not been run on Rev C yet.</li>
 </ol>
 <hr />
 <h3 id="d13-parts-for-the-board">Parts for the board</h3>
-<p>The <a href="../hardware/pcb-rev-b/review/assembly-bom.csv">assembly BOM</a> lists every
+<p>The <a href="../hardware/pcb-rev-c/review/assembly-bom.csv">assembly BOM</a> lists every
 reference with its tier. In addition to the values already in
 <a href="#d02">guide 02</a>:</p>
 <div class="scroll"><table>
@@ -10471,13 +10545,28 @@ reference with its tier. In addition to the values already in
 </tr>
 <tr>
 <td style="text-align: left;">1 × 2 male header, 2.54 mm</td>
-<td style="text-align: left;">11</td>
-<td style="text-align: left;">Eight pairs, JP1–JP3</td>
+<td style="text-align: left;">10</td>
+<td style="text-align: left;">Seven pairs, JP1–JP3</td>
 </tr>
 <tr>
 <td style="text-align: left;">2 × 3 male header, 2.54 mm</td>
 <td style="text-align: left;">1</td>
 <td style="text-align: left;"><code>JISP1</code></td>
+</tr>
+<tr>
+<td style="text-align: left;">DC3-6P box header, 2.54 mm, straight</td>
+<td style="text-align: left;">1</td>
+<td style="text-align: left;"><code>JISP1</code>, optional, keyed</td>
+</tr>
+<tr>
+<td style="text-align: left;">6 × 6 mm tactile switch, tall stem</td>
+<td style="text-align: left;">1</td>
+<td style="text-align: left;">SW1 TEST</td>
+</tr>
+<tr>
+<td style="text-align: left;">50 kΩ 3296W trimmer (503)</td>
+<td style="text-align: left;">1</td>
+<td style="text-align: left;">RV1</td>
 </tr>
 <tr>
 <td style="text-align: left;">1 × 12 male header, 2.54 mm</td>
@@ -10512,7 +10601,7 @@ reference with its tier. In addition to the values already in
 the bench while you solder it. Check each joint for a shiny fillet on both
 sides of the board.</p>
 <h4 id="d13-1-resistors">1. Resistors</h4>
-<p>Fit R3 (47 Ω), R4 (47 k) and, for Tiers 1 and 2, R5 (220 k), R8 (47 k),
+<p>Fit R3 (56 Ω), R4 (22 k) and, for Tiers 1 and 2, R5 (220 k), R8 (47 k),
 R9 (100 k) and R10 (10 k). Seat them flat and trim the leads short:
 they sit under the modules. Keep two or three cut leads for M1.</p>
 <h4 id="d13-2-small-capacitor-and-transistor">2. Small capacitor and transistor</h4>
@@ -10522,15 +10611,21 @@ is about 2 mm above the board, so M3 clears it.</p>
 <h4 id="d13-3-electrolytic-capacitors">3. Electrolytic capacitors</h4>
 <p>Fit C3 (100 µF) and, for Tier 2, C2 (470 µF). The stripe marks the
 negative lead; the <code>+</code> on the silkscreen marks the positive pad.</p>
-<h4 id="d13-4-pin-headers">4. Pin headers</h4>
-<p>Fit the eight bottom-edge pairs, JP1–JP3 and <code>JISP1</code>. Tack one pin, check
+<h4 id="d13-4-trimmer-and-button">4. Trimmer and button</h4>
+<p>Set RV1 to mid-travel before fitting: about 25 kΩ between pins 1 and 2.
+Fit it with its adjusting screw at the end the outline shows, then fit SW1
+flat on the board. Both are clear of the modules.</p>
+<h4 id="d13-5-pin-headers">5. Pin headers</h4>
+<p>Fit the seven bottom-edge pairs, JP1–JP3 and <code>JISP1</code>. For <code>JISP1</code>, either a
+plain 2 × 3 header or the optional DC3-6P box header fits the same holes;
+match the box's key slot to the outline, facing the bottom edge. Tack one pin, check
 the header is square to the board, then solder the rest. For a permanent
 outdoor install, you can solder the cell, PV and S1 wires straight into the
 pads instead.</p>
 <p><img alt="Carrier with headers and passives fitted, ready for the modules" src="images/pcb/carrier-angled.png" /></p>
-<p><em>The board after steps 1–4, with the empty socket positions for M2 and M3
+<p><em>The board after steps 1–5, with the empty socket positions for M2 and M3
 and the outline for M1.</em></p>
-<h4 id="d13-5-module-pins-and-sockets">5. Module pins and sockets</h4>
+<h4 id="d13-6-module-pins-and-sockets">6. Module pins and sockets</h4>
 <p>The carrier is the jig for both jobs, so the pins and sockets line up:</p>
 <ol>
 <li>Push the four sockets into their holes. Do not solder them yet.</li>
@@ -10543,7 +10638,7 @@ and the outline for M1.</em></p>
 <li>Unplug the modules for the next steps. Fit the M3 sockets and pins only
    for Tiers 1 and 2.</li>
 </ol>
-<h4 id="d13-6-tp4056-charger-m1">6. TP4056 charger M1</h4>
+<h4 id="d13-7-tp4056-charger-m1">7. TP4056 charger M1</h4>
 <ol>
 <li>Replace the PROG resistor for 100–150 mA
    (<a href="#d03-2-set-the-charge-current">guide 03, step 2</a>) before
@@ -10554,7 +10649,7 @@ and the outline for M1.</em></p>
    Stand the module about 2 mm proud, with USB-C at the top edge.</li>
 <li>Solder each link on both boards, then trim it.</li>
 </ol>
-<h4 id="d13-7-inspect-and-clean">7. Inspect and clean</h4>
+<h4 id="d13-8-inspect-and-clean">8. Inspect and clean</h4>
 <p>Inspect every joint with a loupe, especially between the close pins of M1's
 bottom row (OUT–, B–, B+, OUT+). Clean off flux. A conformal coating over
 the bottom side, away from the sockets and headers, protects the unfused
@@ -10568,6 +10663,8 @@ cell copper from moisture.</p>
 <li class="check">B– (<code>JCELL1</code> pin 2) is <strong>not</strong> joined to any <code>–</code> pin.</li>
 <li class="check"><code>JS1</code> pin 1 and pin 2 are not joined: S1 open isolates the rail.</li>
 <li class="check">JP1 and JP3 pins are not joined without their shunts.</li>
+<li class="check">D2 (M2 socket) to <code>–</code> reads open, and closed while SW1 is pressed.</li>
+<li class="check">M2 socket A1 to <code>–</code> reads 22–72 kΩ, depending on RV1.</li>
 <li class="check">M2 socket VCC to <code>VBAT_SYS</code>, and M2 socket GND to <code>–</code>, are continuous.</li>
 </ul>
 <p>Then fit M2 (serial-header end up) and program it in circuit through
@@ -10629,16 +10726,20 @@ on its sockets with the antenna overhanging the top edge (left).</em></p>
 <td style="text-align: left;">Bridge between B+ / B– copper; clean and re-inspect</td>
 </tr>
 <tr>
-<td style="text-align: left;">IDC programming cable will not fit</td>
-<td style="text-align: left;">2 × 3 IDC plug clashes with M2's socket: use leads</td>
+<td style="text-align: left;">IDC programming cable will not go in</td>
+<td style="text-align: left;">Key does not match the box header's slot (bottom edge)</td>
+</tr>
+<tr>
+<td style="text-align: left;">Lights come on too early or too late</td>
+<td style="text-align: left;">RV1 setting: see guide 06, calibrate in place</td>
 </tr>
 </tbody>
 </table></div>
 <hr />
 <h3 id="d13-about-the-renders">About the renders</h3>
-<p>The images are generated by <code>hardware/pcb-rev-b/tools/make_doc_renders.py</code>
-from the KiCad board, with standard KiCad pin-header models on every
-connection.</p>
+<p>The images are generated by <code>hardware/pcb-rev-c/tools/make_doc_renders.py</code>
+from the KiCad board, with standard KiCad models for the pin headers, the
+box header, the trimmer and the button.</p>
 <ul>
 <li><strong>Pro Mini:</strong> the
   <a href="https://www.snapeda.com/parts/Arduino%20Pro%20Mini/Arduino/view-part/">SnapEDA Arduino Pro Mini</a>
@@ -10649,15 +10750,22 @@ connection.</p>
   outlines and pin positions. They are right for size, pins and height,
   not for detail.</li>
 </ul>
-<p><a href="../hardware/pcb-rev-b/3dmodels/README.md"><code>hardware/pcb-rev-b/3dmodels/README.md</code></a>
+<p><a href="../hardware/pcb-rev-c/3dmodels/README.md"><code>hardware/pcb-rev-c/3dmodels/README.md</code></a>
 records the sources and how to swap in a real model.</p>
 <hr />
-<h3 id="d13-rev-a">Rev A</h3>
+<h3 id="d13-earlier-revisions">Earlier revisions</h3>
+<p><a href="../hardware/pcb-rev-b/"><code>hardware/pcb-rev-b/</code></a> is the board that was
+ordered, kept unchanged as the record. It has the same outline and modules
+as Rev C, with these differences: R3 is 47 Ω and R4 is 47 kΩ with no
+trimmer; the test button is a pair of pins for a remote switch; the ISP
+header stands upright against the end of the Pro Mini, so an IDC plug does
+not fit; and mounting hole H1 is 0.5 mm higher. On a Rev B board, fit R3 as
+56 Ω if the string draws over 20 mA at 4.20 V.</p>
 <p><a href="../hardware/pcb-rev-a/"><code>hardware/pcb-rev-a/</code></a> is an earlier 100 × 80 mm
 carrier. It has screw terminals and fuse F2 on the board, but M1 and the
-cell fuses stay off it. Rev B is the board to build. Rev A remains for reference.</p><p class="top"><a href="#top">Back to top</a></p></section>
-<section id="wires"><h2>Wire schedule</h2><p>Every terminal in a row belongs to the same external net. Read the actual module pad labels and transistor pin order before soldering. <a href="wire-schedule.csv">CSV checklist</a> · <a href="netlist.json">Wiring model (JSON)</a></p><div class="scroll"><table><thead><tr><th>Net</th><th>Connect these terminals together</th><th>Notes</th></tr></thead><tbody><tr><td>PV_POS</td><td>PV1.+; U0.IN+</td><td>Option A panels: PV1 + connects straight to M1 IN+ (no U0)</td></tr><tr><td>PV_RETURN</td><td>PV1.-; U0.IN-</td><td>Option A panels: PV1 - connects straight to M1 IN-</td></tr><tr><td>CHARGE_5V</td><td>U0.OUT+; M1.IN+</td><td></td></tr><tr><td>CHARGE_RETURN</td><td>U0.OUT-; M1.IN-</td><td></td></tr><tr><td>CELL1_POS</td><td>BT1.+; FB1.1</td><td></td></tr><tr><td>CELL2_POS</td><td>BT2.+; FB2.1</td><td></td></tr><tr><td>PACK_POS</td><td>FB1.2; FB2.2; M1.B+</td><td></td></tr><tr><td>PACK_NEG</td><td>BT1.-; BT2.-; M1.B-</td><td>NO bridge to OUT- / GND_LOAD</td></tr><tr><td>PROTECTED_POS</td><td>M1.OUT+; F2.1</td><td></td></tr><tr><td>FUSED_POS</td><td>F2.2; S1.1</td><td></td></tr><tr><td>VBAT_SYS</td><td>S1.2; M2.VCC; C3.+; C4.1; U3.VIN; C2.+; R5.1</td><td></td></tr><tr><td>GND_LOAD</td><td>M1.OUT-; M2.GND; C3.-; C4.2; JLED.-; R4.2; SW1.2; U3.GND; C2.-; M3.G; Q2.E; R9.2</td><td></td></tr><tr><td>PWM</td><td>M2.D9; R3.1</td><td></td></tr><tr><td>LED_POS</td><td>R3.2; JLED.+</td><td></td></tr><tr><td>LDR_POWER</td><td>M2.D7; LDR1.1</td><td></td></tr><tr><td>LDR_SENSE</td><td>LDR1.2; R4.1; M2.A1</td><td></td></tr><tr><td>TEST</td><td>M2.D2; SW1.1</td><td></td></tr><tr><td>UART_TX</td><td>M2.D1/TX; R8.1</td><td></td></tr><tr><td>UART_BASE</td><td>R8.2; R9.1; Q2.B</td><td></td></tr><tr><td>UART_RX_INVERTED</td><td>Q2.C; R10.2; M3.D6</td><td></td></tr><tr><td>ESP_3V3</td><td>U3.VOUT; M3.3V3; R10.1</td><td>Tier 2 only; in Tier 1 the D1 Mini runs from USB and U3 VOUT is open</td></tr><tr><td>ADC_BATT</td><td>R5.2; M3.A0</td><td></td></tr><tr><td>WAKE</td><td>M3.D0; M3.RST</td><td>Tier 2 deep-sleep wake</td></tr></tbody></table></div><p class="top"><a href="#top">Back to top</a></p></section>
-<section id="parts"><h2>Parts checklist</h2><p><a href="parts-list.csv">CSV checklist</a> with a "have it?" column for printing.</p><div class="scroll"><table><thead><tr><th>Module</th><th>Ref</th><th>Part / value</th><th>Qty</th><th>Notes</th></tr></thead><tbody><tr><td>A</td><td>PV1</td><td>Solar panel ~1-2 W (reference: AS102-0712A 1.2 W)</td><td>1</td><td>Measure open-circuit voltage (Voc) cold and in full sun to choose Option A or B</td></tr><tr><td>A</td><td>U0</td><td>5 V buck module (e.g. MP1584EN)</td><td>1</td><td>Option B panels only (Voc above 6.5 V). Set to 5.00 V and check reverse leakage before connecting M1. Not a linear regulator; not the TPS63802</td></tr><tr><td>A</td><td>M1</td><td>Protected TP4056-family charger module (TP4056/TC4056 + DW01A + 8205A)</td><td>1</td><td>Six labelled pads IN+/IN-/B+/B-/OUT+/OUT-. Change PROG for 100-150 mA charge</td></tr><tr><td>A</td><td>BT1 / BT2</td><td>18650 Li-ion cell</td><td>2</td><td>Matched type/age/capacity/state of charge; 1S2P; or one protected 1S2P pack</td></tr><tr><td>A</td><td>-</td><td>Insulated 2-cell parallel holder</td><td>1</td><td>No soldering to bare cell cans</td></tr><tr><td>A</td><td>FB1 / FB2</td><td>1 A fuse and holder</td><td>2</td><td>One per cell positive lead before the parallel junction</td></tr><tr><td>A</td><td>F2</td><td>1 A fuse and holder</td><td>1</td><td>In series after M1 OUT+</td></tr><tr><td>A</td><td>S1</td><td>SPST service switch</td><td>1</td><td>After F2; breaks the protected rail</td></tr><tr><td>B</td><td>M2</td><td>ATmega328P Pro Mini-class board (reference: BTE13-010A)</td><td>1</td><td>Remove regulator and power LED; set fuses for internal 8 MHz; flashed over ISP</td></tr><tr><td>B</td><td>C3</td><td>100 uF electrolytic 10 V</td><td>1</td><td>Across M2 VCC/GND</td></tr><tr><td>B</td><td>C4</td><td>100 nF ceramic</td><td>1</td><td>Across M2 VCC/GND</td></tr><tr><td>C</td><td>R3</td><td>47 ohm 1/4 W resistor</td><td>1</td><td>At the controller end of the LED cable; 56 ohm if current exceeds 22 mA at 4.20 V</td></tr><tr><td>C</td><td>JLED</td><td>Low-power LED string</td><td>1</td><td>About 2.5-3 V forward and 20 mA or less in total; driven directly by PWM from D9</td></tr><tr><td>D</td><td>LDR1</td><td>Light-dependent resistor</td><td>1</td><td>Shade it from the LEDs; must see the sky</td></tr><tr><td>D</td><td>R4</td><td>47 kohm resistor</td><td>1</td><td>LDR divider lower resistor (A1 to OUT-)</td></tr><tr><td>D</td><td>SW1</td><td>Momentary push button (normally open)</td><td>1</td><td>D2 to OUT-; 60 s test</td></tr><tr><td>E</td><td>M3</td><td>Wemos D1 Mini (ESP8266)</td><td>1</td><td>Telemetry tiers 1 and 2</td></tr><tr><td>E</td><td>U3</td><td>TPS63802 3.3 V buck-boost breakout (e.g. HL802A)</td><td>1</td><td>VIN from VBAT_SYS; OUT to D1 3V3 in Tier 2 only</td></tr><tr><td>E</td><td>C2</td><td>470 uF electrolytic 10 V</td><td>1</td><td>At U3 input</td></tr><tr><td>E</td><td>Q2</td><td>2N3904 NPN transistor (or BC547-BC550)</td><td>1</td><td>Serial inverter and level shifter; check the E-B-C pin order of your part</td></tr><tr><td>E</td><td>R8</td><td>47 kohm resistor</td><td>1</td><td>Controller D1/TX to Q2 base</td></tr><tr><td>E</td><td>R9</td><td>100 kohm resistor</td><td>1</td><td>Q2 base to emitter (OUT-)</td></tr><tr><td>E</td><td>R10</td><td>10 kohm resistor</td><td>1</td><td>Q2 collector to D1 Mini 3V3; collector also to D6</td></tr><tr><td>E</td><td>R5</td><td>220 kohm resistor</td><td>1</td><td>VBAT_SYS to D1 Mini A0</td></tr><tr><td>F</td><td>-</td><td>Weatherproof enclosure with cable glands</td><td>1</td><td>Shaded; cells separated from heat; antenna clear of metal and cells</td></tr><tr><td>F</td><td>-</td><td>Perfboard or stripboard carrier</td><td>1</td><td>Socket every module</td></tr><tr><td>F</td><td>-</td><td>Female headers and screw terminals</td><td>-</td><td>Keep modules replaceable</td></tr><tr><td>Tools</td><td>-</td><td>USBasp programmer (or Arduino Uno/Nano as ISP)</td><td>1</td><td>One-time fuses and every firmware update</td></tr><tr><td>Tools</td><td>-</td><td>Current-limited bench supply</td><td>1</td><td>Controller and LED tests without a battery</td></tr><tr><td>Tools</td><td>-</td><td>Multimeter</td><td>1</td><td>Every commissioning gate</td></tr></tbody></table></div><p class="top"><a href="#top">Back to top</a></p></section>
+cell fuses stay off it. It remains for reference only.</p><p class="top"><a href="#top">Back to top</a></p></section>
+<section id="wires"><h2>Wire schedule</h2><p>Every terminal in a row belongs to the same external net. Read the actual module pad labels and transistor pin order before soldering. <a href="wire-schedule.csv">CSV checklist</a> · <a href="netlist.json">Wiring model (JSON)</a></p><div class="scroll"><table><thead><tr><th>Net</th><th>Connect these terminals together</th><th>Notes</th></tr></thead><tbody><tr><td>PV_POS</td><td>PV1.+; U0.IN+</td><td>Option A panels: PV1 + connects straight to M1 IN+ (no U0)</td></tr><tr><td>PV_RETURN</td><td>PV1.-; U0.IN-</td><td>Option A panels: PV1 - connects straight to M1 IN-</td></tr><tr><td>CHARGE_5V</td><td>U0.OUT+; M1.IN+</td><td></td></tr><tr><td>CHARGE_RETURN</td><td>U0.OUT-; M1.IN-</td><td></td></tr><tr><td>CELL1_POS</td><td>BT1.+; FB1.1</td><td></td></tr><tr><td>CELL2_POS</td><td>BT2.+; FB2.1</td><td></td></tr><tr><td>PACK_POS</td><td>FB1.2; FB2.2; M1.B+</td><td></td></tr><tr><td>PACK_NEG</td><td>BT1.-; BT2.-; M1.B-</td><td>NO bridge to OUT- / GND_LOAD</td></tr><tr><td>PROTECTED_POS</td><td>M1.OUT+; F2.1</td><td></td></tr><tr><td>FUSED_POS</td><td>F2.2; S1.1</td><td></td></tr><tr><td>VBAT_SYS</td><td>S1.2; M2.VCC; C3.+; C4.1; U3.VIN; C2.+; R5.1</td><td></td></tr><tr><td>GND_LOAD</td><td>M1.OUT-; M2.GND; C3.-; C4.2; JLED.-; RV1.2; RV1.3; SW1.2; U3.GND; C2.-; M3.G; Q2.E; R9.2</td><td></td></tr><tr><td>PWM</td><td>M2.D9; R3.1</td><td></td></tr><tr><td>LED_POS</td><td>R3.2; JLED.+</td><td></td></tr><tr><td>LDR_POWER</td><td>M2.D7; LDR1.1</td><td></td></tr><tr><td>LDR_SENSE</td><td>LDR1.2; R4.1; M2.A1</td><td></td></tr><tr><td>LDR_TRIM</td><td>R4.2; RV1.1</td><td>RV1 wiper joined to its pin 3: a 0-50k rheostat in series with R4</td></tr><tr><td>TEST</td><td>M2.D2; SW1.1</td><td></td></tr><tr><td>UART_TX</td><td>M2.D1/TX; R8.1</td><td></td></tr><tr><td>UART_BASE</td><td>R8.2; R9.1; Q2.B</td><td></td></tr><tr><td>UART_RX_INVERTED</td><td>Q2.C; R10.2; M3.D6</td><td></td></tr><tr><td>ESP_3V3</td><td>U3.VOUT; M3.3V3; R10.1</td><td>Tier 2 only; in Tier 1 the D1 Mini runs from USB and U3 VOUT is open</td></tr><tr><td>ADC_BATT</td><td>R5.2; M3.A0</td><td></td></tr><tr><td>WAKE</td><td>M3.D0; M3.RST</td><td>Tier 2 deep-sleep wake</td></tr></tbody></table></div><p class="top"><a href="#top">Back to top</a></p></section>
+<section id="parts"><h2>Parts checklist</h2><p><a href="parts-list.csv">CSV checklist</a> with a "have it?" column for printing.</p><div class="scroll"><table><thead><tr><th>Module</th><th>Ref</th><th>Part / value</th><th>Qty</th><th>Notes</th></tr></thead><tbody><tr><td>A</td><td>PV1</td><td>Solar panel ~1-2 W (reference: AS102-0712A 1.2 W)</td><td>1</td><td>Measure open-circuit voltage (Voc) cold and in full sun to choose Option A or B</td></tr><tr><td>A</td><td>U0</td><td>5 V buck module (e.g. MP1584EN)</td><td>1</td><td>Option B panels only (Voc above 6.5 V). Set to 5.00 V and check reverse leakage before connecting M1. Not a linear regulator; not the TPS63802</td></tr><tr><td>A</td><td>M1</td><td>Protected TP4056-family charger module (TP4056/TC4056 + DW01A + 8205A)</td><td>1</td><td>Six labelled pads IN+/IN-/B+/B-/OUT+/OUT-. Change PROG for 100-150 mA charge</td></tr><tr><td>A</td><td>BT1 / BT2</td><td>18650 Li-ion cell</td><td>2</td><td>Matched type/age/capacity/state of charge; 1S2P; or one protected 1S2P pack</td></tr><tr><td>A</td><td>-</td><td>Insulated 2-cell parallel holder</td><td>1</td><td>No soldering to bare cell cans</td></tr><tr><td>A</td><td>FB1 / FB2</td><td>1 A fuse and holder</td><td>2</td><td>One per cell positive lead before the parallel junction</td></tr><tr><td>A</td><td>F2</td><td>1 A fuse and holder</td><td>1</td><td>In series after M1 OUT+</td></tr><tr><td>A</td><td>S1</td><td>SPST service switch</td><td>1</td><td>After F2; breaks the protected rail</td></tr><tr><td>B</td><td>M2</td><td>ATmega328P Pro Mini-class board (reference: BTE13-010A)</td><td>1</td><td>Remove regulator and power LED; set fuses for internal 8 MHz; flashed over ISP</td></tr><tr><td>B</td><td>C3</td><td>100 uF electrolytic 10 V</td><td>1</td><td>Across M2 VCC/GND</td></tr><tr><td>B</td><td>C4</td><td>100 nF ceramic</td><td>1</td><td>Across M2 VCC/GND</td></tr><tr><td>C</td><td>R3</td><td>56 ohm 1/4 W resistor</td><td>1</td><td>At the controller end of the LED cable; 68 ohm if current exceeds 20 mA at 4.20 V</td></tr><tr><td>C</td><td>JLED</td><td>Low-power LED string</td><td>1</td><td>About 2.5-3 V forward and 20 mA or less in total; driven directly by PWM from D9</td></tr><tr><td>D</td><td>LDR1</td><td>Light-dependent resistor</td><td>1</td><td>Shade it from the LEDs; must see the sky</td></tr><tr><td>D</td><td>R4</td><td>22 kohm resistor</td><td>1</td><td>LDR divider fixed part (A1 to RV1)</td></tr><tr><td>D</td><td>RV1</td><td>50 kohm 3296W multi-turn trimmer (503)</td><td>1</td><td>In series with R4 to OUT-; wiper joined to pin 3; sets the dusk level</td></tr><tr><td>D</td><td>SW1</td><td>6 x 6 mm tactile push button (normally open)</td><td>1</td><td>TEST button: D2 to OUT-; 60 s test</td></tr><tr><td>E</td><td>M3</td><td>Wemos D1 Mini (ESP8266)</td><td>1</td><td>Telemetry tiers 1 and 2</td></tr><tr><td>E</td><td>U3</td><td>TPS63802 3.3 V buck-boost breakout (e.g. HL802A)</td><td>1</td><td>VIN from VBAT_SYS; OUT to D1 3V3 in Tier 2 only</td></tr><tr><td>E</td><td>C2</td><td>470 uF electrolytic 10 V</td><td>1</td><td>At U3 input</td></tr><tr><td>E</td><td>Q2</td><td>2N3904 NPN transistor (or BC547-BC550)</td><td>1</td><td>Serial inverter and level shifter; check the E-B-C pin order of your part</td></tr><tr><td>E</td><td>R8</td><td>47 kohm resistor</td><td>1</td><td>Controller D1/TX to Q2 base</td></tr><tr><td>E</td><td>R9</td><td>100 kohm resistor</td><td>1</td><td>Q2 base to emitter (OUT-)</td></tr><tr><td>E</td><td>R10</td><td>10 kohm resistor</td><td>1</td><td>Q2 collector to D1 Mini 3V3; collector also to D6</td></tr><tr><td>E</td><td>R5</td><td>220 kohm resistor</td><td>1</td><td>VBAT_SYS to D1 Mini A0</td></tr><tr><td>F</td><td>-</td><td>Weatherproof enclosure with cable glands</td><td>1</td><td>Shaded; cells separated from heat; antenna clear of metal and cells</td></tr><tr><td>F</td><td>-</td><td>PCB carrier Rev C (or perfboard / stripboard)</td><td>1</td><td>Socket every module; see guide 13</td></tr><tr><td>F</td><td>-</td><td>Female headers and screw terminals</td><td>-</td><td>Keep modules replaceable</td></tr><tr><td>F</td><td>JISP1</td><td>DC3-6P 2x3 box header 2.54 mm (optional)</td><td>1</td><td>Rev C ISP: keyed alternative to a plain 2x3 male header</td></tr><tr><td>Tools</td><td>-</td><td>USBasp programmer (or Arduino Uno/Nano as ISP)</td><td>1</td><td>One-time fuses and every firmware update</td></tr><tr><td>Tools</td><td>-</td><td>Current-limited bench supply</td><td>1</td><td>Controller and LED tests without a battery</td></tr><tr><td>Tools</td><td>-</td><td>Multimeter</td><td>1</td><td>Every commissioning gate</td></tr></tbody></table></div><p class="top"><a href="#top">Back to top</a></p></section>
 </main>
 <footer>Generated by tools/make_guide.py from docs/01–13, the drawings and the CSV files. Edit the Markdown, then regenerate. Diagrams render with Mermaid when online.</footer>
 <script type="module">

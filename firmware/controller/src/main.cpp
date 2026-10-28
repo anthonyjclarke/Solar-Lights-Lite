@@ -11,7 +11,7 @@
  * sets the D9 PWM duty and goes back to sleep.
  *
  * Lighting: D9 drives a LOW-POWER LED string directly by PWM through R3
- * (47 ohm). There is no driver transistor. R3 and the pin's own resistance set
+ * (56 ohm). There is no driver transistor. R3 and the pin's own resistance set
  * the current; duty sets brightness only. The pin's 20 mA working rating is the
  * design ceiling, so this output cannot run mains, 12 V or conventional lights.
  *

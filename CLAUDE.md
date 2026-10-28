@@ -19,8 +19,8 @@ Docs in `docs/` are the source of truth (numbered 01–13).
   `fw=`. `main.cpp` `printLine()` and BOTH ESPHome lambdas must change together.
 - Both ESPHome profiles keep device name `solar-lights`, identical entity names
   and the same encryption key, so HA history carries across tiers.
-- LED string is low-power, driven directly by D9 PWM through R3 47 ohm; no driver
-  transistor. Duty is brightness only; R3 + pin resistance (~30 ohm) set current.
+- LED string is low-power, driven directly by D9 PWM through R3 56 ohm (Rev B and
+  earlier builds: 47 ohm); no driver transistor. Duty is brightness only; R3 + pin resistance (~30 ohm) set current.
 - Doc wording: modules A–F, tiers 0/1/2, gates 0–8. No personal machine or
   dated "journey" narrative in docs; history lives in CHANGELOG and tag
   `v0.5.5-history`.
@@ -31,7 +31,8 @@ Docs in `docs/` are the source of truth (numbered 01–13).
   avrdude `-p m328pb`; never `-F`.
 - Supply always enters VCC (top-row or serial-header VCC, same rail), never RAW.
   Regulator and power LED are removed after the first power-up check, before Gate 0.
-- Pins: D9 LED PWM, D7 LDR supply, A1 LDR sense (R4 47k to OUT-), D2 button,
+- Pins: D9 LED PWM, D7 LDR supply, A1 LDR sense (R4 22k + RV1 50k rheostat to
+  OUT-; mid-travel = the old 47k), D2 TEST button (SW1),
   D1/TX -> R8 47k -> Q2 2N3904 -> D1 Mini D6 (inverted, 9600 baud, receive-only).
   D8, D10, D11, A0 unused.
 - Q2 conducts while TX idles high (advanced build, ~0.4 mA); production build

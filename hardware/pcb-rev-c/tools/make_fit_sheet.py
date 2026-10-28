@@ -27,8 +27,8 @@ PM_R_NAMES = ['RAW', 'GND', 'RST', 'VCC', 'A3', 'A2', 'A1', 'A0', 'D13', 'D12', 
 WM_L_NAMES = ['RST', 'A0', 'D0', 'D5', 'D6', 'D7', 'D8', '3V3']
 WM_R_NAMES = ['TX', 'RX', 'D1', 'D2', 'D3', 'D4', 'G', '5V']
 M2_ORG = (2.0, 2.0); M3_X = 23.0; M3_PIN1_Y = 1.7; M1_ORG = (53.0, 1.0)
-HOLES = [(3.5, 47.5), (71.3, 48.0), (52.8, 31.5)]
-KEEP_REFS = ('JLED1', 'JLDR1', 'JBUTTON1', 'JU3IN1', 'JU3OUT1', 'JS1', 'JCELL1', 'JPV1', 'JP1', 'JP2', 'JP3')
+HOLES = [(3.5, 48.0), (71.3, 48.0), (52.8, 31.5)]
+KEEP_REFS = ('JLED1', 'JLDR1', 'SW1', 'JU3IN1', 'JU3OUT1', 'JS1', 'JCELL1', 'JPV1', 'JP1', 'JP2', 'JP3')
 
 C = Canvas(str(OUT / 'fit-sheet-A4.pdf'), pagesize=A4)
 GRAYL = HexColor('#9aa5ae')
@@ -104,8 +104,8 @@ for n in TP_X:
 # solder row and links
 for p in G['pads']:
     if p['ref'] in KEEP_REFS: hole(f, p['x'], p['y'], 1.0, p['pin'] == '1', 1.2)
-txt('SOLDER ROW: LED, LDR, BUTTON, U3 IN, U3 OUT, S1, CELL, PV  |  links JP3 JP2 JP1 above it', f.p(BW / 2, 0)[0], f.p(0, BH + 5)[1], 5.5, 'c')
-txt('Not drawn: ISP header, C2, C3 and the resistors / Q2 / C4 under the modules (positions move when regenerated).', f.p(BW / 2, 0)[0], f.p(0, BH + 9)[1], 5.5, 'c')
+txt('SOLDER ROW: LED, LDR, SW1 button, U3 IN, U3 OUT, S1, CELL, PV  |  links JP3 JP2 JP1 above it', f.p(BW / 2, 0)[0], f.p(0, BH + 5)[1], 5.5, 'c')
+txt('Not drawn: ISP header, RV1, C2, C3 and the resistors / Q2 / C4 under the modules (positions move when regenerated).', f.p(BW / 2, 0)[0], f.p(0, BH + 9)[1], 5.5, 'c')
 y = H - 162 * mm
 for t in ['Board 74 x 51.5 mm; origin is the upper-left corner, x right, y down.',
           'Dashed boxes are true module bodies. M3 sticks out above the top edge: its antenna is off the board.',

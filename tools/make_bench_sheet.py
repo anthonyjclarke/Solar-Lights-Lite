@@ -103,16 +103,16 @@ row(['Cover / uncover LDR', 'DUSK / DAWN confirmation reaches 300 s before mode 
 rule()
 
 # ---------------------------------------------------------------- gate 5
-head('3', 'LED string current with R3 = 47 ohm')
+head('3', 'LED string current with R3 = 56 ohm')
 txt('Meter in series with the string positive, lights at 100% duty (press D2 or cover the LDR). Expect = model:', col=MUTED)
 y -= 3
 row(['Supply', 'Expect', 'Measured', 'R3 temp', 'Notes'], [62, 62, 80, 66, 170], bold=True, col=MUTED, size=8.5)
 c.setStrokeColor(LINE); c.line(L, y + 9, R, y + 9)
-for v, e in [('3.40 V', '11 mA'), ('3.70 V', '15 mA'), ('4.20 V', '21 mA')]:
+for v, e in [('3.40 V', '10 mA'), ('3.70 V', '13 mA'), ('4.20 V', '19 mA')]:
     row([v, e, '__________', '________', '________________________'], [62, 62, 80, 66, 170], lead=17)
 y -= 2
 box(['Decision rule',
-     'Over 22 mA at 4.20 V: fit 56 ohm and repeat the three readings (expect about 18 / 13 / 9 mA).',
+     'Over 20 mA at 4.20 V: fit 68 ohm and repeat the three readings (expect about 17 / 12 / 9 mA).',
      'Too bright or want longer run time: lower NIGHT_DUTY_PCT in config.h. Too dim: this design is at',
      'its limit; a brighter string needs a driver stage (docs/12-going-further.md).'])
 txt('Also confirm: R3 and the D9 pin stay at ambient; the string is dark with M2 unplugged and during reset.', size=8.8, col=MUTED)
@@ -122,7 +122,7 @@ txt('For deployment, build pio run -e production (or standalone) and flash its .
 # ---------------------------------------------------------------- footer
 c.setStrokeColor(LINE); c.setLineWidth(0.8); c.line(L, 46, R, 46)
 c.setFont('Helvetica-Bold', 7.8); c.setFillColor(AMBER)
-c.drawString(L, 34, 'REV 0.6  |  NO CELLS, PANEL OR CHARGER CONNECTED FOR THESE STEPS')
+c.drawString(L, 34, 'REV 0.7  |  NO CELLS, PANEL OR CHARGER CONNECTED FOR THESE STEPS')
 c.setFont('Helvetica', 7.8); c.setFillColor(MUTED)
 c.drawRightString(R, 34, 'make_bench_sheet.py')
 c.showPage(); c.save()

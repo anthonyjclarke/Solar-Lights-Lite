@@ -10,11 +10,12 @@ A,S1,SPST service switch,1,,After F2; breaks the protected rail
 B,M2,ATmega328P Pro Mini-class board (reference: BTE13-010A),1,,Remove regulator and power LED; set fuses for internal 8 MHz; flashed over ISP
 B,C3,100 uF electrolytic 10 V,1,,Across M2 VCC/GND
 B,C4,100 nF ceramic,1,,Across M2 VCC/GND
-C,R3,47 ohm 1/4 W resistor,1,,At the controller end of the LED cable; 56 ohm if current exceeds 22 mA at 4.20 V
+C,R3,56 ohm 1/4 W resistor,1,,At the controller end of the LED cable; 68 ohm if current exceeds 20 mA at 4.20 V
 C,JLED,Low-power LED string,1,,About 2.5-3 V forward and 20 mA or less in total; driven directly by PWM from D9
 D,LDR1,Light-dependent resistor,1,,Shade it from the LEDs; must see the sky
-D,R4,47 kohm resistor,1,,LDR divider lower resistor (A1 to OUT-)
-D,SW1,Momentary push button (normally open),1,,D2 to OUT-; 60 s test
+D,R4,22 kohm resistor,1,,LDR divider fixed part (A1 to RV1)
+D,RV1,50 kohm 3296W multi-turn trimmer (503),1,,In series with R4 to OUT-; wiper joined to pin 3; sets the dusk level
+D,SW1,6 x 6 mm tactile push button (normally open),1,,TEST button: D2 to OUT-; 60 s test
 E,M3,Wemos D1 Mini (ESP8266),1,,Telemetry tiers 1 and 2
 E,U3,TPS63802 3.3 V buck-boost breakout (e.g. HL802A),1,,VIN from VBAT_SYS; OUT to D1 3V3 in Tier 2 only
 E,C2,470 uF electrolytic 10 V,1,,At U3 input
@@ -24,8 +25,9 @@ E,R9,100 kohm resistor,1,,Q2 base to emitter (OUT-)
 E,R10,10 kohm resistor,1,,Q2 collector to D1 Mini 3V3; collector also to D6
 E,R5,220 kohm resistor,1,,VBAT_SYS to D1 Mini A0
 F,-,Weatherproof enclosure with cable glands,1,,Shaded; cells separated from heat; antenna clear of metal and cells
-F,-,Perfboard or stripboard carrier,1,,Socket every module
+F,-,PCB carrier Rev C (or perfboard / stripboard),1,,Socket every module; see guide 13
 F,-,Female headers and screw terminals,-,,Keep modules replaceable
+F,JISP1,DC3-6P 2x3 box header 2.54 mm (optional),1,,Rev C ISP: keyed alternative to a plain 2x3 male header
 Tools,-,USBasp programmer (or Arduino Uno/Nano as ISP),1,,One-time fuses and every firmware update
 Tools,-,Current-limited bench supply,1,,Controller and LED tests without a battery
 Tools,-,Multimeter,1,,Every commissioning gate

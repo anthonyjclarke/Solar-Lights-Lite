@@ -34,7 +34,7 @@ Home Assistant dashboards and automations.
 ## Low-power lights only
 
 The controller drives the LED string **directly by PWM from pin D9** through a
-47 Ω resistor. There is no driver transistor, so the whole string must run at
+56 Ω resistor. There is no driver transistor, so the whole string must run at
 20 mA or less from a 3–4.2 V supply. Small low-power LED strings are ideal;
 mains lights, 12 V garden lights and conventional or legacy fittings cannot be
 used. The resistor sets the current and PWM sets the brightness. Brighter
@@ -135,8 +135,8 @@ module are in
 | `firmware/esphome/`    | D1 Mini profiles: Advanced and Production     |
 | `homeassistant/`       | HA package and dashboards                     |
 | `hardware/kicad/`      | KiCad schematic of the complete system        |
-| `hardware/pcb-rev-c/`  | PCB carrier Rev C: draft, in progress         |
-| `hardware/pcb-rev-b/`  | PCB carrier Rev B: as ordered, Gerbers        |
+| `hardware/pcb-rev-c/`  | PCB carrier Rev C: current design, Gerbers    |
+| `hardware/pcb-rev-b/`  | PCB carrier Rev B: as ordered (superseded)    |
 | `hardware/pcb-rev-a/`  | Earlier, larger carrier (reference only)      |
 | `tools/`               | Drawing and wiring-data generators            |
 

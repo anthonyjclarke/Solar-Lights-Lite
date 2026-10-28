@@ -2,7 +2,9 @@
 
 This is the measurement behind the R3 value and the lighting model in
 [05 – Low-power lighting](../05-build-lighting.md). Repeat it for your own
-string: it takes ten minutes and tells you whether 47 Ω is right.
+string: it takes ten minutes and tells you whether R3 is right. The
+measurements below were made with 47 Ω; the design now fits 56 Ω, which keeps
+the same string under 20 mA on a full cell.
 
 ---
 

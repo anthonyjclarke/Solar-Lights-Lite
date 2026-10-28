@@ -5,11 +5,12 @@ JCELL1,CELL B+ / B-,Carrier:SolderPads_1x02_P2.54mm,all,"1S2P pack joined in par
 JS1,S1 OUT+ / SYS,Carrier:SolderPads_1x02_P2.54mm,all,Service switch S1 (or 2-pin header + shunt). Open it before connecting a programmer that supplies target power.
 C3,100u / 10V,Carrier:CP_Radial_D6.3mm_P2.50mm,all,
 C4,100n,Carrier:C_Disc_D5.0mm_W2.5mm_P5.00mm,all,Fits under M2.
-R3,47R / 0.25W,Carrier:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal,all,Direct GPIO drive; qualify peak current at 4.20 V. 56R option; no cable-short protection. Fits under M2.
+R3,56R / 0.25W,Carrier:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal,all,Direct GPIO drive; 56R keeps peak current near 19 mA at 4.20 V. No cable-short protection. Fits under M2.
 JLED1,LED + / -,Carrier:SolderPads_1x02_P2.54mm,all,Low-power LED string only; no connection to VBAT_SYS.
 JLDR1,LDR D7 / A1,Carrier:SolderPads_1x02_P2.54mm,all,"Remote LDR between these two pads, no ground lead."
-R4,47k,Carrier:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal,all,Fits under M2.
-JBUTTON1,SW1 D2 / -,Carrier:SolderPads_1x02_P2.54mm,all,Normally-open remote pushbutton.
+R4,22k,Carrier:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal,all,Fixed part of the LDR lower leg; with RV1 the leg is 22k-72k (47k at mid-travel). Fits under M2.
+RV1,50k 3296W,Carrier:Potentiometer_Bourns_3296W_Vertical,all,"Bourns 3296W-1-503 multi-turn trimmer, wired as a rheostat in series with R4. Sets the light level that counts as dusk; start at mid-travel (47k)."
+SW1,6x6 tactile,Carrier:SW_PUSH_6mm_H9.5mm,all,"On-board 6x6 mm THT tactile switch, tall stem (about 9.5 mm), normally open."
 R5,220k,Carrier:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal,1/2,Fits under M3.
 R10,10k,Carrier:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal,1/2,Fits under M3.
 Q2,2N3904 / EBC,Carrier:TO-92_Inline_Wide,1/2,Specified onsemi TO-92 E=1 B=2 C=3. BC547 is not a drop-in replacement. Fits under M3.
@@ -23,6 +24,7 @@ JP2,D0 wake link,Carrier:SolderPads_1x02_P2.54mm,2,Header + shunt. Open for USB 
 JP1,BAT power link,Carrier:SolderPads_1x02_P2.54mm,2,"Header + shunt. Tier 1 OPEN, Tier 2 CLOSED. No automatic USB/battery interlock."
 JM2L1,M2 LEFT / serial end top,Carrier:PinSocket_1x12_P2.54mm_Vertical,all,Top to bottom: TX RX RST GND D2 D3 D4 D5 D6 D7 D8 D9.
 JM2R1,M2 RIGHT / serial end top,Carrier:PinSocket_1x12_P2.54mm_Vertical,all,Top to bottom: RAW GND RST VCC A3 A2 A1 A0 D13 D12 D11 D10. Rows 15.24 mm apart; verify clone.
-JISP1,ISP,Carrier:Pads_2x03_P2.54mm,all,"Standard AVR ISP, in-circuit with M2 fitted. Open S1 if the programmer supplies VCC."
+JISP1,2x3 male header 2.54 mm,Carrier:IDC-Header_2x03_P2.54mm_Vertical,all,"Standard AVR ISP, in-circuit with M2 fitted. Outline is a DC3-6P box header, clear of M2; a plain 2x3 header fits the same holes. Open S1 if the programmer supplies VCC."
 JM3L1,M3 LEFT / antenna end top,Carrier:PinSocket_1x08_P2.54mm_Vertical,1/2,Top to bottom: RST A0 D0 D5 D6 D7 D8 3V3. Antenna end overhangs the board edge.
 JM3R1,M3 RIGHT / antenna end top,Carrier:PinSocket_1x08_P2.54mm_Vertical,1/2,Top to bottom: TX RX D1 D2 D3 D4 G 5V. Rows 22.86 mm apart; 5V unconnected.
+JISP1 (option),"DC3-6P 2x3 box header, 2.54 mm, straight",Carrier:IDC-Header_2x03_P2.54mm_Vertical,optional,"Shrouded, keyed alternative to the plain 2x3 header: same holes, matches the silkscreen outline. Key slot faces the board bottom edge."
